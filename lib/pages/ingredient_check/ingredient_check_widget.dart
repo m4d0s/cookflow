@@ -8,6 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'ingredient_check_model.dart';
 export 'ingredient_check_model.dart';
 
@@ -41,6 +42,8 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -59,7 +62,7 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.close_sharp,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
@@ -75,7 +78,7 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
@@ -356,7 +359,14 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                                         size: 14.0,
                                                       ),
                                                       Text(
-                                                        '4 ингредиента',
+                                                        '${valueOrDefault<String>(
+                                                          FFAppState()
+                                                              .SelectedRecipe
+                                                              .products
+                                                              .length
+                                                              .toString(),
+                                                          '-0',
+                                                        )} ингридиентов',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -568,7 +578,7 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                 ),
                               ),
                               Text(
-                                '2 из 4',
+                                '-0 из ${FFAppState().SelectedRecipe.products.length.toString()}',
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(

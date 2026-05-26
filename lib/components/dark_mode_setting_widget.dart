@@ -2,11 +2,12 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'settings_tile_model.dart';
-export 'settings_tile_model.dart';
+import 'package:provider/provider.dart';
+import 'dark_mode_setting_model.dart';
+export 'dark_mode_setting_model.dart';
 
-class SettingsTileWidget extends StatefulWidget {
-  const SettingsTileWidget({
+class DarkModeSettingWidget extends StatefulWidget {
+  const DarkModeSettingWidget({
     super.key,
     Color? iconBg,
     this.icon,
@@ -25,11 +26,11 @@ class SettingsTileWidget extends StatefulWidget {
   final String subtitle;
 
   @override
-  State<SettingsTileWidget> createState() => _SettingsTileWidgetState();
+  State<DarkModeSettingWidget> createState() => _DarkModeSettingWidgetState();
 }
 
-class _SettingsTileWidgetState extends State<SettingsTileWidget> {
-  late SettingsTileModel _model;
+class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
+  late DarkModeSettingModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -40,9 +41,9 @@ class _SettingsTileWidgetState extends State<SettingsTileWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => SettingsTileModel());
+    _model = createModel(context, () => DarkModeSettingModel());
 
-    _model.switchValue = true;
+    _model.switchValue = false;
   }
 
   @override
@@ -54,6 +55,8 @@ class _SettingsTileWidgetState extends State<SettingsTileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
@@ -157,19 +160,41 @@ class _SettingsTileWidgetState extends State<SettingsTileWidget> {
                     width: 80.0,
                     height: 50.0,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).transparent,
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(
+                        color: Colors.transparent,
+                      ),
                     ),
                     child: Switch.adaptive(
                       value: _model.switchValue!,
                       onChanged: (newValue) async {
                         safeSetState(() => _model.switchValue = newValue);
+                        if (newValue) {
+                          FFAppState().DarkMode = true;
+                          safeSetState(() {});
+                          setDarkModeSetting(
+                            context,
+                            FFAppState().DarkMode
+                                ? ThemeMode.dark
+                                : ThemeMode.light,
+                          );
+                        } else {
+                          FFAppState().DarkMode = false;
+                          safeSetState(() {});
+                          setDarkModeSetting(
+                            context,
+                            FFAppState().DarkMode
+                                ? ThemeMode.dark
+                                : ThemeMode.light,
+                          );
+                        }
                       },
-                      activeColor: FlutterFlowTheme.of(context).primary,
+                      activeColor: FlutterFlowTheme.of(context).accent3,
                       activeTrackColor: FlutterFlowTheme.of(context).primary,
                       inactiveTrackColor:
-                          FlutterFlowTheme.of(context).alternate,
-                      inactiveThumbColor:
                           FlutterFlowTheme.of(context).secondaryBackground,
+                      inactiveThumbColor:
+                          FlutterFlowTheme.of(context).fullContrast,
                     ),
                   ),
                 ].divide(SizedBox(width: 16.0)),

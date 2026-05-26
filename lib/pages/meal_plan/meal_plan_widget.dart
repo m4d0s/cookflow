@@ -85,7 +85,7 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
@@ -101,7 +101,7 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:

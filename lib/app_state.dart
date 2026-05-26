@@ -48,6 +48,30 @@ class FFAppState extends ChangeNotifier {
               .toList() ??
           _RecipeList;
     });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_EmptyRecipe') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_EmptyRecipe') ?? '{}';
+          _EmptyRecipe =
+              RecipeStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
+    });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_EmptyDay') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_EmptyDay') ?? '{}';
+          _EmptyDay =
+              DailyPlanStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
+    });
   }
 
   void update(VoidCallback callback) {
@@ -191,6 +215,38 @@ class FFAppState extends ChangeNotifier {
     RecipeList.insert(index, value);
     secureStorage.setStringList(
         'ff_RecipeList', _RecipeList.map((x) => x.serialize()).toList());
+  }
+
+  RecipeStruct _EmptyRecipe = RecipeStruct();
+  RecipeStruct get EmptyRecipe => _EmptyRecipe;
+  set EmptyRecipe(RecipeStruct value) {
+    _EmptyRecipe = value;
+    secureStorage.setString('ff_EmptyRecipe', value.serialize());
+  }
+
+  void deleteEmptyRecipe() {
+    secureStorage.delete(key: 'ff_EmptyRecipe');
+  }
+
+  void updateEmptyRecipeStruct(Function(RecipeStruct) updateFn) {
+    updateFn(_EmptyRecipe);
+    secureStorage.setString('ff_EmptyRecipe', _EmptyRecipe.serialize());
+  }
+
+  DailyPlanStruct _EmptyDay = DailyPlanStruct();
+  DailyPlanStruct get EmptyDay => _EmptyDay;
+  set EmptyDay(DailyPlanStruct value) {
+    _EmptyDay = value;
+    secureStorage.setString('ff_EmptyDay', value.serialize());
+  }
+
+  void deleteEmptyDay() {
+    secureStorage.delete(key: 'ff_EmptyDay');
+  }
+
+  void updateEmptyDayStruct(Function(DailyPlanStruct) updateFn) {
+    updateFn(_EmptyDay);
+    secureStorage.setString('ff_EmptyDay', _EmptyDay.serialize());
   }
 }
 

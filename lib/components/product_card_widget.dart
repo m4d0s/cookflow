@@ -110,8 +110,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                           width: 234.0,
                           height: 60.0,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
+                            color:
+                                FlutterFlowTheme.of(context).primaryBackground,
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -292,7 +292,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                                   ),
                             ),
                             Container(
-                              width: 80.0,
+                              width: 120.0,
                               height: 40.0,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
@@ -307,14 +307,14 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                                       ? FlutterFlowTheme.of(context)
                                           .secondaryText
                                       : FlutterFlowTheme.of(context).alternate,
-                                  size: 12.0,
+                                  size: 24.0,
                                 ),
                                 incrementIconBuilder: (enabled) => Icon(
                                   Icons.add_rounded,
                                   color: enabled
                                       ? FlutterFlowTheme.of(context).primary
                                       : FlutterFlowTheme.of(context).alternate,
-                                  size: 12.0,
+                                  size: 24.0,
                                 ),
                                 countBuilder: (count) => Text(
                                   count.toString(),
@@ -331,7 +331,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                                                   .titleLarge
                                                   .fontStyle,
                                         ),
-                                        fontSize: 14.0,
+                                        fontSize: 18.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .titleLarge
@@ -407,6 +407,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                                           .bodyMedium
                                           .fontStyle,
                                     ),
+                                    fontSize: 14.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -420,7 +421,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                                 Icons.keyboard_arrow_down_rounded,
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
-                                size: 12.0,
+                                size: 14.0,
                               ),
                               fillColor: FlutterFlowTheme.of(context)
                                   .secondaryBackground,

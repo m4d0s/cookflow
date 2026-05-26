@@ -57,6 +57,9 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
+            FFAppState().SelectedRecipe = RecipeStruct();
+            safeSetState(() {});
+
             context.pushNamed(MealPlanWidget.routeName);
           },
           child: ClipRRect(

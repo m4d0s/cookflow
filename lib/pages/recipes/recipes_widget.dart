@@ -55,6 +55,9 @@ class _RecipesWidgetState extends State<RecipesWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
+            FFAppState().SelectedRecipe = FFAppState().EmptyRecipe;
+            safeSetState(() {});
+
             context.pushNamed(AddEditRecipeWidget.routeName);
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -97,7 +100,7 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                       fontStyle:
                           FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                     ),
-                    color: Colors.white,
+                    color: FlutterFlowTheme.of(context).onPrimary,
                     fontSize: 22.0,
                     letterSpacing: 0.0,
                     fontWeight:

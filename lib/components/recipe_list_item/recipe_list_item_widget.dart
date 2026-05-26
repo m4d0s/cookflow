@@ -57,6 +57,9 @@ class _RecipeListItemWidgetState extends State<RecipeListItemWidget> {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
+            FFAppState().SelectedRecipe = RecipeStruct();
+            safeSetState(() {});
+
             context.pushNamed(RecipeDetailWidget.routeName);
           },
           child: ClipRRect(

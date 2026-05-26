@@ -102,7 +102,7 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.close,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
@@ -118,7 +118,7 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
@@ -244,15 +244,14 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                if (!FFAppConstants.TrueValue)
-                                  wrapWithModel(
-                                    model: _model.photoFrameModel,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: PhotoFrameWidget(
-                                      width: 300,
-                                      height: 200,
-                                    ),
+                                wrapWithModel(
+                                  model: _model.photoFrameModel,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: PhotoFrameWidget(
+                                    width: 300,
+                                    height: 200,
                                   ),
+                                ),
                               ].divide(SizedBox(height: 16.0)),
                             ),
                             Column(
@@ -317,6 +316,8 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Icon(
                                           Icons.timer_sharp,
@@ -450,12 +451,14 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                                             4.0, 0.0, 4.0, 0.0),
                                               ),
                                             ),
-                                          ],
+                                          ].divide(SizedBox(height: 4.0)),
                                         ),
-                                      ],
+                                      ].divide(SizedBox(width: 6.0)),
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Icon(
                                           Icons.people_alt,
@@ -589,9 +592,9 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                                             4.0, 0.0, 4.0, 0.0),
                                               ),
                                             ),
-                                          ],
+                                          ].divide(SizedBox(height: 4.0)),
                                         ),
-                                      ],
+                                      ].divide(SizedBox(width: 6.0)),
                                     ),
                                   ].divide(SizedBox(width: 16.0)),
                                 ),
@@ -785,6 +788,7 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Icon(
                                       Icons.local_fire_department,
@@ -909,9 +913,9 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                                     4.0, 0.0, 4.0, 0.0),
                                           ),
                                         ),
-                                      ],
+                                      ].divide(SizedBox(height: 4.0)),
                                     ),
-                                  ],
+                                  ].divide(SizedBox(width: 6.0)),
                                 ),
                               ].divide(SizedBox(height: 16.0)),
                             ),

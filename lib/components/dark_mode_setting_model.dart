@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'settings_tile_widget.dart' show SettingsTileWidget;
+import 'dark_mode_setting_widget.dart' show DarkModeSettingWidget;
 import 'package:flutter/material.dart';
 
-class SettingsTileModel extends FlutterFlowModel<SettingsTileWidget> {
+class DarkModeSettingModel extends FlutterFlowModel<DarkModeSettingWidget> {
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for Switch widget.

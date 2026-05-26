@@ -7,11 +7,17 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'cooking_mode_model.dart';
 export 'cooking_mode_model.dart';
 
 class CookingModeWidget extends StatefulWidget {
-  const CookingModeWidget({super.key});
+  const CookingModeWidget({
+    super.key,
+    int? currentStep,
+  }) : this.currentStep = currentStep ?? 0;
+
+  final int currentStep;
 
   static String routeName = 'CookingMode';
   static String routePath = '/cookingMode';
@@ -40,6 +46,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -58,7 +66,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
@@ -74,7 +82,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
@@ -136,7 +144,10 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Шаг 3 из 8',
+                                    valueOrDefault<String>(
+                                      'Шаг -0 из ${FFAppState().SelectedRecipe.cookingSteps.length.toString()}',
+                                      'Шаг -1 из -0',
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(

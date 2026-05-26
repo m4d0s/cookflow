@@ -39,12 +39,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       errorBuilder: (context, state) => appStateNotifier.showSplashImage
           ? Builder(
               builder: (context) => Container(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: FlutterFlowTheme.of(context).secondary,
                 child: Center(
                   child: Image.asset(
-                    'assets/images/play_store_512.png',
-                    width: MediaQuery.sizeOf(context).width * 0.75,
-                    fit: BoxFit.contain,
+                    'assets/images/cookflow_foreground.png',
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -57,12 +57,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, _) => appStateNotifier.showSplashImage
               ? Builder(
                   builder: (context) => Container(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: FlutterFlowTheme.of(context).secondary,
                     child: Center(
                       child: Image.asset(
-                        'assets/images/play_store_512.png',
-                        width: MediaQuery.sizeOf(context).width * 0.75,
-                        fit: BoxFit.contain,
+                        'assets/images/cookflow_foreground.png',
+                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -92,7 +92,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CookingModeWidget.routeName,
           path: CookingModeWidget.routePath,
-          builder: (context, params) => CookingModeWidget(),
+          builder: (context, params) => CookingModeWidget(
+            currentStep: params.getParam(
+              'currentStep',
+              ParamType.int,
+            ),
+          ),
         ),
         FFRoute(
           name: MealPlanWidget.routeName,

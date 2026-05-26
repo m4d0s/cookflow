@@ -9,6 +9,7 @@ import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'recipe_detail_model.dart';
 export 'recipe_detail_model.dart';
 
@@ -42,6 +43,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -149,12 +152,24 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                   .surface80,
                                           icon: Icon(
                                             Icons.favorite_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
+                                            color: FFAppState()
+                                                    .SelectedRecipe
+                                                    .isFavorite
+                                                ? FlutterFlowTheme.of(context)
+                                                    .error
+                                                : FlutterFlowTheme.of(context)
+                                                    .primaryText,
                                             size: 24.0,
                                           ),
-                                          onPressed: () {
-                                            print('IconButton pressed ...');
+                                          onPressed: () async {
+                                            FFAppState()
+                                                .updateSelectedRecipeStruct(
+                                              (e) => e
+                                                ..isFavorite = !FFAppState()
+                                                    .SelectedRecipe
+                                                    .isFavorite,
+                                            );
+                                            safeSetState(() {});
                                           },
                                         ),
                                       ),
@@ -196,7 +211,10 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Паста Примавера',
+                                      valueOrDefault<String>(
+                                        FFAppState().SelectedRecipe.name,
+                                        'No recipe entered',
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .headlineMedium
                                           .override(
@@ -219,7 +237,10 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Классическое итальянское блюдо с сезонными овощами и легким соусом.',
+                                      valueOrDefault<String>(
+                                        FFAppState().SelectedRecipe.info,
+                                        'Some unexisted recipe info',
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -269,7 +290,10 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               .primary,
                                           size: 16.0,
                                         ),
-                                        label: '30 мин',
+                                        label: valueOrDefault<String>(
+                                          '${FFAppState().SelectedRecipe.cookTime.toString()} мин',
+                                          '-1 часов',
+                                        ),
                                       ),
                                     ),
                                     wrapWithModel(
@@ -282,7 +306,10 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               .primary,
                                           size: 16.0,
                                         ),
-                                        label: '450 ккал',
+                                        label: valueOrDefault<String>(
+                                          '${FFAppState().SelectedRecipe.nutritions.calories.toString()} ккал',
+                                          '-0 ккала',
+                                        ),
                                       ),
                                     ),
                                     wrapWithModel(
@@ -295,7 +322,13 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               .primary,
                                           size: 16.0,
                                         ),
-                                        label: 'Средне',
+                                        label: valueOrDefault<String>(
+                                          FFAppState()
+                                              .SelectedRecipe
+                                              .foodType
+                                              ?.name,
+                                          'Демонически',
+                                        ),
                                       ),
                                     ),
                                     wrapWithModel(
@@ -308,7 +341,13 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               .primary,
                                           size: 16.0,
                                         ),
-                                        label: '2 порции',
+                                        label: '${valueOrDefault<String>(
+                                          FFAppState()
+                                              .SelectedRecipe
+                                              .portions
+                                              .toString(),
+                                          '-0',
+                                        )} порций',
                                       ),
                                     ),
                                   ],

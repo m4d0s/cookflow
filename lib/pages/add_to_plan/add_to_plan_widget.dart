@@ -55,7 +55,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.close,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
@@ -71,7 +71,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
@@ -346,7 +346,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
               ),
             ),
             Container(
-              height: 80.0,
+              height: 28.61,
             ),
           ],
         ),
