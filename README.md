@@ -1,2 +1,7 @@
 # Cook Flow
-Cooking app with nutrition counter, meal planner and useful cooking mode. Free to edit or add recipes of your own!
+
+A new Flutter project.
+
+## Getting Started
+
+FlutterFlow projects are built to run on the Flutter _stable_ release.
