@@ -136,480 +136,400 @@ class _RecipesWidgetState extends State<RecipesWidget> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 24.0, 24.0, 16.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Привет, Шеф! 👋',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.inter(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                              lineHeight: 1.55,
-                                            ),
-                                      ),
-                                      Text(
-                                        'Ваши рецепты',
-                                        style: FlutterFlowTheme.of(context)
-                                            .headlineMedium
-                                            .override(
-                                              font: GoogleFonts.manrope(
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineMedium
-                                                        .fontStyle,
-                                              ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineMedium
-                                                      .fontStyle,
-                                              lineHeight: 1.3,
-                                            ),
-                                      ),
-                                    ],
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Привет, Шеф! 👋',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      FlutterFlowIconButton(
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        borderRadius:
-                                            FFAppConstants.Padding1.toDouble(),
-                                        buttonSize: 40.0,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryContainer,
-                                        icon: Icon(
-                                          Icons.settings_sharp,
-                                          color: FlutterFlowTheme.of(context)
-                                              .onSecondaryContainer,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () async {
-                                          if (Navigator.of(context).canPop()) {
-                                            context.pop();
-                                          }
-                                          context.pushNamed(
-                                              SettingsPageWidget.routeName);
-                                        },
-                                      ),
-                                      FlutterFlowIconButton(
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        borderRadius:
-                                            FFAppConstants.Padding1.toDouble(),
-                                        buttonSize: 40.0,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryContainer,
-                                        icon: Icon(
-                                          Icons.calendar_month,
-                                          color: FlutterFlowTheme.of(context)
-                                              .onSecondaryContainer,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () async {
-                                          if (Navigator.of(context).canPop()) {
-                                            context.pop();
-                                          }
-                                          context.pushNamed(
-                                              MealPlanWidget.routeName);
-                                        },
-                                      ),
-                                    ].divide(SizedBox(width: 4.0)),
-                                  ),
-                                ],
-                              ),
-                              wrapWithModel(
-                                model: _model.textFieldModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: TextFieldWidget(
-                                  hint: 'Поиск рецептов...',
-                                  value: '',
-                                  leadingIcon: Icon(
-                                    Icons.search_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 16.0,
-                                  ),
-                                  variant: Textfield.ghost,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                  lineHeight: 1.55,
                                 ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FlutterFlowIconButton(
-                                    borderRadius: 16.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).surface80,
-                                    icon: Icon(
-                                      Icons.favorite_border_rounded,
-                                      color: FFAppState().SearchFavorite
-                                          ? FlutterFlowTheme.of(context).error
-                                          : FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () async {
-                                      FFAppState().SearchFavorite =
-                                          !(FFAppState().SearchFavorite ??
-                                              true);
-                                      safeSetState(() {});
-                                    },
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: FlutterFlowDropDown<String>(
-                                          controller: _model
-                                                  .dropdownValueController1 ??=
-                                              FormFieldController<String>(
-                                            _model.dropdownValue1 ??=
-                                                'Адское месиво',
-                                          ),
-                                          options: Food.values
-                                              .take(10)
-                                              .toList()
-                                              .map((e) => e.name)
-                                              .toList(),
-                                          onChanged: (val) => safeSetState(() =>
-                                              _model.dropdownValue1 = val),
-                                          width: 130.0,
-                                          height: 40.0,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.55,
-                                              ),
-                                          hintText: 'Категория',
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 24.0,
-                                          ),
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          elevation: 2.0,
-                                          borderColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
-                                          borderWidth: 1.0,
-                                          borderRadius: FFAppConstants.Padding2
-                                              .toDouble(),
-                                          margin:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  valueOrDefault<double>(
-                                                    FFAppConstants.Padding2
-                                                        .toDouble(),
-                                                    0.0,
-                                                  ),
-                                                  0.0,
-                                                  valueOrDefault<double>(
-                                                    FFAppConstants.Padding2
-                                                        .toDouble(),
-                                                    0.0,
-                                                  ),
-                                                  0.0),
-                                          hidesUnderline: true,
-                                          isOverButton: false,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
-                                          labelText: 'Сложность',
-                                          labelTextStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                font: GoogleFonts.manrope(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: FlutterFlowDropDown<String>(
-                                          controller: _model
-                                                  .dropdownValueController2 ??=
-                                              FormFieldController<String>(
-                                            _model.dropdownValue2 ??=
-                                                'Демоническая',
-                                          ),
-                                          options: Hardness.values
-                                              .take(10)
-                                              .toList()
-                                              .map((e) => e.name)
-                                              .toList(),
-                                          onChanged: (val) => safeSetState(() =>
-                                              _model.dropdownValue2 = val),
-                                          width: 140.0,
-                                          height: 40.0,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.55,
-                                              ),
-                                          hintText: 'Сложность',
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 24.0,
-                                          ),
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          elevation: 2.0,
-                                          borderColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
-                                          borderWidth: 1.0,
-                                          borderRadius: FFAppConstants.Padding2
-                                              .toDouble(),
-                                          margin:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  valueOrDefault<double>(
-                                                    FFAppConstants.Padding2
-                                                        .toDouble(),
-                                                    0.0,
-                                                  ),
-                                                  0.0,
-                                                  valueOrDefault<double>(
-                                                    FFAppConstants.Padding2
-                                                        .toDouble(),
-                                                    0.0,
-                                                  ),
-                                                  0.0),
-                                          hidesUnderline: true,
-                                          isOverButton: false,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
-                                          labelText: 'Сложность',
-                                          labelTextStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                font: GoogleFonts.manrope(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(SizedBox(
-                                        width: FFAppConstants.Padding1
-                                            .toDouble())),
-                                  ),
-                                ].divide(SizedBox(width: 8.0)),
-                              ),
-                            ].divide(SizedBox(height: 16.0)),
                           ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: MediaQuery.sizeOf(context).height * 0.75,
-                        child: Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Builder(
-                            builder: (context) {
-                              final recipe = FFAppState()
-                                  .RecipeList
-                                  .map((e) => e)
-                                  .toList();
-
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(recipe.length,
-                                      (recipeIndex) {
-                                    final recipeItem = recipe[recipeIndex];
-                                    return Visibility(
-                                      visible: recipeItem.isFavorite
-                                          ? true
-                                          : !FFAppState().SearchFavorite,
-                                      child: Expanded(
-                                        flex: 1,
-                                        child: wrapWithModel(
-                                          model:
-                                              _model.recipeCardModels.getModel(
-                                            recipeItem.id.toString(),
-                                            recipeIndex,
-                                          ),
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: RecipeListItemWidget(
-                                            key: Key(
-                                              'Key86_${recipeItem.id.toString()}',
-                                            ),
-                                            imgDesc: recipeItem.picture,
-                                            recipeDetails: recipeItem,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
+                          Text(
+                            'Ваши рецепты',
+                            style: FlutterFlowTheme.of(context)
+                                .headlineMedium
+                                .override(
+                                  font: GoogleFonts.manrope(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .fontStyle,
+                                  ),
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontStyle,
+                                  lineHeight: 1.3,
                                 ),
-                              );
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          FlutterFlowIconButton(
+                            borderColor: FlutterFlowTheme.of(context).alternate,
+                            borderRadius: FFAppConstants.Padding1.toDouble(),
+                            buttonSize: 40.0,
+                            fillColor:
+                                FlutterFlowTheme.of(context).secondaryContainer,
+                            icon: Icon(
+                              Icons.settings_sharp,
+                              color: FlutterFlowTheme.of(context)
+                                  .onSecondaryContainer,
+                              size: 24.0,
+                            ),
+                            onPressed: () async {
+                              if (Navigator.of(context).canPop()) {
+                                context.pop();
+                              }
+                              context.pushNamed(SettingsPageWidget.routeName);
                             },
                           ),
-                        ),
+                          FlutterFlowIconButton(
+                            borderColor: FlutterFlowTheme.of(context).alternate,
+                            borderRadius: FFAppConstants.Padding1.toDouble(),
+                            buttonSize: 40.0,
+                            fillColor:
+                                FlutterFlowTheme.of(context).secondaryContainer,
+                            icon: Icon(
+                              Icons.calendar_month,
+                              color: FlutterFlowTheme.of(context)
+                                  .onSecondaryContainer,
+                              size: 24.0,
+                            ),
+                            onPressed: () async {
+                              if (Navigator.of(context).canPop()) {
+                                context.pop();
+                              }
+                              context.pushNamed(MealPlanWidget.routeName);
+                            },
+                          ),
+                        ].divide(SizedBox(width: 4.0)),
                       ),
+                    ],
+                  ),
+                  wrapWithModel(
+                    model: _model.textFieldModel,
+                    updateCallback: () => safeSetState(() {}),
+                    child: TextFieldWidget(
+                      hint: 'Поиск рецептов...',
+                      value: '',
+                      leadingIcon: Icon(
+                        Icons.search_rounded,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 16.0,
+                      ),
+                      variant: Textfield.ghost,
                     ),
-                  ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FlutterFlowIconButton(
+                        borderRadius: 16.0,
+                        buttonSize: 40.0,
+                        fillColor: FlutterFlowTheme.of(context).surface80,
+                        icon: Icon(
+                          Icons.favorite_border_rounded,
+                          color: FFAppState().SearchFavorite
+                              ? FlutterFlowTheme.of(context).error
+                              : FlutterFlowTheme.of(context).primaryText,
+                          size: 24.0,
+                        ),
+                        onPressed: () async {
+                          FFAppState().SearchFavorite =
+                              !(FFAppState().SearchFavorite ?? true);
+                          safeSetState(() {});
+                        },
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: FlutterFlowDropDown<Food>(
+                              controller: _model.dropdownValueController1 ??=
+                                  FormFieldController<Food>(
+                                _model.dropdownValue1 ??=
+                                    FFAppState().selectedCategory,
+                              ),
+                              options: List<Food>.from(FFAppState()
+                                  .CategoriesList
+                                  .map((e) => e.category)
+                                  .withoutNulls
+                                  .toList()),
+                              optionLabels: FFAppState()
+                                  .CategoriesList
+                                  .map((e) => e.name)
+                                  .toList(),
+                              onChanged: (val) => safeSetState(
+                                  () => _model.dropdownValue1 = val),
+                              width: 130.0,
+                              height: 40.0,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                    lineHeight: 1.55,
+                                  ),
+                              hintText: 'Категория',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 24.0,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2.0,
+                              borderColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              borderWidth: 1.0,
+                              borderRadius: FFAppConstants.Padding2.toDouble(),
+                              margin: EdgeInsetsDirectional.fromSTEB(
+                                  valueOrDefault<double>(
+                                    FFAppConstants.Padding2.toDouble(),
+                                    0.0,
+                                  ),
+                                  0.0,
+                                  valueOrDefault<double>(
+                                    FFAppConstants.Padding2.toDouble(),
+                                    0.0,
+                                  ),
+                                  0.0),
+                              hidesUnderline: true,
+                              isOverButton: false,
+                              isSearchable: false,
+                              isMultiSelect: false,
+                              labelText: 'Сложность',
+                              labelTextStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                    lineHeight: 1.4,
+                                  ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: FlutterFlowDropDown<Hardness>(
+                              controller: _model.dropdownValueController2 ??=
+                                  FormFieldController<Hardness>(
+                                _model.dropdownValue2 ??=
+                                    FFAppState().selectedHardness,
+                              ),
+                              options: List<Hardness>.from(FFAppState()
+                                  .HardnessList
+                                  .map((e) => e.difficult)
+                                  .withoutNulls
+                                  .toList()),
+                              optionLabels: FFAppState()
+                                  .HardnessList
+                                  .map((e) => e.name)
+                                  .toList(),
+                              onChanged: (val) => safeSetState(
+                                  () => _model.dropdownValue2 = val),
+                              width: 140.0,
+                              height: 40.0,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                    lineHeight: 1.55,
+                                  ),
+                              hintText: 'Сложность',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 24.0,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2.0,
+                              borderColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              borderWidth: 1.0,
+                              borderRadius: FFAppConstants.Padding2.toDouble(),
+                              margin: EdgeInsetsDirectional.fromSTEB(
+                                  valueOrDefault<double>(
+                                    FFAppConstants.Padding2.toDouble(),
+                                    0.0,
+                                  ),
+                                  0.0,
+                                  valueOrDefault<double>(
+                                    FFAppConstants.Padding2.toDouble(),
+                                    0.0,
+                                  ),
+                                  0.0),
+                              hidesUnderline: true,
+                              isOverButton: false,
+                              isSearchable: false,
+                              isMultiSelect: false,
+                              labelText: 'Сложность',
+                              labelTextStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                    lineHeight: 1.4,
+                                  ),
+                            ),
+                          ),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding1.toDouble())),
+                      ),
+                    ].divide(SizedBox(width: 8.0)),
+                  ),
+                ].divide(SizedBox(height: 16.0)),
+              ),
+            ),
+            Divider(
+              thickness: 2.0,
+              color: FlutterFlowTheme.of(context).alternate,
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: MediaQuery.sizeOf(context).height * 0.6,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Builder(
+                    builder: (context) {
+                      final recipe =
+                          FFAppState().RecipeList.map((e) => e).toList();
+
+                      return SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: List.generate(recipe.length, (recipeIndex) {
+                            final recipeItem = recipe[recipeIndex];
+                            return Visibility(
+                              visible: recipeItem.isFavorite
+                                  ? true
+                                  : !FFAppState().SearchFavorite,
+                              child: Expanded(
+                                flex: 1,
+                                child: wrapWithModel(
+                                  model: _model.recipeCardModels.getModel(
+                                    recipeItem.id.toString(),
+                                    recipeIndex,
+                                  ),
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: RecipeListItemWidget(
+                                    key: Key(
+                                      'Key86_${recipeItem.id.toString()}',
+                                    ),
+                                    imgDesc: recipeItem.picture,
+                                    recipeDetails: recipeItem,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ],
+              ),
             ),
           ],
         ),

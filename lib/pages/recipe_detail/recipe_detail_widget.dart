@@ -622,6 +622,18 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   ),
                                 ),
                               ),
+                              FlutterFlowIconButton(
+                                borderRadius: 8.0,
+                                buttonSize: 40.0,
+                                icon: Icon(
+                                  Icons.edit_rounded,
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  size: 24.0,
+                                ),
+                                onPressed: () async {
+                                  safeSetState(() {});
+                                },
+                              ),
                             ].divide(SizedBox(width: 16.0)),
                           ),
                         ),

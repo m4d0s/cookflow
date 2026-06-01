@@ -166,23 +166,27 @@ class _RecipesCopyWidgetState extends State<RecipesCopyWidget> {
                                     },
                                   ),
                                   Row(
-                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         flex: 1,
-                                        child: FlutterFlowDropDown<String>(
+                                        child: FlutterFlowDropDown<Food>(
                                           controller: _model
                                                   .dropdownValueController1 ??=
-                                              FormFieldController<String>(
+                                              FormFieldController<Food>(
                                             _model.dropdownValue1 ??=
-                                                'Адское месиво',
+                                                FFAppState().selectedCategory,
                                           ),
-                                          options: Food.values
-                                              .take(10)
-                                              .toList()
+                                          options: List<Food>.from(FFAppState()
+                                              .CategoriesList
+                                              .map((e) => e.category)
+                                              .withoutNulls
+                                              .toList()),
+                                          optionLabels: FFAppState()
+                                              .CategoriesList
                                               .map((e) => e.name)
                                               .toList(),
                                           onChanged: (val) => safeSetState(() =>
@@ -283,16 +287,21 @@ class _RecipesCopyWidgetState extends State<RecipesCopyWidget> {
                                       ),
                                       Expanded(
                                         flex: 1,
-                                        child: FlutterFlowDropDown<String>(
+                                        child: FlutterFlowDropDown<Hardness>(
                                           controller: _model
                                                   .dropdownValueController2 ??=
-                                              FormFieldController<String>(
+                                              FormFieldController<Hardness>(
                                             _model.dropdownValue2 ??=
-                                                'Демоническая',
+                                                FFAppState().selectedHardness,
                                           ),
-                                          options: Hardness.values
-                                              .take(10)
-                                              .toList()
+                                          options: List<Hardness>.from(
+                                              FFAppState()
+                                                  .HardnessList
+                                                  .map((e) => e.difficult)
+                                                  .withoutNulls
+                                                  .toList()),
+                                          optionLabels: FFAppState()
+                                              .HardnessList
                                               .map((e) => e.name)
                                               .toList(),
                                           onChanged: (val) => safeSetState(() =>

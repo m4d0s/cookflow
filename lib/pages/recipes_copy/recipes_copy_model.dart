@@ -1,3 +1,4 @@
+import '/backend/schema/enums/enums.dart';
 import '/components/add_to_plan_item/add_to_plan_item_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -11,11 +12,11 @@ class RecipesCopyModel extends FlutterFlowModel<RecipesCopyWidget> {
   // Model for TextField.
   late TextFieldModel textFieldModel;
   // State field(s) for Dropdown widget.
-  String? dropdownValue1;
-  FormFieldController<String>? dropdownValueController1;
+  Food? dropdownValue1;
+  FormFieldController<Food>? dropdownValueController1;
   // State field(s) for Dropdown widget.
-  String? dropdownValue2;
-  FormFieldController<String>? dropdownValueController2;
+  Hardness? dropdownValue2;
+  FormFieldController<Hardness>? dropdownValueController2;
   // Models for AddToPlanItem dynamic component.
   late FlutterFlowDynamicModels<AddToPlanItemModel> addToPlanItemModels;
 

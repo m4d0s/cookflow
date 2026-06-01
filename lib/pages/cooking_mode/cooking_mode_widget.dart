@@ -246,168 +246,151 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
             Expanded(
               flex: 1,
               child: Container(
-                child: SingleChildScrollView(
-                  primary: false,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 32.0, 24.0, 32.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Инструкции',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelLarge
-                                        .override(
-                                          font: GoogleFonts.manrope(
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLarge
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .onBackground,
-                                          fontSize: 28.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelLarge
-                                                  .fontStyle,
-                                          lineHeight: 1.4,
-                                        ),
-                                  ),
-                                  Text(
-                                    valueOrDefault<String>(
-                                      _model.currentstep?.desc,
-                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    primary: false,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Инструкции',
+                              style: FlutterFlowTheme.of(context)
+                                  .labelLarge
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelLarge
+                                          .fontStyle,
                                     ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .override(
-                                          font: GoogleFonts.manrope(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineMedium
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          fontSize: 18.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .headlineMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .headlineMedium
-                                                  .fontStyle,
-                                          lineHeight: 1.4,
-                                        ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .onBackground,
+                                    fontSize: 28.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelLarge
+                                        .fontStyle,
+                                    lineHeight: 1.4,
                                   ),
-                                  if (valueOrDefault<bool>(
-                                    _model.currentstep?.tip == ''
-                                        ? false
-                                        : true,
-                                    false,
-                                  ))
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            valueOrDefault<double>(
-                                          FFAppConstants.Padding2.toDouble(),
-                                          0.0,
-                                        )),
-                                        shape: BoxShape.rectangle,
-                                        border: Border.all(
+                            ),
+                            Text(
+                              valueOrDefault<String>(
+                                _model.currentstep?.desc,
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 16.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .fontStyle,
+                                    lineHeight: 1.4,
+                                  ),
+                            ),
+                            if (valueOrDefault<bool>(
+                              _model.currentstep?.tip == '' ? false : true,
+                              false,
+                            ))
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      valueOrDefault<double>(
+                                    FFAppConstants.Padding2.toDouble(),
+                                    0.0,
+                                  )),
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.auto_awesome,
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
-                                          width: 1.0,
+                                          size: 20.0,
                                         ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.auto_awesome,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 20.0,
-                                              ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  valueOrDefault<String>(
-                                                    _model.currentstep?.tip,
-                                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            valueOrDefault<String>(
+                                              _model.currentstep?.tip,
+                                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontStyle,
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmall
-                                                                  .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontStyle,
-                                                        lineHeight: 1.5,
-                                                      ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall
+                                                          .fontStyle,
+                                                  lineHeight: 1.5,
                                                 ),
-                                              ),
-                                            ].divide(SizedBox(width: 16.0)),
                                           ),
                                         ),
-                                      ),
+                                      ].divide(SizedBox(width: 16.0)),
                                     ),
-                                ].divide(SizedBox(height: 16.0)),
+                                  ),
+                                ),
                               ),
-                              wrapWithModel(
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 16.0, 0.0, 0.0),
+                              child: wrapWithModel(
                                 model: _model.stepTimerModel,
                                 updateCallback: () => safeSetState(() {}),
                                 child: StepTimerWidget(
@@ -415,11 +398,11 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                   isRunning: false,
                                 ),
                               ),
-                            ].divide(SizedBox(height: 32.0)),
-                          ),
+                            ),
+                          ].divide(SizedBox(height: 16.0)),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
