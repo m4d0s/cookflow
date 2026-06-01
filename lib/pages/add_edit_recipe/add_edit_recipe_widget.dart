@@ -62,7 +62,9 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
           onPressed: () async {
             FFAppState().addToRecipeList(FFAppState().SelectedRecipe);
             safeSetState(() {});
-
+            if (Navigator.of(context).canPop()) {
+              context.pop();
+            }
             context.pushNamed(
               RecipesWidget.routeName,
               extra: <String, dynamic>{
@@ -277,18 +279,9 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                   model: _model.textFieldModel1,
                                   updateCallback: () => safeSetState(() {}),
                                   child: TextFieldWidget(
-                                    label: 'Название рецепта',
-                                    labelPresent: true,
-                                    helper: '',
-                                    helperPresent: false,
                                     hint: 'Напр: Паста Карбонара',
                                     value: '',
-                                    onChange: '',
-                                    onSubmit: '',
-                                    leadingIconPresent: false,
-                                    trailingIconPresent: false,
-                                    variant: 'outlined',
-                                    error: false,
+                                    variant: Textfield.ghost,
                                     leadingIcon: Icon(
                                       Icons.edit,
                                     ),
@@ -298,18 +291,9 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                   model: _model.textFieldModel2,
                                   updateCallback: () => safeSetState(() {}),
                                   child: TextFieldWidget(
-                                    label: 'Описание',
-                                    labelPresent: true,
-                                    helper: '',
-                                    helperPresent: false,
                                     hint: 'Коротко о блюде...',
                                     value: '',
-                                    onChange: '',
-                                    onSubmit: '',
-                                    leadingIconPresent: false,
-                                    trailingIconPresent: false,
-                                    variant: 'outlined',
-                                    error: false,
+                                    variant: Textfield.ghost,
                                     leadingIcon: Icon(
                                       Icons.edit_note_rounded,
                                     ),
@@ -649,14 +633,14 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                             Food.breakfast,
                                       ),
                                       options: List<Food>.from(FFAppState()
-                                          .Categories
+                                          .CategoriesList
                                           .take(10)
                                           .toList()
                                           .map((e) => e.category)
                                           .withoutNulls
                                           .toList()),
                                       optionLabels: FFAppState()
-                                          .Categories
+                                          .CategoriesList
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (val) async {
@@ -721,12 +705,12 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                         _model.dropDownValue2 ??= Hardness.easy,
                                       ),
                                       options: List<Hardness>.from(FFAppState()
-                                          .Hardness
+                                          .HardnessList
                                           .map((e) => e.difficult)
                                           .withoutNulls
                                           .toList()),
                                       optionLabels: FFAppState()
-                                          .Hardness
+                                          .HardnessList
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (val) async {

@@ -71,10 +71,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
             },
           ),
           title: Text(
-            valueOrDefault<String>(
-              FFAppState().SelectedRecipe.name,
-              '6457675608452',
-            ),
+            FFAppState().SelectedRecipe.name,
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -618,30 +615,13 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                         fullWidth: true,
                                         loading: false,
                                         disabled: false,
+                                        maincolor: FlutterFlowTheme.of(context)
+                                            .onPrimary,
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                              if (FFAppConstants.TrueValue)
-                                Padding(
-                                  padding: EdgeInsets.all(24.0),
-                                  child: FlutterFlowIconButton(
-                                    borderRadius: 24.0,
-                                    buttonSize: 40.0,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .secondaryContainer,
-                                    icon: Icon(
-                                      Icons.calendar_today_rounded,
-                                      color: FlutterFlowTheme.of(context)
-                                          .onSecondaryContainer,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () async {
-                                      context.goNamed(MealPlanWidget.routeName);
-                                    },
-                                  ),
-                                ),
                             ].divide(SizedBox(width: 16.0)),
                           ),
                         ),

@@ -19,6 +19,7 @@ class ButtonWidget extends StatefulWidget {
     bool? fullWidth,
     bool? loading,
     bool? disabled,
+    Color? maincolor,
   })  : this.content = content ?? 'Начать готовку',
         this.iconPresent = iconPresent ?? true,
         this.iconEndPresent = iconEndPresent ?? false,
@@ -26,7 +27,8 @@ class ButtonWidget extends StatefulWidget {
         this.size = size ?? 'large',
         this.fullWidth = fullWidth ?? true,
         this.loading = loading ?? false,
-        this.disabled = disabled ?? false;
+        this.disabled = disabled ?? false,
+        this.maincolor = maincolor ?? Colors.transparent;
 
   final String content;
   final Widget? icon;
@@ -38,6 +40,7 @@ class ButtonWidget extends StatefulWidget {
   final bool fullWidth;
   final bool loading;
   final bool disabled;
+  final Color maincolor;
 
   @override
   State<ButtonWidget> createState() => _ButtonWidgetState();
@@ -84,62 +87,18 @@ class _ButtonWidgetState extends State<ButtonWidget> {
               return FlutterFlowTheme.of(context).primary;
             }
           }(),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(valueOrDefault<double>(
-              () {
-                if (widget.size == 'small') {
-                  return 8.0;
-                } else if (widget.size == 'large') {
-                  return 24.0;
-                } else {
-                  return 12.0;
-                }
-              }(),
-              0.0,
-            )),
-            topRight: Radius.circular(valueOrDefault<double>(
-              () {
-                if (widget.size == 'small') {
-                  return 8.0;
-                } else if (widget.size == 'large') {
-                  return 24.0;
-                } else {
-                  return 12.0;
-                }
-              }(),
-              0.0,
-            )),
-            bottomLeft: Radius.circular(valueOrDefault<double>(
-              () {
-                if (widget.size == 'small') {
-                  return 8.0;
-                } else if (widget.size == 'large') {
-                  return 24.0;
-                } else {
-                  return 12.0;
-                }
-              }(),
-              0.0,
-            )),
-            bottomRight: Radius.circular(valueOrDefault<double>(
-              () {
-                if (widget.size == 'small') {
-                  return 8.0;
-                } else if (widget.size == 'large') {
-                  return 24.0;
-                } else {
-                  return 12.0;
-                }
-              }(),
-              0.0,
-            )),
-          ),
+          borderRadius: BorderRadius.circular(valueOrDefault<double>(
+            FFAppConstants.Padding2.toDouble(),
+            0.0,
+          )),
           shape: BoxShape.rectangle,
           border: Border.all(
             color: widget.variant == 'outline'
                 ? FlutterFlowTheme.of(context).alternate
                 : Colors.transparent,
-            width: widget.variant == 'outline' ? 1.0 : 0.0,
+            width: widget.variant == 'outline'
+                ? FFAppConstants.FrameBold.toDouble()
+                : FFAppConstants.FrameThick.toDouble(),
           ),
         ),
         child: Stack(
@@ -148,55 +107,10 @@ class _ButtonWidgetState extends State<ButtonWidget> {
             Opacity(
               opacity: widget.loading ? 0.0 : 1.0,
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(
-                    valueOrDefault<double>(
-                      () {
-                        if (widget.size == 'small') {
-                          return 16.0;
-                        } else if (widget.size == 'large') {
-                          return 32.0;
-                        } else {
-                          return 24.0;
-                        }
-                      }(),
-                      0.0,
-                    ),
-                    valueOrDefault<double>(
-                      () {
-                        if (widget.size == 'small') {
-                          return 4.0;
-                        } else if (widget.size == 'large') {
-                          return 16.0;
-                        } else {
-                          return 8.0;
-                        }
-                      }(),
-                      0.0,
-                    ),
-                    valueOrDefault<double>(
-                      () {
-                        if (widget.size == 'small') {
-                          return 16.0;
-                        } else if (widget.size == 'large') {
-                          return 32.0;
-                        } else {
-                          return 24.0;
-                        }
-                      }(),
-                      0.0,
-                    ),
-                    valueOrDefault<double>(
-                      () {
-                        if (widget.size == 'small') {
-                          return 4.0;
-                        } else if (widget.size == 'large') {
-                          return 16.0;
-                        } else {
-                          return 8.0;
-                        }
-                      }(),
-                      0.0,
-                    )),
+                padding: EdgeInsets.all(valueOrDefault<double>(
+                  FFAppConstants.Padding1.toDouble(),
+                  0.0,
+                )),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -222,19 +136,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                                   .labelMedium
                                   .fontStyle,
                             ),
-                            color: () {
-                              if (widget.variant == 'secondary') {
-                                return FlutterFlowTheme.of(context).onSecondary;
-                              } else if (widget.variant == 'outline') {
-                                return FlutterFlowTheme.of(context).primaryText;
-                              } else if (widget.variant == 'ghost') {
-                                return FlutterFlowTheme.of(context).primary;
-                              } else if (widget.variant == 'destructive') {
-                                return FlutterFlowTheme.of(context).onError;
-                              } else {
-                                return FlutterFlowTheme.of(context).onPrimary;
-                              }
-                            }(),
+                            color: widget.maincolor,
                             letterSpacing: 0.0,
                             fontWeight: FlutterFlowTheme.of(context)
                                 .labelMedium

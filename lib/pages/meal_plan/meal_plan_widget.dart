@@ -212,7 +212,10 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryContainer30,
-                    borderRadius: BorderRadius.circular(24.0),
+                    borderRadius: BorderRadius.circular(valueOrDefault<double>(
+                      FFAppConstants.Padding2.toDouble(),
+                      0.0,
+                    )),
                     shape: BoxShape.rectangle,
                   ),
                   child: Padding(

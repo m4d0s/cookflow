@@ -1,6 +1,7 @@
 import '/components/add_to_plan_item/add_to_plan_item_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'add_to_plan_widget.dart' show AddToPlanWidget;
 import 'package:flutter/material.dart';
 

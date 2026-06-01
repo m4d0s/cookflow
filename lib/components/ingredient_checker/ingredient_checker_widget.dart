@@ -50,15 +50,21 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
         child: Container(
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(24.0),
+            borderRadius: BorderRadius.circular(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             shape: BoxShape.rectangle,
             border: Border.all(
               color: FlutterFlowTheme.of(context).alternate,
-              width: 1.0,
+              width: FFAppConstants.FrameThick.toDouble(),
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(valueOrDefault<double>(
+              FFAppConstants.Padding1.toDouble(),
+              0.0,
+            )),
             child: Container(
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -129,7 +135,8 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                                 lineHeight: 1.5,
                               ),
                         ),
-                      ].divide(SizedBox(height: 4.0)),
+                      ].divide(
+                          SizedBox(height: FFAppConstants.Padding0.toDouble())),
                     ),
                   ),
                   wrapWithModel(
@@ -144,7 +151,7 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                       disabled: false,
                     ),
                   ),
-                ].divide(SizedBox(width: 16.0)),
+                ].divide(SizedBox(width: FFAppConstants.Padding2.toDouble())),
               ),
             ),
           ),

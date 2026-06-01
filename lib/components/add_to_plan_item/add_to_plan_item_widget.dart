@@ -49,7 +49,14 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+      padding: EdgeInsetsDirectional.fromSTEB(
+          0.0,
+          0.0,
+          0.0,
+          valueOrDefault<double>(
+            FFAppConstants.Padding2.toDouble(),
+            0.0,
+          )),
       child: Container(
         child: InkWell(
           splashColor: Colors.transparent,
@@ -63,12 +70,21 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
             context.pushNamed(MealPlanWidget.routeName);
           },
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(32.0),
+            borderRadius: BorderRadius.circular(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             child: Container(
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(valueOrDefault<double>(
+                  FFAppConstants.Padding2.toDouble(),
+                  0.0,
+                )),
                 shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: FlutterFlowTheme.of(context).alternate,
+                ),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -94,7 +110,10 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
                         Align(
                           alignment: AlignmentDirectional(1.0, -1.0),
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(valueOrDefault<double>(
+                              FFAppConstants.Padding2.toDouble(),
+                              0.0,
+                            )),
                             child: Container(
                               alignment: AlignmentDirectional(1.0, -1.0),
                               child: ClipRRect(
@@ -117,7 +136,9 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
                                     alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Icon(
                                       Icons.favorite_rounded,
-                                      color: FlutterFlowTheme.of(context).error,
+                                      color: widget.recipeDetails!.isFavorite
+                                          ? FlutterFlowTheme.of(context).error
+                                          : Color(0x00000000),
                                       size: 20.0,
                                     ),
                                   ),
@@ -133,7 +154,11 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
                             child: Container(
                               alignment: AlignmentDirectional(-1.0, 1.0),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(
+                                    valueOrDefault<double>(
+                                  FFAppConstants.Padding1.toDouble(),
+                                  0.0,
+                                )),
                                 child: BackdropFilter(
                                   filter: ImageFilter.blur(
                                     sigmaX: 4.0,
@@ -217,7 +242,10 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(valueOrDefault<double>(
+                      FFAppConstants.Padding2.toDouble(),
+                      0.0,
+                    )),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,

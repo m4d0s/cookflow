@@ -55,17 +55,34 @@ class _PhotoFrameWidgetState extends State<PhotoFrameWidget> {
         minWidth: 64.0,
         minHeight: 64.0,
       ),
-      decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
-      ),
+      decoration: BoxDecoration(),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+        padding: EdgeInsetsDirectional.fromSTEB(
+            valueOrDefault<double>(
+              FFAppConstants.Padding1.toDouble(),
+              0.0,
+            ),
+            valueOrDefault<double>(
+              FFAppConstants.Padding1.toDouble(),
+              0.0,
+            ),
+            valueOrDefault<double>(
+              FFAppConstants.Padding1.toDouble(),
+              0.0,
+            ),
+            valueOrDefault<double>(
+              FFAppConstants.Padding1.toDouble(),
+              0.0,
+            )),
         child: Container(
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(valueOrDefault<double>(
+              FFAppConstants.FrameRound.toDouble(),
+              0.0,
+            )),
             border: Border.all(
-              color: FlutterFlowTheme.of(context).fullContrast,
+              color: FlutterFlowTheme.of(context).alternate,
             ),
           ),
           child: Padding(

@@ -52,7 +52,10 @@ class _DayCardWidgetState extends State<DayCardWidget> {
         child: Container(
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(24.0),
+            borderRadius: BorderRadius.circular(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             shape: BoxShape.rectangle,
           ),
           child: Padding(
@@ -129,7 +132,8 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                                   lineHeight: 1.4,
                                 ),
                           ),
-                        ].divide(SizedBox(height: 4.0)),
+                        ].divide(SizedBox(
+                            height: FFAppConstants.Padding0.toDouble())),
                       ),
                       FlutterFlowIconButton(
                         borderRadius: 9999.0,
@@ -227,7 +231,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                       ),
                     ),
                   ),
-                ].divide(SizedBox(height: 16.0)),
+                ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
               ),
             ),
           ),

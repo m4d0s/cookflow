@@ -88,30 +88,49 @@ class _RecipesWidgetState extends State<RecipesWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).onPrimary,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
           title: Align(
             alignment: AlignmentDirectional(0.0, 0.0),
-            child: Text(
-              FFAppConstants.AppName,
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    font: GoogleFonts.manrope(
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 40.0, 0.0),
+              child: Text(
+                FFAppConstants.AppName,
+                style: FlutterFlowTheme.of(context).headlineMedium.override(
+                      font: GoogleFonts.manrope(
+                        fontWeight: FlutterFlowTheme.of(context)
+                            .headlineMedium
+                            .fontWeight,
+                        fontStyle: FlutterFlowTheme.of(context)
+                            .headlineMedium
+                            .fontStyle,
+                      ),
+                      color: FlutterFlowTheme.of(context).onPrimary,
+                      fontSize: 22.0,
+                      letterSpacing: 0.0,
                       fontWeight: FlutterFlowTheme.of(context)
                           .headlineMedium
                           .fontWeight,
                       fontStyle:
                           FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                     ),
-                    color: FlutterFlowTheme.of(context).onPrimary,
-                    fontSize: 22.0,
-                    letterSpacing: 0.0,
-                    fontWeight:
-                        FlutterFlowTheme.of(context).headlineMedium.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).headlineMedium.fontStyle,
-                  ),
+              ),
             ),
           ),
           actions: [],
-          centerTitle: false,
+          centerTitle: true,
           elevation: 2.0,
         ),
         body: Column(
@@ -211,7 +230,11 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       FlutterFlowIconButton(
-                                        borderRadius: 8.0,
+                                        borderColor:
+                                            FlutterFlowTheme.of(context)
+                                                .alternate,
+                                        borderRadius:
+                                            FFAppConstants.Padding1.toDouble(),
                                         buttonSize: 40.0,
                                         fillColor: FlutterFlowTheme.of(context)
                                             .secondaryContainer,
@@ -227,7 +250,11 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                         },
                                       ),
                                       FlutterFlowIconButton(
-                                        borderRadius: 8.0,
+                                        borderColor:
+                                            FlutterFlowTheme.of(context)
+                                                .alternate,
+                                        borderRadius:
+                                            FFAppConstants.Padding1.toDouble(),
                                         buttonSize: 40.0,
                                         fillColor: FlutterFlowTheme.of(context)
                                             .secondaryContainer,
@@ -250,24 +277,15 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                 model: _model.textFieldModel,
                                 updateCallback: () => safeSetState(() {}),
                                 child: TextFieldWidget(
-                                  label: '',
-                                  labelPresent: false,
-                                  helper: '',
-                                  helperPresent: false,
                                   hint: 'Поиск рецептов...',
                                   value: '',
-                                  onChange: '',
-                                  onSubmit: '',
                                   leadingIcon: Icon(
                                     Icons.search_rounded,
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     size: 16.0,
                                   ),
-                                  leadingIconPresent: true,
-                                  trailingIconPresent: false,
-                                  variant: 'filled',
-                                  error: false,
+                                  variant: Textfield.ghost,
                                 ),
                               ),
                             ].divide(SizedBox(height: 16.0)),
@@ -352,7 +370,7 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                       safeSetState(() => _model
                                                               .dropdownValue1 =
                                                           val),
-                                                  width: 140.0,
+                                                  width: 130.0,
                                                   height: 40.0,
                                                   textStyle: FlutterFlowTheme
                                                           .of(context)
@@ -402,10 +420,26 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                               context)
                                                           .alternate,
                                                   borderWidth: 1.0,
-                                                  borderRadius: 16.0,
+                                                  borderRadius: FFAppConstants
+                                                      .Padding2.toDouble(),
                                                   margin: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          16.0, 0.0, 16.0, 0.0),
+                                                          valueOrDefault<
+                                                              double>(
+                                                            FFAppConstants
+                                                                    .Padding2
+                                                                .toDouble(),
+                                                            0.0,
+                                                          ),
+                                                          0.0,
+                                                          valueOrDefault<
+                                                              double>(
+                                                            FFAppConstants
+                                                                    .Padding2
+                                                                .toDouble(),
+                                                            0.0,
+                                                          ),
+                                                          0.0),
                                                   hidesUnderline: true,
                                                   isOverButton: false,
                                                   isSearchable: false,
@@ -464,7 +498,7 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                       safeSetState(() => _model
                                                               .dropdownValue2 =
                                                           val),
-                                                  width: 140.0,
+                                                  width: 130.0,
                                                   height: 40.0,
                                                   textStyle: FlutterFlowTheme
                                                           .of(context)
@@ -514,10 +548,26 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                               context)
                                                           .alternate,
                                                   borderWidth: 1.0,
-                                                  borderRadius: 16.0,
+                                                  borderRadius: FFAppConstants
+                                                      .Padding2.toDouble(),
                                                   margin: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          16.0, 0.0, 16.0, 0.0),
+                                                          valueOrDefault<
+                                                              double>(
+                                                            FFAppConstants
+                                                                    .Padding2
+                                                                .toDouble(),
+                                                            0.0,
+                                                          ),
+                                                          0.0,
+                                                          valueOrDefault<
+                                                              double>(
+                                                            FFAppConstants
+                                                                    .Padding2
+                                                                .toDouble(),
+                                                            0.0,
+                                                          ),
+                                                          0.0),
                                                   hidesUnderline: true,
                                                   isOverButton: false,
                                                   isSearchable: false,
@@ -556,7 +606,9 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                           ),
                                                 ),
                                               ),
-                                            ].divide(SizedBox(width: 16.0)),
+                                            ].divide(SizedBox(
+                                                width: FFAppConstants.Padding1
+                                                    .toDouble())),
                                           ),
                                         ].divide(SizedBox(width: 8.0)),
                                       ),

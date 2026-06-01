@@ -62,11 +62,20 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
         child: Container(
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).primaryContainer,
-            borderRadius: BorderRadius.circular(24.0),
+            borderRadius: BorderRadius.circular(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             shape: BoxShape.rectangle,
+            border: Border.all(
+              color: FlutterFlowTheme.of(context).primary,
+            ),
           ),
           child: Padding(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -114,7 +123,8 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                                   lineHeight: 1.45,
                                 ),
                           ),
-                        ].divide(SizedBox(width: 8.0)),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding1.toDouble())),
                       ),
                       if (!FFAppConstants.TrueValue)
                         wrapWithModel(
@@ -161,6 +171,8 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                                         .headlineSmall
                                         .fontStyle,
                                   ),
+                                  color: FlutterFlowTheme.of(context)
+                                      .onPrimaryContainer,
                                   fontSize: 48.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
@@ -203,6 +215,15 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                               fullWidth: false,
                               loading: false,
                               disabled: false,
+                              icon: Icon(
+                                Icons.play_arrow_rounded,
+                                color: FlutterFlowTheme.of(context).onPrimary,
+                              ),
+                              iconEnd: Icon(
+                                Icons.play_arrow_rounded,
+                                color: FlutterFlowTheme.of(context).onPrimary,
+                              ),
+                              maincolor: FlutterFlowTheme.of(context).onPrimary,
                             ),
                           ),
                           if (widget.autoplay)
@@ -220,11 +241,13 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                                 print('IconButton pressed ...');
                               },
                             ),
-                        ].divide(SizedBox(width: 16.0)),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding2.toDouble())),
                       ),
-                    ].divide(SizedBox(height: 8.0)),
+                    ].divide(
+                        SizedBox(height: FFAppConstants.Padding1.toDouble())),
                   ),
-                ].divide(SizedBox(height: 16.0)),
+                ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
               ),
             ),
           ),

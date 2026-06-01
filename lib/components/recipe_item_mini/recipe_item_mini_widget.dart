@@ -51,15 +51,28 @@ class _RecipeItemMiniWidgetState extends State<RecipeItemMiniWidget> {
       visible: !_model.isDeleted,
       child: Container(
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+          padding: EdgeInsetsDirectional.fromSTEB(
+              0.0,
+              0.0,
+              0.0,
+              valueOrDefault<double>(
+                FFAppConstants.Padding1.toDouble(),
+                0.0,
+              )),
           child: Container(
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).surfaceVariant,
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(valueOrDefault<double>(
+                FFAppConstants.Padding2.toDouble(),
+                0.0,
+              )),
               shape: BoxShape.rectangle,
             ),
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(valueOrDefault<double>(
+                FFAppConstants.Padding1.toDouble(),
+                0.0,
+              )),
               child: Container(
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
@@ -67,23 +80,38 @@ class _RecipeItemMiniWidgetState extends State<RecipeItemMiniWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius:
+                          BorderRadius.circular(valueOrDefault<double>(
+                        FFAppConstants.Padding1.toDouble(),
+                        0.0,
+                      )),
                       child: Container(
                         width: 60.0,
                         height: 60.0,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius:
+                              BorderRadius.circular(valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          )),
                           shape: BoxShape.rectangle,
                         ),
-                        child: CachedNetworkImage(
-                          fadeInDuration: Duration(milliseconds: 0),
-                          fadeOutDuration: Duration(milliseconds: 0),
-                          imageUrl: valueOrDefault<String>(
-                            widget.imgDesc,
-                            'https://dimg.dreamflow.cloud/v1/image/oatmeal%20with%20berries',
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(valueOrDefault<double>(
+                            FFAppConstants.Padding0.toDouble(),
+                            0.0,
+                          )),
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 0),
+                            fadeOutDuration: Duration(milliseconds: 0),
+                            imageUrl: valueOrDefault<String>(
+                              widget.imgDesc,
+                              'https://dimg.dreamflow.cloud/v1/image/oatmeal%20with%20berries',
+                            ),
+                            fit: BoxFit.cover,
+                            alignment: Alignment(0.0, 0.0),
                           ),
-                          fit: BoxFit.cover,
-                          alignment: Alignment(0.0, 0.0),
                         ),
                       ),
                     ),
@@ -233,7 +261,7 @@ class _RecipeItemMiniWidgetState extends State<RecipeItemMiniWidget> {
                         safeSetState(() {});
                       },
                     ),
-                  ].divide(SizedBox(width: 16.0)),
+                  ].divide(SizedBox(width: FFAppConstants.Padding2.toDouble())),
                 ),
               ),
             ),

@@ -49,7 +49,10 @@ class _CategoryChipWidgetState extends State<CategoryChipWidget> {
         color: widget.selected
             ? FlutterFlowTheme.of(context).primary
             : FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(9999.0),
+        borderRadius: BorderRadius.circular(valueOrDefault<double>(
+          FFAppConstants.Padding2.toDouble(),
+          0.0,
+        )),
         shape: BoxShape.rectangle,
         border: Border.all(
           color: widget.selected
@@ -59,7 +62,10 @@ class _CategoryChipWidgetState extends State<CategoryChipWidget> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(24.0, 8.0, 24.0, 8.0),
+        padding: EdgeInsets.all(valueOrDefault<double>(
+          FFAppConstants.Padding1.toDouble(),
+          0.0,
+        )),
         child: Container(
           child: Text(
             valueOrDefault<String>(

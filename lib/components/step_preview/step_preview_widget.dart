@@ -43,12 +43,22 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+      padding: EdgeInsetsDirectional.fromSTEB(
+          0.0,
+          0.0,
+          0.0,
+          valueOrDefault<double>(
+            FFAppConstants.Padding2.toDouble(),
+            0.0,
+          )),
       child: Container(
         child: Container(
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(24.0),
+            borderRadius: BorderRadius.circular(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             shape: BoxShape.rectangle,
             border: Border.all(
               color: FlutterFlowTheme.of(context).alternate,
@@ -56,7 +66,10 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -129,7 +142,8 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                       lineHeight: 1.3,
                                     ),
                               ),
-                            ].divide(SizedBox(width: 4.0)),
+                            ].divide(SizedBox(
+                                width: FFAppConstants.Padding0.toDouble())),
                           ),
                         ),
                     ],
@@ -158,7 +172,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                           lineHeight: 1.5,
                         ),
                   ),
-                ].divide(SizedBox(height: 8.0)),
+                ].divide(SizedBox(height: FFAppConstants.Padding1.toDouble())),
               ),
             ),
           ),

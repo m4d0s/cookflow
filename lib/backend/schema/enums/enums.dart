@@ -40,6 +40,7 @@ enum Textfield {
   ghost,
   empty,
   filled,
+  error,
 }
 
 enum ProgressStep {

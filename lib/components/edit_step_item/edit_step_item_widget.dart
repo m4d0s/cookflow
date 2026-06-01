@@ -1,3 +1,4 @@
+import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/photo_frame_widget.dart';
 import '/components/text_field/text_field_widget.dart';
@@ -49,7 +50,10 @@ class _EditStepItemWidgetState extends State<EditStepItemWidget> {
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(valueOrDefault<double>(
+          FFAppConstants.Padding2.toDouble(),
+          0.0,
+        )),
         shape: BoxShape.rectangle,
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
@@ -108,34 +112,20 @@ class _EditStepItemWidgetState extends State<EditStepItemWidget> {
                 model: _model.textFieldModel1,
                 updateCallback: () => safeSetState(() {}),
                 child: TextFieldWidget(
-                  label: '',
-                  labelPresent: false,
-                  helperPresent: false,
                   hint: 'Опишите шаг готовки...',
                   leadingIcon: Icon(
                     Icons.edit,
                   ),
-                  leadingIconPresent: false,
-                  trailingIconPresent: false,
-                  error: false,
+                  variant: Textfield.ghost,
                 ),
               ),
               wrapWithModel(
                 model: _model.textFieldModel2,
                 updateCallback: () => safeSetState(() {}),
                 child: TextFieldWidget(
-                  label: '',
-                  labelPresent: false,
-                  helper: '',
-                  helperPresent: false,
                   hint: 'Добавьте совет...',
                   value: '',
-                  onChange: '',
-                  onSubmit: '',
-                  leadingIconPresent: false,
-                  trailingIconPresent: false,
-                  variant: 'outlined',
-                  error: false,
+                  variant: Textfield.ghost,
                 ),
               ),
               Row(

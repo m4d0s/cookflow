@@ -1,22 +1,16 @@
-import '/components/dark_mode_setting_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
 import 'settings_page_widget.dart' show SettingsPageWidget;
 import 'package:flutter/material.dart';
 
 class SettingsPageModel extends FlutterFlowModel<SettingsPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Model for DarkModeSetting component.
-  late DarkModeSettingModel darkModeSettingModel;
+  // State field(s) for Switch widget.
+  bool? switchValue;
 
   @override
-  void initState(BuildContext context) {
-    darkModeSettingModel = createModel(context, () => DarkModeSettingModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    darkModeSettingModel.dispose();
-  }
+  void dispose() {}
 }

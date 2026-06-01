@@ -83,7 +83,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
             },
           ),
           title: Text(
-            'Паста Карбонара',
+            FFAppState().SelectedRecipe.name,
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -342,8 +342,11 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                   }())
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(24.0),
+                                        borderRadius: BorderRadius.circular(
+                                            valueOrDefault<double>(
+                                          FFAppConstants.Padding2.toDouble(),
+                                          0.0,
+                                        )),
                                         shape: BoxShape.rectangle,
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
@@ -479,6 +482,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                   fullWidth: true,
                                   loading: false,
                                   disabled: false,
+                                  maincolor:
+                                      FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
                             ),
@@ -519,6 +524,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                     fullWidth: true,
                                     loading: false,
                                     disabled: false,
+                                    maincolor:
+                                        FlutterFlowTheme.of(context).onPrimary,
                                   ),
                                 ),
                               ),

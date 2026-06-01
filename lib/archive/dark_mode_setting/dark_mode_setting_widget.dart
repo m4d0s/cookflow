@@ -58,6 +58,9 @@ class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
     context.watch<FFAppState>();
 
     return Container(
+      constraints: BoxConstraints(
+        maxHeight: 300.0,
+      ),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
       ),
@@ -66,7 +69,10 @@ class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(valueOrDefault<double>(
+              FFAppConstants.Padding2.toDouble(),
+              0.0,
+            )),
             child: Container(
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -81,8 +87,7 @@ class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
                         widget.iconBg,
                         Color(0x00000000),
                       ),
-                      borderRadius: BorderRadius.circular(12.0),
-                      shape: BoxShape.rectangle,
+                      shape: BoxShape.circle,
                     ),
                     alignment: AlignmentDirectional(0.0, 0.0),
                     child: widget.icon!,
@@ -197,7 +202,7 @@ class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
                           FlutterFlowTheme.of(context).fullContrast,
                     ),
                   ),
-                ].divide(SizedBox(width: 16.0)),
+                ].divide(SizedBox(width: FFAppConstants.Padding1.toDouble())),
               ),
             ),
           ),

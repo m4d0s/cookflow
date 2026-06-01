@@ -1,3 +1,4 @@
+import '/backend/schema/enums/enums.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -59,10 +60,6 @@ class _DynamicInputRowWidgetState extends State<DynamicInputRowWidget> {
                 model: _model.textFieldModel,
                 updateCallback: () => safeSetState(() {}),
                 child: TextFieldWidget(
-                  label: '',
-                  labelPresent: false,
-                  helper: '',
-                  helperPresent: false,
                   hint: valueOrDefault<String>(
                     widget.hint,
                     'Напр: 200г Муки',
@@ -71,12 +68,7 @@ class _DynamicInputRowWidgetState extends State<DynamicInputRowWidget> {
                     widget.value,
                     '400г Спагетти',
                   ),
-                  onChange: '',
-                  onSubmit: '',
-                  leadingIconPresent: false,
-                  trailingIconPresent: false,
-                  variant: 'outlined',
-                  error: false,
+                  variant: Textfield.ghost,
                 ),
               ),
             ),

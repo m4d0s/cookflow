@@ -265,7 +265,11 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .primaryContainer,
-                                      borderRadius: BorderRadius.circular(32.0),
+                                      borderRadius: BorderRadius.circular(
+                                          valueOrDefault<double>(
+                                        FFAppConstants.Padding2.toDouble(),
+                                        0.0,
+                                      )),
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
@@ -654,6 +658,8 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                         '1'
                                     ? false
                                     : true,
+                                maincolor:
+                                    FlutterFlowTheme.of(context).onPrimary,
                               ),
                             ),
                           ),
