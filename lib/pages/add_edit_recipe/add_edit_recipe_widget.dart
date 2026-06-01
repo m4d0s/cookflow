@@ -340,13 +340,13 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.timer_sharp,
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
-                                          size: 36.0,
+                                          size: 30.0,
                                         ),
                                         Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -493,13 +493,13 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.people_alt,
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
-                                          size: 36.0,
+                                          size: 30.0,
                                         ),
                                         Column(
                                           mainAxisSize: MainAxisSize.min,

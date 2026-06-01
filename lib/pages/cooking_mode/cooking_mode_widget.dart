@@ -324,22 +324,12 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                           lineHeight: 1.4,
                                         ),
                                   ),
-                                  if (() {
-                                    if (MediaQuery.sizeOf(context).width <
-                                        kBreakpointSmall) {
-                                      return false;
-                                    } else if (MediaQuery.sizeOf(context)
-                                            .width <
-                                        kBreakpointMedium) {
-                                      return false;
-                                    } else if (MediaQuery.sizeOf(context)
-                                            .width <
-                                        kBreakpointLarge) {
-                                      return false;
-                                    } else {
-                                      return false;
-                                    }
-                                  }())
+                                  if (valueOrDefault<bool>(
+                                    _model.currentstep?.tip == ''
+                                        ? false
+                                        : true,
+                                    false,
+                                  ))
                                     Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
@@ -359,7 +349,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                         child: Container(
                                           decoration: BoxDecoration(),
                                           child: Row(
-                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisSize: MainAxisSize.min,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:

@@ -1,5 +1,5 @@
 import '/backend/schema/enums/enums.dart';
-import '/components/recipe_list_item/recipe_list_item_widget.dart';
+import '/components/add_to_plan_item/add_to_plan_item_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -423,33 +423,26 @@ class _RecipesCopyWidgetState extends State<RecipesCopyWidget> {
                                     .toList();
 
                                 return SingleChildScrollView(
+                                  primary: false,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: List.generate(recipe.length,
                                         (recipeIndex) {
                                       final recipeItem = recipe[recipeIndex];
-                                      return Visibility(
-                                        visible: recipeItem.isFavorite
-                                            ? true
-                                            : !FFAppState().SearchFavorite,
-                                        child: Expanded(
-                                          flex: 1,
-                                          child: wrapWithModel(
-                                            model: _model.recipeCardModels
-                                                .getModel(
-                                              recipeItem.id.toString(),
-                                              recipeIndex,
-                                            ),
-                                            updateCallback: () =>
-                                                safeSetState(() {}),
-                                            child: RecipeListItemWidget(
-                                              key: Key(
-                                                'Key6w9_${recipeItem.id.toString()}',
-                                              ),
-                                              imgDesc: recipeItem.picture,
-                                              recipeDetails: recipeItem,
-                                            ),
+                                      return wrapWithModel(
+                                        model:
+                                            _model.addToPlanItemModels.getModel(
+                                          recipeItem.id.toString(),
+                                          recipeIndex,
+                                        ),
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: AddToPlanItemWidget(
+                                          key: Key(
+                                            'Keyon1_${recipeItem.id.toString()}',
                                           ),
+                                          imgDesc: recipeItem.picture,
+                                          recipeDetails: recipeItem,
                                         ),
                                       );
                                     }),

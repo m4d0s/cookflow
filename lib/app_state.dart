@@ -479,13 +479,13 @@ class FFAppState extends ChangeNotifier {
     _currentStep = value;
   }
 
-  Hardness? _selectedHardness;
+  Hardness? _selectedHardness = Hardness.easy;
   Hardness? get selectedHardness => _selectedHardness;
   set selectedHardness(Hardness? value) {
     _selectedHardness = value;
   }
 
-  Food? _selectedCategory;
+  Food? _selectedCategory = Food.breakfast;
   Food? get selectedCategory => _selectedCategory;
   set selectedCategory(Food? value) {
     _selectedCategory = value;

@@ -116,34 +116,6 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
                             )),
                             child: Container(
                               alignment: AlignmentDirectional(1.0, -1.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(9999.0),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 8.0,
-                                    sigmaY: 8.0,
-                                  ),
-                                  child: Container(
-                                    width: 36.0,
-                                    height: 36.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .surface80,
-                                      borderRadius:
-                                          BorderRadius.circular(9999.0),
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: Icon(
-                                      Icons.favorite_rounded,
-                                      color: widget.recipeDetails!.isFavorite
-                                          ? FlutterFlowTheme.of(context).error
-                                          : Color(0x00000000),
-                                      size: 20.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
                             ),
                           ),
                         ),
@@ -153,87 +125,128 @@ class _AddToPlanItemWidgetState extends State<AddToPlanItemWidget> {
                             padding: EdgeInsets.all(16.0),
                             child: Container(
                               alignment: AlignmentDirectional(-1.0, 1.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    valueOrDefault<double>(
-                                  FFAppConstants.Padding1.toDouble(),
-                                  0.0,
-                                )),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 4.0,
-                                    sigmaY: 4.0,
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .surface90,
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 4.0, 8.0, 4.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(9999.0),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 8.0,
+                                        sigmaY: 8.0,
+                                      ),
                                       child: Container(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.schedule_rounded,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              size: 14.0,
-                                            ),
-                                            Text(
-                                              '${valueOrDefault<String>(
-                                                widget.recipeDetails?.cookTime
-                                                    .toString(),
-                                                '-1',
-                                              )} мин',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .labelSmall
-                                                  .override(
-                                                    font: GoogleFonts.manrope(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelSmall
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelSmall
-                                                              .fontStyle,
-                                                    ),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontStyle,
-                                                    lineHeight: 1.3,
-                                                  ),
-                                            ),
-                                          ].divide(SizedBox(width: 4.0)),
+                                        width: 24.0,
+                                        height: 24.0,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .surface80,
+                                          borderRadius:
+                                              BorderRadius.circular(9999.0),
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        alignment:
+                                            AlignmentDirectional(0.0, 0.0),
+                                        child: Icon(
+                                          Icons.favorite_rounded,
+                                          color:
+                                              widget.recipeDetails!.isFavorite
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .error
+                                                  : Color(0x00000000),
+                                          size: 18.0,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        valueOrDefault<double>(
+                                      FFAppConstants.Padding1.toDouble(),
+                                      0.0,
+                                    )),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 4.0,
+                                        sigmaY: 4.0,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .surface90,
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 4.0, 8.0, 4.0),
+                                          child: Container(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.schedule_rounded,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  size: 14.0,
+                                                ),
+                                                Text(
+                                                  '${valueOrDefault<String>(
+                                                    widget
+                                                        .recipeDetails?.cookTime
+                                                        .toString(),
+                                                    '-1',
+                                                  )} мин',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.3,
+                                                      ),
+                                                ),
+                                              ].divide(SizedBox(width: 4.0)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ].divide(SizedBox(width: 8.0)),
                               ),
                             ),
                           ),

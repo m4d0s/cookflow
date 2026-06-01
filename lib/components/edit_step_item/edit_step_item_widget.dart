@@ -65,7 +65,7 @@ class _EditStepItemWidgetState extends State<EditStepItemWidget> {
           padding: EdgeInsets.all(16.0),
           child: Container(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

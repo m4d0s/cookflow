@@ -1,4 +1,4 @@
-import '/components/recipe_list_item/recipe_list_item_widget.dart';
+import '/components/add_to_plan_item/add_to_plan_item_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -16,18 +16,18 @@ class RecipesCopyModel extends FlutterFlowModel<RecipesCopyWidget> {
   // State field(s) for Dropdown widget.
   String? dropdownValue2;
   FormFieldController<String>? dropdownValueController2;
-  // Models for RecipeCard.
-  late FlutterFlowDynamicModels<RecipeListItemModel> recipeCardModels;
+  // Models for AddToPlanItem dynamic component.
+  late FlutterFlowDynamicModels<AddToPlanItemModel> addToPlanItemModels;
 
   @override
   void initState(BuildContext context) {
     textFieldModel = createModel(context, () => TextFieldModel());
-    recipeCardModels = FlutterFlowDynamicModels(() => RecipeListItemModel());
+    addToPlanItemModels = FlutterFlowDynamicModels(() => AddToPlanItemModel());
   }
 
   @override
   void dispose() {
     textFieldModel.dispose();
-    recipeCardModels.dispose();
+    addToPlanItemModels.dispose();
   }
 }
