@@ -1,5 +1,5 @@
 import '/backend/schema/enums/enums.dart';
-import '/components/add_to_plan_item/add_to_plan_item_widget.dart';
+import '/components/recipe_list_item/recipe_list_item_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -91,15 +91,15 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
           centerTitle: true,
           elevation: 2.0,
         ),
-        body: Padding(
-          padding: EdgeInsets.all(valueOrDefault<double>(
-            FFAppConstants.Padding2.toDouble(),
-            0.0,
-          )),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Column(
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(valueOrDefault<double>(
+                FFAppConstants.Padding2.toDouble(),
+                0.0,
+              )),
+              child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
@@ -122,21 +122,18 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                     ),
                   ),
                   Container(
+                    height: MediaQuery.sizeOf(context).height * 0.8,
                     decoration: BoxDecoration(),
                     child: Builder(
                       builder: (context) {
-                        final recipeList = FFAppState().RecipeList.toList();
+                        final recipe = FFAppState().RecipeList.toList();
 
                         return SingleChildScrollView(
-                          primary: false,
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: List.generate(recipeList.length,
-                                (recipeListIndex) {
-                              final recipeListItem =
-                                  recipeList[recipeListIndex];
+                            mainAxisSize: MainAxisSize.max,
+                            children: List.generate(recipe.length,
+                                    (recipeIndex) {
+                              final recipeItem = recipe[recipeIndex];
                               return InkWell(
                                 splashColor: Colors.transparent,
                                 focusColor: Colors.transparent,
@@ -147,7 +144,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                     (e) => e
                                       ..updateCompletedRecipes(
                                         (e) => e.add(functions
-                                            .mealEntryDefine(recipeListItem)),
+                                            .mealEntryDefine(recipeItem)),
                                       ),
                                   );
                                   safeSetState(() {});
@@ -157,31 +154,35 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                   context.pushNamed(MealPlanWidget.routeName);
                                 },
                                 child: wrapWithModel(
-                                  model: _model.recipeCard2Models.getModel(
-                                    recipeListIndex.toString(),
-                                    recipeListIndex,
+                                  model: _model.recipeListItemModels.getModel(
+                                    recipeItem.id.toString(),
+                                    recipeIndex,
                                   ),
                                   updateCallback: () => safeSetState(() {}),
-                                  child: AddToPlanItemWidget(
+                                  child: RecipeListItemWidget(
                                     key: Key(
-                                      'Key708_${recipeListIndex.toString()}',
+                                      'Keyzxr_${recipeItem.id.toString()}',
                                     ),
-                                    imgDesc: recipeListItem.picture,
-                                    recipeDetails: recipeListItem,
+                                    imgDesc: recipeItem.picture,
+                                    recipeDetails: recipeItem,
                                   ),
                                 ),
                               );
-                            }).divide(SizedBox(
-                                height: FFAppConstants.Padding2.toDouble())),
+                            })
+                                .divide(SizedBox(
+                                    height: FFAppConstants.Padding1.toDouble()))
+                                .around(SizedBox(
+                                    height:
+                                        FFAppConstants.Padding1.toDouble())),
                           ),
                         );
                       },
                     ),
                   ),
-                ].divide(SizedBox(height: 32.0)),
+                ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

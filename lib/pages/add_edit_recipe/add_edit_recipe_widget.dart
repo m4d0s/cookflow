@@ -2,8 +2,7 @@ import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/button/button_widget.dart';
 import '/components/edit_step_item/edit_step_item_widget.dart';
-import '/components/photo_frame_widget.dart';
-import '/components/product_card_widget.dart';
+import '/components/product_card/product_card_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -260,12 +259,38 @@ class _AddEditRecipeWidgetState extends State<AddEditRecipeWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                wrapWithModel(
-                                  model: _model.photoFrameModel,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: PhotoFrameWidget(
-                                    width: 300,
-                                    height: 200,
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      children: [
+                                        Icon(
+                                          Icons.add_a_photo,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 48.0,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            'https://images.unsplash.com/photo-1560986752-2e31d9507413?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxmaXJld29ya3N8ZW58MHx8fHwxNzgwMjc2MzgwfDA&ixlib=rb-4.1.0&q=80&w=400',
+                                            width: 300.0,
+                                            height: 200.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ].divide(SizedBox(height: 16.0)),

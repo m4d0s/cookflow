@@ -6,32 +6,31 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'recipes_model.dart';
-export 'recipes_model.dart';
+import 'recipes_copy_model.dart';
+export 'recipes_copy_model.dart';
 
-class RecipesWidget extends StatefulWidget {
-  const RecipesWidget({super.key});
+class RecipesCopyWidget extends StatefulWidget {
+  const RecipesCopyWidget({super.key});
 
-  static String routeName = 'Recipes';
-  static String routePath = '/recipes';
+  static String routeName = 'RecipesCopy';
+  static String routePath = '/recipesCopy';
 
   @override
-  State<RecipesWidget> createState() => _RecipesWidgetState();
+  State<RecipesCopyWidget> createState() => _RecipesCopyWidgetState();
 }
 
-class _RecipesWidgetState extends State<RecipesWidget> {
-  late RecipesModel _model;
+class _RecipesCopyWidgetState extends State<RecipesCopyWidget> {
+  late RecipesCopyModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => RecipesModel());
+    _model = createModel(context, () => RecipesCopyModel());
   }
 
   @override
@@ -53,38 +52,6 @@ class _RecipesWidgetState extends State<RecipesWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            FFAppState().SelectedRecipe = FFAppState().EmptyRecipe;
-            safeSetState(() {});
-
-            context.pushNamed(AddEditRecipeWidget.routeName);
-          },
-          backgroundColor: FlutterFlowTheme.of(context).primary,
-          icon: Icon(
-            Icons.add_rounded,
-            color: FlutterFlowTheme.of(context).onPrimary,
-            size: 24.0,
-          ),
-          elevation: 0.0,
-          label: Text(
-            'Создать рецепт',
-            style: FlutterFlowTheme.of(context).labelLarge.override(
-                  font: GoogleFonts.manrope(
-                    fontWeight:
-                        FlutterFlowTheme.of(context).labelLarge.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).labelLarge.fontStyle,
-                  ),
-                  color: FlutterFlowTheme.of(context).onPrimary,
-                  letterSpacing: 0.0,
-                  fontWeight:
-                      FlutterFlowTheme.of(context).labelLarge.fontWeight,
-                  fontStyle: FlutterFlowTheme.of(context).labelLarge.fontStyle,
-                  lineHeight: 1.4,
-                ),
-          ),
-        ),
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
@@ -107,7 +74,7 @@ class _RecipesWidgetState extends State<RecipesWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 40.0, 0.0),
               child: Text(
-                FFAppConstants.AppName,
+                'Добавьте блюдо',
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
                       font: GoogleFonts.manrope(
                         fontWeight: FlutterFlowTheme.of(context)
@@ -158,127 +125,6 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Привет, Шеф! 👋',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.inter(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                              lineHeight: 1.55,
-                                            ),
-                                      ),
-                                      Text(
-                                        'Ваши рецепты',
-                                        style: FlutterFlowTheme.of(context)
-                                            .headlineMedium
-                                            .override(
-                                              font: GoogleFonts.manrope(
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineMedium
-                                                        .fontStyle,
-                                              ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineMedium
-                                                      .fontStyle,
-                                              lineHeight: 1.3,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      FlutterFlowIconButton(
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        borderRadius:
-                                            FFAppConstants.Padding1.toDouble(),
-                                        buttonSize: 40.0,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryContainer,
-                                        icon: Icon(
-                                          Icons.settings_sharp,
-                                          color: FlutterFlowTheme.of(context)
-                                              .onSecondaryContainer,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () async {
-                                          if (Navigator.of(context).canPop()) {
-                                            context.pop();
-                                          }
-                                          context.pushNamed(
-                                              SettingsPageWidget.routeName);
-                                        },
-                                      ),
-                                      FlutterFlowIconButton(
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        borderRadius:
-                                            FFAppConstants.Padding1.toDouble(),
-                                        buttonSize: 40.0,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryContainer,
-                                        icon: Icon(
-                                          Icons.calendar_month,
-                                          color: FlutterFlowTheme.of(context)
-                                              .onSecondaryContainer,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () async {
-                                          if (Navigator.of(context).canPop()) {
-                                            context.pop();
-                                          }
-                                          context.pushNamed(
-                                              MealPlanWidget.routeName);
-                                        },
-                                      ),
-                                    ].divide(SizedBox(width: 4.0)),
-                                  ),
-                                ],
-                              ),
                               wrapWithModel(
                                 model: _model.textFieldModel,
                                 updateCallback: () => safeSetState(() {}),
@@ -556,58 +402,66 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: MediaQuery.sizeOf(context).height * 0.75,
-                        child: Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Builder(
-                            builder: (context) {
-                              final recipe = FFAppState()
-                                  .RecipeList
-                                  .map((e) => e)
-                                  .toList();
+                  ],
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.75,
+                          decoration: BoxDecoration(),
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Builder(
+                              builder: (context) {
+                                final recipe = FFAppState()
+                                    .RecipeList
+                                    .map((e) => e)
+                                    .toList();
 
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(recipe.length,
-                                      (recipeIndex) {
-                                    final recipeItem = recipe[recipeIndex];
-                                    return Visibility(
-                                      visible: recipeItem.isFavorite
-                                          ? true
-                                          : !FFAppState().SearchFavorite,
-                                      child: Expanded(
-                                        flex: 1,
-                                        child: wrapWithModel(
-                                          model:
-                                              _model.recipeCardModels.getModel(
-                                            recipeItem.id.toString(),
-                                            recipeIndex,
-                                          ),
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: RecipeListItemWidget(
-                                            key: Key(
-                                              'Key86_${recipeItem.id.toString()}',
+                                return SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: List.generate(recipe.length,
+                                        (recipeIndex) {
+                                      final recipeItem = recipe[recipeIndex];
+                                      return Visibility(
+                                        visible: recipeItem.isFavorite
+                                            ? true
+                                            : !FFAppState().SearchFavorite,
+                                        child: Expanded(
+                                          flex: 1,
+                                          child: wrapWithModel(
+                                            model: _model.recipeCardModels
+                                                .getModel(
+                                              recipeItem.id.toString(),
+                                              recipeIndex,
                                             ),
-                                            imgDesc: recipeItem.picture,
-                                            recipeDetails: recipeItem,
+                                            updateCallback: () =>
+                                                safeSetState(() {}),
+                                            child: RecipeListItemWidget(
+                                              key: Key(
+                                                'Key6w9_${recipeItem.id.toString()}',
+                                              ),
+                                              imgDesc: recipeItem.picture,
+                                              recipeDetails: recipeItem,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              );
-                            },
+                                      );
+                                    }),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

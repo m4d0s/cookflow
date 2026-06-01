@@ -115,7 +115,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'Настройки',
+                          'Настройки приложения',
                           style:
                               FlutterFlowTheme.of(context).labelLarge.override(
                                     font: GoogleFonts.manrope(
@@ -139,10 +139,15 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                             maxHeight: 300.0,
                           ),
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
                             shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).alternate,
+                            ),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Padding(
@@ -151,6 +156,9 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                   0.0,
                                 )),
                                 child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -313,13 +321,6 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                height: 1.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).alternate,
-                                  shape: BoxShape.rectangle,
-                                ),
-                              ),
                             ],
                           ),
                         ),
@@ -373,12 +374,12 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                           ),
                         ),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
+                          borderRadius: BorderRadius.circular(16.0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
-                              borderRadius: BorderRadius.circular(24.0),
+                              borderRadius: BorderRadius.circular(16.0),
                               shape: BoxShape.rectangle,
                               border: Border.all(
                                 color: FlutterFlowTheme.of(context).alternate,

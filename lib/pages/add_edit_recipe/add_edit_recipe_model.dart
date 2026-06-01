@@ -1,8 +1,7 @@
 import '/backend/schema/enums/enums.dart';
 import '/components/button/button_widget.dart';
 import '/components/edit_step_item/edit_step_item_widget.dart';
-import '/components/photo_frame_widget.dart';
-import '/components/product_card_widget.dart';
+import '/components/product_card/product_card_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -15,8 +14,6 @@ class AddEditRecipeModel extends FlutterFlowModel<AddEditRecipeWidget> {
 
   // Model for Button.
   late ButtonModel buttonModel;
-  // Model for PhotoFrame component.
-  late PhotoFrameModel photoFrameModel;
   // Model for TextField.
   late TextFieldModel textFieldModel1;
   // Model for TextField.
@@ -41,7 +38,6 @@ class AddEditRecipeModel extends FlutterFlowModel<AddEditRecipeWidget> {
   @override
   void initState(BuildContext context) {
     buttonModel = createModel(context, () => ButtonModel());
-    photoFrameModel = createModel(context, () => PhotoFrameModel());
     textFieldModel1 = createModel(context, () => TextFieldModel());
     textFieldModel2 = createModel(context, () => TextFieldModel());
     productCardModels = FlutterFlowDynamicModels(() => ProductCardModel());
@@ -51,7 +47,6 @@ class AddEditRecipeModel extends FlutterFlowModel<AddEditRecipeWidget> {
   @override
   void dispose() {
     buttonModel.dispose();
-    photoFrameModel.dispose();
     textFieldModel1.dispose();
     textFieldModel2.dispose();
     productCardModels.dispose();

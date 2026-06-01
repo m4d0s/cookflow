@@ -9,5 +9,6 @@ export '/pages/cooking_mode/cooking_mode_widget.dart' show CookingModeWidget;
 export '/pages/meal_plan/meal_plan_widget.dart' show MealPlanWidget;
 export '/archive/shopping_list/shopping_list_widget.dart'
     show ShoppingListWidget;
-export '/pages/add_to_plan/add_to_plan_widget.dart' show AddToPlanWidget;
+export '/archive/add_to_plan/add_to_plan_widget.dart' show AddToPlanWidget;
 export '/pages/settings_page/settings_page_widget.dart' show SettingsPageWidget;
+export '/pages/recipes_copy/recipes_copy_widget.dart' show RecipesCopyWidget;

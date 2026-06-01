@@ -3,20 +3,11 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'photo_frame_model.dart';
 export 'photo_frame_model.dart';
 
 class PhotoFrameWidget extends StatefulWidget {
-  const PhotoFrameWidget({
-    super.key,
-    int? width,
-    int? height,
-  })  : this.width = width ?? 64,
-        this.height = height ?? 64;
-
-  final int width;
-  final int height;
+  const PhotoFrameWidget({super.key});
 
   @override
   State<PhotoFrameWidget> createState() => _PhotoFrameWidgetState();
@@ -46,15 +37,7 @@ class _PhotoFrameWidgetState extends State<PhotoFrameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
-      width: widget.width.toDouble(),
-      height: widget.height.toDouble(),
-      constraints: BoxConstraints(
-        minWidth: 64.0,
-        minHeight: 64.0,
-      ),
       decoration: BoxDecoration(),
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(
@@ -92,8 +75,6 @@ class _PhotoFrameWidgetState extends State<PhotoFrameWidget> {
                 Align(
                   alignment: AlignmentDirectional(0.0, 0.0),
                   child: Container(
-                    width: widget.width.toDouble(),
-                    height: widget.height.toDouble(),
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                     ),
@@ -150,15 +131,58 @@ class _PhotoFrameWidgetState extends State<PhotoFrameWidget> {
                     ),
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    FFAppState().SelectedRecipe.picture,
-                    width: widget.width.toDouble(),
-                    height: widget.height.toDouble(),
-                    fit: BoxFit.fill,
-                    cacheWidth: 256,
-                    cacheHeight: 256,
+                InkWell(
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () async {
+                    final selectedMedia =
+                        await selectMediaWithSourceBottomSheet(
+                      context: context,
+                      imageQuality: 100,
+                      allowPhoto: true,
+                    );
+                    if (selectedMedia != null &&
+                        selectedMedia.every((m) =>
+                            validateFileFormat(m.storagePath, context))) {
+                      safeSetState(
+                          () => _model.isDataUploading_uploadData4mu = true);
+                      var selectedUploadedFiles = <FFUploadedFile>[];
+
+                      try {
+                        selectedUploadedFiles = selectedMedia
+                            .map((m) => FFUploadedFile(
+                                  name: m.storagePath.split('/').last,
+                                  bytes: m.bytes,
+                                  height: m.dimensions?.height,
+                                  width: m.dimensions?.width,
+                                  blurHash: m.blurHash,
+                                  originalFilename: m.originalFilename,
+                                ))
+                            .toList();
+                      } finally {
+                        _model.isDataUploading_uploadData4mu = false;
+                      }
+                      if (selectedUploadedFiles.length ==
+                          selectedMedia.length) {
+                        safeSetState(() {
+                          _model.uploadedLocalFile_uploadData4mu =
+                              selectedUploadedFiles.first;
+                        });
+                      } else {
+                        safeSetState(() {});
+                        return;
+                      }
+                    }
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      'assets/images/2vqf7_',
+                      width: _model.wight.toDouble(),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ],

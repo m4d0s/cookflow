@@ -118,6 +118,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SettingsPageWidget.routeName,
           path: SettingsPageWidget.routePath,
           builder: (context, params) => SettingsPageWidget(),
+        ),
+        FFRoute(
+          name: RecipesCopyWidget.routeName,
+          path: RecipesCopyWidget.routePath,
+          builder: (context, params) => RecipesCopyWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

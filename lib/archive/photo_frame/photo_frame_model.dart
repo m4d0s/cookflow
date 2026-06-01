@@ -9,10 +9,16 @@ class PhotoFrameModel extends FlutterFlowModel<PhotoFrameWidget> {
 
   bool unsee = true;
 
+  int wight = 256;
+
   ///  State fields for stateful widgets in this component.
 
   bool isDataUploading_uploadDataRwe = false;
   FFUploadedFile uploadedLocalFile_uploadDataRwe =
+      FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
+
+  bool isDataUploading_uploadData4mu = false;
+  FFUploadedFile uploadedLocalFile_uploadData4mu =
       FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
 
   @override

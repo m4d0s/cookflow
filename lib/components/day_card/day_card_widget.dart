@@ -197,7 +197,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                               safeSetState(() {});
 
                               context.pushNamed(
-                                AddToPlanWidget.routeName,
+                                RecipesCopyWidget.routeName,
                                 extra: <String, dynamic>{
                                   '__transition_info__': TransitionInfo(
                                     hasTransition: true,
@@ -224,6 +224,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                                 fullWidth: true,
                                 loading: false,
                                 disabled: false,
+                                maincolor: FlutterFlowTheme.of(context).primary,
                               ),
                             ),
                           ),

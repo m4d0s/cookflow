@@ -1,4 +1,4 @@
-import '/components/add_to_plan_item/add_to_plan_item_widget.dart';
+import '/components/recipe_list_item/recipe_list_item_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -10,18 +10,19 @@ class AddToPlanModel extends FlutterFlowModel<AddToPlanWidget> {
 
   // Model for TextField component.
   late TextFieldModel textFieldModel;
-  // Models for RecipeCard2.
-  late FlutterFlowDynamicModels<AddToPlanItemModel> recipeCard2Models;
+  // Models for RecipeListItem dynamic component.
+  late FlutterFlowDynamicModels<RecipeListItemModel> recipeListItemModels;
 
   @override
   void initState(BuildContext context) {
     textFieldModel = createModel(context, () => TextFieldModel());
-    recipeCard2Models = FlutterFlowDynamicModels(() => AddToPlanItemModel());
+    recipeListItemModels =
+        FlutterFlowDynamicModels(() => RecipeListItemModel());
   }
 
   @override
   void dispose() {
     textFieldModel.dispose();
-    recipeCard2Models.dispose();
+    recipeListItemModels.dispose();
   }
 }

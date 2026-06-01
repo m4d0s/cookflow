@@ -51,7 +51,7 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            context.pushNamed(AddToPlanWidget.routeName);
+            context.pushNamed(RecipesCopyWidget.routeName);
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: Icon(

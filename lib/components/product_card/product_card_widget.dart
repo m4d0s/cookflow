@@ -49,7 +49,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: _model.isDeleted,
+      visible: !_model.isDeleted,
       child: Container(
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
