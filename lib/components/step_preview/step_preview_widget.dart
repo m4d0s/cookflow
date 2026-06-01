@@ -1,3 +1,4 @@
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +9,10 @@ export 'step_preview_model.dart';
 class StepPreviewWidget extends StatefulWidget {
   const StepPreviewWidget({
     super.key,
-    bool? hasTimer,
-    String? index,
-    String? text,
-    String? timer,
-  })  : this.hasTimer = hasTimer ?? false,
-        this.index = index ?? '1',
-        this.text =
-            text ?? 'Поставьте воду для пасты закипать. Посолите по вкусу.',
-        this.timer = timer ?? 'Timer';
+    required this.step,
+  });
 
-  final bool hasTimer;
-  final String index;
-  final String text;
-  final String timer;
+  final StepStruct? step;
 
   @override
   State<StepPreviewWidget> createState() => _StepPreviewWidgetState();
@@ -78,7 +69,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Шаг ${widget.index}',
+                        'Шаг ${widget.step?.queueId.toString()}',
                         style: FlutterFlowTheme.of(context).labelLarge.override(
                               font: GoogleFonts.manrope(
                                 fontWeight: FontWeight.bold,
@@ -95,10 +86,12 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                               lineHeight: 1.4,
                             ),
                       ),
-                      if (valueOrDefault<bool>(
-                        widget.hasTimer,
-                        false,
-                      ))
+                      if ((int var1) {
+                        return var1 <= 0;
+                      }(valueOrDefault<int>(
+                        widget.step?.timer,
+                        0,
+                      )))
                         Container(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -112,7 +105,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                 size: 14.0,
                               ),
                               Text(
-                                '${widget.timer} мин',
+                                '${widget.step?.timer.toString()} мин',
                                 style: FlutterFlowTheme.of(context)
                                     .labelSmall
                                     .override(
@@ -143,8 +136,8 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                   ),
                   Text(
                     valueOrDefault<String>(
-                      widget.text,
-                      'Поставьте воду для пасты закипать. Посолите по вкусу.',
+                      widget.step?.desc,
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(

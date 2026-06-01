@@ -18,22 +18,10 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   late InfoTagModel infoTagModel3;
   // Model for InfoTag.
   late InfoTagModel infoTagModel4;
-  // Model for IngredientItem.
-  late IngridientListModel ingredientItemModel1;
-  // Model for IngredientItem.
-  late IngridientListModel ingredientItemModel2;
-  // Model for IngredientItem.
-  late IngridientListModel ingredientItemModel3;
-  // Model for IngredientItem.
-  late IngridientListModel ingredientItemModel4;
-  // Model for IngredientItem.
-  late IngridientListModel ingredientItemModel5;
-  // Model for StepPreview.
-  late StepPreviewModel stepPreviewModel1;
-  // Model for StepPreview.
-  late StepPreviewModel stepPreviewModel2;
-  // Model for StepPreview.
-  late StepPreviewModel stepPreviewModel3;
+  // Models for IngredientItem.
+  late FlutterFlowDynamicModels<IngridientListModel> ingredientItemModels;
+  // Models for StepPreview.
+  late FlutterFlowDynamicModels<StepPreviewModel> stepPreviewModels;
   // Model for Button.
   late ButtonModel buttonModel;
 
@@ -43,14 +31,9 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
     infoTagModel2 = createModel(context, () => InfoTagModel());
     infoTagModel3 = createModel(context, () => InfoTagModel());
     infoTagModel4 = createModel(context, () => InfoTagModel());
-    ingredientItemModel1 = createModel(context, () => IngridientListModel());
-    ingredientItemModel2 = createModel(context, () => IngridientListModel());
-    ingredientItemModel3 = createModel(context, () => IngridientListModel());
-    ingredientItemModel4 = createModel(context, () => IngridientListModel());
-    ingredientItemModel5 = createModel(context, () => IngridientListModel());
-    stepPreviewModel1 = createModel(context, () => StepPreviewModel());
-    stepPreviewModel2 = createModel(context, () => StepPreviewModel());
-    stepPreviewModel3 = createModel(context, () => StepPreviewModel());
+    ingredientItemModels =
+        FlutterFlowDynamicModels(() => IngridientListModel());
+    stepPreviewModels = FlutterFlowDynamicModels(() => StepPreviewModel());
     buttonModel = createModel(context, () => ButtonModel());
   }
 
@@ -60,14 +43,8 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
     infoTagModel2.dispose();
     infoTagModel3.dispose();
     infoTagModel4.dispose();
-    ingredientItemModel1.dispose();
-    ingredientItemModel2.dispose();
-    ingredientItemModel3.dispose();
-    ingredientItemModel4.dispose();
-    ingredientItemModel5.dispose();
-    stepPreviewModel1.dispose();
-    stepPreviewModel2.dispose();
-    stepPreviewModel3.dispose();
+    ingredientItemModels.dispose();
+    stepPreviewModels.dispose();
     buttonModel.dispose();
   }
 }

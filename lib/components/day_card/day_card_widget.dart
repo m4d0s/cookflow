@@ -4,6 +4,7 @@ import '/components/recipe_item_mini/recipe_item_mini_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'day_card_model.dart';
@@ -154,35 +155,72 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              wrapWithModel(
-                                model: _model.recipeItemMiniModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: RecipeItemMiniWidget(
-                                  recipe: RecipeStruct(),
-                                ),
-                              ),
-                            ],
+                          Builder(
+                            builder: (context) {
+                              final meal =
+                                  widget.dayLog?.completedRecipes.toList() ??
+                                      [];
+
+                              return Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children:
+                                    List.generate(meal.length, (mealIndex) {
+                                  final mealItem = meal[mealIndex];
+                                  return wrapWithModel(
+                                    model: _model.recipeItemMiniModels.getModel(
+                                      mealItem.date!.toString(),
+                                      mealIndex,
+                                    ),
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: RecipeItemMiniWidget(
+                                      key: Key(
+                                        'Keywtr_${mealItem.date!.toString()}',
+                                      ),
+                                      recipe: mealItem.meal,
+                                    ),
+                                  );
+                                }),
+                              );
+                            },
                           ),
-                          wrapWithModel(
-                            model: _model.buttonModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: ButtonWidget(
-                              content: 'Добавить рецепт',
-                              icon: Icon(
-                                Icons.add_rounded,
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 16.0,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              FFAppState().selectedDay = widget.dayLog!;
+                              safeSetState(() {});
+
+                              context.pushNamed(
+                                AddToPlanWidget.routeName,
+                                extra: <String, dynamic>{
+                                  '__transition_info__': TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType:
+                                        PageTransitionType.rightToLeft,
+                                  ),
+                                },
+                              );
+                            },
+                            child: wrapWithModel(
+                              model: _model.buttonModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: ButtonWidget(
+                                content: 'Добавить рецепт',
+                                icon: Icon(
+                                  Icons.add_rounded,
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  size: 16.0,
+                                ),
+                                iconPresent: true,
+                                iconEndPresent: false,
+                                variant: 'ghost',
+                                size: 'small',
+                                fullWidth: true,
+                                loading: false,
+                                disabled: false,
                               ),
-                              iconPresent: true,
-                              iconEndPresent: false,
-                              variant: 'ghost',
-                              size: 'small',
-                              fullWidth: true,
-                              loading: false,
-                              disabled: false,
                             ),
                           ),
                         ].divide(SizedBox(height: 0.0)),

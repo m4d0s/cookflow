@@ -3,6 +3,7 @@ import '/components/ingredient_checker/ingredient_checker_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -312,7 +313,9 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Паста Карбонара',
+                                                    FFAppState()
+                                                        .SelectedRecipe
+                                                        .name,
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .titleSmall
@@ -413,50 +416,37 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                   ),
                                 ),
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  wrapWithModel(
-                                    model: _model.ingredientItem2Model1,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: IngredientCheckerWidget(
-                                      isChecked: false,
-                                      name: 'Пармезан',
-                                      quantity: '50',
-                                      unit: 'г',
-                                    ),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.ingredientItem2Model2,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: IngredientCheckerWidget(
-                                      isChecked: false,
-                                      name: 'Яйца (желтки)',
-                                      quantity: '3',
-                                      unit: 'шт',
-                                    ),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.ingredientItem2Model3,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: IngredientCheckerWidget(
-                                      isChecked: true,
-                                      name: 'Бекон (гуанчиале)',
-                                      quantity: '150',
-                                      unit: 'г',
-                                    ),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.ingredientItem2Model4,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: IngredientCheckerWidget(
-                                      isChecked: true,
-                                      name: 'Спагетти',
-                                      quantity: '250',
-                                      unit: 'г',
-                                    ),
-                                  ),
-                                ],
+                              Builder(
+                                builder: (context) {
+                                  final product = FFAppState()
+                                      .SelectedRecipe
+                                      .products
+                                      .toList();
+
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: List.generate(product.length,
+                                        (productIndex) {
+                                      final productItem = product[productIndex];
+                                      return wrapWithModel(
+                                        model: _model.ingredientItem2Models
+                                            .getModel(
+                                          productItem.isChecked.toString(),
+                                          productIndex,
+                                        ),
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        updateOnChange: true,
+                                        child: IngredientCheckerWidget(
+                                          key: Key(
+                                            'Key368_${productItem.isChecked.toString()}',
+                                          ),
+                                          product: productItem,
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                },
                               ),
                               if (FFAppConstants.TrueValue)
                                 Container(
@@ -565,7 +555,16 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                               Expanded(
                                 flex: 1,
                                 child: LinearPercentIndicator(
-                                  percent: 0.5,
+                                  percent: valueOrDefault<double>(
+                                    functions.procentCalc(
+                                        _model.checked.toDouble(),
+                                        FFAppState()
+                                            .SelectedRecipe
+                                            .products
+                                            .length
+                                            .toDouble()),
+                                    0.5,
+                                  ),
                                   lineHeight: 8.0,
                                   animation: true,
                                   animateFromLastPercent: true,
@@ -578,7 +577,10 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                 ),
                               ),
                               Text(
-                                '-0 из ${FFAppState().SelectedRecipe.products.length.toString()}',
+                                '${valueOrDefault<String>(
+                                  _model.checked.toString(),
+                                  '-0',
+                                )} из ${FFAppState().SelectedRecipe.products.length.toString()}',
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
@@ -610,7 +612,19 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              context.pushNamed(CookingModeWidget.routeName);
+                              context.pushNamed(
+                                CookingModeWidget.routeName,
+                                queryParameters: {
+                                  'step': serializeParam(
+                                    FFAppState()
+                                        .SelectedRecipe
+                                        .cookingSteps
+                                        .firstOrNull
+                                        ?.queueId,
+                                    ParamType.int,
+                                  ),
+                                }.withoutNulls,
+                              );
                             },
                             child: wrapWithModel(
                               model: _model.buttonModel,
@@ -628,7 +642,18 @@ class _IngredientCheckWidgetState extends State<IngredientCheckWidget> {
                                 size: 'large',
                                 fullWidth: true,
                                 loading: false,
-                                disabled: false,
+                                disabled: functions
+                                            .procentCalc(
+                                                _model.checked.toDouble(),
+                                                FFAppState()
+                                                    .SelectedRecipe
+                                                    .products
+                                                    .length
+                                                    .toDouble())
+                                            .toString() ==
+                                        '1'
+                                    ? false
+                                    : true,
                               ),
                             ),
                           ),

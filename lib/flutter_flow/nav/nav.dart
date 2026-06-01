@@ -93,8 +93,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: CookingModeWidget.routeName,
           path: CookingModeWidget.routePath,
           builder: (context, params) => CookingModeWidget(
-            currentStep: params.getParam(
-              'currentStep',
+            step: params.getParam(
+              'step',
               ParamType.int,
             ),
           ),

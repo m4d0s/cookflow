@@ -1,3 +1,4 @@
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +9,10 @@ export 'ingridient_list_model.dart';
 class IngridientListWidget extends StatefulWidget {
   const IngridientListWidget({
     super.key,
-    String? name,
-    String? qty,
-    String? unit,
-  })  : this.name = name ?? 'Спагетти',
-        this.qty = qty ?? '250',
-        this.unit = unit ?? 'г';
+    required this.product,
+  });
 
-  final String name;
-  final String qty;
-  final String unit;
+  final ProductStruct? product;
 
   @override
   State<IngridientListWidget> createState() => _IngridientListWidgetState();
@@ -69,8 +64,8 @@ class _IngridientListWidgetState extends State<IngridientListWidget> {
                 flex: 1,
                 child: Text(
                   valueOrDefault<String>(
-                    widget.name,
-                    'Спагетти',
+                    widget.product?.name,
+                    'Null product',
                   ),
                   maxLines: 1,
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -93,7 +88,7 @@ class _IngridientListWidgetState extends State<IngridientListWidget> {
                 ),
               ),
               Text(
-                '${widget.qty} ${widget.unit}',
+                '${widget.product?.quantity.count.toString()} ${widget.product?.quantity.name}',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.inter(
                         fontWeight: FontWeight.w500,

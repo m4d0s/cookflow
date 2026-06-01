@@ -1,3 +1,4 @@
+import '/backend/schema/structs/index.dart';
 import '/components/photo_frame_widget.dart';
 import '/components/text_field/text_field_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
@@ -12,12 +13,10 @@ export 'edit_step_item_model.dart';
 class EditStepItemWidget extends StatefulWidget {
   const EditStepItemWidget({
     super.key,
-    this.recipeID,
-    int? counter,
-  }) : this.counter = counter ?? 0;
+    required this.step,
+  });
 
-  final String? recipeID;
-  final int counter;
+  final StepStruct? step;
 
   @override
   State<EditStepItemWidget> createState() => _EditStepItemWidgetState();

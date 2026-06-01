@@ -108,7 +108,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
                           visible: widget.isChecked ? true : false,
                           child: Icon(
                             Icons.check_rounded,
-                            color: FlutterFlowTheme.of(context).onPrimary,
+                            color: FlutterFlowTheme.of(context).primaryText,
                             size: 16.0,
                           ),
                         ),

@@ -1,6 +1,6 @@
+import '/backend/schema/enums/enums.dart';
 import '/components/button/button_widget.dart';
 import '/components/edit_step_item/edit_step_item_widget.dart';
-import '/components/form_section_header/form_section_header_widget.dart';
 import '/components/photo_frame_widget.dart';
 import '/components/product_card_widget.dart';
 import '/components/text_field/text_field_widget.dart';
@@ -25,22 +25,18 @@ class AddEditRecipeModel extends FlutterFlowModel<AddEditRecipeWidget> {
   int? countControllerValue1;
   // State field(s) for CountController widget.
   int? countControllerValue2;
-  // State field(s) for Dropdown widget.
-  String? dropdownValue1;
-  FormFieldController<String>? dropdownValueController1;
-  // State field(s) for Dropdown widget.
-  String? dropdownValue2;
-  FormFieldController<String>? dropdownValueController2;
+  // State field(s) for DropDown widget.
+  Food? dropDownValue1;
+  FormFieldController<Food>? dropDownValueController1;
+  // State field(s) for DropDown widget.
+  Hardness? dropDownValue2;
+  FormFieldController<Hardness>? dropDownValueController2;
   // State field(s) for CountController widget.
   int? countControllerValue3;
-  // Model for FormSectionHeader.
-  late FormSectionHeaderModel formSectionHeaderModel1;
-  // Model for ProductCard component.
-  late ProductCardModel productCardModel;
-  // Model for FormSectionHeader.
-  late FormSectionHeaderModel formSectionHeaderModel2;
-  // Model for EditStepItem component.
-  late EditStepItemModel editStepItemModel;
+  // Models for ProductCard dynamic component.
+  late FlutterFlowDynamicModels<ProductCardModel> productCardModels;
+  // Models for EditStepItem dynamic component.
+  late FlutterFlowDynamicModels<EditStepItemModel> editStepItemModels;
 
   @override
   void initState(BuildContext context) {
@@ -48,12 +44,8 @@ class AddEditRecipeModel extends FlutterFlowModel<AddEditRecipeWidget> {
     photoFrameModel = createModel(context, () => PhotoFrameModel());
     textFieldModel1 = createModel(context, () => TextFieldModel());
     textFieldModel2 = createModel(context, () => TextFieldModel());
-    formSectionHeaderModel1 =
-        createModel(context, () => FormSectionHeaderModel());
-    productCardModel = createModel(context, () => ProductCardModel());
-    formSectionHeaderModel2 =
-        createModel(context, () => FormSectionHeaderModel());
-    editStepItemModel = createModel(context, () => EditStepItemModel());
+    productCardModels = FlutterFlowDynamicModels(() => ProductCardModel());
+    editStepItemModels = FlutterFlowDynamicModels(() => EditStepItemModel());
   }
 
   @override
@@ -62,9 +54,7 @@ class AddEditRecipeModel extends FlutterFlowModel<AddEditRecipeWidget> {
     photoFrameModel.dispose();
     textFieldModel1.dispose();
     textFieldModel2.dispose();
-    formSectionHeaderModel1.dispose();
-    productCardModel.dispose();
-    formSectionHeaderModel2.dispose();
-    editStepItemModel.dispose();
+    productCardModels.dispose();
+    editStepItemModels.dispose();
   }
 }

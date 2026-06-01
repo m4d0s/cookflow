@@ -11,20 +11,21 @@ class DayCardModel extends FlutterFlowModel<DayCardWidget> {
 
   ///  State fields for stateful widgets in this component.
 
-  // Model for RecipeItemMini component.
-  late RecipeItemMiniModel recipeItemMiniModel;
+  // Models for RecipeItemMini dynamic component.
+  late FlutterFlowDynamicModels<RecipeItemMiniModel> recipeItemMiniModels;
   // Model for Button.
   late ButtonModel buttonModel;
 
   @override
   void initState(BuildContext context) {
-    recipeItemMiniModel = createModel(context, () => RecipeItemMiniModel());
+    recipeItemMiniModels =
+        FlutterFlowDynamicModels(() => RecipeItemMiniModel());
     buttonModel = createModel(context, () => ButtonModel());
   }
 
   @override
   void dispose() {
-    recipeItemMiniModel.dispose();
+    recipeItemMiniModels.dispose();
     buttonModel.dispose();
   }
 }

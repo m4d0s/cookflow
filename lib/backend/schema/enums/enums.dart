@@ -36,6 +36,18 @@ enum Quantity {
   pi,
 }
 
+enum Textfield {
+  ghost,
+  empty,
+  filled,
+}
+
+enum ProgressStep {
+  done,
+  ongoing,
+  future,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -57,6 +69,10 @@ T? deserializeEnum<T>(String? value) {
       return UploadState.values.deserialize(value) as T?;
     case (Quantity):
       return Quantity.values.deserialize(value) as T?;
+    case (Textfield):
+      return Textfield.values.deserialize(value) as T?;
+    case (ProgressStep):
+      return ProgressStep.values.deserialize(value) as T?;
     default:
       return null;
   }

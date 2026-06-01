@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
 
-import '/backend/schema/enums/enums.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -9,12 +8,14 @@ class ProductStruct extends BaseStruct {
   ProductStruct({
     int? id,
     String? name,
-    Quantity? quantity,
     List<NutritionsStruct>? nutrition100g,
+    FoodQuantityStruct? quantity,
+    bool? isChecked,
   })  : _id = id,
         _name = name,
+        _nutrition100g = nutrition100g,
         _quantity = quantity,
-        _nutrition100g = nutrition100g;
+        _isChecked = isChecked;
 
   // "id" field.
   int? _id;
@@ -32,13 +33,6 @@ class ProductStruct extends BaseStruct {
 
   bool hasName() => _name != null;
 
-  // "quantity" field.
-  Quantity? _quantity;
-  Quantity? get quantity => _quantity;
-  set quantity(Quantity? val) => _quantity = val;
-
-  bool hasQuantity() => _quantity != null;
-
   // "nutrition_100g" field.
   List<NutritionsStruct>? _nutrition100g;
   List<NutritionsStruct> get nutrition100g => _nutrition100g ?? const [];
@@ -50,16 +44,35 @@ class ProductStruct extends BaseStruct {
 
   bool hasNutrition100g() => _nutrition100g != null;
 
+  // "quantity" field.
+  FoodQuantityStruct? _quantity;
+  FoodQuantityStruct get quantity => _quantity ?? FoodQuantityStruct();
+  set quantity(FoodQuantityStruct? val) => _quantity = val;
+
+  void updateQuantity(Function(FoodQuantityStruct) updateFn) {
+    updateFn(_quantity ??= FoodQuantityStruct());
+  }
+
+  bool hasQuantity() => _quantity != null;
+
+  // "isChecked" field.
+  bool? _isChecked;
+  bool get isChecked => _isChecked ?? false;
+  set isChecked(bool? val) => _isChecked = val;
+
+  bool hasIsChecked() => _isChecked != null;
+
   static ProductStruct fromMap(Map<String, dynamic> data) => ProductStruct(
         id: castToType<int>(data['id']),
         name: data['name'] as String?,
-        quantity: data['quantity'] is Quantity
-            ? data['quantity']
-            : deserializeEnum<Quantity>(data['quantity']),
         nutrition100g: getStructList(
           data['nutrition_100g'],
           NutritionsStruct.fromMap,
         ),
+        quantity: data['quantity'] is FoodQuantityStruct
+            ? data['quantity']
+            : FoodQuantityStruct.maybeFromMap(data['quantity']),
+        isChecked: data['isChecked'] as bool?,
       );
 
   static ProductStruct? maybeFromMap(dynamic data) =>
@@ -68,8 +81,9 @@ class ProductStruct extends BaseStruct {
   Map<String, dynamic> toMap() => {
         'id': _id,
         'name': _name,
-        'quantity': _quantity?.serialize(),
         'nutrition_100g': _nutrition100g?.map((e) => e.toMap()).toList(),
+        'quantity': _quantity?.toMap(),
+        'isChecked': _isChecked,
       }.withoutNulls;
 
   @override
@@ -82,14 +96,18 @@ class ProductStruct extends BaseStruct {
           _name,
           ParamType.String,
         ),
-        'quantity': serializeParam(
-          _quantity,
-          ParamType.Enum,
-        ),
         'nutrition_100g': serializeParam(
           _nutrition100g,
           ParamType.DataStruct,
           isList: true,
+        ),
+        'quantity': serializeParam(
+          _quantity,
+          ParamType.DataStruct,
+        ),
+        'isChecked': serializeParam(
+          _isChecked,
+          ParamType.bool,
         ),
       }.withoutNulls;
 
@@ -105,16 +123,22 @@ class ProductStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
-        quantity: deserializeParam<Quantity>(
-          data['quantity'],
-          ParamType.Enum,
-          false,
-        ),
         nutrition100g: deserializeStructParam<NutritionsStruct>(
           data['nutrition_100g'],
           ParamType.DataStruct,
           true,
           structBuilder: NutritionsStruct.fromSerializableMap,
+        ),
+        quantity: deserializeStructParam(
+          data['quantity'],
+          ParamType.DataStruct,
+          false,
+          structBuilder: FoodQuantityStruct.fromSerializableMap,
+        ),
+        isChecked: deserializeParam(
+          data['isChecked'],
+          ParamType.bool,
+          false,
         ),
       );
 
@@ -127,22 +151,25 @@ class ProductStruct extends BaseStruct {
     return other is ProductStruct &&
         id == other.id &&
         name == other.name &&
+        listEquality.equals(nutrition100g, other.nutrition100g) &&
         quantity == other.quantity &&
-        listEquality.equals(nutrition100g, other.nutrition100g);
+        isChecked == other.isChecked;
   }
 
   @override
   int get hashCode =>
-      const ListEquality().hash([id, name, quantity, nutrition100g]);
+      const ListEquality().hash([id, name, nutrition100g, quantity, isChecked]);
 }
 
 ProductStruct createProductStruct({
   int? id,
   String? name,
-  Quantity? quantity,
+  FoodQuantityStruct? quantity,
+  bool? isChecked,
 }) =>
     ProductStruct(
       id: id,
       name: name,
-      quantity: quantity,
+      quantity: quantity ?? FoodQuantityStruct(),
+      isChecked: isChecked,
     );

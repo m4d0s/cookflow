@@ -1,4 +1,5 @@
 import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -14,31 +15,10 @@ export 'product_card_model.dart';
 class ProductCardWidget extends StatefulWidget {
   const ProductCardWidget({
     super.key,
-    String? imageDesc,
-    String? name,
-    String? quantity,
-    String? calories,
-    String? protein,
-    String? carbs,
-    String? fat,
-    String? count,
-  })  : this.imageDesc = imageDesc ?? '',
-        this.name = name ?? '',
-        this.quantity = quantity ?? '',
-        this.calories = calories ?? '',
-        this.protein = protein ?? '',
-        this.carbs = carbs ?? '',
-        this.fat = fat ?? '',
-        this.count = count ?? '';
+    required this.product,
+  });
 
-  final String imageDesc;
-  final String name;
-  final String quantity;
-  final String calories;
-  final String protein;
-  final String carbs;
-  final String fat;
-  final String count;
+  final ProductStruct? product;
 
   @override
   State<ProductCardWidget> createState() => _ProductCardWidgetState();

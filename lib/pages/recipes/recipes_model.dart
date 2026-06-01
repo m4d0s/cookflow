@@ -17,18 +17,18 @@ class RecipesModel extends FlutterFlowModel<RecipesWidget> {
   // State field(s) for Dropdown widget.
   String? dropdownValue2;
   FormFieldController<String>? dropdownValueController2;
-  // Model for RecipeCard.
-  late RecipeListItemModel recipeCardModel;
+  // Models for RecipeCard.
+  late FlutterFlowDynamicModels<RecipeListItemModel> recipeCardModels;
 
   @override
   void initState(BuildContext context) {
     textFieldModel = createModel(context, () => TextFieldModel());
-    recipeCardModel = createModel(context, () => RecipeListItemModel());
+    recipeCardModels = FlutterFlowDynamicModels(() => RecipeListItemModel());
   }
 
   @override
   void dispose() {
     textFieldModel.dispose();
-    recipeCardModel.dispose();
+    recipeCardModels.dispose();
   }
 }

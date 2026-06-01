@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'meal_plan_model.dart';
 export 'meal_plan_model.dart';
 
@@ -38,6 +39,8 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -415,22 +418,35 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(
                             24.0, 0.0, 24.0, 24.0),
                         child: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              wrapWithModel(
-                                model: _model.dayCardModel1,
-                                updateCallback: () => safeSetState(() {}),
-                                child: DayCardWidget(),
-                              ),
-                              wrapWithModel(
-                                model: _model.dayCardModel2,
-                                updateCallback: () => safeSetState(() {}),
-                                child: DayCardWidget(),
-                              ),
-                            ].divide(SizedBox(height: 0.0)),
+                          child: Builder(
+                            builder: (context) {
+                              final day = FFAppState()
+                                  .AllDailyPlans
+                                  .map((e) => e)
+                                  .toList();
+
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: List.generate(day.length, (dayIndex) {
+                                  final dayItem = day[dayIndex];
+                                  return wrapWithModel(
+                                    model: _model.dayCardModels.getModel(
+                                      dayItem.date!.toString(),
+                                      dayIndex,
+                                    ),
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: DayCardWidget(
+                                      key: Key(
+                                        'Key511_${dayItem.date!.toString()}',
+                                      ),
+                                      dayLog: dayItem,
+                                    ),
+                                  );
+                                }).divide(SizedBox(height: 0.0)),
+                              );
+                            },
                           ),
                         ),
                       ),

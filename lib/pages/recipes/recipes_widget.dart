@@ -302,39 +302,28 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            width: 36.0,
-                                            height: 36.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .surface80,
-                                              borderRadius:
-                                                  BorderRadius.circular(9999.0),
-                                              shape: BoxShape.rectangle,
+                                          FlutterFlowIconButton(
+                                            borderRadius: 16.0,
+                                            buttonSize: 40.0,
+                                            fillColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .surface80,
+                                            icon: Icon(
+                                              Icons.favorite_border_rounded,
+                                              color: FFAppState().SearchFavorite
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .error
+                                                  : FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
                                             ),
-                                            alignment:
-                                                AlignmentDirectional(0.0, 0.0),
-                                            child: Container(
-                                              width: 20.0,
-                                              height: 20.0,
-                                              child: Stack(
-                                                alignment: AlignmentDirectional(
-                                                    0.0, 0.0),
-                                                children: [
-                                                  if (FFAppConstants.TrueValue)
-                                                    Icon(
-                                                      Icons
-                                                          .favorite_border_rounded,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      size: 20.0,
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
+                                            onPressed: () async {
+                                              FFAppState().SearchFavorite =
+                                                  !(FFAppState()
+                                                          .SearchFavorite ??
+                                                      true);
+                                              safeSetState(() {});
+                                            },
                                           ),
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -413,7 +402,7 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                               context)
                                                           .alternate,
                                                   borderWidth: 1.0,
-                                                  borderRadius: 24.0,
+                                                  borderRadius: 16.0,
                                                   margin: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
@@ -525,7 +514,7 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                                               context)
                                                           .alternate,
                                                   borderWidth: 1.0,
-                                                  borderRadius: 24.0,
+                                                  borderRadius: 16.0,
                                                   margin: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
@@ -571,128 +560,65 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                                           ),
                                         ].divide(SizedBox(width: 8.0)),
                                       ),
-                                      if (!FFAppConstants.TrueValue)
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(24.0),
-                                            shape: BoxShape.rectangle,
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(16.0),
-                                            child: Container(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons
-                                                        .restaurant_menu_rounded,
-                                                    size: 28.0,
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'У вас 24 рецепта',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .titleSmall
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .manrope(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontStyle,
-                                                                lineHeight: 1.5,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          'На этой неделе вы приготовили 5 блюд',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodySmall
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodySmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodySmall
-                                                                      .fontStyle,
-                                                                ),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodySmall
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodySmall
-                                                                    .fontStyle,
-                                                                lineHeight: 1.5,
-                                                              ),
-                                                        ),
-                                                      ],
+                                      Builder(
+                                        builder: (context) {
+                                          final recipeList =
+                                              FFAppState().RecipeList.toList();
+
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children:
+                                                List.generate(recipeList.length,
+                                                    (recipeListIndex) {
+                                              final recipeListItem =
+                                                  recipeList[recipeListIndex];
+                                              return Visibility(
+                                                visible:
+                                                    recipeListItem.isFavorite
+                                                        ? true
+                                                        : !FFAppState()
+                                                            .SearchFavorite,
+                                                child: Expanded(
+                                                  flex: 1,
+                                                  child: wrapWithModel(
+                                                    model: _model
+                                                        .recipeCardModels
+                                                        .getModel(
+                                                      recipeListIndex
+                                                          .toString(),
+                                                      recipeListIndex,
+                                                    ),
+                                                    updateCallback: () =>
+                                                        safeSetState(() {}),
+                                                    child: RecipeListItemWidget(
+                                                      key: Key(
+                                                        'Key86_${recipeListIndex.toString()}',
+                                                      ),
+                                                      imgDesc: recipeListItem
+                                                          .picture,
+                                                      recipeDetails:
+                                                          recipeListItem,
                                                     ),
                                                   ),
-                                                ].divide(SizedBox(width: 16.0)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          if (FFAppState().isEmpty)
-                                            Expanded(
-                                              flex: 1,
-                                              child: wrapWithModel(
-                                                model: _model.recipeCardModel,
-                                                updateCallback: () =>
-                                                    safeSetState(() {}),
-                                                child: RecipeListItemWidget(
-                                                  imgDesc:
-                                                      'https://dimg.dreamflow.cloud/v1/image/warm%20chocolate%20fondant%20with%20melting%20center',
                                                 ),
-                                              ),
+                                              );
+                                            }).divide(
+                                              SizedBox(height: 16.0),
+                                              filterFn: (recipeListIndex) {
+                                                final recipeListItem =
+                                                    recipeList[recipeListIndex];
+                                                return recipeListItem.isFavorite
+                                                    ? true
+                                                    : !FFAppState()
+                                                        .SearchFavorite;
+                                              },
                                             ),
-                                        ].divide(SizedBox(height: 16.0)),
+                                          );
+                                        },
                                       ),
                                     ].divide(SizedBox(height: 24.0)),
                                   ),

@@ -4,8 +4,10 @@ import '/components/step_timer/step_timer_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'cooking_mode_model.dart';
@@ -14,10 +16,10 @@ export 'cooking_mode_model.dart';
 class CookingModeWidget extends StatefulWidget {
   const CookingModeWidget({
     super.key,
-    int? currentStep,
-  }) : this.currentStep = currentStep ?? 0;
+    required this.step,
+  });
 
-  final int currentStep;
+  final int? step;
 
   static String routeName = 'CookingMode';
   static String routePath = '/cookingMode';
@@ -35,6 +37,13 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CookingModeModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.currentstep = functions.findStepByID(
+          FFAppState().SelectedRecipe.cookingSteps.toList(), widget.step);
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -186,100 +195,39 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 ),
                             ],
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel1,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: true,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel2,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: true,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel3,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: true,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel4,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel5,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel6,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel7,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel8,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                            ].divide(SizedBox(width: 0.0)),
+                          Builder(
+                            builder: (context) {
+                              final step = FFAppState()
+                                  .SelectedRecipe
+                                  .cookingSteps
+                                  .toList();
+
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children:
+                                    List.generate(step.length, (stepIndex) {
+                                  final stepItem = step[stepIndex];
+                                  return Expanded(
+                                    flex: 1,
+                                    child: wrapWithModel(
+                                      model: _model.progressStepModels.getModel(
+                                        stepItem.queueId.toString(),
+                                        stepIndex,
+                                      ),
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ProgressStepWidget(
+                                        key: Key(
+                                          'Key404_${stepItem.queueId.toString()}',
+                                        ),
+                                        step: stepItem.queueId,
+                                      ),
+                                    ),
+                                  );
+                                }).divide(SizedBox(width: 0.0)),
+                              );
+                            },
                           ),
                         ].divide(SizedBox(height: 16.0)),
                       ),
@@ -344,7 +292,10 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                         ),
                                   ),
                                   Text(
-                                    'Отварите спагетти в подсоленной воде до состояния аль денте. Обычно это занимает около 8-10 минут. Не забудьте оставить немного воды от варки.',
+                                    valueOrDefault<String>(
+                                      _model.currentstep?.desc,
+                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .headlineMedium
                                         .override(
@@ -421,7 +372,10 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                               Expanded(
                                                 flex: 1,
                                                 child: Text(
-                                                  'Совет: Достаньте яйца из холодильника заранее, чтобы они были комнатной температуры.',
+                                                  valueOrDefault<String>(
+                                                    _model.currentstep?.tip,
+                                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodySmall
@@ -464,7 +418,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 model: _model.stepTimerModel,
                                 updateCallback: () => safeSetState(() {}),
                                 child: StepTimerWidget(
-                                  autoplay: true,
+                                  autoplay: false,
                                   isRunning: false,
                                 ),
                               ),
@@ -530,24 +484,42 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                             ),
                             Expanded(
                               flex: 2,
-                              child: wrapWithModel(
-                                model: _model.buttonModel2,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ButtonWidget(
-                                  content: 'Следующий шаг',
-                                  iconPresent: false,
-                                  iconEnd: Icon(
-                                    Icons.arrow_forward_rounded,
-                                    color:
-                                        FlutterFlowTheme.of(context).onPrimary,
-                                    size: 16.0,
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  FFAppState().currentStep =
+                                      FFAppState().currentStep + 1;
+                                  safeSetState(() {});
+                                  _model.currentstep = functions.findStepByID(
+                                      FFAppState()
+                                          .SelectedRecipe
+                                          .cookingSteps
+                                          .toList(),
+                                      widget.step);
+                                  safeSetState(() {});
+                                },
+                                child: wrapWithModel(
+                                  model: _model.buttonModel2,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: ButtonWidget(
+                                    content: 'Следующий шаг',
+                                    iconPresent: false,
+                                    iconEnd: Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onPrimary,
+                                      size: 16.0,
+                                    ),
+                                    iconEndPresent: true,
+                                    variant: 'primary',
+                                    size: 'medium',
+                                    fullWidth: true,
+                                    loading: false,
+                                    disabled: false,
                                   ),
-                                  iconEndPresent: true,
-                                  variant: 'primary',
-                                  size: 'medium',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: false,
                                 ),
                               ),
                             ),

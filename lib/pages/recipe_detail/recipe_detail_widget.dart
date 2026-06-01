@@ -56,8 +56,25 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).onPrimary,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
           title: Text(
-            ' ',
+            valueOrDefault<String>(
+              FFAppState().SelectedRecipe.name,
+              '6457675608452',
+            ),
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -65,7 +82,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
@@ -75,7 +92,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                 ),
           ),
           actions: [],
-          centerTitle: false,
+          centerTitle: true,
           elevation: 2.0,
         ),
         body: Stack(
@@ -105,39 +122,40 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                 CachedNetworkImage(
                                   fadeInDuration: Duration(milliseconds: 0),
                                   fadeOutDuration: Duration(milliseconds: 0),
-                                  imageUrl:
-                                      'https://dimg.dreamflow.cloud/v1/image/delicious%20cooked%20pasta%20with%20basil%20and%20tomatoes',
+                                  imageUrl: FFAppState().SelectedRecipe.picture,
                                   height: 300.0,
                                   fit: BoxFit.cover,
                                   alignment: Alignment(0.0, 0.0),
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(-1.0, -1.0),
-                                  child: Container(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(24.0),
-                                      child: Container(
-                                        child: FlutterFlowIconButton(
-                                          borderRadius: 9999.0,
-                                          buttonSize: 40.0,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .surface80,
-                                          icon: Icon(
-                                            Icons.arrow_back_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            size: 24.0,
+                                if (FFAppConstants.FalseValue)
+                                  Align(
+                                    alignment: AlignmentDirectional(-1.0, -1.0),
+                                    child: Container(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(24.0),
+                                        child: Container(
+                                          child: FlutterFlowIconButton(
+                                            borderRadius: 9999.0,
+                                            buttonSize: 40.0,
+                                            fillColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .surface80,
+                                            icon: Icon(
+                                              Icons.arrow_back_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                            onPressed: () async {
+                                              context.goNamed(
+                                                  RecipesWidget.routeName);
+                                            },
                                           ),
-                                          onPressed: () async {
-                                            context.goNamed(
-                                                RecipesWidget.routeName);
-                                          },
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
                                 Align(
                                   alignment: AlignmentDirectional(1.0, -1.0),
                                   child: Container(
@@ -164,10 +182,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           onPressed: () async {
                                             FFAppState()
                                                 .updateSelectedRecipeStruct(
-                                              (e) => e
-                                                ..isFavorite = !FFAppState()
-                                                    .SelectedRecipe
-                                                    .isFavorite,
+                                              (e) =>
+                                                  e..isFavorite = !e.isFavorite,
                                             );
                                             safeSetState(() {});
                                           },
@@ -395,7 +411,10 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               ),
                                         ),
                                         Text(
-                                          '12 позиций',
+                                          valueOrDefault<String>(
+                                            '${FFAppState().SelectedRecipe.products.length.toString()} продуктов',
+                                            '-1 продуктов',
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelLarge
                                               .override(
@@ -428,131 +447,102 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                         ),
                                       ],
                                     ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        wrapWithModel(
-                                          model: _model.ingredientItemModel1,
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: IngridientListWidget(
-                                            name: 'Спагетти',
-                                            qty: '250',
-                                            unit: 'г',
-                                          ),
-                                        ),
-                                        wrapWithModel(
-                                          model: _model.ingredientItemModel2,
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: IngridientListWidget(
-                                            name: 'Черри томаты',
-                                            qty: '150',
-                                            unit: 'г',
-                                          ),
-                                        ),
-                                        wrapWithModel(
-                                          model: _model.ingredientItemModel3,
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: IngridientListWidget(
-                                            name: 'Цукини',
-                                            qty: '1',
-                                            unit: 'шт',
-                                          ),
-                                        ),
-                                        wrapWithModel(
-                                          model: _model.ingredientItemModel4,
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: IngridientListWidget(
-                                            name: 'Пармезан',
-                                            qty: '50',
-                                            unit: 'г',
-                                          ),
-                                        ),
-                                        wrapWithModel(
-                                          model: _model.ingredientItemModel5,
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: IngridientListWidget(
-                                            name: 'Оливковое масло',
-                                            qty: '2',
-                                            unit: 'ст.л.',
-                                          ),
-                                        ),
-                                      ].divide(SizedBox(height: 0.0)),
+                                    Builder(
+                                      builder: (context) {
+                                        final product = FFAppState()
+                                            .SelectedRecipe
+                                            .products
+                                            .toList();
+
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: List.generate(
+                                              product.length, (productIndex) {
+                                            final productItem =
+                                                product[productIndex];
+                                            return wrapWithModel(
+                                              model: _model.ingredientItemModels
+                                                  .getModel(
+                                                productItem.id.toString(),
+                                                productIndex,
+                                              ),
+                                              updateCallback: () =>
+                                                  safeSetState(() {}),
+                                              child: IngridientListWidget(
+                                                key: Key(
+                                                  'Key138_${productItem.id.toString()}',
+                                                ),
+                                                product: productItem,
+                                              ),
+                                            );
+                                          }).divide(SizedBox(height: 0.0)),
+                                        );
+                                      },
                                     ),
                                   ].divide(SizedBox(height: 8.0)),
                                 ),
                                 Container(
-                                  height: 16.0,
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Text(
-                                      'Приготовление',
-                                      style: FlutterFlowTheme.of(context)
-                                          .titleLarge
-                                          .override(
-                                            font: GoogleFonts.manrope(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleLarge
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
+                                  height: 36.0,
+                                  child: Text(
+                                    'Приготовление',
+                                    style: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .override(
+                                          font: GoogleFonts.manrope(
                                             fontWeight: FontWeight.bold,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .titleLarge
                                                     .fontStyle,
-                                            lineHeight: 1.4,
                                           ),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.stepPreviewModel1,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: StepPreviewWidget(
-                                        hasTimer: false,
-                                        index: '1',
-                                        text:
-                                            'Поставьте воду для пасты закипать. Посолите по вкусу.',
-                                        timer: 'Timer',
-                                      ),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.stepPreviewModel2,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: StepPreviewWidget(
-                                        hasTimer: true,
-                                        index: '2',
-                                        text:
-                                            'Нарежьте овощи небольшими кубиками. Обжарьте цукини на оливковом масле до золотистого цвета.',
-                                        timer: '8',
-                                      ),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.stepPreviewModel3,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: StepPreviewWidget(
-                                        hasTimer: true,
-                                        index: '3',
-                                        text:
-                                            'Добавьте томаты и тушите еще 5 минут на медленном огне.',
-                                        timer: '5',
-                                      ),
-                                    ),
-                                  ].divide(SizedBox(height: 8.0)),
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleLarge
+                                                  .fontStyle,
+                                          lineHeight: 1.4,
+                                        ),
+                                  ),
+                                ),
+                                Builder(
+                                  builder: (context) {
+                                    final step = FFAppState()
+                                        .SelectedRecipe
+                                        .cookingSteps
+                                        .toList();
+
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: List.generate(step.length,
+                                          (stepIndex) {
+                                        final stepItem = step[stepIndex];
+                                        return wrapWithModel(
+                                          model:
+                                              _model.stepPreviewModels.getModel(
+                                            stepItem.queueId.toString(),
+                                            stepIndex,
+                                          ),
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: StepPreviewWidget(
+                                            key: Key(
+                                              'Key164_${stepItem.queueId.toString()}',
+                                            ),
+                                            step: stepItem,
+                                          ),
+                                        );
+                                      }).divide(SizedBox(height: 8.0)),
+                                    );
+                                  },
                                 ),
                               ].divide(SizedBox(height: 16.0)),
                             ),

@@ -10,20 +10,9 @@ export 'ingredient_checker_model.dart';
 class IngredientCheckerWidget extends StatefulWidget {
   const IngredientCheckerWidget({
     super.key,
-    bool? isChecked,
-    String? name,
-    String? quantity,
-    String? unit,
     this.product,
-  })  : this.isChecked = isChecked ?? true,
-        this.name = name ?? 'Спагетти',
-        this.quantity = quantity ?? '250',
-        this.unit = unit ?? 'г';
+  });
 
-  final bool isChecked;
-  final String name;
-  final String quantity;
-  final String unit;
   final ProductStruct? product;
 
   @override
@@ -85,8 +74,8 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                       children: [
                         Text(
                           valueOrDefault<String>(
-                            widget.name,
-                            'Спагетти',
+                            widget.product?.name,
+                            'Some product',
                           ),
                           maxLines: 1,
                           style: FlutterFlowTheme.of(context)
@@ -113,7 +102,10 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          '${widget.quantity} ${widget.unit}',
+                          valueOrDefault<String>(
+                            '${widget.product?.quantity.count.toString()} ${widget.product?.quantity.name}',
+                            '-1 kbnh',
+                          ),
                           style: FlutterFlowTheme.of(context)
                               .bodySmall
                               .override(
@@ -147,10 +139,7 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                       label: '⠀',
                       subtitle: '',
                       color: FlutterFlowTheme.of(context).primary,
-                      isChecked: valueOrDefault<bool>(
-                        widget.isChecked,
-                        true,
-                      ),
+                      isChecked: widget.product?.isChecked,
                       hasSubtitle: false,
                       disabled: false,
                     ),
