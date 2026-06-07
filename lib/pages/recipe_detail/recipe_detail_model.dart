@@ -1,7 +1,7 @@
-import '/components/button/button_widget.dart';
 import '/components/info_tag/info_tag_widget.dart';
-import '/components/ingridient_list/ingridient_list_widget.dart';
+import '/components/ingridient_preview/ingridient_preview_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'recipe_detail_widget.dart' show RecipeDetailWidget;
@@ -16,25 +16,22 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   late InfoTagModel infoTagModel2;
   // Model for InfoTag.
   late InfoTagModel infoTagModel3;
-  // Model for InfoTag.
-  late InfoTagModel infoTagModel4;
   // Models for IngredientItem.
-  late FlutterFlowDynamicModels<IngridientListModel> ingredientItemModels;
+  late FlutterFlowDynamicModels<IngridientPreviewModel> ingredientItemModels;
   // Models for StepPreview.
   late FlutterFlowDynamicModels<StepPreviewModel> stepPreviewModels;
   // Model for Button.
-  late ButtonModel buttonModel;
+  late UButtonModel buttonModel;
 
   @override
   void initState(BuildContext context) {
     infoTagModel1 = createModel(context, () => InfoTagModel());
     infoTagModel2 = createModel(context, () => InfoTagModel());
     infoTagModel3 = createModel(context, () => InfoTagModel());
-    infoTagModel4 = createModel(context, () => InfoTagModel());
     ingredientItemModels =
-        FlutterFlowDynamicModels(() => IngridientListModel());
+        FlutterFlowDynamicModels(() => IngridientPreviewModel());
     stepPreviewModels = FlutterFlowDynamicModels(() => StepPreviewModel());
-    buttonModel = createModel(context, () => ButtonModel());
+    buttonModel = createModel(context, () => UButtonModel());
   }
 
   @override
@@ -42,7 +39,6 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
     infoTagModel1.dispose();
     infoTagModel2.dispose();
     infoTagModel3.dispose();
-    infoTagModel4.dispose();
     ingredientItemModels.dispose();
     stepPreviewModels.dispose();
     buttonModel.dispose();

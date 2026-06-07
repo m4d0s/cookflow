@@ -1,5 +1,5 @@
 import '/archive/switch_component/switch_component_widget.dart';
-import '/components/button/button_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
@@ -206,7 +206,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                           wrapWithModel(
                             model: _model.buttonModel,
                             updateCallback: () => safeSetState(() {}),
-                            child: ButtonWidget(
+                            child: UButtonWidget(
                               content: widget.isRunning ? 'Пауза' : 'Старт',
                               iconPresent: false,
                               iconEndPresent: false,

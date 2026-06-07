@@ -1,5 +1,5 @@
 import '/backend/schema/structs/index.dart';
-import '/components/checkbox/checkbox_widget.dart';
+import '/components/u_checkbox/u_checkbox_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -142,7 +142,7 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                   wrapWithModel(
                     model: _model.checkboxModel,
                     updateCallback: () => safeSetState(() {}),
-                    child: CheckboxWidget(
+                    child: UCheckboxWidget(
                       label: '⠀',
                       subtitle: '',
                       color: FlutterFlowTheme.of(context).primary,

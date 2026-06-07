@@ -1,14 +1,16 @@
-import '/components/button/button_widget.dart';
 import '/components/info_tag/info_tag_widget.dart';
-import '/components/ingridient_list/ingridient_list_widget.dart';
+import '/components/ingridient_preview/ingridient_preview_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'recipe_detail_model.dart';
 export 'recipe_detail_model.dart';
@@ -146,7 +148,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                             ),
                                             onPressed: () async {
                                               context.goNamed(
-                                                  RecipesWidget.routeName);
+                                                  RecipeListWidget.routeName);
                                             },
                                           ),
                                         ),
@@ -224,10 +226,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      valueOrDefault<String>(
-                                        FFAppState().SelectedRecipe.name,
-                                        'No recipe entered',
-                                      ),
+                                      FFAppState().SelectedRecipe.name,
                                       style: FlutterFlowTheme.of(context)
                                           .headlineMedium
                                           .override(
@@ -250,10 +249,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           ),
                                     ),
                                     Text(
-                                      valueOrDefault<String>(
-                                        FFAppState().SelectedRecipe.info,
-                                        'Some unexisted recipe info',
-                                      ),
+                                      FFAppState().SelectedRecipe.info,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -281,86 +277,654 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                             lineHeight: 1.55,
                                           ),
                                     ),
+                                    Wrap(
+                                      spacing: 8.0,
+                                      runSpacing: 8.0,
+                                      alignment: WrapAlignment.start,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.start,
+                                      direction: Axis.horizontal,
+                                      runAlignment: WrapAlignment.start,
+                                      verticalDirection: VerticalDirection.down,
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        wrapWithModel(
+                                          model: _model.infoTagModel1,
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: InfoTagWidget(
+                                            icon: Icon(
+                                              Icons.groups_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 16.0,
+                                            ),
+                                            label: '${valueOrDefault<String>(
+                                              FFAppState()
+                                                  .SelectedRecipe
+                                                  .portions
+                                                  .toString(),
+                                              '-0',
+                                            )} порций',
+                                          ),
+                                        ),
+                                        wrapWithModel(
+                                          model: _model.infoTagModel2,
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: InfoTagWidget(
+                                            icon: Icon(
+                                              Icons.schedule_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 16.0,
+                                            ),
+                                            label:
+                                                '${FFAppState().SelectedRecipe.cookTime.toString()} мин',
+                                          ),
+                                        ),
+                                        wrapWithModel(
+                                          model: _model.infoTagModel3,
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: InfoTagWidget(
+                                            icon: Icon(
+                                              Icons.restaurant_menu_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 16.0,
+                                            ),
+                                            label: FFAppState()
+                                                .SelectedRecipe
+                                                .foodType
+                                                ?.name,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      height: 16.0,
+                                      thickness: 1.0,
+                                      indent: 0.0,
+                                      endIndent: 0.0,
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                    ),
                                   ].divide(SizedBox(height: 4.0)),
                                 ),
-                                Wrap(
-                                  spacing: 8.0,
-                                  runSpacing: 8.0,
-                                  alignment: WrapAlignment.start,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  direction: Axis.horizontal,
-                                  runAlignment: WrapAlignment.start,
-                                  verticalDirection: VerticalDirection.down,
-                                  clipBehavior: Clip.none,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    wrapWithModel(
-                                      model: _model.infoTagModel1,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: InfoTagWidget(
-                                        icon: Icon(
-                                          Icons.schedule_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 16.0,
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-1.0, 0.0),
+                                      child: Text(
+                                        'Пищевая ценность 1 порции',
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineMedium
+                                            .override(
+                                              font: GoogleFonts.manrope(
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .headlineMedium
+                                                        .fontStyle,
+                                              ),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              fontSize: 22.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .headlineMedium
+                                                      .fontStyle,
+                                              lineHeight: 1.3,
+                                            ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 16.0, 24.0, 0.0),
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          maxWidth:
+                                              MediaQuery.sizeOf(context).width *
+                                                  1.0,
                                         ),
-                                        label: valueOrDefault<String>(
-                                          '${FFAppState().SelectedRecipe.cookTime.toString()} мин',
-                                          '-1 часов',
+                                        decoration: BoxDecoration(),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Каллорийность',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        fontSize: 18.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.3,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  valueOrDefault<String>(
+                                                    FFAppState()
+                                                        .SelectedRecipe
+                                                        .nutritions
+                                                        .calories
+                                                        .toString(),
+                                                    '-0',
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        fontSize: 16.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.5,
+                                                      ),
+                                                ),
+                                              ].divide(SizedBox(height: 4.0)),
+                                            ),
+                                            CircularPercentIndicator(
+                                              percent: functions.procentCalc(
+                                                  FFAppState()
+                                                      .SelectedRecipe
+                                                      .nutritions
+                                                      .calories,
+                                                  FFAppState()
+                                                      .DailyGoal
+                                                      .calories),
+                                              radius: 30.0,
+                                              lineWidth: 6.0,
+                                              animation: true,
+                                              animateFromLastPercent: true,
+                                              progressColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .accent4,
+                                              center: Text(
+                                                formatNumber(
+                                                  functions.procentCalc(
+                                                      FFAppState()
+                                                          .SelectedRecipe
+                                                          .nutritions
+                                                          .protein,
+                                                      FFAppState()
+                                                          .DailyGoal
+                                                          .protein),
+                                                  formatType: FormatType.custom,
+                                                  format: '#0.0%',
+                                                  locale: '',
+                                                ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .headlineSmall
+                                                    .override(
+                                                      font: GoogleFonts.manrope(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineSmall
+                                                                .fontStyle,
+                                                      ),
+                                                      fontSize: 14.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.infoTagModel2,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: InfoTagWidget(
-                                        icon: Icon(
-                                          Icons.local_fire_department_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 16.0,
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0,
+                                          valueOrDefault<double>(
+                                            FFAppConstants.Padding1.toDouble(),
+                                            0.0,
+                                          ),
+                                          0.0,
+                                          0.0),
+                                      child: Container(
+                                        height: 1.0,
+                                        constraints: BoxConstraints(
+                                          maxHeight: 1.0,
                                         ),
-                                        label: valueOrDefault<String>(
-                                          '${FFAppState().SelectedRecipe.nutritions.calories.toString()} ккал',
-                                          '-0 ккала',
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                          shape: BoxShape.rectangle,
                                         ),
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.infoTagModel3,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: InfoTagWidget(
-                                        icon: Icon(
-                                          Icons.restaurant_menu_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 16.0,
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.all(valueOrDefault<double>(
+                                        FFAppConstants.Padding2.toDouble(),
+                                        0.0,
+                                      )),
+                                      child: Container(
+                                        decoration: BoxDecoration(),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Белки',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        fontSize: 14.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.3,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  '${FFAppState().SelectedRecipe.nutritions.protein.toString()}/${FFAppState().DailyGoal.protein.toString()}',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.5,
+                                                      ),
+                                                ),
+                                                LinearPercentIndicator(
+                                                  percent:
+                                                      functions.procentCalc(
+                                                          FFAppState()
+                                                              .SelectedRecipe
+                                                              .nutritions
+                                                              .protein,
+                                                          FFAppState()
+                                                              .DailyGoal
+                                                              .protein),
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.25,
+                                                  lineHeight: 6.0,
+                                                  animation: true,
+                                                  animateFromLastPercent: true,
+                                                  progressColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .accent4,
+                                                  barRadius: Radius.circular(
+                                                      FFAppConstants.Padding1
+                                                          .toDouble()),
+                                                  padding: EdgeInsets.zero,
+                                                ),
+                                              ].divide(SizedBox(
+                                                  height: FFAppConstants
+                                                      .Padding0.toDouble())),
+                                            ),
+                                            Container(
+                                              width: 1.0,
+                                              height: 24.0,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
+                                              ),
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Жиры',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        fontSize: 14.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.3,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  '${FFAppState().SelectedRecipe.nutritions.fats.toString()}/${FFAppState().DailyGoal.fats.toString()}',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.5,
+                                                      ),
+                                                ),
+                                                LinearPercentIndicator(
+                                                  percent:
+                                                      functions.procentCalc(
+                                                          FFAppState()
+                                                              .SelectedRecipe
+                                                              .nutritions
+                                                              .fats,
+                                                          FFAppState()
+                                                              .DailyGoal
+                                                              .fats),
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.25,
+                                                  lineHeight: 6.0,
+                                                  animation: true,
+                                                  animateFromLastPercent: true,
+                                                  progressColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .accent4,
+                                                  barRadius: Radius.circular(
+                                                      FFAppConstants.Padding1
+                                                          .toDouble()),
+                                                  padding: EdgeInsets.zero,
+                                                ),
+                                              ].divide(SizedBox(
+                                                  height: FFAppConstants
+                                                      .Padding0.toDouble())),
+                                            ),
+                                            Container(
+                                              width: 1.0,
+                                              height: 24.0,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
+                                              ),
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  'Углеводы',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        fontSize: 14.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.3,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  '${FFAppState().SelectedRecipe.nutritions.carbs.toString()}/${FFAppState().DailyGoal.carbs.toString()}',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleSmall
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .onPrimaryContainer,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                        lineHeight: 1.5,
+                                                      ),
+                                                ),
+                                                LinearPercentIndicator(
+                                                  percent:
+                                                      functions.procentCalc(
+                                                          FFAppState()
+                                                              .SelectedRecipe
+                                                              .nutritions
+                                                              .carbs,
+                                                          FFAppState()
+                                                              .DailyGoal
+                                                              .carbs),
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.25,
+                                                  lineHeight: 6.0,
+                                                  animation: true,
+                                                  animateFromLastPercent: true,
+                                                  progressColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .accent4,
+                                                  barRadius: Radius.circular(
+                                                      FFAppConstants.Padding1
+                                                          .toDouble()),
+                                                  padding: EdgeInsets.zero,
+                                                ),
+                                              ].divide(SizedBox(
+                                                  height: FFAppConstants
+                                                      .Padding0.toDouble())),
+                                            ),
+                                          ].divide(SizedBox(
+                                              width: FFAppConstants.Padding0
+                                                  .toDouble())),
                                         ),
-                                        label: valueOrDefault<String>(
-                                          FFAppState()
-                                              .SelectedRecipe
-                                              .foodType
-                                              ?.name,
-                                          'Демонически',
-                                        ),
-                                      ),
-                                    ),
-                                    wrapWithModel(
-                                      model: _model.infoTagModel4,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: InfoTagWidget(
-                                        icon: Icon(
-                                          Icons.groups_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 16.0,
-                                        ),
-                                        label: '${valueOrDefault<String>(
-                                          FFAppState()
-                                              .SelectedRecipe
-                                              .portions
-                                              .toString(),
-                                          '-0',
-                                        )} порций',
                                       ),
                                     ),
                                   ],
@@ -469,7 +1033,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               ),
                                               updateCallback: () =>
                                                   safeSetState(() {}),
-                                              child: IngridientListWidget(
+                                              child: IngridientPreviewWidget(
                                                 key: Key(
                                                   'Key138_${productItem.id.toString()}',
                                                 ),
@@ -595,12 +1159,12 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
                                       context.pushNamed(
-                                          IngredientCheckWidget.routeName);
+                                          CookingCheckWidget.routeName);
                                     },
                                     child: wrapWithModel(
                                       model: _model.buttonModel,
                                       updateCallback: () => safeSetState(() {}),
-                                      child: ButtonWidget(
+                                      child: UButtonWidget(
                                         content: 'Начать готовку',
                                         icon: Icon(
                                           Icons.play_arrow_rounded,
@@ -631,7 +1195,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   size: 24.0,
                                 ),
                                 onPressed: () async {
-                                  safeSetState(() {});
+                                  context.pushNamed(RecipeEditWidget.routeName);
                                 },
                               ),
                             ].divide(SizedBox(width: 16.0)),

@@ -1,6 +1,6 @@
 import '/archive/shopping_item/shopping_item_widget.dart';
 import '/archive/tab_group/tab_group_widget.dart';
-import '/components/button/button_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'shopping_list_widget.dart' show ShoppingListWidget;
 import 'package:flutter/material.dart';
@@ -27,9 +27,9 @@ class ShoppingListModel extends FlutterFlowModel<ShoppingListWidget> {
   // Model for ShoppingItem.
   late ShoppingItemModel shoppingItemModel8;
   // Model for Button.
-  late ButtonModel buttonModel1;
+  late UButtonModel buttonModel1;
   // Model for Button.
-  late ButtonModel buttonModel2;
+  late UButtonModel buttonModel2;
 
   @override
   void initState(BuildContext context) {
@@ -42,8 +42,8 @@ class ShoppingListModel extends FlutterFlowModel<ShoppingListWidget> {
     shoppingItemModel6 = createModel(context, () => ShoppingItemModel());
     shoppingItemModel7 = createModel(context, () => ShoppingItemModel());
     shoppingItemModel8 = createModel(context, () => ShoppingItemModel());
-    buttonModel1 = createModel(context, () => ButtonModel());
-    buttonModel2 = createModel(context, () => ButtonModel());
+    buttonModel1 = createModel(context, () => UButtonModel());
+    buttonModel2 = createModel(context, () => UButtonModel());
   }
 
   @override

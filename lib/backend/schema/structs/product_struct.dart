@@ -8,7 +8,7 @@ class ProductStruct extends BaseStruct {
   ProductStruct({
     int? id,
     String? name,
-    List<NutritionsStruct>? nutrition100g,
+    NutritionsStruct? nutrition100g,
     FoodQuantityStruct? quantity,
     bool? isChecked,
   })  : _id = id,
@@ -34,12 +34,12 @@ class ProductStruct extends BaseStruct {
   bool hasName() => _name != null;
 
   // "nutrition_100g" field.
-  List<NutritionsStruct>? _nutrition100g;
-  List<NutritionsStruct> get nutrition100g => _nutrition100g ?? const [];
-  set nutrition100g(List<NutritionsStruct>? val) => _nutrition100g = val;
+  NutritionsStruct? _nutrition100g;
+  NutritionsStruct get nutrition100g => _nutrition100g ?? NutritionsStruct();
+  set nutrition100g(NutritionsStruct? val) => _nutrition100g = val;
 
-  void updateNutrition100g(Function(List<NutritionsStruct>) updateFn) {
-    updateFn(_nutrition100g ??= []);
+  void updateNutrition100g(Function(NutritionsStruct) updateFn) {
+    updateFn(_nutrition100g ??= NutritionsStruct());
   }
 
   bool hasNutrition100g() => _nutrition100g != null;
@@ -65,10 +65,9 @@ class ProductStruct extends BaseStruct {
   static ProductStruct fromMap(Map<String, dynamic> data) => ProductStruct(
         id: castToType<int>(data['id']),
         name: data['name'] as String?,
-        nutrition100g: getStructList(
-          data['nutrition_100g'],
-          NutritionsStruct.fromMap,
-        ),
+        nutrition100g: data['nutrition_100g'] is NutritionsStruct
+            ? data['nutrition_100g']
+            : NutritionsStruct.maybeFromMap(data['nutrition_100g']),
         quantity: data['quantity'] is FoodQuantityStruct
             ? data['quantity']
             : FoodQuantityStruct.maybeFromMap(data['quantity']),
@@ -81,7 +80,7 @@ class ProductStruct extends BaseStruct {
   Map<String, dynamic> toMap() => {
         'id': _id,
         'name': _name,
-        'nutrition_100g': _nutrition100g?.map((e) => e.toMap()).toList(),
+        'nutrition_100g': _nutrition100g?.toMap(),
         'quantity': _quantity?.toMap(),
         'isChecked': _isChecked,
       }.withoutNulls;
@@ -99,7 +98,6 @@ class ProductStruct extends BaseStruct {
         'nutrition_100g': serializeParam(
           _nutrition100g,
           ParamType.DataStruct,
-          isList: true,
         ),
         'quantity': serializeParam(
           _quantity,
@@ -123,10 +121,10 @@ class ProductStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
-        nutrition100g: deserializeStructParam<NutritionsStruct>(
+        nutrition100g: deserializeStructParam(
           data['nutrition_100g'],
           ParamType.DataStruct,
-          true,
+          false,
           structBuilder: NutritionsStruct.fromSerializableMap,
         ),
         quantity: deserializeStructParam(
@@ -147,11 +145,10 @@ class ProductStruct extends BaseStruct {
 
   @override
   bool operator ==(Object other) {
-    const listEquality = ListEquality();
     return other is ProductStruct &&
         id == other.id &&
         name == other.name &&
-        listEquality.equals(nutrition100g, other.nutrition100g) &&
+        nutrition100g == other.nutrition100g &&
         quantity == other.quantity &&
         isChecked == other.isChecked;
   }
@@ -164,12 +161,14 @@ class ProductStruct extends BaseStruct {
 ProductStruct createProductStruct({
   int? id,
   String? name,
+  NutritionsStruct? nutrition100g,
   FoodQuantityStruct? quantity,
   bool? isChecked,
 }) =>
     ProductStruct(
       id: id,
       name: name,
+      nutrition100g: nutrition100g ?? NutritionsStruct(),
       quantity: quantity ?? FoodQuantityStruct(),
       isChecked: isChecked,
     );

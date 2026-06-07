@@ -14,12 +14,14 @@ class FoodQuantityStruct extends BaseStruct {
     bool? isAltQuantity,
     double? altTranslate,
     Quantity? altQuantity,
+    String? nutritionportion,
   })  : _name = name,
         _count = count,
         _quantity = quantity,
         _isAltQuantity = isAltQuantity,
         _altTranslate = altTranslate,
-        _altQuantity = altQuantity;
+        _altQuantity = altQuantity,
+        _nutritionportion = nutritionportion;
 
   // "name" field.
   String? _name;
@@ -68,6 +70,13 @@ class FoodQuantityStruct extends BaseStruct {
 
   bool hasAltQuantity() => _altQuantity != null;
 
+  // "nutritionportion" field.
+  String? _nutritionportion;
+  String get nutritionportion => _nutritionportion ?? '';
+  set nutritionportion(String? val) => _nutritionportion = val;
+
+  bool hasNutritionportion() => _nutritionportion != null;
+
   static FoodQuantityStruct fromMap(Map<String, dynamic> data) =>
       FoodQuantityStruct(
         name: data['name'] as String?,
@@ -80,6 +89,7 @@ class FoodQuantityStruct extends BaseStruct {
         altQuantity: data['altQuantity'] is Quantity
             ? data['altQuantity']
             : deserializeEnum<Quantity>(data['altQuantity']),
+        nutritionportion: data['nutritionportion'] as String?,
       );
 
   static FoodQuantityStruct? maybeFromMap(dynamic data) => data is Map
@@ -93,6 +103,7 @@ class FoodQuantityStruct extends BaseStruct {
         'isAltQuantity': _isAltQuantity,
         'altTranslate': _altTranslate,
         'altQuantity': _altQuantity?.serialize(),
+        'nutritionportion': _nutritionportion,
       }.withoutNulls;
 
   @override
@@ -120,6 +131,10 @@ class FoodQuantityStruct extends BaseStruct {
         'altQuantity': serializeParam(
           _altQuantity,
           ParamType.Enum,
+        ),
+        'nutritionportion': serializeParam(
+          _nutritionportion,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -155,6 +170,11 @@ class FoodQuantityStruct extends BaseStruct {
           ParamType.Enum,
           false,
         ),
+        nutritionportion: deserializeParam(
+          data['nutritionportion'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -168,12 +188,20 @@ class FoodQuantityStruct extends BaseStruct {
         quantity == other.quantity &&
         isAltQuantity == other.isAltQuantity &&
         altTranslate == other.altTranslate &&
-        altQuantity == other.altQuantity;
+        altQuantity == other.altQuantity &&
+        nutritionportion == other.nutritionportion;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([name, count, quantity, isAltQuantity, altTranslate, altQuantity]);
+  int get hashCode => const ListEquality().hash([
+        name,
+        count,
+        quantity,
+        isAltQuantity,
+        altTranslate,
+        altQuantity,
+        nutritionportion
+      ]);
 }
 
 FoodQuantityStruct createFoodQuantityStruct({
@@ -183,6 +211,7 @@ FoodQuantityStruct createFoodQuantityStruct({
   bool? isAltQuantity,
   double? altTranslate,
   Quantity? altQuantity,
+  String? nutritionportion,
 }) =>
     FoodQuantityStruct(
       name: name,
@@ -191,4 +220,5 @@ FoodQuantityStruct createFoodQuantityStruct({
       isAltQuantity: isAltQuantity,
       altTranslate: altTranslate,
       altQuantity: altQuantity,
+      nutritionportion: nutritionportion,
     );

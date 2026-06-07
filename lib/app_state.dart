@@ -25,6 +25,18 @@ class FFAppState extends ChangeNotifier {
       _DarkMode = await secureStorage.getBool('ff_DarkMode') ?? _DarkMode;
     });
     await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_DailyGoal') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_DailyGoal') ?? '{}';
+          _DailyGoal =
+              NutritionsStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
+    });
+    await _safeInitAsync(() async {
       _AllDailyPlans = (await secureStorage.getStringList('ff_AllDailyPlans'))
               ?.map((x) {
                 try {
@@ -137,6 +149,22 @@ class FFAppState extends ChangeNotifier {
 
   void deleteDarkMode() {
     secureStorage.delete(key: 'ff_DarkMode');
+  }
+
+  NutritionsStruct _DailyGoal = NutritionsStruct();
+  NutritionsStruct get DailyGoal => _DailyGoal;
+  set DailyGoal(NutritionsStruct value) {
+    _DailyGoal = value;
+    secureStorage.setString('ff_DailyGoal', value.serialize());
+  }
+
+  void deleteDailyGoal() {
+    secureStorage.delete(key: 'ff_DailyGoal');
+  }
+
+  void updateDailyGoalStruct(Function(NutritionsStruct) updateFn) {
+    updateFn(_DailyGoal);
+    secureStorage.setString('ff_DailyGoal', _DailyGoal.serialize());
   }
 
   List<DailyPlanStruct> _AllDailyPlans = [];
@@ -374,20 +402,16 @@ class FFAppState extends ChangeNotifier {
   }
 
   List<FoodQuantityStruct> _QuantityList = [
-    FoodQuantityStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"г\",\"quantity\":\"g\"}')),
-    FoodQuantityStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"кг\",\"quantity\":\"kg\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"ст.л.\",\"quantity\":\"sp\",\"isAltQuantity\":\"true\",\"altTranslate\":\"15.0\",\"altQuantity\":\"ml\"}')),
-    FoodQuantityStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"л\",\"quantity\":\"l\"}')),
-    FoodQuantityStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"мл\",\"quantity\":\"ml\"}')),
+        '{\"name\":\"г\",\"quantity\":\"g\",\"nutritionportion\":\"100г\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"ч.л.\",\"quantity\":\"lsp\",\"isAltQuantity\":\"true\",\"altTranslate\":\"5.0\",\"altQuantity\":\"ml\"}')),
-    FoodQuantityStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"шт.\",\"quantity\":\"pi\"}'))
+        '{\"name\":\"кг\",\"quantity\":\"kg\",\"nutritionportion\":\"100г\"}')),
+    FoodQuantityStruct.fromSerializableMap(jsonDecode(
+        '{\"name\":\"л\",\"quantity\":\"l\",\"nutritionportion\":\"100мл\"}')),
+    FoodQuantityStruct.fromSerializableMap(jsonDecode(
+        '{\"name\":\"мл\",\"quantity\":\"ml\",\"nutritionportion\":\"100мл\"}')),
+    FoodQuantityStruct.fromSerializableMap(jsonDecode(
+        '{\"name\":\"шт.\",\"quantity\":\"pi\",\"nutritionportion\":\"1 шт\"}'))
   ];
   List<FoodQuantityStruct> get QuantityList => _QuantityList;
   set QuantityList(List<FoodQuantityStruct> value) {

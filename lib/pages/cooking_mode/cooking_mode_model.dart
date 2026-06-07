@@ -1,7 +1,7 @@
 import '/backend/schema/structs/index.dart';
-import '/components/button/button_widget.dart';
-import '/components/progress_step/progress_step_widget.dart';
+import '/components/step_counter/step_counter_widget.dart';
 import '/components/step_timer/step_timer_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'cooking_mode_widget.dart' show CookingModeWidget;
@@ -18,20 +18,20 @@ class CookingModeModel extends FlutterFlowModel<CookingModeWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Models for ProgressStep.
-  late FlutterFlowDynamicModels<ProgressStepModel> progressStepModels;
+  late FlutterFlowDynamicModels<StepCounterModel> progressStepModels;
   // Model for StepTimer.
   late StepTimerModel stepTimerModel;
   // Model for Button.
-  late ButtonModel buttonModel1;
+  late UButtonModel buttonModel1;
   // Model for Button.
-  late ButtonModel buttonModel2;
+  late UButtonModel buttonModel2;
 
   @override
   void initState(BuildContext context) {
-    progressStepModels = FlutterFlowDynamicModels(() => ProgressStepModel());
+    progressStepModels = FlutterFlowDynamicModels(() => StepCounterModel());
     stepTimerModel = createModel(context, () => StepTimerModel());
-    buttonModel1 = createModel(context, () => ButtonModel());
-    buttonModel2 = createModel(context, () => ButtonModel());
+    buttonModel1 = createModel(context, () => UButtonModel());
+    buttonModel2 = createModel(context, () => UButtonModel());
   }
 
   @override

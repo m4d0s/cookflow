@@ -49,7 +49,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
               ),
             )
-          : RecipesWidget(),
+          : RecipeListWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -67,12 +67,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     ),
                   ),
                 )
-              : RecipesWidget(),
+              : RecipeListWidget(),
         ),
         FFRoute(
-          name: RecipesWidget.routeName,
-          path: RecipesWidget.routePath,
-          builder: (context, params) => RecipesWidget(),
+          name: RecipeListWidget.routeName,
+          path: RecipeListWidget.routePath,
+          builder: (context, params) => RecipeListWidget(),
         ),
         FFRoute(
           name: RecipeDetailWidget.routeName,
@@ -80,14 +80,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => RecipeDetailWidget(),
         ),
         FFRoute(
-          name: AddEditRecipeWidget.routeName,
-          path: AddEditRecipeWidget.routePath,
-          builder: (context, params) => AddEditRecipeWidget(),
+          name: RecipeEditWidget.routeName,
+          path: RecipeEditWidget.routePath,
+          builder: (context, params) => RecipeEditWidget(),
         ),
         FFRoute(
-          name: IngredientCheckWidget.routeName,
-          path: IngredientCheckWidget.routePath,
-          builder: (context, params) => IngredientCheckWidget(),
+          name: CookingCheckWidget.routeName,
+          path: CookingCheckWidget.routePath,
+          builder: (context, params) => CookingCheckWidget(),
         ),
         FFRoute(
           name: CookingModeWidget.routeName,
@@ -115,14 +115,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AddToPlanWidget(),
         ),
         FFRoute(
-          name: SettingsPageWidget.routeName,
-          path: SettingsPageWidget.routePath,
-          builder: (context, params) => SettingsPageWidget(),
+          name: SettingsWidget.routeName,
+          path: SettingsWidget.routePath,
+          builder: (context, params) => SettingsWidget(),
         ),
         FFRoute(
-          name: RecipesCopyWidget.routeName,
-          path: RecipesCopyWidget.routePath,
-          builder: (context, params) => RecipesCopyWidget(),
+          name: RecipeChooseWidget.routeName,
+          path: RecipeChooseWidget.routePath,
+          builder: (context, params) => RecipeChooseWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -1,6 +1,6 @@
 import '/backend/schema/enums/enums.dart';
-import '/components/recipe_list_item/recipe_list_item_widget.dart';
-import '/components/text_field/text_field_widget.dart';
+import '/components/recipe_card1/recipe_card1_widget.dart';
+import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -113,9 +113,9 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                           0.0,
                           0.0),
                       child: wrapWithModel(
-                        model: _model.textFieldModel,
+                        model: _model.uTextFieldModel,
                         updateCallback: () => safeSetState(() {}),
-                        child: TextFieldWidget(
+                        child: UTextFieldWidget(
                           variant: Textfield.ghost,
                         ),
                       ),
@@ -154,12 +154,12 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                   context.pushNamed(MealPlanWidget.routeName);
                                 },
                                 child: wrapWithModel(
-                                  model: _model.recipeListItemModels.getModel(
+                                  model: _model.recipeCard1Models.getModel(
                                     recipeItem.id.toString(),
                                     recipeIndex,
                                   ),
                                   updateCallback: () => safeSetState(() {}),
-                                  child: RecipeListItemWidget(
+                                  child: RecipeCard1Widget(
                                     key: Key(
                                       'Keyzxr_${recipeItem.id.toString()}',
                                     ),

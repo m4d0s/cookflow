@@ -1,6 +1,6 @@
 import '/archive/shopping_item/shopping_item_widget.dart';
 import '/archive/tab_group/tab_group_widget.dart';
-import '/components/button/button_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -440,7 +440,7 @@ class _ShoppingListWidgetState extends State<ShoppingListWidget> {
                             child: wrapWithModel(
                               model: _model.buttonModel1,
                               updateCallback: () => safeSetState(() {}),
-                              child: ButtonWidget(
+                              child: UButtonWidget(
                                 content: 'Поделиться',
                                 icon: Icon(
                                   Icons.share_rounded,
@@ -463,7 +463,7 @@ class _ShoppingListWidgetState extends State<ShoppingListWidget> {
                             child: wrapWithModel(
                               model: _model.buttonModel2,
                               updateCallback: () => safeSetState(() {}),
-                              child: ButtonWidget(
+                              child: UButtonWidget(
                                 content: 'Добавить товар',
                                 icon: Icon(
                                   Icons.add_rounded,

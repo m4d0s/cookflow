@@ -1,4 +1,4 @@
-import '/components/checkbox/checkbox_widget.dart';
+import '/components/u_checkbox/u_checkbox_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'ingredient_checker_widget.dart' show IngredientCheckerWidget;
 import 'package:flutter/material.dart';
@@ -7,11 +7,11 @@ class IngredientCheckerModel extends FlutterFlowModel<IngredientCheckerWidget> {
   ///  State fields for stateful widgets in this component.
 
   // Model for Checkbox.
-  late CheckboxModel checkboxModel;
+  late UCheckboxModel checkboxModel;
 
   @override
   void initState(BuildContext context) {
-    checkboxModel = createModel(context, () => CheckboxModel());
+    checkboxModel = createModel(context, () => UCheckboxModel());
   }
 
   @override

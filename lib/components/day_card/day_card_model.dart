@@ -1,5 +1,5 @@
-import '/components/button/button_widget.dart';
-import '/components/recipe_item_mini/recipe_item_mini_widget.dart';
+import '/components/recipe_card_mini/recipe_card_mini_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'day_card_widget.dart' show DayCardWidget;
 import 'package:flutter/material.dart';
@@ -11,21 +11,21 @@ class DayCardModel extends FlutterFlowModel<DayCardWidget> {
 
   ///  State fields for stateful widgets in this component.
 
-  // Models for RecipeItemMini dynamic component.
-  late FlutterFlowDynamicModels<RecipeItemMiniModel> recipeItemMiniModels;
+  // Models for RecipeCardMini dynamic component.
+  late FlutterFlowDynamicModels<RecipeCardMiniModel> recipeCardMiniModels;
   // Model for Button.
-  late ButtonModel buttonModel;
+  late UButtonModel buttonModel;
 
   @override
   void initState(BuildContext context) {
-    recipeItemMiniModels =
-        FlutterFlowDynamicModels(() => RecipeItemMiniModel());
-    buttonModel = createModel(context, () => ButtonModel());
+    recipeCardMiniModels =
+        FlutterFlowDynamicModels(() => RecipeCardMiniModel());
+    buttonModel = createModel(context, () => UButtonModel());
   }
 
   @override
   void dispose() {
-    recipeItemMiniModels.dispose();
+    recipeCardMiniModels.dispose();
     buttonModel.dispose();
   }
 }

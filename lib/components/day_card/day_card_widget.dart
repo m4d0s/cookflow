@@ -1,9 +1,10 @@
 import '/backend/schema/structs/index.dart';
-import '/components/button/button_widget.dart';
-import '/components/recipe_item_mini/recipe_item_mini_widget.dart';
+import '/components/recipe_card_mini/recipe_card_mini_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,10 +78,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            valueOrDefault<String>(
-                              dateTimeFormat("yMMMd", widget.dayLog?.date),
-                              'Yesterday',
-                            ),
+                            functions.dayDetect012(widget.dayLog!.date!),
                             style: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
@@ -171,16 +169,15 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                                     List.generate(meal.length, (mealIndex) {
                                   final mealItem = meal[mealIndex];
                                   return wrapWithModel(
-                                    model: _model.recipeItemMiniModels.getModel(
+                                    model: _model.recipeCardMiniModels.getModel(
                                       mealItem.date!.toString(),
                                       mealIndex,
                                     ),
                                     updateCallback: () => safeSetState(() {}),
-                                    child: RecipeItemMiniWidget(
+                                    child: RecipeCardMiniWidget(
                                       key: Key(
                                         'Keywtr_${mealItem.date!.toString()}',
                                       ),
-                                      recipe: mealItem.meal,
                                     ),
                                   );
                                 }),
@@ -193,11 +190,14 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              FFAppState().selectedDay = widget.dayLog!;
+                              FFAppState().selectedDay = DailyPlanStruct(
+                                date: dateTimeFromSecondsSinceEpoch(
+                                    getCurrentTimestamp.secondsSinceEpoch),
+                              );
                               safeSetState(() {});
 
                               context.pushNamed(
-                                RecipesCopyWidget.routeName,
+                                RecipeChooseWidget.routeName,
                                 extra: <String, dynamic>{
                                   '__transition_info__': TransitionInfo(
                                     hasTransition: true,
@@ -210,7 +210,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                             child: wrapWithModel(
                               model: _model.buttonModel,
                               updateCallback: () => safeSetState(() {}),
-                              child: ButtonWidget(
+                              child: UButtonWidget(
                                 content: 'Добавить рецепт',
                                 icon: Icon(
                                   Icons.add_rounded,

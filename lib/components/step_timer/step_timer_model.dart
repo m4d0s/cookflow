@@ -1,5 +1,5 @@
 import '/archive/switch_component/switch_component_widget.dart';
-import '/components/button/button_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -19,12 +19,12 @@ class StepTimerModel extends FlutterFlowModel<StepTimerWidget> {
       FlutterFlowTimerController(StopWatchTimer(mode: StopWatchMode.countDown));
 
   // Model for Button.
-  late ButtonModel buttonModel;
+  late UButtonModel buttonModel;
 
   @override
   void initState(BuildContext context) {
     switchComponentModel = createModel(context, () => SwitchComponentModel());
-    buttonModel = createModel(context, () => ButtonModel());
+    buttonModel = createModel(context, () => UButtonModel());
   }
 
   @override

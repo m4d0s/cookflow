@@ -1,5 +1,5 @@
 import '/backend/schema/enums/enums.dart';
-import '/components/text_field/text_field_widget.dart';
+import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -59,7 +59,7 @@ class _DynamicInputRowWidgetState extends State<DynamicInputRowWidget> {
               child: wrapWithModel(
                 model: _model.textFieldModel,
                 updateCallback: () => safeSetState(() {}),
-                child: TextFieldWidget(
+                child: UTextFieldWidget(
                   hint: valueOrDefault<String>(
                     widget.hint,
                     'Напр: 200г Муки',

@@ -1,6 +1,6 @@
-import '/components/button/button_widget.dart';
-import '/components/progress_step/progress_step_widget.dart';
+import '/components/step_counter/step_counter_widget.dart';
 import '/components/step_timer/step_timer_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -217,7 +217,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                         stepIndex,
                                       ),
                                       updateCallback: () => safeSetState(() {}),
-                                      child: ProgressStepWidget(
+                                      child: StepCounterWidget(
                                         key: Key(
                                           'Key404_${stepItem.queueId.toString()}',
                                         ),
@@ -440,7 +440,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                               child: wrapWithModel(
                                 model: _model.buttonModel1,
                                 updateCallback: () => safeSetState(() {}),
-                                child: ButtonWidget(
+                                child: UButtonWidget(
                                   content: 'Назад',
                                   icon: Icon(
                                     Icons.arrow_back_rounded,
@@ -482,7 +482,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 child: wrapWithModel(
                                   model: _model.buttonModel2,
                                   updateCallback: () => safeSetState(() {}),
-                                  child: ButtonWidget(
+                                  child: UButtonWidget(
                                     content: 'Следующий шаг',
                                     iconPresent: false,
                                     iconEnd: Icon(

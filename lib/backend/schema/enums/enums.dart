@@ -8,12 +8,14 @@ enum Food {
   dessert,
   snack,
   baking,
+  all,
 }
 
 enum Hardness {
   easy,
   medium,
   hard,
+  all,
 }
 
 enum Picture {
