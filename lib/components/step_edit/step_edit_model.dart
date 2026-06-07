@@ -4,10 +4,6 @@ import 'step_edit_widget.dart' show StepEditWidget;
 import 'package:flutter/material.dart';
 
 class StepEditModel extends FlutterFlowModel<StepEditWidget> {
-  ///  Local state fields for this component.
-
-  bool isDeleted = false;
-
   ///  State fields for stateful widgets in this component.
 
   // Stores action output result for [Custom Action - recallStepIds] action in Row widget.

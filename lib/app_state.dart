@@ -487,6 +487,12 @@ class FFAppState extends ChangeNotifier {
     _SearchFavorite = value;
   }
 
+  bool _isChanging = false;
+  bool get isChanging => _isChanging;
+  set isChanging(bool value) {
+    _isChanging = value;
+  }
+
   RecipeStruct _SelectedRecipe = RecipeStruct();
   RecipeStruct get SelectedRecipe => _SelectedRecipe;
   set SelectedRecipe(RecipeStruct value) {

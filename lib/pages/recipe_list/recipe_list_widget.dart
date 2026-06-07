@@ -63,7 +63,8 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            FFAppState().SelectedRecipe = FFAppState().EmptyRecipe;
+            FFAppState().SelectedRecipe = RecipeStruct();
+            FFAppState().isChanging = false;
             safeSetState(() {});
 
             context.pushNamed(RecipeEditWidget.routeName);

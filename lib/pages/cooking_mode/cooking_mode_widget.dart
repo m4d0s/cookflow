@@ -118,14 +118,53 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 24.0, 16.0, 24.0),
+                    padding: EdgeInsets.all(valueOrDefault<double>(
+                      FFAppConstants.Padding1.toDouble(),
+                      0.0,
+                    )),
                     child: Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          if (FFAppConstants.FalseValue)
+                            Builder(
+                              builder: (context) {
+                                final step = FFAppState()
+                                    .SelectedRecipe
+                                    .cookingSteps
+                                    .toList();
+
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children:
+                                      List.generate(step.length, (stepIndex) {
+                                    final stepItem = step[stepIndex];
+                                    return Expanded(
+                                      flex: 1,
+                                      child: wrapWithModel(
+                                        model:
+                                            _model.progressStepModels.getModel(
+                                          stepItem.queueId.toString(),
+                                          stepIndex,
+                                        ),
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: StepCounterWidget(
+                                          key: Key(
+                                            'Key404_${stepItem.queueId.toString()}',
+                                          ),
+                                          step: stepItem.queueId,
+                                        ),
+                                      ),
+                                    );
+                                  }).divide(SizedBox(width: 0.0)),
+                                );
+                              },
+                            ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,7 +193,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 children: [
                                   Text(
                                     valueOrDefault<String>(
-                                      'Шаг -0 из ${FFAppState().SelectedRecipe.cookingSteps.length.toString()}',
+                                      'Шаг ${FFAppState().currentStep.toString()} из ${FFAppState().SelectedRecipe.cookingSteps.length.toString()}',
                                       'Шаг -1 из -0',
                                     ),
                                     style: FlutterFlowTheme.of(context)
@@ -194,40 +233,6 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                   },
                                 ),
                             ],
-                          ),
-                          Builder(
-                            builder: (context) {
-                              final step = FFAppState()
-                                  .SelectedRecipe
-                                  .cookingSteps
-                                  .toList();
-
-                              return Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children:
-                                    List.generate(step.length, (stepIndex) {
-                                  final stepItem = step[stepIndex];
-                                  return Expanded(
-                                    flex: 1,
-                                    child: wrapWithModel(
-                                      model: _model.progressStepModels.getModel(
-                                        stepItem.queueId.toString(),
-                                        stepIndex,
-                                      ),
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: StepCounterWidget(
-                                        key: Key(
-                                          'Key404_${stepItem.queueId.toString()}',
-                                        ),
-                                        step: stepItem.queueId,
-                                      ),
-                                    ),
-                                  );
-                                }).divide(SizedBox(width: 0.0)),
-                              );
-                            },
                           ),
                         ].divide(SizedBox(height: 16.0)),
                       ),
@@ -497,8 +502,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                     fullWidth: true,
                                     loading: false,
                                     disabled: false,
-                                    maincolor:
-                                        FlutterFlowTheme.of(context).onPrimary,
+                                    maincolor: FlutterFlowTheme.of(context)
+                                        .primaryText,
                                   ),
                                 ),
                               ),

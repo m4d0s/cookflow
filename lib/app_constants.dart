@@ -10,4 +10,5 @@ abstract class FFAppConstants {
   static const int Padding0 = 4;
   static const int Padding1 = 8;
   static const int Padding2 = 16;
+  static const int BackupVersion = 1;
 }

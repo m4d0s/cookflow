@@ -51,99 +51,103 @@ class _StepEditWidgetState extends State<StepEditWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return Visibility(
-      visible: !_model.isDeleted,
-      child: Container(
-        decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
-          borderRadius: BorderRadius.circular(valueOrDefault<double>(
-            FFAppConstants.Padding2.toDouble(),
-            0.0,
-          )),
-          shape: BoxShape.rectangle,
-          border: Border.all(
-            color: FlutterFlowTheme.of(context).alternate,
-            width: 1.0,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).secondaryBackground,
+        borderRadius: BorderRadius.circular(valueOrDefault<double>(
+          FFAppConstants.Padding1.toDouble(),
+          0.0,
+        )),
+        shape: BoxShape.rectangle,
+        border: Border.all(
+          color: FlutterFlowTheme.of(context).alternate,
+          width: 1.0,
         ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Шаг ${widget.step?.queueId.toString()}',
-                      style: FlutterFlowTheme.of(context).labelLarge.override(
-                            font: GoogleFonts.manrope(
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .labelLarge
-                                  .fontStyle,
-                            ),
-                            color: FlutterFlowTheme.of(context).onSurface,
-                            letterSpacing: 0.0,
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Шаг ${widget.step?.queueId.toString()}',
+                    style: FlutterFlowTheme.of(context).labelLarge.override(
+                          font: GoogleFonts.manrope(
                             fontWeight: FontWeight.bold,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .labelLarge
                                 .fontStyle,
-                            lineHeight: 1.4,
                           ),
-                    ),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        _model.isDeleted = true;
-                        // Remove item at last index
-                        FFAppState().updateSelectedRecipeStruct(
-                          (e) => e
-                            ..updateCookingSteps(
-                              (e) => e.removeAt(widget.step!.queueId),
-                            ),
-                        );
-                        // Insert item at new index
-                        FFAppState().updateSelectedRecipeStruct(
-                          (e) => e
-                            ..updateCookingSteps(
-                              (e) => e.insert(
-                                  functions.returnIndexCollide(
-                                      widget.step!.queueId,
-                                      -1,
-                                      FFAppState()
-                                          .SelectedRecipe
-                                          .cookingSteps
-                                          .length),
-                                  widget.step!),
-                            ),
-                        );
-                        // Renew QueueIds
-                        _model.lastID = await actions.recallStepIds(
-                          FFAppState().SelectedRecipe.cookingSteps.toList(),
-                        );
-                        // Rebuild
-                        _model.updatePage(() {});
+                          color: FlutterFlowTheme.of(context).onSurface,
+                          letterSpacing: 0.0,
+                          fontWeight: FontWeight.bold,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                          lineHeight: 1.4,
+                        ),
+                  ),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      // Remove item at last index
+                      FFAppState().updateSelectedRecipeStruct(
+                        (e) => e
+                          ..updateCookingSteps(
+                            (e) => e.removeAt(widget.step!.queueId),
+                          ),
+                      );
+                      // Insert item at new index
+                      FFAppState().updateSelectedRecipeStruct(
+                        (e) => e
+                          ..updateCookingSteps(
+                            (e) => e.insert(
+                                functions.returnIndexCollide(
+                                    widget.step!.queueId,
+                                    -1,
+                                    FFAppState()
+                                        .SelectedRecipe
+                                        .cookingSteps
+                                        .length),
+                                widget.step!),
+                          ),
+                      );
+                      // Renew QueueIds
+                      _model.lastID = await actions.recallStepIds(
+                        FFAppState().SelectedRecipe.cookingSteps.toList(),
+                      );
+                      // Rebuild
+                      _model.updatePage(() {});
 
-                        safeSetState(() {});
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            'Поднять',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.inter(
+                      safeSetState(() {});
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Поднять',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -151,112 +155,94 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                          Icon(
-                            Icons.arrow_upward,
-                            color: FlutterFlowTheme.of(context).primary,
-                            size: 20.0,
-                          ),
-                        ].divide(SizedBox(
-                            width: FFAppConstants.Padding0.toDouble())),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(
-                        color: FlutterFlowTheme.of(context).alternate,
-                      ),
-                    ),
-                    child: Stack(
-                      alignment: AlignmentDirectional(0.0, 0.0),
-                      children: [
+                        ),
                         Icon(
-                          Icons.add_a_photo,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 48.0,
+                          Icons.arrow_upward,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 20.0,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            'https://images.unsplash.com/photo-1560986752-2e31d9507413?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxmaXJld29ya3N8ZW58MHx8fHwxNzgwMjc2MzgwfDA&ixlib=rb-4.1.0&q=80&w=400',
-                            width: 300.0,
-                            height: 200.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ],
+                      ].divide(
+                          SizedBox(width: FFAppConstants.Padding0.toDouble())),
                     ),
                   ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: wrapWithModel(
-                        model: _model.uTextFieldModel1,
-                        updateCallback: () => safeSetState(() {}),
-                        child: UTextFieldWidget(
-                          hint: 'Опишите шаг готовки...',
-                          leadingIcon: Icon(
-                            Icons.edit,
-                          ),
-                          variant: Textfield.ghost,
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(
+                      color: FlutterFlowTheme.of(context).alternate,
+                    ),
+                  ),
+                  child: Stack(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    children: [
+                      Icon(
+                        Icons.add_a_photo,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 48.0,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          'https://images.unsplash.com/photo-1560986752-2e31d9507413?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxmaXJld29ya3N8ZW58MHx8fHwxNzgwMjc2MzgwfDA&ixlib=rb-4.1.0&q=80&w=400',
+                          width: 300.0,
+                          height: 200.0,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: wrapWithModel(
-                        model: _model.uTextFieldModel2,
-                        updateCallback: () => safeSetState(() {}),
-                        child: UTextFieldWidget(
-                          hint: 'Добавьте совет (необязательно)',
-                          leadingIcon: Icon(
-                            Icons.auto_awesome_rounded,
-                          ),
-                          variant: Textfield.ghost,
+                    ],
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: wrapWithModel(
+                      model: _model.uTextFieldModel1,
+                      updateCallback: () => safeSetState(() {}),
+                      child: UTextFieldWidget(
+                        hint: 'Опишите шаг готовки...',
+                        leadingIcon: Icon(
+                          Icons.edit,
                         ),
+                        variant: Textfield.ghost,
                       ),
                     ),
-                  ].divide(
-                      SizedBox(height: FFAppConstants.Padding0.toDouble())),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.timer_sharp,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24.0,
+                  ),
+                  Expanded(
+                    child: wrapWithModel(
+                      model: _model.uTextFieldModel2,
+                      updateCallback: () => safeSetState(() {}),
+                      child: UTextFieldWidget(
+                        hint: 'Добавьте совет (необязательно)',
+                        leadingIcon: Icon(
+                          Icons.auto_awesome_rounded,
+                        ),
+                        variant: Textfield.ghost,
+                      ),
                     ),
-                    Text(
-                      'Таймер (мин)',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                            letterSpacing: 0.0,
+                  ),
+                ].divide(SizedBox(height: FFAppConstants.Padding0.toDouble())),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.timer_sharp,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 24.0,
+                  ),
+                  Text(
+                    'Таймер (мин)',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.inter(
                             fontWeight: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontWeight,
@@ -264,91 +250,95 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                 .bodyMedium
                                 .fontStyle,
                           ),
+                          letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
+                  ),
+                  Container(
+                    width: 100.0,
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(8.0),
+                      shape: BoxShape.rectangle,
                     ),
-                    Container(
-                      width: 100.0,
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(8.0),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: FlutterFlowCountController(
-                        decrementIconBuilder: (enabled) => Icon(
-                          Icons.remove_rounded,
-                          color: enabled
-                              ? FlutterFlowTheme.of(context).secondaryText
-                              : FlutterFlowTheme.of(context).alternate,
-                          size: 24.0,
-                        ),
-                        incrementIconBuilder: (enabled) => Icon(
-                          Icons.add_rounded,
-                          color: enabled
-                              ? FlutterFlowTheme.of(context).primary
-                              : FlutterFlowTheme.of(context).alternate,
-                          size: 24.0,
-                        ),
-                        countBuilder: (count) => Text(
-                          count.toString(),
-                          style:
-                              FlutterFlowTheme.of(context).titleLarge.override(
-                                    font: GoogleFonts.manrope(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleLarge
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleLarge
-                                          .fontStyle,
-                                    ),
-                                    fontSize: 16.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .fontStyle,
-                                  ),
-                        ),
-                        count: _model.countControllerValue ??= 1,
-                        updateCount: (count) => safeSetState(
-                            () => _model.countControllerValue = count),
-                        stepSize: 1,
-                        minimum: 1,
-                        maximum: 999,
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
-                      ),
-                    ),
-                    FlutterFlowIconButton(
-                      borderRadius: 8.0,
-                      buttonSize: 40.0,
-                      fillColor: Colors.transparent,
-                      icon: Icon(
-                        Icons.delete_outline_rounded,
-                        color: FlutterFlowTheme.of(context).error,
+                    child: FlutterFlowCountController(
+                      decrementIconBuilder: (enabled) => Icon(
+                        Icons.remove_rounded,
+                        color: enabled
+                            ? FlutterFlowTheme.of(context).secondaryText
+                            : FlutterFlowTheme.of(context).alternate,
                         size: 24.0,
                       ),
-                      onPressed: () async {
-                        _model.isDeleted = true;
-                        FFAppState().updateSelectedRecipeStruct(
-                          (e) => e
-                            ..updateCookingSteps(
-                              (e) => e.removeAt(widget.step!.queueId),
+                      incrementIconBuilder: (enabled) => Icon(
+                        Icons.add_rounded,
+                        color: enabled
+                            ? FlutterFlowTheme.of(context).primary
+                            : FlutterFlowTheme.of(context).alternate,
+                        size: 24.0,
+                      ),
+                      countBuilder: (count) => Text(
+                        count.toString(),
+                        style: FlutterFlowTheme.of(context).titleLarge.override(
+                              font: GoogleFonts.manrope(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .fontStyle,
+                              ),
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleLarge
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleLarge
+                                  .fontStyle,
                             ),
-                        );
-                        _model.lastID1 = await actions.recallStepIds(
-                          FFAppState().SelectedRecipe.cookingSteps.toList(),
-                        );
-                        _model.updatePage(() {});
-
-                        safeSetState(() {});
-                      },
+                      ),
+                      count: _model.countControllerValue ??= 1,
+                      updateCount: (count) => safeSetState(
+                          () => _model.countControllerValue = count),
+                      stepSize: 1,
+                      minimum: 1,
+                      maximum: 999,
+                      contentPadding:
+                          EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
                     ),
-                  ].divide(SizedBox(width: 16.0)),
-                ),
-              ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
-            ),
+                  ),
+                  FlutterFlowIconButton(
+                    borderRadius: 8.0,
+                    buttonSize: 40.0,
+                    fillColor: Colors.transparent,
+                    icon: Icon(
+                      Icons.delete_outline_rounded,
+                      color: FlutterFlowTheme.of(context).error,
+                      size: 24.0,
+                    ),
+                    onPressed: () async {
+                      FFAppState().updateSelectedRecipeStruct(
+                        (e) => e
+                          ..updateCookingSteps(
+                            (e) => e.removeAt(widget.step!.queueId),
+                          ),
+                      );
+                      _model.lastID1 = await actions.recallStepIds(
+                        FFAppState().SelectedRecipe.cookingSteps.toList(),
+                      );
+                      _model.updatePage(() {});
+
+                      safeSetState(() {});
+                    },
+                  ),
+                ].divide(SizedBox(width: 16.0)),
+              ),
+            ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
           ),
         ),
       ),

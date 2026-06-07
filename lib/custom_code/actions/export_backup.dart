@@ -1,0 +1,35 @@
+// Automatic FlutterFlow imports
+import '/backend/schema/structs/index.dart';
+import '/backend/schema/enums/enums.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart'; // Imports other custom actions
+import '/flutter_flow/custom_functions.dart'; // Imports custom functions
+import 'package:flutter/material.dart';
+// Begin custom action code
+// DO NOT REMOVE OR MODIFY THE CODE ABOVE!
+
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
+String exportBackup() {
+  final backup = {
+    'version': 1,
+    'darkMode': FFAppState().DarkMode,
+    'dailyGoal': FFAppState().DailyGoal.toSerializableMap(),
+    'allDailyPlans':
+        FFAppState().AllDailyPlans.map((e) => e.toSerializableMap()).toList(),
+    'recipeList':
+        FFAppState().RecipeList.map((e) => e.toSerializableMap()).toList(),
+    'categoriesList':
+        FFAppState().CategoriesList.map((e) => e.toSerializableMap()).toList(),
+    'hardnessList':
+        FFAppState().HardnessList.map((e) => e.toSerializableMap()).toList(),
+    'quantityList':
+        FFAppState().QuantityList.map((e) => e.toSerializableMap()).toList(),
+  };
+
+  return jsonEncode(backup);
+}
+// Set your action name, define your arguments and return parameter,
+// and then add the boilerplate code using the green button on the right!

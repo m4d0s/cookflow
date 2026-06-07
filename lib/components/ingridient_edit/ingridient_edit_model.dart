@@ -5,25 +5,19 @@ import 'ingridient_edit_widget.dart' show IngridientEditWidget;
 import 'package:flutter/material.dart';
 
 class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
-  ///  Local state fields for this component.
-
-  bool isDeleted = false;
-
   ///  State fields for stateful widgets in this component.
 
   // Stores action output result for [Custom Action - recallStepIds] action in Row widget.
   int? lastID;
   // Model for UTextField component.
   late UTextFieldModel uTextFieldModel;
-  // State field(s) for CountController widget.
-  int? countControllerValue;
-  // State field(s) for DropDown widget.
-  String? dropDownValue;
-  FormFieldController<String>? dropDownValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
   String? Function(BuildContext, String?)? textController1Validator;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
@@ -36,6 +30,10 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
   String? Function(BuildContext, String?)? textController4Validator;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode5;
+  TextEditingController? textController5;
+  String? Function(BuildContext, String?)? textController5Validator;
 
   @override
   void initState(BuildContext context) {
@@ -56,5 +54,8 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
 
     textFieldFocusNode4?.dispose();
     textController4?.dispose();
+
+    textFieldFocusNode5?.dispose();
+    textController5?.dispose();
   }
 }

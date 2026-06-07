@@ -23,6 +23,12 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
   String? Function(BuildContext, String?)? textController4Validator;
+  // Stores action output result for [Custom Action - exportBackup] action in Container widget.
+  String? string1;
+  // Stores action output result for [Custom Action - importBackup] action in Container Bordered Content widget.
+  String? inputJson;
+  // Stores action output result for [Custom Action - checkBackup] action in Container Bordered Content widget.
+  bool? isUpToDate;
 
   @override
   void initState(BuildContext context) {}

@@ -1195,6 +1195,9 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   size: 24.0,
                                 ),
                                 onPressed: () async {
+                                  FFAppState().isChanging = true;
+                                  safeSetState(() {});
+
                                   context.pushNamed(RecipeEditWidget.routeName);
                                 },
                               ),

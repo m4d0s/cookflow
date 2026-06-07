@@ -60,9 +60,18 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             if ((_model.textFieldModel1.inputTextController.text != '') &&
-                (_model.textFieldModel2.inputTextController.text == '')) {
-              FFAppState().addToRecipeList(FFAppState().SelectedRecipe);
-              safeSetState(() {});
+                (_model.textFieldModel2.inputTextController.text != '')) {
+              if (FFAppState().isChanging) {
+                FFAppState().removeAtIndexFromRecipeList(
+                    FFAppState().SelectedRecipe.id);
+                safeSetState(() {});
+                FFAppState().addToRecipeList(FFAppState().SelectedRecipe);
+                safeSetState(() {});
+              } else {
+                FFAppState().addToRecipeList(FFAppState().SelectedRecipe);
+                safeSetState(() {});
+              }
+
               if (Navigator.of(context).canPop()) {
                 context.pop();
               }
@@ -79,7 +88,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: Icon(
-            Icons.add_box,
+            Icons.check_circle,
           ),
           elevation: 8.0,
           label: SingleChildScrollView(
@@ -89,7 +98,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Добавить',
+                  FFAppState().isChanging ? 'Изменить' : 'Добавить',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.inter(
                           fontWeight: FlutterFlowTheme.of(context)
@@ -128,7 +137,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
             },
           ),
           title: Text(
-            'Новый рецепт',
+            FFAppState().isChanging ? 'Изменить рецепт' : 'Добавить рецепт',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -463,7 +472,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                       ),
                                                 ),
                                                 count: _model
-                                                    .countControllerValue1 ??= 1,
+                                                    .countControllerValue1 ??= 5,
                                                 updateCount: (count) async {
                                                   safeSetState(() => _model
                                                           .countControllerValue1 =
@@ -480,7 +489,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                   );
                                                   safeSetState(() {});
                                                 },
-                                                stepSize: 1,
+                                                stepSize: 5,
                                                 minimum: 1,
                                                 maximum: 360,
                                                 contentPadding:
@@ -798,30 +807,46 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                     ),
                                   ].divide(SizedBox(width: 16.0)),
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.local_fire_department,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 36.0,
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Каллорийность',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall
-                                              .override(
-                                                font: GoogleFonts.manrope(
+                                if (FFAppConstants.FalseValue)
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.local_fire_department,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 36.0,
+                                      ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Каллорийность',
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelSmall
+                                                .override(
+                                                  font: GoogleFonts.manrope(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelSmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelSmall
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -832,74 +857,52 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                               context)
                                                           .labelSmall
                                                           .fontStyle,
+                                                  lineHeight: 1.4,
                                                 ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelSmall
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelSmall
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                        Container(
-                                          width: 160.0,
-                                          height: 40.0,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            shape: BoxShape.rectangle,
                                           ),
-                                          child: FlutterFlowCountController(
-                                            decrementIconBuilder: (enabled) =>
-                                                Icon(
-                                              Icons.remove_rounded,
-                                              color: enabled
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .secondaryText
-                                                  : FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              size: 24.0,
-                                            ),
-                                            incrementIconBuilder: (enabled) =>
-                                                Icon(
-                                              Icons.add_rounded,
-                                              color: enabled
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .primary
-                                                  : FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              size: 24.0,
-                                            ),
-                                            countBuilder: (count) => Text(
-                                              count.toString(),
-                                              style:
+                                          Container(
+                                            width: 160.0,
+                                            height: 40.0,
+                                            decoration: BoxDecoration(
+                                              color:
                                                   FlutterFlowTheme.of(context)
-                                                      .titleLarge
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.manrope(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleLarge
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleLarge
-                                                                  .fontStyle,
-                                                        ),
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
+                                                      .secondaryBackground,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              shape: BoxShape.rectangle,
+                                            ),
+                                            child: FlutterFlowCountController(
+                                              decrementIconBuilder: (enabled) =>
+                                                  Icon(
+                                                Icons.remove_rounded,
+                                                color: enabled
+                                                    ? FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryText
+                                                    : FlutterFlowTheme.of(
+                                                            context)
+                                                        .alternate,
+                                                size: 24.0,
+                                              ),
+                                              incrementIconBuilder: (enabled) =>
+                                                  Icon(
+                                                Icons.add_rounded,
+                                                color: enabled
+                                                    ? FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary
+                                                    : FlutterFlowTheme.of(
+                                                            context)
+                                                        .alternate,
+                                                size: 24.0,
+                                              ),
+                                              countBuilder: (count) => Text(
+                                                count.toString(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .titleLarge
+                                                    .override(
+                                                      font: GoogleFonts.manrope(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -911,42 +914,57 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                                 .titleLarge
                                                                 .fontStyle,
                                                       ),
+                                                      fontSize: 14.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleLarge
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleLarge
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                              count: _model
+                                                      .countControllerValue3 ??=
+                                                  100,
+                                              updateCount: (count) async {
+                                                safeSetState(() => _model
+                                                        .countControllerValue3 =
+                                                    count);
+                                                FFAppState()
+                                                    .updateSelectedRecipeStruct(
+                                                  (e) => e
+                                                    ..updateNutritions(
+                                                      (e) => e
+                                                        ..calories =
+                                                            valueOrDefault<
+                                                                double>(
+                                                          _model
+                                                              .countControllerValue3
+                                                              ?.toDouble(),
+                                                          100.0,
+                                                        ),
+                                                    ),
+                                                );
+                                                safeSetState(() {});
+                                              },
+                                              stepSize: 100,
+                                              minimum: 100,
+                                              maximum: 10000,
+                                              contentPadding:
+                                                  EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          4.0, 0.0, 4.0, 0.0),
                                             ),
-                                            count: _model
-                                                .countControllerValue3 ??= 100,
-                                            updateCount: (count) async {
-                                              safeSetState(() =>
-                                                  _model.countControllerValue3 =
-                                                      count);
-                                              FFAppState()
-                                                  .updateSelectedRecipeStruct(
-                                                (e) => e
-                                                  ..updateNutritions(
-                                                    (e) => e
-                                                      ..calories =
-                                                          valueOrDefault<
-                                                              double>(
-                                                        _model
-                                                            .countControllerValue3
-                                                            ?.toDouble(),
-                                                        100.0,
-                                                      ),
-                                                  ),
-                                              );
-                                              safeSetState(() {});
-                                            },
-                                            stepSize: 100,
-                                            minimum: 100,
-                                            maximum: 10000,
-                                            contentPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    4.0, 0.0, 4.0, 0.0),
                                           ),
-                                        ),
-                                      ].divide(SizedBox(height: 4.0)),
-                                    ),
-                                  ].divide(SizedBox(width: 6.0)),
-                                ),
+                                        ].divide(SizedBox(height: 4.0)),
+                                      ),
+                                    ].divide(SizedBox(width: 6.0)),
+                                  ),
                               ].divide(SizedBox(height: 16.0)),
                             ),
                             Column(
