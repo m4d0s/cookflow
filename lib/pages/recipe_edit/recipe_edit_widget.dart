@@ -62,13 +62,13 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
             if ((_model.textFieldModel1.inputTextController.text != '') &&
                 (_model.textFieldModel2.inputTextController.text != '')) {
               if (FFAppState().isChanging) {
-                FFAppState().removeAtIndexFromRecipeList(
-                    FFAppState().SelectedRecipe.id);
+                FFAppState()
+                    .removeAtIndexFromRecipeList(FFAppState().RecipeSelect.id);
                 safeSetState(() {});
-                FFAppState().addToRecipeList(FFAppState().SelectedRecipe);
+                FFAppState().addToRecipeList(FFAppState().RecipeSelect);
                 safeSetState(() {});
               } else {
-                FFAppState().addToRecipeList(FFAppState().SelectedRecipe);
+                FFAppState().addToRecipeList(FFAppState().RecipeSelect);
                 safeSetState(() {});
               }
 
@@ -478,7 +478,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                           .countControllerValue1 =
                                                       count);
                                                   FFAppState()
-                                                      .updateSelectedRecipeStruct(
+                                                      .updateRecipeSelectStruct(
                                                     (e) => e
                                                       ..cookTime =
                                                           valueOrDefault<int>(
@@ -631,7 +631,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                           .countControllerValue2 =
                                                       count);
                                                   FFAppState()
-                                                      .updateSelectedRecipeStruct(
+                                                      .updateRecipeSelectStruct(
                                                     (e) => e
                                                       ..portions =
                                                           valueOrDefault<int>(
@@ -670,20 +670,20 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                             Food.breakfast,
                                       ),
                                       options: List<Food>.from(FFAppState()
-                                          .CategoriesList
+                                          .CategoryList
                                           .take(10)
                                           .toList()
                                           .map((e) => e.category)
                                           .withoutNulls
                                           .toList()),
                                       optionLabels: FFAppState()
-                                          .CategoriesList
+                                          .CategoryList
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (val) async {
                                         safeSetState(
                                             () => _model.dropDownValue1 = val);
-                                        FFAppState().updateSelectedRecipeStruct(
+                                        FFAppState().updateRecipeSelectStruct(
                                           (e) => e
                                             ..foodType = _model.dropDownValue1,
                                         );
@@ -742,18 +742,18 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                         _model.dropDownValue2 ??= Hardness.easy,
                                       ),
                                       options: List<Hardness>.from(FFAppState()
-                                          .HardnessList
+                                          .HardList
                                           .map((e) => e.difficult)
                                           .withoutNulls
                                           .toList()),
                                       optionLabels: FFAppState()
-                                          .HardnessList
+                                          .HardList
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (val) async {
                                         safeSetState(
                                             () => _model.dropDownValue2 = val);
-                                        FFAppState().updateSelectedRecipeStruct(
+                                        FFAppState().updateRecipeSelectStruct(
                                           (e) => e
                                             ..hardType = _model.dropDownValue2,
                                         );
@@ -936,7 +936,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                         .countControllerValue3 =
                                                     count);
                                                 FFAppState()
-                                                    .updateSelectedRecipeStruct(
+                                                    .updateRecipeSelectStruct(
                                                   (e) => e
                                                     ..updateNutritions(
                                                       (e) => e
@@ -1016,7 +1016,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
                                             FFAppState()
-                                                .updateSelectedRecipeStruct(
+                                                .updateRecipeSelectStruct(
                                               (e) => e
                                                 ..updateProducts(
                                                   (e) => e.add(ProductStruct()),
@@ -1078,7 +1078,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                 Builder(
                                   builder: (context) {
                                     final productList = FFAppState()
-                                        .SelectedRecipe
+                                        .RecipeSelect
                                         .products
                                         .toList();
 
@@ -1163,7 +1163,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
                                             FFAppState()
-                                                .updateSelectedRecipeStruct(
+                                                .updateRecipeSelectStruct(
                                               (e) => e
                                                 ..updateCookingSteps(
                                                   (e) => e.add(StepStruct()),
@@ -1225,7 +1225,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                 Builder(
                                   builder: (context) {
                                     final stepList = FFAppState()
-                                        .SelectedRecipe
+                                        .RecipeSelect
                                         .cookingSteps
                                         .toList();
 

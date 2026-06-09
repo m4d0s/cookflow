@@ -100,7 +100,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () async {
-                  FFAppState().updateSelectedRecipeStruct(
+                  FFAppState().updateRecipeSelectStruct(
                     (e) => e
                       ..updateCookingSteps(
                         (e) => e.removeAt(widget.product!.id),
@@ -108,7 +108,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                   );
                   safeSetState(() {});
                   _model.lastID = await actions.recallStepIds(
-                    FFAppState().SelectedRecipe.cookingSteps.toList(),
+                    FFAppState().RecipeSelect.cookingSteps.toList(),
                   );
 
                   safeSetState(() {});

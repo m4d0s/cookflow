@@ -18,13 +18,13 @@ String exportBackup() {
     'darkMode': FFAppState().DarkMode,
     'dailyGoal': FFAppState().DailyGoal.toSerializableMap(),
     'allDailyPlans':
-        FFAppState().AllDailyPlans.map((e) => e.toSerializableMap()).toList(),
+        FFAppState().DailyList.map((e) => e.toSerializableMap()).toList(),
     'recipeList':
         FFAppState().RecipeList.map((e) => e.toSerializableMap()).toList(),
     'categoriesList':
-        FFAppState().CategoriesList.map((e) => e.toSerializableMap()).toList(),
+        FFAppState().CategoryList.map((e) => e.toSerializableMap()).toList(),
     'hardnessList':
-        FFAppState().HardnessList.map((e) => e.toSerializableMap()).toList(),
+        FFAppState().HardList.map((e) => e.toSerializableMap()).toList(),
     'quantityList':
         FFAppState().QuantityList.map((e) => e.toSerializableMap()).toList(),
   };

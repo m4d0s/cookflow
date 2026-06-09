@@ -9,4 +9,6 @@ export '/archive/shopping_list/shopping_list_widget.dart'
     show ShoppingListWidget;
 export '/archive/add_to_plan/add_to_plan_widget.dart' show AddToPlanWidget;
 export '/pages/settings/settings_widget.dart' show SettingsWidget;
-export '/pages/recipe_choose/recipe_choose_widget.dart' show RecipeChooseWidget;
+export '/pages/meal_select/meal_select_widget.dart' show MealSelectWidget;
+export '/pages/meal_preview/meal_preview_widget.dart' show MealPreviewWidget;
+export '/pages/cooking_end/cooking_end_widget.dart' show CookingEndWidget;

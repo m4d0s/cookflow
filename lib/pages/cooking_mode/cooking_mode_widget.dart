@@ -1,13 +1,16 @@
-import '/components/step_counter/step_counter_widget.dart';
+import '/components/info_tag/info_tag_widget.dart';
 import '/components/step_timer/step_timer_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'cooking_mode_model.dart';
@@ -41,7 +44,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.currentstep = functions.findStepByID(
-          FFAppState().SelectedRecipe.cookingSteps.toList(), widget.step);
+          FFAppState().RecipeSelect.cookingSteps.toList(), widget.step);
       safeSetState(() {});
     });
   }
@@ -83,7 +86,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
             },
           ),
           title: Text(
-            FFAppState().SelectedRecipe.name,
+            FFAppState().RecipeSelect.name,
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -102,7 +105,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
           ),
           actions: [],
           centerTitle: true,
-          elevation: 2.0,
+          elevation: 0.0,
         ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -117,6 +120,70 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(32.0),
+                          bottomRight: Radius.circular(32.0),
+                        ),
+                        child: CachedNetworkImage(
+                          fadeInDuration: Duration(milliseconds: 500),
+                          fadeOutDuration: Duration(milliseconds: 500),
+                          imageUrl: valueOrDefault<String>(
+                            FFAppState().RecipeSelect.picture,
+                            'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+                          ),
+                          width: MediaQuery.sizeOf(context).width * 1.0,
+                          height: 200.0,
+                          fit: BoxFit.cover,
+                          alignment: Alignment(0.0, 0.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (FFAppConstants.FalseValue)
+                    Stack(
+                      children: [
+                        ClipRect(
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 10.0,
+                              sigmaY: 10.0,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8.0),
+                                bottomRight: Radius.circular(8.0),
+                              ),
+                              child: Image.network(
+                                valueOrDefault<String>(
+                                  FFAppState().RecipeSelect.picture,
+                                  'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+                                ),
+                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                height: 128.0,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(0.0),
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 500),
+                            fadeOutDuration: Duration(milliseconds: 500),
+                            imageUrl: valueOrDefault<String>(
+                              FFAppState().RecipeSelect.picture,
+                              'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+                            ),
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: 128.0,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ],
+                    ),
                   Padding(
                     padding: EdgeInsets.all(valueOrDefault<double>(
                       FFAppConstants.Padding1.toDouble(),
@@ -125,46 +192,9 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                     child: Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          if (FFAppConstants.FalseValue)
-                            Builder(
-                              builder: (context) {
-                                final step = FFAppState()
-                                    .SelectedRecipe
-                                    .cookingSteps
-                                    .toList();
-
-                                return Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children:
-                                      List.generate(step.length, (stepIndex) {
-                                    final stepItem = step[stepIndex];
-                                    return Expanded(
-                                      flex: 1,
-                                      child: wrapWithModel(
-                                        model:
-                                            _model.progressStepModels.getModel(
-                                          stepItem.queueId.toString(),
-                                          stepIndex,
-                                        ),
-                                        updateCallback: () =>
-                                            safeSetState(() {}),
-                                        child: StepCounterWidget(
-                                          key: Key(
-                                            'Key404_${stepItem.queueId.toString()}',
-                                          ),
-                                          step: stepItem.queueId,
-                                        ),
-                                      ),
-                                    );
-                                  }).divide(SizedBox(width: 0.0)),
-                                );
-                              },
-                            ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -193,7 +223,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 children: [
                                   Text(
                                     valueOrDefault<String>(
-                                      'Шаг ${FFAppState().currentStep.toString()} из ${FFAppState().SelectedRecipe.cookingSteps.length.toString()}',
+                                      'Шаг ${FFAppState().CurrentStep.toString()} из ${FFAppState().RecipeSelect.cookingSteps.length.toString()}',
                                       'Шаг -1 из -0',
                                     ),
                                     style: FlutterFlowTheme.of(context)
@@ -265,27 +295,62 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Инструкции',
-                              style: FlutterFlowTheme.of(context)
-                                  .labelLarge
-                                  .override(
-                                    font: GoogleFonts.manrope(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .onBackground,
-                                    fontSize: 28.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelLarge
-                                        .fontStyle,
-                                    lineHeight: 1.4,
-                                  ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Инструкция',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelLarge
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelLarge
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .onBackground,
+                                        fontSize: 26.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelLarge
+                                            .fontStyle,
+                                        lineHeight: 1.4,
+                                      ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    if (_model.currentstep?.tip != '')
+                                      wrapWithModel(
+                                        model: _model.infoTagModel1,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: InfoTagWidget(
+                                          icon: Icon(
+                                            Icons.auto_awesome_rounded,
+                                          ),
+                                          label: 'Совет',
+                                        ),
+                                      ),
+                                    if (_model.currentstep!.timer > 0)
+                                      wrapWithModel(
+                                        model: _model.infoTagModel2,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: InfoTagWidget(
+                                          label: 'Таймер',
+                                        ),
+                                      ),
+                                  ].divide(SizedBox(
+                                      width:
+                                          FFAppConstants.Padding0.toDouble())),
+                                ),
+                              ],
                             ),
                             Text(
                               valueOrDefault<String>(
@@ -442,26 +507,55 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: wrapWithModel(
-                                model: _model.buttonModel1,
-                                updateCallback: () => safeSetState(() {}),
-                                child: UButtonWidget(
-                                  content: 'Назад',
-                                  icon: Icon(
-                                    Icons.arrow_back_rounded,
-                                    color: FlutterFlowTheme.of(context)
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (FFAppState().CurrentStep <
+                                      FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .length) {
+                                    FFAppState().CurrentStep =
+                                        FFAppState().CurrentStep + 0;
+                                    safeSetState(() {});
+                                  } else {
+                                    FFAppState().CurrentStep =
+                                        FFAppState().CurrentStep + 1;
+                                    safeSetState(() {});
+                                  }
+
+                                  _model.currentstep = functions.findStepByID(
+                                      FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .toList(),
+                                      widget.step);
+                                  safeSetState(() {});
+                                },
+                                child: wrapWithModel(
+                                  model: _model.buttonModel1,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: UButtonWidget(
+                                    content: 'Назад',
+                                    icon: Icon(
+                                      Icons.arrow_back_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 16.0,
+                                    ),
+                                    iconPresent: true,
+                                    iconEndPresent: false,
+                                    variant: 'outline',
+                                    size: 'medium',
+                                    fullWidth: true,
+                                    loading: false,
+                                    disabled: false,
+                                    maincolor: FlutterFlowTheme.of(context)
                                         .primaryText,
-                                    size: 16.0,
                                   ),
-                                  iconPresent: true,
-                                  iconEndPresent: false,
-                                  variant: 'outline',
-                                  size: 'medium',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: false,
-                                  maincolor:
-                                      FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
                             ),
@@ -473,16 +567,27 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  FFAppState().currentStep =
-                                      FFAppState().currentStep + 1;
+                                  FFAppState().CurrentStep =
+                                      FFAppState().CurrentStep + 1;
                                   safeSetState(() {});
                                   _model.currentstep = functions.findStepByID(
                                       FFAppState()
-                                          .SelectedRecipe
+                                          .RecipeSelect
                                           .cookingSteps
                                           .toList(),
                                       widget.step);
                                   safeSetState(() {});
+                                  if (FFAppState().CurrentStep >
+                                      FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .length) {
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
+                                    context
+                                        .pushNamed(CookingEndWidget.routeName);
+                                  }
                                 },
                                 child: wrapWithModel(
                                   model: _model.buttonModel2,
@@ -494,7 +599,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                       Icons.arrow_forward_rounded,
                                       color: FlutterFlowTheme.of(context)
                                           .onPrimary,
-                                      size: 16.0,
+                                      size: 8.0,
                                     ),
                                     iconEndPresent: true,
                                     variant: 'primary',
@@ -502,8 +607,14 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                     fullWidth: true,
                                     loading: false,
                                     disabled: false,
-                                    maincolor: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.play,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onPrimary,
+                                      size: 12.0,
+                                    ),
+                                    maincolor:
+                                        FlutterFlowTheme.of(context).onPrimary,
                                   ),
                                 ),
                               ),

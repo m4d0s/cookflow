@@ -140,6 +140,7 @@ class _PhotoFrameWidgetState extends State<PhotoFrameWidget> {
                     final selectedMedia =
                         await selectMediaWithSourceBottomSheet(
                       context: context,
+                      maxWidth: 256.00,
                       imageQuality: 100,
                       allowPhoto: true,
                     );

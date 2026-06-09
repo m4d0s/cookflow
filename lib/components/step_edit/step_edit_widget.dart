@@ -101,14 +101,14 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                     highlightColor: Colors.transparent,
                     onTap: () async {
                       // Remove item at last index
-                      FFAppState().updateSelectedRecipeStruct(
+                      FFAppState().updateRecipeSelectStruct(
                         (e) => e
                           ..updateCookingSteps(
                             (e) => e.removeAt(widget.step!.queueId),
                           ),
                       );
                       // Insert item at new index
-                      FFAppState().updateSelectedRecipeStruct(
+                      FFAppState().updateRecipeSelectStruct(
                         (e) => e
                           ..updateCookingSteps(
                             (e) => e.insert(
@@ -116,7 +116,7 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                     widget.step!.queueId,
                                     -1,
                                     FFAppState()
-                                        .SelectedRecipe
+                                        .RecipeSelect
                                         .cookingSteps
                                         .length),
                                 widget.step!),
@@ -124,7 +124,7 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       );
                       // Renew QueueIds
                       _model.lastID = await actions.recallStepIds(
-                        FFAppState().SelectedRecipe.cookingSteps.toList(),
+                        FFAppState().RecipeSelect.cookingSteps.toList(),
                       );
                       // Rebuild
                       _model.updatePage(() {});
@@ -322,14 +322,14 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       size: 24.0,
                     ),
                     onPressed: () async {
-                      FFAppState().updateSelectedRecipeStruct(
+                      FFAppState().updateRecipeSelectStruct(
                         (e) => e
                           ..updateCookingSteps(
                             (e) => e.removeAt(widget.step!.queueId),
                           ),
                       );
                       _model.lastID1 = await actions.recallStepIds(
-                        FFAppState().SelectedRecipe.cookingSteps.toList(),
+                        FFAppState().RecipeSelect.cookingSteps.toList(),
                       );
                       _model.updatePage(() {});
 

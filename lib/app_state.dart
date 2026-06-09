@@ -22,7 +22,18 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     secureStorage = FlutterSecureStorage();
     await _safeInitAsync(() async {
-      _DarkMode = await secureStorage.getBool('ff_DarkMode') ?? _DarkMode;
+      _DailyList = (await secureStorage.getStringList('ff_DailyList'))
+              ?.map((x) {
+                try {
+                  return DailyPlanStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _DailyList;
     });
     await _safeInitAsync(() async {
       if (await secureStorage.read(key: 'ff_DailyGoal') != null) {
@@ -35,20 +46,6 @@ class FFAppState extends ChangeNotifier {
           print("Can't decode persisted data type. Error: $e.");
         }
       }
-    });
-    await _safeInitAsync(() async {
-      _AllDailyPlans = (await secureStorage.getStringList('ff_AllDailyPlans'))
-              ?.map((x) {
-                try {
-                  return DailyPlanStruct.fromSerializableMap(jsonDecode(x));
-                } catch (e) {
-                  print("Can't decode persisted data type. Error: $e.");
-                  return null;
-                }
-              })
-              .withoutNulls
-              .toList() ??
-          _AllDailyPlans;
     });
     await _safeInitAsync(() async {
       _RecipeList = (await secureStorage.getStringList('ff_RecipeList'))
@@ -65,31 +62,7 @@ class FFAppState extends ChangeNotifier {
           _RecipeList;
     });
     await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_EmptyRecipe') != null) {
-        try {
-          final serializedData =
-              await secureStorage.getString('ff_EmptyRecipe') ?? '{}';
-          _EmptyRecipe =
-              RecipeStruct.fromSerializableMap(jsonDecode(serializedData));
-        } catch (e) {
-          print("Can't decode persisted data type. Error: $e.");
-        }
-      }
-    });
-    await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_EmptyDay') != null) {
-        try {
-          final serializedData =
-              await secureStorage.getString('ff_EmptyDay') ?? '{}';
-          _EmptyDay =
-              DailyPlanStruct.fromSerializableMap(jsonDecode(serializedData));
-        } catch (e) {
-          print("Can't decode persisted data type. Error: $e.");
-        }
-      }
-    });
-    await _safeInitAsync(() async {
-      _CategoriesList = (await secureStorage.getStringList('ff_CategoriesList'))
+      _CategoryList = (await secureStorage.getStringList('ff_CategoryList'))
               ?.map((x) {
                 try {
                   return FoodCategoryStruct.fromSerializableMap(jsonDecode(x));
@@ -100,10 +73,10 @@ class FFAppState extends ChangeNotifier {
               })
               .withoutNulls
               .toList() ??
-          _CategoriesList;
+          _CategoryList;
     });
     await _safeInitAsync(() async {
-      _HardnessList = (await secureStorage.getStringList('ff_HardnessList'))
+      _HardList = (await secureStorage.getStringList('ff_HardList'))
               ?.map((x) {
                 try {
                   return FoodDifficultyStruct.fromSerializableMap(
@@ -115,7 +88,7 @@ class FFAppState extends ChangeNotifier {
               })
               .withoutNulls
               .toList() ??
-          _HardnessList;
+          _HardList;
     });
     await _safeInitAsync(() async {
       _QuantityList = (await secureStorage.getStringList('ff_QuantityList'))
@@ -131,6 +104,67 @@ class FFAppState extends ChangeNotifier {
               .toList() ??
           _QuantityList;
     });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_PeopleStat') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_PeopleStat') ?? '{}';
+          _PeopleStat =
+              PeopleParamStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
+    });
+    await _safeInitAsync(() async {
+      _ActionList = (await secureStorage.getStringList('ff_ActionList'))
+              ?.map((x) {
+                try {
+                  return PeopleActionStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _ActionList;
+    });
+    await _safeInitAsync(() async {
+      _TargetList = (await secureStorage.getStringList('ff_TargetList'))
+              ?.map((x) {
+                try {
+                  return PeopleTargetStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _TargetList;
+    });
+    await _safeInitAsync(() async {
+      _SexList = (await secureStorage.getStringList('ff_SexList'))
+              ?.map((x) {
+                try {
+                  return PeopleSexStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _SexList;
+    });
+    await _safeInitAsync(() async {
+      _DarkMode = await secureStorage.getBool('ff_DarkMode') ?? _DarkMode;
+    });
+    await _safeInitAsync(() async {
+      _AutoNutrition =
+          await secureStorage.getBool('ff_AutoNutrition') ?? _AutoNutrition;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -140,18 +174,63 @@ class FFAppState extends ChangeNotifier {
 
   late FlutterSecureStorage secureStorage;
 
-  bool _DarkMode = false;
-  bool get DarkMode => _DarkMode;
-  set DarkMode(bool value) {
-    _DarkMode = value;
-    secureStorage.setBool('ff_DarkMode', value);
+  List<DailyPlanStruct> _DailyList = [];
+  List<DailyPlanStruct> get DailyList => _DailyList;
+  set DailyList(List<DailyPlanStruct> value) {
+    _DailyList = value;
+    secureStorage.setStringList(
+        'ff_DailyList', value.map((x) => x.serialize()).toList());
   }
 
-  void deleteDarkMode() {
-    secureStorage.delete(key: 'ff_DarkMode');
+  void deleteDailyList() {
+    secureStorage.delete(key: 'ff_DailyList');
   }
 
-  NutritionsStruct _DailyGoal = NutritionsStruct();
+  void addToDailyList(DailyPlanStruct value) {
+    DailyList.add(value);
+    secureStorage.setStringList(
+        'ff_DailyList', _DailyList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromDailyList(DailyPlanStruct value) {
+    DailyList.remove(value);
+    secureStorage.setStringList(
+        'ff_DailyList', _DailyList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromDailyList(int index) {
+    DailyList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_DailyList', _DailyList.map((x) => x.serialize()).toList());
+  }
+
+  void updateDailyListAtIndex(
+    int index,
+    DailyPlanStruct Function(DailyPlanStruct) updateFn,
+  ) {
+    DailyList[index] = updateFn(_DailyList[index]);
+    secureStorage.setStringList(
+        'ff_DailyList', _DailyList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInDailyList(int index, DailyPlanStruct value) {
+    DailyList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_DailyList', _DailyList.map((x) => x.serialize()).toList());
+  }
+
+  DailyPlanStruct _DailySelect = DailyPlanStruct();
+  DailyPlanStruct get DailySelect => _DailySelect;
+  set DailySelect(DailyPlanStruct value) {
+    _DailySelect = value;
+  }
+
+  void updateDailySelectStruct(Function(DailyPlanStruct) updateFn) {
+    updateFn(_DailySelect);
+  }
+
+  NutritionsStruct _DailyGoal = NutritionsStruct.fromSerializableMap(jsonDecode(
+      '{\"calories\":\"2350.0\",\"protein\":\"160.0\",\"fats\":\"48.0\",\"carbs\":\"320.0\"}'));
   NutritionsStruct get DailyGoal => _DailyGoal;
   set DailyGoal(NutritionsStruct value) {
     _DailyGoal = value;
@@ -165,51 +244,6 @@ class FFAppState extends ChangeNotifier {
   void updateDailyGoalStruct(Function(NutritionsStruct) updateFn) {
     updateFn(_DailyGoal);
     secureStorage.setString('ff_DailyGoal', _DailyGoal.serialize());
-  }
-
-  List<DailyPlanStruct> _AllDailyPlans = [];
-  List<DailyPlanStruct> get AllDailyPlans => _AllDailyPlans;
-  set AllDailyPlans(List<DailyPlanStruct> value) {
-    _AllDailyPlans = value;
-    secureStorage.setStringList(
-        'ff_AllDailyPlans', value.map((x) => x.serialize()).toList());
-  }
-
-  void deleteAllDailyPlans() {
-    secureStorage.delete(key: 'ff_AllDailyPlans');
-  }
-
-  void addToAllDailyPlans(DailyPlanStruct value) {
-    AllDailyPlans.add(value);
-    secureStorage.setStringList(
-        'ff_AllDailyPlans', _AllDailyPlans.map((x) => x.serialize()).toList());
-  }
-
-  void removeFromAllDailyPlans(DailyPlanStruct value) {
-    AllDailyPlans.remove(value);
-    secureStorage.setStringList(
-        'ff_AllDailyPlans', _AllDailyPlans.map((x) => x.serialize()).toList());
-  }
-
-  void removeAtIndexFromAllDailyPlans(int index) {
-    AllDailyPlans.removeAt(index);
-    secureStorage.setStringList(
-        'ff_AllDailyPlans', _AllDailyPlans.map((x) => x.serialize()).toList());
-  }
-
-  void updateAllDailyPlansAtIndex(
-    int index,
-    DailyPlanStruct Function(DailyPlanStruct) updateFn,
-  ) {
-    AllDailyPlans[index] = updateFn(_AllDailyPlans[index]);
-    secureStorage.setStringList(
-        'ff_AllDailyPlans', _AllDailyPlans.map((x) => x.serialize()).toList());
-  }
-
-  void insertAtIndexInAllDailyPlans(int index, DailyPlanStruct value) {
-    AllDailyPlans.insert(index, value);
-    secureStorage.setStringList(
-        'ff_AllDailyPlans', _AllDailyPlans.map((x) => x.serialize()).toList());
   }
 
   List<RecipeStruct> _RecipeList = [];
@@ -257,39 +291,17 @@ class FFAppState extends ChangeNotifier {
         'ff_RecipeList', _RecipeList.map((x) => x.serialize()).toList());
   }
 
-  RecipeStruct _EmptyRecipe = RecipeStruct();
-  RecipeStruct get EmptyRecipe => _EmptyRecipe;
-  set EmptyRecipe(RecipeStruct value) {
-    _EmptyRecipe = value;
-    secureStorage.setString('ff_EmptyRecipe', value.serialize());
+  RecipeStruct _RecipeSelect = RecipeStruct();
+  RecipeStruct get RecipeSelect => _RecipeSelect;
+  set RecipeSelect(RecipeStruct value) {
+    _RecipeSelect = value;
   }
 
-  void deleteEmptyRecipe() {
-    secureStorage.delete(key: 'ff_EmptyRecipe');
+  void updateRecipeSelectStruct(Function(RecipeStruct) updateFn) {
+    updateFn(_RecipeSelect);
   }
 
-  void updateEmptyRecipeStruct(Function(RecipeStruct) updateFn) {
-    updateFn(_EmptyRecipe);
-    secureStorage.setString('ff_EmptyRecipe', _EmptyRecipe.serialize());
-  }
-
-  DailyPlanStruct _EmptyDay = DailyPlanStruct();
-  DailyPlanStruct get EmptyDay => _EmptyDay;
-  set EmptyDay(DailyPlanStruct value) {
-    _EmptyDay = value;
-    secureStorage.setString('ff_EmptyDay', value.serialize());
-  }
-
-  void deleteEmptyDay() {
-    secureStorage.delete(key: 'ff_EmptyDay');
-  }
-
-  void updateEmptyDayStruct(Function(DailyPlanStruct) updateFn) {
-    updateFn(_EmptyDay);
-    secureStorage.setString('ff_EmptyDay', _EmptyDay.serialize());
-  }
-
-  List<FoodCategoryStruct> _CategoriesList = [
+  List<FoodCategoryStruct> _CategoryList = [
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}')),
     FoodCategoryStruct.fromSerializableMap(
@@ -305,51 +317,57 @@ class FFAppState extends ChangeNotifier {
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Выпечка\",\"category\":\"baking\"}'))
   ];
-  List<FoodCategoryStruct> get CategoriesList => _CategoriesList;
-  set CategoriesList(List<FoodCategoryStruct> value) {
-    _CategoriesList = value;
+  List<FoodCategoryStruct> get CategoryList => _CategoryList;
+  set CategoryList(List<FoodCategoryStruct> value) {
+    _CategoryList = value;
     secureStorage.setStringList(
-        'ff_CategoriesList', value.map((x) => x.serialize()).toList());
+        'ff_CategoryList', value.map((x) => x.serialize()).toList());
   }
 
-  void deleteCategoriesList() {
-    secureStorage.delete(key: 'ff_CategoriesList');
+  void deleteCategoryList() {
+    secureStorage.delete(key: 'ff_CategoryList');
   }
 
-  void addToCategoriesList(FoodCategoryStruct value) {
-    CategoriesList.add(value);
-    secureStorage.setStringList('ff_CategoriesList',
-        _CategoriesList.map((x) => x.serialize()).toList());
+  void addToCategoryList(FoodCategoryStruct value) {
+    CategoryList.add(value);
+    secureStorage.setStringList(
+        'ff_CategoryList', _CategoryList.map((x) => x.serialize()).toList());
   }
 
-  void removeFromCategoriesList(FoodCategoryStruct value) {
-    CategoriesList.remove(value);
-    secureStorage.setStringList('ff_CategoriesList',
-        _CategoriesList.map((x) => x.serialize()).toList());
+  void removeFromCategoryList(FoodCategoryStruct value) {
+    CategoryList.remove(value);
+    secureStorage.setStringList(
+        'ff_CategoryList', _CategoryList.map((x) => x.serialize()).toList());
   }
 
-  void removeAtIndexFromCategoriesList(int index) {
-    CategoriesList.removeAt(index);
-    secureStorage.setStringList('ff_CategoriesList',
-        _CategoriesList.map((x) => x.serialize()).toList());
+  void removeAtIndexFromCategoryList(int index) {
+    CategoryList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_CategoryList', _CategoryList.map((x) => x.serialize()).toList());
   }
 
-  void updateCategoriesListAtIndex(
+  void updateCategoryListAtIndex(
     int index,
     FoodCategoryStruct Function(FoodCategoryStruct) updateFn,
   ) {
-    CategoriesList[index] = updateFn(_CategoriesList[index]);
-    secureStorage.setStringList('ff_CategoriesList',
-        _CategoriesList.map((x) => x.serialize()).toList());
+    CategoryList[index] = updateFn(_CategoryList[index]);
+    secureStorage.setStringList(
+        'ff_CategoryList', _CategoryList.map((x) => x.serialize()).toList());
   }
 
-  void insertAtIndexInCategoriesList(int index, FoodCategoryStruct value) {
-    CategoriesList.insert(index, value);
-    secureStorage.setStringList('ff_CategoriesList',
-        _CategoriesList.map((x) => x.serialize()).toList());
+  void insertAtIndexInCategoryList(int index, FoodCategoryStruct value) {
+    CategoryList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_CategoryList', _CategoryList.map((x) => x.serialize()).toList());
   }
 
-  List<FoodDifficultyStruct> _HardnessList = [
+  Food? _CategorySelect = Food.all;
+  Food? get CategorySelect => _CategorySelect;
+  set CategorySelect(Food? value) {
+    _CategorySelect = value;
+  }
+
+  List<FoodDifficultyStruct> _HardList = [
     FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Лёгкий\",\"difficult\":\"easy\"}')),
     FoodDifficultyStruct.fromSerializableMap(
@@ -357,48 +375,54 @@ class FFAppState extends ChangeNotifier {
     FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}'))
   ];
-  List<FoodDifficultyStruct> get HardnessList => _HardnessList;
-  set HardnessList(List<FoodDifficultyStruct> value) {
-    _HardnessList = value;
+  List<FoodDifficultyStruct> get HardList => _HardList;
+  set HardList(List<FoodDifficultyStruct> value) {
+    _HardList = value;
     secureStorage.setStringList(
-        'ff_HardnessList', value.map((x) => x.serialize()).toList());
+        'ff_HardList', value.map((x) => x.serialize()).toList());
   }
 
-  void deleteHardnessList() {
-    secureStorage.delete(key: 'ff_HardnessList');
+  void deleteHardList() {
+    secureStorage.delete(key: 'ff_HardList');
   }
 
-  void addToHardnessList(FoodDifficultyStruct value) {
-    HardnessList.add(value);
+  void addToHardList(FoodDifficultyStruct value) {
+    HardList.add(value);
     secureStorage.setStringList(
-        'ff_HardnessList', _HardnessList.map((x) => x.serialize()).toList());
+        'ff_HardList', _HardList.map((x) => x.serialize()).toList());
   }
 
-  void removeFromHardnessList(FoodDifficultyStruct value) {
-    HardnessList.remove(value);
+  void removeFromHardList(FoodDifficultyStruct value) {
+    HardList.remove(value);
     secureStorage.setStringList(
-        'ff_HardnessList', _HardnessList.map((x) => x.serialize()).toList());
+        'ff_HardList', _HardList.map((x) => x.serialize()).toList());
   }
 
-  void removeAtIndexFromHardnessList(int index) {
-    HardnessList.removeAt(index);
+  void removeAtIndexFromHardList(int index) {
+    HardList.removeAt(index);
     secureStorage.setStringList(
-        'ff_HardnessList', _HardnessList.map((x) => x.serialize()).toList());
+        'ff_HardList', _HardList.map((x) => x.serialize()).toList());
   }
 
-  void updateHardnessListAtIndex(
+  void updateHardListAtIndex(
     int index,
     FoodDifficultyStruct Function(FoodDifficultyStruct) updateFn,
   ) {
-    HardnessList[index] = updateFn(_HardnessList[index]);
+    HardList[index] = updateFn(_HardList[index]);
     secureStorage.setStringList(
-        'ff_HardnessList', _HardnessList.map((x) => x.serialize()).toList());
+        'ff_HardList', _HardList.map((x) => x.serialize()).toList());
   }
 
-  void insertAtIndexInHardnessList(int index, FoodDifficultyStruct value) {
-    HardnessList.insert(index, value);
+  void insertAtIndexInHardList(int index, FoodDifficultyStruct value) {
+    HardList.insert(index, value);
     secureStorage.setStringList(
-        'ff_HardnessList', _HardnessList.map((x) => x.serialize()).toList());
+        'ff_HardList', _HardList.map((x) => x.serialize()).toList());
+  }
+
+  Hardness? _HardSelect = Hardness.all;
+  Hardness? get HardSelect => _HardSelect;
+  set HardSelect(Hardness? value) {
+    _HardSelect = value;
   }
 
   List<FoodQuantityStruct> _QuantityList = [
@@ -457,6 +481,192 @@ class FFAppState extends ChangeNotifier {
         'ff_QuantityList', _QuantityList.map((x) => x.serialize()).toList());
   }
 
+  PeopleParamStruct _PeopleStat = PeopleParamStruct.fromSerializableMap(jsonDecode(
+      '{\"Weight\":\"30\",\"Height\":\"180\",\"Age\":\"80\",\"Activity\":\"average\",\"Target\":\"average\",\"Sex\":\"male\"}'));
+  PeopleParamStruct get PeopleStat => _PeopleStat;
+  set PeopleStat(PeopleParamStruct value) {
+    _PeopleStat = value;
+    secureStorage.setString('ff_PeopleStat', value.serialize());
+  }
+
+  void deletePeopleStat() {
+    secureStorage.delete(key: 'ff_PeopleStat');
+  }
+
+  void updatePeopleStatStruct(Function(PeopleParamStruct) updateFn) {
+    updateFn(_PeopleStat);
+    secureStorage.setString('ff_PeopleStat', _PeopleStat.serialize());
+  }
+
+  List<PeopleActionStruct> _ActionList = [];
+  List<PeopleActionStruct> get ActionList => _ActionList;
+  set ActionList(List<PeopleActionStruct> value) {
+    _ActionList = value;
+    secureStorage.setStringList(
+        'ff_ActionList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteActionList() {
+    secureStorage.delete(key: 'ff_ActionList');
+  }
+
+  void addToActionList(PeopleActionStruct value) {
+    ActionList.add(value);
+    secureStorage.setStringList(
+        'ff_ActionList', _ActionList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromActionList(PeopleActionStruct value) {
+    ActionList.remove(value);
+    secureStorage.setStringList(
+        'ff_ActionList', _ActionList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromActionList(int index) {
+    ActionList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_ActionList', _ActionList.map((x) => x.serialize()).toList());
+  }
+
+  void updateActionListAtIndex(
+    int index,
+    PeopleActionStruct Function(PeopleActionStruct) updateFn,
+  ) {
+    ActionList[index] = updateFn(_ActionList[index]);
+    secureStorage.setStringList(
+        'ff_ActionList', _ActionList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInActionList(int index, PeopleActionStruct value) {
+    ActionList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_ActionList', _ActionList.map((x) => x.serialize()).toList());
+  }
+
+  List<PeopleTargetStruct> _TargetList = [];
+  List<PeopleTargetStruct> get TargetList => _TargetList;
+  set TargetList(List<PeopleTargetStruct> value) {
+    _TargetList = value;
+    secureStorage.setStringList(
+        'ff_TargetList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteTargetList() {
+    secureStorage.delete(key: 'ff_TargetList');
+  }
+
+  void addToTargetList(PeopleTargetStruct value) {
+    TargetList.add(value);
+    secureStorage.setStringList(
+        'ff_TargetList', _TargetList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromTargetList(PeopleTargetStruct value) {
+    TargetList.remove(value);
+    secureStorage.setStringList(
+        'ff_TargetList', _TargetList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromTargetList(int index) {
+    TargetList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_TargetList', _TargetList.map((x) => x.serialize()).toList());
+  }
+
+  void updateTargetListAtIndex(
+    int index,
+    PeopleTargetStruct Function(PeopleTargetStruct) updateFn,
+  ) {
+    TargetList[index] = updateFn(_TargetList[index]);
+    secureStorage.setStringList(
+        'ff_TargetList', _TargetList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInTargetList(int index, PeopleTargetStruct value) {
+    TargetList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_TargetList', _TargetList.map((x) => x.serialize()).toList());
+  }
+
+  List<PeopleSexStruct> _SexList = [];
+  List<PeopleSexStruct> get SexList => _SexList;
+  set SexList(List<PeopleSexStruct> value) {
+    _SexList = value;
+    secureStorage.setStringList(
+        'ff_SexList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteSexList() {
+    secureStorage.delete(key: 'ff_SexList');
+  }
+
+  void addToSexList(PeopleSexStruct value) {
+    SexList.add(value);
+    secureStorage.setStringList(
+        'ff_SexList', _SexList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromSexList(PeopleSexStruct value) {
+    SexList.remove(value);
+    secureStorage.setStringList(
+        'ff_SexList', _SexList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromSexList(int index) {
+    SexList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_SexList', _SexList.map((x) => x.serialize()).toList());
+  }
+
+  void updateSexListAtIndex(
+    int index,
+    PeopleSexStruct Function(PeopleSexStruct) updateFn,
+  ) {
+    SexList[index] = updateFn(_SexList[index]);
+    secureStorage.setStringList(
+        'ff_SexList', _SexList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInSexList(int index, PeopleSexStruct value) {
+    SexList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_SexList', _SexList.map((x) => x.serialize()).toList());
+  }
+
+  String _SearchQuery = '';
+  String get SearchQuery => _SearchQuery;
+  set SearchQuery(String value) {
+    _SearchQuery = value;
+  }
+
+  int _CurrentStep = 0;
+  int get CurrentStep => _CurrentStep;
+  set CurrentStep(int value) {
+    _CurrentStep = value;
+  }
+
+  bool _DarkMode = false;
+  bool get DarkMode => _DarkMode;
+  set DarkMode(bool value) {
+    _DarkMode = value;
+    secureStorage.setBool('ff_DarkMode', value);
+  }
+
+  void deleteDarkMode() {
+    secureStorage.delete(key: 'ff_DarkMode');
+  }
+
+  bool _AutoNutrition = false;
+  bool get AutoNutrition => _AutoNutrition;
+  set AutoNutrition(bool value) {
+    _AutoNutrition = value;
+    secureStorage.setBool('ff_AutoNutrition', value);
+  }
+
+  void deleteAutoNutrition() {
+    secureStorage.delete(key: 'ff_AutoNutrition');
+  }
+
   bool _IsLoading = false;
   bool get IsLoading => _IsLoading;
   set IsLoading(bool value) {
@@ -491,50 +701,6 @@ class FFAppState extends ChangeNotifier {
   bool get isChanging => _isChanging;
   set isChanging(bool value) {
     _isChanging = value;
-  }
-
-  RecipeStruct _SelectedRecipe = RecipeStruct();
-  RecipeStruct get SelectedRecipe => _SelectedRecipe;
-  set SelectedRecipe(RecipeStruct value) {
-    _SelectedRecipe = value;
-  }
-
-  void updateSelectedRecipeStruct(Function(RecipeStruct) updateFn) {
-    updateFn(_SelectedRecipe);
-  }
-
-  int _currentStep = 0;
-  int get currentStep => _currentStep;
-  set currentStep(int value) {
-    _currentStep = value;
-  }
-
-  Hardness? _selectedHardness = Hardness.easy;
-  Hardness? get selectedHardness => _selectedHardness;
-  set selectedHardness(Hardness? value) {
-    _selectedHardness = value;
-  }
-
-  Food? _selectedCategory = Food.breakfast;
-  Food? get selectedCategory => _selectedCategory;
-  set selectedCategory(Food? value) {
-    _selectedCategory = value;
-  }
-
-  String _SearchQuery = '';
-  String get SearchQuery => _SearchQuery;
-  set SearchQuery(String value) {
-    _SearchQuery = value;
-  }
-
-  DailyPlanStruct _selectedDay = DailyPlanStruct();
-  DailyPlanStruct get selectedDay => _selectedDay;
-  set selectedDay(DailyPlanStruct value) {
-    _selectedDay = value;
-  }
-
-  void updateSelectedDayStruct(Function(DailyPlanStruct) updateFn) {
-    updateFn(_selectedDay);
   }
 }
 

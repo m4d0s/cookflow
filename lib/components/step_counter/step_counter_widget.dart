@@ -36,9 +36,9 @@ class _StepCounterWidgetState extends State<StepCounterWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.state = () {
-        if (widget.step! > FFAppState().currentStep) {
+        if (widget.step! > FFAppState().CurrentStep) {
           return ProgressStep.future;
-        } else if (widget.step! < FFAppState().currentStep) {
+        } else if (widget.step! < FFAppState().CurrentStep) {
           return ProgressStep.done;
         } else {
           return ProgressStep.ongoing;

@@ -15,9 +15,13 @@ class DayCardWidget extends StatefulWidget {
   const DayCardWidget({
     super.key,
     this.dayLog,
-  });
+    bool? hidaAdd,
+    this.label,
+  }) : this.hidaAdd = hidaAdd ?? false;
 
   final DailyPlanStruct? dayLog;
+  final bool hidaAdd;
+  final String? label;
 
   @override
   State<DayCardWidget> createState() => _DayCardWidgetState();
@@ -78,7 +82,13 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            functions.dayDetect012(widget.dayLog!.date!),
+                            valueOrDefault<String>(
+                              widget.label == ''
+                                  ? functions
+                                      .dayDetect012(widget.dayLog!.date!)
+                                  : widget.label,
+                              '123',
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
@@ -184,50 +194,52 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                               );
                             },
                           ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              FFAppState().selectedDay = DailyPlanStruct(
-                                date: dateTimeFromSecondsSinceEpoch(
-                                    getCurrentTimestamp.secondsSinceEpoch),
-                              );
-                              safeSetState(() {});
+                          if (widget.hidaAdd)
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                FFAppState().DailySelect = DailyPlanStruct(
+                                  date: dateTimeFromSecondsSinceEpoch(
+                                      getCurrentTimestamp.secondsSinceEpoch),
+                                );
+                                safeSetState(() {});
 
-                              context.pushNamed(
-                                RecipeChooseWidget.routeName,
-                                extra: <String, dynamic>{
-                                  '__transition_info__': TransitionInfo(
-                                    hasTransition: true,
-                                    transitionType:
-                                        PageTransitionType.rightToLeft,
+                                context.pushNamed(
+                                  MealSelectWidget.routeName,
+                                  extra: <String, dynamic>{
+                                    '__transition_info__': TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType:
+                                          PageTransitionType.rightToLeft,
+                                    ),
+                                  },
+                                );
+                              },
+                              child: wrapWithModel(
+                                model: _model.buttonModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: UButtonWidget(
+                                  content: 'Добавить рецепт',
+                                  icon: Icon(
+                                    Icons.add_rounded,
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    size: 16.0,
                                   ),
-                                },
-                              );
-                            },
-                            child: wrapWithModel(
-                              model: _model.buttonModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: UButtonWidget(
-                                content: 'Добавить рецепт',
-                                icon: Icon(
-                                  Icons.add_rounded,
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  size: 16.0,
+                                  iconPresent: true,
+                                  iconEndPresent: false,
+                                  variant: 'ghost',
+                                  size: 'small',
+                                  fullWidth: true,
+                                  loading: false,
+                                  disabled: false,
+                                  maincolor:
+                                      FlutterFlowTheme.of(context).primary,
                                 ),
-                                iconPresent: true,
-                                iconEndPresent: false,
-                                variant: 'ghost',
-                                size: 'small',
-                                fullWidth: true,
-                                loading: false,
-                                disabled: false,
-                                maincolor: FlutterFlowTheme.of(context).primary,
                               ),
                             ),
-                          ),
                         ].divide(SizedBox(height: 0.0)),
                       ),
                     ),

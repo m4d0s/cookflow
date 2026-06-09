@@ -318,7 +318,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                 children: [
                                                   Text(
                                                     FFAppState()
-                                                        .SelectedRecipe
+                                                        .RecipeSelect
                                                         .name,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -368,7 +368,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                       Text(
                                                         '${valueOrDefault<String>(
                                                           FFAppState()
-                                                              .SelectedRecipe
+                                                              .RecipeSelect
                                                               .products
                                                               .length
                                                               .toString(),
@@ -423,7 +423,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                               Builder(
                                 builder: (context) {
                                   final product = FFAppState()
-                                      .SelectedRecipe
+                                      .RecipeSelect
                                       .products
                                       .toList();
 
@@ -563,7 +563,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                     functions.procentCalc(
                                         _model.checked.toDouble(),
                                         FFAppState()
-                                            .SelectedRecipe
+                                            .RecipeSelect
                                             .products
                                             .length
                                             .toDouble()),
@@ -584,7 +584,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                 '${valueOrDefault<String>(
                                   _model.checked.toString(),
                                   '-0',
-                                )} из ${FFAppState().SelectedRecipe.products.length.toString()}',
+                                )} из ${FFAppState().RecipeSelect.products.length.toString()}',
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
@@ -610,55 +610,58 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                               ),
                             ].divide(SizedBox(width: 16.0)),
                           ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(
-                                CookingModeWidget.routeName,
-                                queryParameters: {
-                                  'step': serializeParam(
-                                    1,
-                                    ParamType.int,
+                          if (_model.checked >=
+                              FFAppState().RecipeSelect.products.length)
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(
+                                  CookingModeWidget.routeName,
+                                  queryParameters: {
+                                    'step': serializeParam(
+                                      1,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: wrapWithModel(
+                                model: _model.buttonModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: UButtonWidget(
+                                  content: 'Начать готовку',
+                                  icon: Icon(
+                                    Icons.play_arrow_rounded,
+                                    color:
+                                        FlutterFlowTheme.of(context).onPrimary,
+                                    size: 16.0,
                                   ),
-                                }.withoutNulls,
-                              );
-                            },
-                            child: wrapWithModel(
-                              model: _model.buttonModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: UButtonWidget(
-                                content: 'Начать готовку',
-                                icon: Icon(
-                                  Icons.play_arrow_rounded,
-                                  color: FlutterFlowTheme.of(context).onPrimary,
-                                  size: 16.0,
+                                  iconPresent: true,
+                                  iconEndPresent: false,
+                                  variant: 'primary',
+                                  size: 'large',
+                                  fullWidth: true,
+                                  loading: false,
+                                  disabled: functions
+                                              .procentCalc(
+                                                  _model.checked.toDouble(),
+                                                  FFAppState()
+                                                      .RecipeSelect
+                                                      .products
+                                                      .length
+                                                      .toDouble())
+                                              .toString() ==
+                                          '1'
+                                      ? false
+                                      : true,
+                                  maincolor:
+                                      FlutterFlowTheme.of(context).onPrimary,
                                 ),
-                                iconPresent: true,
-                                iconEndPresent: false,
-                                variant: 'primary',
-                                size: 'large',
-                                fullWidth: true,
-                                loading: false,
-                                disabled: functions
-                                            .procentCalc(
-                                                _model.checked.toDouble(),
-                                                FFAppState()
-                                                    .SelectedRecipe
-                                                    .products
-                                                    .length
-                                                    .toDouble())
-                                            .toString() ==
-                                        '1'
-                                    ? false
-                                    : true,
-                                maincolor:
-                                    FlutterFlowTheme.of(context).onPrimary,
                               ),
                             ),
-                          ),
                         ].divide(SizedBox(height: 16.0)),
                       ),
                     ),

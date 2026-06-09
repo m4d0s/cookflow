@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -37,7 +38,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().SelectedRecipe = RecipeStruct();
+      FFAppState().RecipeSelect = RecipeStruct();
       safeSetState(() {});
     });
   }
@@ -63,7 +64,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            FFAppState().SelectedRecipe = RecipeStruct();
+            FFAppState().RecipeSelect = RecipeStruct();
             FFAppState().isChanging = false;
             safeSetState(() {});
 
@@ -248,7 +249,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                               if (Navigator.of(context).canPop()) {
                                 context.pop();
                               }
-                              context.pushNamed(MealPlanWidget.routeName);
+                              context.pushNamed(MealPreviewWidget.routeName);
                             },
                           ),
                         ].divide(SizedBox(width: 4.0)),
@@ -260,7 +261,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                     updateCallback: () => safeSetState(() {}),
                     child: UTextFieldWidget(
                       hint: 'Поиск рецептов...',
-                      value: '',
+                      value: FFAppState().SearchQuery,
                       leadingIcon: Icon(
                         Icons.search_rounded,
                         color: FlutterFlowTheme.of(context).primaryText,
@@ -302,16 +303,20 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                               controller: _model.dropdownValueController1 ??=
                                   FormFieldController<Food>(
                                 _model.dropdownValue1 ??=
-                                    FFAppState().selectedCategory,
+                                    FFAppState().CategorySelect,
                               ),
                               options: List<Food>.from(FFAppState()
-                                  .CategoriesList
+                                  .CategoryList
                                   .map((e) => e.category)
                                   .withoutNulls
+                                  .toList()
+                                  .take(7)
                                   .toList()),
                               optionLabels: FFAppState()
-                                  .CategoriesList
+                                  .CategoryList
                                   .map((e) => e.name)
+                                  .toList()
+                                  .take(7)
                                   .toList(),
                               onChanged: (val) => safeSetState(
                                   () => _model.dropdownValue1 = val),
@@ -395,15 +400,17 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                               controller: _model.dropdownValueController2 ??=
                                   FormFieldController<Hardness>(
                                 _model.dropdownValue2 ??=
-                                    FFAppState().selectedHardness,
+                                    FFAppState().HardSelect,
                               ),
                               options: List<Hardness>.from(FFAppState()
-                                  .HardnessList
+                                  .HardList
                                   .map((e) => e.difficult)
                                   .withoutNulls
+                                  .toList()
+                                  .take(3)
                                   .toList()),
                               optionLabels: FFAppState()
-                                  .HardnessList
+                                  .HardList
                                   .map((e) => e.name)
                                   .toList(),
                               onChanged: (val) => safeSetState(
@@ -511,27 +518,23 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                           children: List.generate(recipe.length, (recipeIndex) {
                             final recipeItem = recipe[recipeIndex];
                             return Visibility(
-                              visible: () {
-                                if (recipeItem.isFavorite) {
-                                  return true;
-                                } else if (_model.dropdownValue1 ==
-                                    recipeItem.foodType) {
-                                  return ((_model.dropdownValue1 == Food.all) ||
-                                      (_model.dropdownValue1 ==
-                                          recipeItem.foodType));
-                                } else if (_model.dropdownValue2 ==
-                                    recipeItem.hardType) {
-                                  return ((_model.dropdownValue2 ==
-                                          recipeItem.hardType) &&
-                                      (_model.dropdownValue2 == Hardness.all));
-                                } else if ((_model.dropdownValue1 ==
-                                        Food.all) &&
-                                    (_model.dropdownValue2 == Hardness.all)) {
-                                  return true;
-                                } else {
-                                  return !FFAppState().SearchFavorite;
-                                }
-                              }(),
+                              visible: (FFAppState().SearchFavorite
+                                      ? recipeItem.isFavorite
+                                      : true) &&
+                                  (_model.dropdownValue1 == Food.all
+                                      ? true
+                                      : (recipeItem.foodType ==
+                                          _model.dropdownValue1)) &&
+                                  (_model.dropdownValue2 == Hardness.all
+                                      ? true
+                                      : (recipeItem.hardType ==
+                                          _model.dropdownValue2)) &&
+                                  (FFAppState().SearchQuery == ''
+                                      ? true
+                                      : functions.substringFind(
+                                          recipeItem.name,
+                                          _model.textFieldModel
+                                              .inputTextController.text)),
                               child: Expanded(
                                 flex: 1,
                                 child: InkWell(
@@ -540,7 +543,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    FFAppState().SelectedRecipe = recipeItem;
+                                    FFAppState().RecipeSelect = recipeItem;
                                     safeSetState(() {});
 
                                     context.pushNamed(

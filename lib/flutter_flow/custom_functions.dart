@@ -7,3 +7,4 @@ export '/custom_code/functions/recalc_step_ids.dart';
 export '/custom_code/functions/return_index_collide.dart';
 export '/custom_code/functions/reset_time.dart';
 export '/custom_code/functions/day_detect012.dart';
+export '/custom_code/functions/substring_find.dart';

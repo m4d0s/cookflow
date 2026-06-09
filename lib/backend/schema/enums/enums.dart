@@ -51,6 +51,27 @@ enum ProgressStep {
   future,
 }
 
+enum MealTarget {
+  extraloss,
+  lessloss,
+  average,
+  lessget,
+  extraget,
+}
+
+enum MealAction {
+  low,
+  lessaverage,
+  average,
+  moreaverage,
+  high,
+}
+
+enum HumanSex {
+  male,
+  female,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -76,6 +97,12 @@ T? deserializeEnum<T>(String? value) {
       return Textfield.values.deserialize(value) as T?;
     case (ProgressStep):
       return ProgressStep.values.deserialize(value) as T?;
+    case (MealTarget):
+      return MealTarget.values.deserialize(value) as T?;
+    case (MealAction):
+      return MealAction.values.deserialize(value) as T?;
+    case (HumanSex):
+      return HumanSex.values.deserialize(value) as T?;
     default:
       return null;
   }

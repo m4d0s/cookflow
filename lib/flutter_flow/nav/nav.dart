@@ -120,9 +120,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => SettingsWidget(),
         ),
         FFRoute(
-          name: RecipeChooseWidget.routeName,
-          path: RecipeChooseWidget.routePath,
-          builder: (context, params) => RecipeChooseWidget(),
+          name: MealSelectWidget.routeName,
+          path: MealSelectWidget.routePath,
+          builder: (context, params) => MealSelectWidget(),
+        ),
+        FFRoute(
+          name: MealPreviewWidget.routeName,
+          path: MealPreviewWidget.routePath,
+          builder: (context, params) => MealPreviewWidget(),
+        ),
+        FFRoute(
+          name: CookingEndWidget.routeName,
+          path: CookingEndWidget.routePath,
+          builder: (context, params) => CookingEndWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

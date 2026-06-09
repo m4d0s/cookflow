@@ -1,7 +1,9 @@
+import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
 import '/components/ingridient_preview/ingridient_preview_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
 import '/components/u_button/u_button_widget.dart';
+import '/flutter_flow/flutter_flow_data_table.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -73,7 +75,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
             },
           ),
           title: Text(
-            FFAppState().SelectedRecipe.name,
+            FFAppState().RecipeSelect.name,
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -121,7 +123,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                 CachedNetworkImage(
                                   fadeInDuration: Duration(milliseconds: 0),
                                   fadeOutDuration: Duration(milliseconds: 0),
-                                  imageUrl: FFAppState().SelectedRecipe.picture,
+                                  imageUrl: FFAppState().RecipeSelect.picture,
                                   height: 300.0,
                                   fit: BoxFit.cover,
                                   alignment: Alignment(0.0, 0.0),
@@ -170,7 +172,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           icon: Icon(
                                             Icons.favorite_rounded,
                                             color: FFAppState()
-                                                    .SelectedRecipe
+                                                    .RecipeSelect
                                                     .isFavorite
                                                 ? FlutterFlowTheme.of(context)
                                                     .error
@@ -180,7 +182,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           ),
                                           onPressed: () async {
                                             FFAppState()
-                                                .updateSelectedRecipeStruct(
+                                                .updateRecipeSelectStruct(
                                               (e) =>
                                                   e..isFavorite = !e.isFavorite,
                                             );
@@ -226,7 +228,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      FFAppState().SelectedRecipe.name,
+                                      FFAppState().RecipeSelect.name,
                                       style: FlutterFlowTheme.of(context)
                                           .headlineMedium
                                           .override(
@@ -249,7 +251,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           ),
                                     ),
                                     Text(
-                                      FFAppState().SelectedRecipe.info,
+                                      FFAppState().RecipeSelect.info,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -302,7 +304,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                             ),
                                             label: '${valueOrDefault<String>(
                                               FFAppState()
-                                                  .SelectedRecipe
+                                                  .RecipeSelect
                                                   .portions
                                                   .toString(),
                                               '-0',
@@ -322,7 +324,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               size: 16.0,
                                             ),
                                             label:
-                                                '${FFAppState().SelectedRecipe.cookTime.toString()} мин',
+                                                '${FFAppState().RecipeSelect.cookTime.toString()} мин',
                                           ),
                                         ),
                                         wrapWithModel(
@@ -338,7 +340,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               size: 16.0,
                                             ),
                                             label: FFAppState()
-                                                .SelectedRecipe
+                                                .RecipeSelect
                                                 .foodType
                                                 ?.name,
                                           ),
@@ -450,14 +452,14 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  valueOrDefault<String>(
+                                                  '${valueOrDefault<String>(
                                                     FFAppState()
-                                                        .SelectedRecipe
+                                                        .RecipeSelect
                                                         .nutritions
                                                         .calories
                                                         .toString(),
                                                     '-0',
-                                                  ),
+                                                  )} / ${FFAppState().DailyGoal.calories.toString()} ккал',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -492,7 +494,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                             CircularPercentIndicator(
                                               percent: functions.procentCalc(
                                                   FFAppState()
-                                                      .SelectedRecipe
+                                                      .RecipeSelect
                                                       .nutritions
                                                       .calories,
                                                   FFAppState()
@@ -512,7 +514,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                 formatNumber(
                                                   functions.procentCalc(
                                                       FFAppState()
-                                                          .SelectedRecipe
+                                                          .RecipeSelect
                                                           .nutritions
                                                           .protein,
                                                       FFAppState()
@@ -632,7 +634,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${FFAppState().SelectedRecipe.nutritions.protein.toString()}/${FFAppState().DailyGoal.protein.toString()}',
+                                                  '${FFAppState().RecipeSelect.nutritions.protein.toString()}/${FFAppState().DailyGoal.protein.toString()} г',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -665,7 +667,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                   percent:
                                                       functions.procentCalc(
                                                           FFAppState()
-                                                              .SelectedRecipe
+                                                              .RecipeSelect
                                                               .nutritions
                                                               .protein,
                                                           FFAppState()
@@ -745,7 +747,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${FFAppState().SelectedRecipe.nutritions.fats.toString()}/${FFAppState().DailyGoal.fats.toString()}',
+                                                  '${FFAppState().RecipeSelect.nutritions.fats.toString()}/${FFAppState().DailyGoal.fats.toString()} г',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -778,7 +780,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                   percent:
                                                       functions.procentCalc(
                                                           FFAppState()
-                                                              .SelectedRecipe
+                                                              .RecipeSelect
                                                               .nutritions
                                                               .fats,
                                                           FFAppState()
@@ -858,7 +860,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${FFAppState().SelectedRecipe.nutritions.carbs.toString()}/${FFAppState().DailyGoal.carbs.toString()}',
+                                                  '${FFAppState().RecipeSelect.nutritions.carbs.toString()}/${FFAppState().DailyGoal.carbs.toString()} г',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -891,7 +893,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                   percent:
                                                       functions.procentCalc(
                                                           FFAppState()
-                                                              .SelectedRecipe
+                                                              .RecipeSelect
                                                               .nutritions
                                                               .carbs,
                                                           FFAppState()
@@ -973,7 +975,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                         ),
                                         Text(
                                           valueOrDefault<String>(
-                                            '${FFAppState().SelectedRecipe.products.length.toString()} продуктов',
+                                            '${FFAppState().RecipeSelect.products.length.toString()} продуктов',
                                             '-1 продуктов',
                                           ),
                                           style: FlutterFlowTheme.of(context)
@@ -1008,41 +1010,250 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                         ),
                                       ],
                                     ),
-                                    Builder(
-                                      builder: (context) {
-                                        final product = FFAppState()
-                                            .SelectedRecipe
-                                            .products
-                                            .toList();
+                                    if (FFAppConstants.FalseValue)
+                                      Builder(
+                                        builder: (context) {
+                                          final product = FFAppState()
+                                              .RecipeSelect
+                                              .products
+                                              .toList();
 
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: List.generate(
-                                              product.length, (productIndex) {
-                                            final productItem =
-                                                product[productIndex];
-                                            return wrapWithModel(
-                                              model: _model.ingredientItemModels
-                                                  .getModel(
-                                                productItem.id.toString(),
-                                                productIndex,
-                                              ),
-                                              updateCallback: () =>
-                                                  safeSetState(() {}),
-                                              child: IngridientPreviewWidget(
-                                                key: Key(
-                                                  'Key138_${productItem.id.toString()}',
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: List.generate(
+                                                product.length, (productIndex) {
+                                              final productItem =
+                                                  product[productIndex];
+                                              return wrapWithModel(
+                                                model: _model
+                                                    .ingredientItemModels
+                                                    .getModel(
+                                                  productItem.id.toString(),
+                                                  productIndex,
                                                 ),
-                                                product: productItem,
+                                                updateCallback: () =>
+                                                    safeSetState(() {}),
+                                                child: IngridientPreviewWidget(
+                                                  key: Key(
+                                                    'Key138_${productItem.id.toString()}',
+                                                  ),
+                                                  product: productItem,
+                                                ),
+                                              );
+                                            }).divide(SizedBox(height: 0.0)),
+                                          );
+                                        },
+                                      ),
+                                    Expanded(
+                                      child: Builder(
+                                        builder: (context) {
+                                          final ingridient = FFAppState()
+                                              .RecipeSelect
+                                              .products
+                                              .toList();
+
+                                          return FlutterFlowDataTable<
+                                              ProductStruct>(
+                                            controller: _model
+                                                .paginatedDataTableController,
+                                            data: ingridient,
+                                            numRows: FFAppState()
+                                                .RecipeSelect
+                                                .products
+                                                .length,
+                                            columnsBuilder: (onSortChanged) => [
+                                              DataColumn2(
+                                                label: DefaultTextStyle.merge(
+                                                  softWrap: true,
+                                                  child: Text(
+                                                    'Название',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .labelLarge
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .manrope(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .onPrimary,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLarge
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLarge
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                ),
                                               ),
-                                            );
-                                          }).divide(SizedBox(height: 0.0)),
-                                        );
-                                      },
+                                              DataColumn2(
+                                                label: DefaultTextStyle.merge(
+                                                  softWrap: true,
+                                                  child: Text(
+                                                    'Количество',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .labelLarge
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .manrope(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .onPrimary,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLarge
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLarge
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                            dataRowBuilder: (ingridientItem,
+                                                    ingridientIndex,
+                                                    selected,
+                                                    onSelectChanged) =>
+                                                DataRow(
+                                              color: WidgetStateProperty.all(
+                                                ingridientIndex % 2 == 0
+                                                    ? FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground
+                                                    : FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryBackground,
+                                              ),
+                                              cells: [
+                                                Text(
+                                                  ingridientItem.name,
+                                                  maxLines: 2,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  '${ingridientItem.quantity.count.toString()} ${ingridientItem.quantity.quantity?.name}',
+                                                  maxLines: 1,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ]
+                                                  .map((c) => DataCell(c))
+                                                  .toList(),
+                                            ),
+                                            paginated: false,
+                                            selectable: false,
+                                            minWidth: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.2,
+                                            headingRowHeight: 56.0,
+                                            dataRowHeight: 48.0,
+                                            columnSpacing: 16.0,
+                                            headingRowColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            addHorizontalDivider: true,
+                                            addTopAndBottomDivider: false,
+                                            hideDefaultHorizontalDivider: true,
+                                            horizontalDividerColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
+                                            horizontalDividerThickness: 1.0,
+                                            addVerticalDivider: false,
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ].divide(SizedBox(height: 8.0)),
                                 ),
@@ -1073,7 +1284,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                 Builder(
                                   builder: (context) {
                                     final step = FFAppState()
-                                        .SelectedRecipe
+                                        .RecipeSelect
                                         .cookingSteps
                                         .toList();
 

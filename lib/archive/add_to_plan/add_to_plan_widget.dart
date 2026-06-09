@@ -140,7 +140,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  FFAppState().updateSelectedDayStruct(
+                                  FFAppState().updateDailySelectStruct(
                                     (e) => e
                                       ..updateCompletedRecipes(
                                         (e) => e.add(functions

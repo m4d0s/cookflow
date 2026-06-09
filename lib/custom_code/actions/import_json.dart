@@ -20,7 +20,7 @@ Future<void> importJson(String jsonContent) async {
     FFAppState().DailyGoal =
         NutritionsStruct.fromSerializableMap(backup['dailyGoal']);
 
-    FFAppState().AllDailyPlans = (backup['allDailyPlans'] as List)
+    FFAppState().DailyList = (backup['allDailyPlans'] as List)
         .map((e) => DailyPlanStruct.fromSerializableMap(e))
         .toList();
 
@@ -28,11 +28,11 @@ Future<void> importJson(String jsonContent) async {
         .map((e) => RecipeStruct.fromSerializableMap(e))
         .toList();
 
-    FFAppState().CategoriesList = (backup['categoriesList'] as List)
+    FFAppState().CategoryList = (backup['categoriesList'] as List)
         .map((e) => FoodCategoryStruct.fromSerializableMap(e))
         .toList();
 
-    FFAppState().HardnessList = (backup['hardnessList'] as List)
+    FFAppState().HardList = (backup['hardnessList'] as List)
         .map((e) => FoodDifficultyStruct.fromSerializableMap(e))
         .toList();
 

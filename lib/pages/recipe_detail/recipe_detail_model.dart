@@ -1,7 +1,9 @@
+import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
 import '/components/ingridient_preview/ingridient_preview_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
 import '/components/u_button/u_button_widget.dart';
+import '/flutter_flow/flutter_flow_data_table.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'recipe_detail_widget.dart' show RecipeDetailWidget;
@@ -18,6 +20,9 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   late InfoTagModel infoTagModel3;
   // Models for IngredientItem.
   late FlutterFlowDynamicModels<IngridientPreviewModel> ingredientItemModels;
+  // State field(s) for PaginatedDataTable widget.
+  final paginatedDataTableController =
+      FlutterFlowDataTableController<ProductStruct>();
   // Models for StepPreview.
   late FlutterFlowDynamicModels<StepPreviewModel> stepPreviewModels;
   // Model for Button.
@@ -40,6 +45,7 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
     infoTagModel2.dispose();
     infoTagModel3.dispose();
     ingredientItemModels.dispose();
+    paginatedDataTableController.dispose();
     stepPreviewModels.dispose();
     buttonModel.dispose();
   }

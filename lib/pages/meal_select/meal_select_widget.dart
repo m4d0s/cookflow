@@ -6,31 +6,33 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'recipe_choose_model.dart';
-export 'recipe_choose_model.dart';
+import 'meal_select_model.dart';
+export 'meal_select_model.dart';
 
-class RecipeChooseWidget extends StatefulWidget {
-  const RecipeChooseWidget({super.key});
+class MealSelectWidget extends StatefulWidget {
+  const MealSelectWidget({super.key});
 
-  static String routeName = 'RecipeChoose';
-  static String routePath = '/recipeChoose';
+  static String routeName = 'MealSelect';
+  static String routePath = '/mealSelect';
 
   @override
-  State<RecipeChooseWidget> createState() => _RecipeChooseWidgetState();
+  State<MealSelectWidget> createState() => _MealSelectWidgetState();
 }
 
-class _RecipeChooseWidgetState extends State<RecipeChooseWidget> {
-  late RecipeChooseModel _model;
+class _MealSelectWidgetState extends State<MealSelectWidget> {
+  late MealSelectModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => RecipeChooseModel());
+    _model = createModel(context, () => MealSelectModel());
   }
 
   @override
@@ -130,7 +132,7 @@ class _RecipeChooseWidgetState extends State<RecipeChooseWidget> {
                                 updateCallback: () => safeSetState(() {}),
                                 child: UTextFieldWidget(
                                   hint: 'Поиск рецептов...',
-                                  value: '',
+                                  value: FFAppState().SearchQuery,
                                   leadingIcon: Icon(
                                     Icons.search_rounded,
                                     color: FlutterFlowTheme.of(context)
@@ -179,16 +181,20 @@ class _RecipeChooseWidgetState extends State<RecipeChooseWidget> {
                                                   .dropdownValueController1 ??=
                                               FormFieldController<Food>(
                                             _model.dropdownValue1 ??=
-                                                FFAppState().selectedCategory,
+                                                FFAppState().CategorySelect,
                                           ),
                                           options: List<Food>.from(FFAppState()
-                                              .CategoriesList
+                                              .CategoryList
                                               .map((e) => e.category)
                                               .withoutNulls
+                                              .toList()
+                                              .take(7)
                                               .toList()),
                                           optionLabels: FFAppState()
-                                              .CategoriesList
+                                              .CategoryList
                                               .map((e) => e.name)
+                                              .toList()
+                                              .take(7)
                                               .toList(),
                                           onChanged: (val) => safeSetState(() =>
                                               _model.dropdownValue1 = val),
@@ -295,17 +301,21 @@ class _RecipeChooseWidgetState extends State<RecipeChooseWidget> {
                                                   .dropdownValueController2 ??=
                                               FormFieldController<Hardness>(
                                             _model.dropdownValue2 ??=
-                                                FFAppState().selectedHardness,
+                                                FFAppState().HardSelect,
                                           ),
                                           options: List<Hardness>.from(
                                               FFAppState()
-                                                  .HardnessList
+                                                  .HardList
                                                   .map((e) => e.difficult)
                                                   .withoutNulls
+                                                  .toList()
+                                                  .take(3)
                                                   .toList()),
                                           optionLabels: FFAppState()
-                                              .HardnessList
+                                              .HardList
                                               .map((e) => e.name)
+                                              .toList()
+                                              .take(3)
                                               .toList(),
                                           onChanged: (val) => safeSetState(() =>
                                               _model.dropdownValue2 = val),
@@ -444,39 +454,42 @@ class _RecipeChooseWidgetState extends State<RecipeChooseWidget> {
                                         (recipeIndex) {
                                       final recipeItem = recipe[recipeIndex];
                                       return Visibility(
-                                        visible: () {
-                                          if (recipeItem.isFavorite) {
-                                            return true;
-                                          } else if (_model.dropdownValue1 ==
-                                              recipeItem.foodType) {
-                                            return ((_model.dropdownValue1 ==
-                                                    Food.all) ||
-                                                (_model.dropdownValue1 ==
-                                                    recipeItem.foodType));
-                                          } else if (_model.dropdownValue2 ==
-                                              recipeItem.hardType) {
-                                            return ((_model.dropdownValue2 ==
-                                                    recipeItem.hardType) &&
-                                                (_model.dropdownValue2 ==
-                                                    Hardness.all));
-                                          } else if ((_model.dropdownValue1 ==
-                                                  Food.all) &&
-                                              (_model.dropdownValue2 ==
-                                                  Hardness.all)) {
-                                            return true;
-                                          } else {
-                                            return !FFAppState().SearchFavorite;
-                                          }
-                                        }(),
+                                        visible: (FFAppState().SearchFavorite
+                                                ? recipeItem.isFavorite
+                                                : true) &&
+                                            (_model.dropdownValue1 == Food.all
+                                                ? true
+                                                : (recipeItem.foodType ==
+                                                    _model.dropdownValue1)) &&
+                                            (_model.dropdownValue2 ==
+                                                    Hardness.all
+                                                ? true
+                                                : (recipeItem.hardType ==
+                                                    _model.dropdownValue2)) &&
+                                            (_model
+                                                            .textFieldModel
+                                                            .inputTextController
+                                                            .text ==
+                                                        ''
+                                                ? true
+                                                : functions.substringFind(
+                                                    recipeItem.name,
+                                                    FFAppState().SearchQuery)),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            FFAppState().SelectedRecipe =
+                                            FFAppState().RecipeSelect =
                                                 recipeItem;
                                             FFAppState().update(() {});
+                                            if (Navigator.of(context)
+                                                .canPop()) {
+                                              context.pop();
+                                            }
+                                            context.pushNamed(
+                                                MealPreviewWidget.routeName);
                                           },
                                           child: wrapWithModel(
                                             model: _model.recipeCard2Models
@@ -496,7 +509,33 @@ class _RecipeChooseWidgetState extends State<RecipeChooseWidget> {
                                           ),
                                         ),
                                       );
-                                    }),
+                                    }).divide(
+                                      SizedBox(height: 8.0),
+                                      filterFn: (recipeIndex) {
+                                        final recipeItem = recipe[recipeIndex];
+                                        return (FFAppState().SearchFavorite
+                                                ? recipeItem.isFavorite
+                                                : true) &&
+                                            (_model.dropdownValue1 == Food.all
+                                                ? true
+                                                : (recipeItem.foodType ==
+                                                    _model.dropdownValue1)) &&
+                                            (_model.dropdownValue2 ==
+                                                    Hardness.all
+                                                ? true
+                                                : (recipeItem.hardType ==
+                                                    _model.dropdownValue2)) &&
+                                            (_model
+                                                            .textFieldModel
+                                                            .inputTextController
+                                                            .text ==
+                                                        ''
+                                                ? true
+                                                : functions.substringFind(
+                                                    recipeItem.name,
+                                                    FFAppState().SearchQuery));
+                                      },
+                                    ).around(SizedBox(height: 8.0)),
                                   ),
                                 );
                               },

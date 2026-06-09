@@ -3,10 +3,11 @@ import '/components/recipe_card2/recipe_card2_widget.dart';
 import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import 'recipe_choose_widget.dart' show RecipeChooseWidget;
+import '/index.dart';
+import 'meal_select_widget.dart' show MealSelectWidget;
 import 'package:flutter/material.dart';
 
-class RecipeChooseModel extends FlutterFlowModel<RecipeChooseWidget> {
+class MealSelectModel extends FlutterFlowModel<MealSelectWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Model for TextField.

@@ -1,5 +1,5 @@
 import '/backend/schema/structs/index.dart';
-import '/components/step_counter/step_counter_widget.dart';
+import '/components/info_tag/info_tag_widget.dart';
 import '/components/step_timer/step_timer_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -17,8 +17,10 @@ class CookingModeModel extends FlutterFlowModel<CookingModeWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Models for ProgressStep.
-  late FlutterFlowDynamicModels<StepCounterModel> progressStepModels;
+  // Model for InfoTag component.
+  late InfoTagModel infoTagModel1;
+  // Model for InfoTag component.
+  late InfoTagModel infoTagModel2;
   // Model for StepTimer.
   late StepTimerModel stepTimerModel;
   // Model for Button.
@@ -28,7 +30,8 @@ class CookingModeModel extends FlutterFlowModel<CookingModeWidget> {
 
   @override
   void initState(BuildContext context) {
-    progressStepModels = FlutterFlowDynamicModels(() => StepCounterModel());
+    infoTagModel1 = createModel(context, () => InfoTagModel());
+    infoTagModel2 = createModel(context, () => InfoTagModel());
     stepTimerModel = createModel(context, () => StepTimerModel());
     buttonModel1 = createModel(context, () => UButtonModel());
     buttonModel2 = createModel(context, () => UButtonModel());
@@ -36,7 +39,8 @@ class CookingModeModel extends FlutterFlowModel<CookingModeWidget> {
 
   @override
   void dispose() {
-    progressStepModels.dispose();
+    infoTagModel1.dispose();
+    infoTagModel2.dispose();
     stepTimerModel.dispose();
     buttonModel1.dispose();
     buttonModel2.dispose();
