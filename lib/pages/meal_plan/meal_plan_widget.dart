@@ -51,43 +51,47 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            if (dateTimeFormat("yMd", getCurrentTimestamp) ==
-                dateTimeFormat(
-                    "yMd", FFAppState().DailyList.lastOrNull?.date)) {
-              FFAppState().addToDailyList(DailyPlanStruct(
-                date: functions
-                    .resetTime(functions.resetTime(getCurrentTimestamp)),
-              ));
-              safeSetState(() {});
-            }
+        floatingActionButton: Visibility(
+          visible: FFAppConstants.FalseValue,
+          child: FloatingActionButton.extended(
+            onPressed: () async {
+              if (dateTimeFormat("yMd", getCurrentTimestamp) ==
+                  dateTimeFormat(
+                      "yMd", FFAppState().DailyList.lastOrNull?.date)) {
+                FFAppState().addToDailyList(DailyPlanStruct(
+                  date: functions
+                      .resetTime(functions.resetTime(getCurrentTimestamp)),
+                ));
+                safeSetState(() {});
+              }
 
-            context.pushNamed(MealSelectWidget.routeName);
-          },
-          backgroundColor: FlutterFlowTheme.of(context).primary,
-          icon: Icon(
-            Icons.plus_one,
-            color: FlutterFlowTheme.of(context).onPrimary,
-            size: 24.0,
-          ),
-          elevation: 0.0,
-          label: Text(
-            'Добавить сегодня',
-            style: FlutterFlowTheme.of(context).labelLarge.override(
-                  font: GoogleFonts.manrope(
+              context.pushNamed(MealSelectWidget.routeName);
+            },
+            backgroundColor: FlutterFlowTheme.of(context).primary,
+            icon: Icon(
+              Icons.plus_one,
+              color: FlutterFlowTheme.of(context).onPrimary,
+              size: 24.0,
+            ),
+            elevation: 0.0,
+            label: Text(
+              'Добавить сегодня',
+              style: FlutterFlowTheme.of(context).labelLarge.override(
+                    font: GoogleFonts.manrope(
+                      fontWeight:
+                          FlutterFlowTheme.of(context).labelLarge.fontWeight,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                    ),
+                    color: FlutterFlowTheme.of(context).onPrimary,
+                    letterSpacing: 0.0,
                     fontWeight:
                         FlutterFlowTheme.of(context).labelLarge.fontWeight,
                     fontStyle:
                         FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                    lineHeight: 1.4,
                   ),
-                  color: FlutterFlowTheme.of(context).onPrimary,
-                  letterSpacing: 0.0,
-                  fontWeight:
-                      FlutterFlowTheme.of(context).labelLarge.fontWeight,
-                  fontStyle: FlutterFlowTheme.of(context).labelLarge.fontStyle,
-                  lineHeight: 1.4,
-                ),
+            ),
           ),
         ),
         appBar: AppBar(

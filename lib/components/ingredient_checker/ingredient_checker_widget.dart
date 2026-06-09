@@ -11,9 +11,11 @@ class IngredientCheckerWidget extends StatefulWidget {
   const IngredientCheckerWidget({
     super.key,
     this.product,
-  });
+    int? multiplier,
+  }) : this.multiplier = multiplier ?? 1;
 
   final ProductStruct? product;
+  final int multiplier;
 
   @override
   State<IngredientCheckerWidget> createState() =>
@@ -109,7 +111,7 @@ class _IngredientCheckerWidgetState extends State<IngredientCheckerWidget> {
                         ),
                         Text(
                           valueOrDefault<String>(
-                            '${widget.product?.quantity.count.toString()} ${widget.product?.quantity.name}',
+                            '${(widget.product!.quantity.count * widget.multiplier).toString()} ${widget.product?.quantity.name}',
                             '-1 kbnh',
                           ),
                           style: FlutterFlowTheme.of(context)

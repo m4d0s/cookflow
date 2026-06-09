@@ -246,6 +246,17 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setString('ff_DailyGoal', _DailyGoal.serialize());
   }
 
+  NutritionsStruct _DailyHGoal = NutritionsStruct.fromSerializableMap(jsonDecode(
+      '{\"calories\":\"2400.0\",\"protein\":\"170.0\",\"fats\":\"200.0\",\"carbs\":\"320.0\"}'));
+  NutritionsStruct get DailyHGoal => _DailyHGoal;
+  set DailyHGoal(NutritionsStruct value) {
+    _DailyHGoal = value;
+  }
+
+  void updateDailyHGoalStruct(Function(NutritionsStruct) updateFn) {
+    updateFn(_DailyHGoal);
+  }
+
   List<RecipeStruct> _RecipeList = [];
   List<RecipeStruct> get RecipeList => _RecipeList;
   set RecipeList(List<RecipeStruct> value) {
@@ -427,15 +438,15 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodQuantityStruct> _QuantityList = [
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"г\",\"quantity\":\"g\",\"nutritionportion\":\"100г\"}')),
+        '{\"name\":\"г\",\"nutriTag\":\"100г\",\"multiplier\":\"1.0\",\"quantity\":\"g\",\"altquantity\":\"g\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"кг\",\"quantity\":\"kg\",\"nutritionportion\":\"100г\"}')),
+        '{\"name\":\"кг\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"kg\",\"altquantity\":\"g\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"л\",\"quantity\":\"l\",\"nutritionportion\":\"100мл\"}')),
+        '{\"name\":\"л\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"l\",\"altquantity\":\"ml\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"мл\",\"quantity\":\"ml\",\"nutritionportion\":\"100мл\"}')),
+        '{\"name\":\"мл\",\"quantity\":\"ml\",\"altquantity\":\"ml\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"шт.\",\"quantity\":\"pi\",\"nutritionportion\":\"1 шт\"}'))
+        '{\"name\":\"шт.\",\"nutriTag\":\"1 шт.\",\"multiplier\":\"1.0\",\"quantity\":\"pi\",\"altquantity\":\"pi\"}'))
   ];
   List<FoodQuantityStruct> get QuantityList => _QuantityList;
   set QuantityList(List<FoodQuantityStruct> value) {
@@ -639,6 +650,12 @@ class FFAppState extends ChangeNotifier {
     _SearchQuery = value;
   }
 
+  int _PortionSelect = 0;
+  int get PortionSelect => _PortionSelect;
+  set PortionSelect(int value) {
+    _PortionSelect = value;
+  }
+
   int _CurrentStep = 0;
   int get CurrentStep => _CurrentStep;
   set CurrentStep(int value) {
@@ -701,6 +718,12 @@ class FFAppState extends ChangeNotifier {
   bool get isChanging => _isChanging;
   set isChanging(bool value) {
     _isChanging = value;
+  }
+
+  bool _SimpleQuantity = false;
+  bool get SimpleQuantity => _SimpleQuantity;
+  set SimpleQuantity(bool value) {
+    _SimpleQuantity = value;
   }
 }
 

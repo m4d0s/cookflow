@@ -207,6 +207,7 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       updateCallback: () => safeSetState(() {}),
                       child: UTextFieldWidget(
                         hint: 'Опишите шаг готовки...',
+                        value: widget.step?.desc,
                         leadingIcon: Icon(
                           Icons.edit,
                         ),
@@ -219,7 +220,8 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       model: _model.uTextFieldModel2,
                       updateCallback: () => safeSetState(() {}),
                       child: UTextFieldWidget(
-                        hint: 'Добавьте совет (необязательно)',
+                        hint: 'Cовет (необязательно)',
+                        value: widget.step?.tip,
                         leadingIcon: Icon(
                           Icons.auto_awesome_rounded,
                         ),
@@ -302,11 +304,11 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                   .fontStyle,
                             ),
                       ),
-                      count: _model.countControllerValue ??= 1,
+                      count: _model.countControllerValue ??= 0,
                       updateCount: (count) => safeSetState(
                           () => _model.countControllerValue = count),
                       stepSize: 1,
-                      minimum: 1,
+                      minimum: 0,
                       maximum: 999,
                       contentPadding:
                           EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),

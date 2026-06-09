@@ -124,7 +124,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Дневная цель',
+                              'Показатели сегодняшнего КБЖУ',
                               style: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
@@ -138,6 +138,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     ),
                                     color: FlutterFlowTheme.of(context)
                                         .onSecondary,
+                                    fontSize: 16.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
@@ -311,7 +312,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 child: MacroStatWidget(
                                   label: 'Белки',
                                   value:
-                                      '${FFAppState().DailyGoal.protein.toString()}г',
+                                      '${FFAppState().DailySelect.done.protein.toString()}/${FFAppState().DailySelect.goal.protein.toString()}г',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.protein,
                                       FFAppState().DailySelect.goal.protein),
@@ -327,7 +328,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 child: MacroStatWidget(
                                   label: 'Жиры',
                                   value:
-                                      '${FFAppState().DailyGoal.fats.toString()}г',
+                                      '${FFAppState().DailySelect.done.fats.toString()}/${FFAppState().DailySelect.goal.fats.toString()}г',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.fats,
                                       FFAppState().DailySelect.goal.fats),

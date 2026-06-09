@@ -189,6 +189,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                   updateCallback: () => safeSetState(() {}),
                   child: UTextFieldWidget(
                     hint: 'Название ингридиента',
+                    value: widget.product?.name,
                     leadingIcon: Icon(
                       Icons.edit,
                     ),
@@ -376,17 +377,16 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                               lineHeight: 1.4,
                             ),
                       ),
-                      FlutterFlowDropDown<String>(
+                      FlutterFlowDropDown<Quantity>(
                         controller: _model.dropDownValueController ??=
-                            FormFieldController<String>(
-                          _model.dropDownValue ??= '',
+                            FormFieldController<Quantity>(
+                          _model.dropDownValue ??=
+                              widget.product?.quantity.quantity,
                         ),
-                        options: List<String>.from(FFAppState()
+                        options: List<Quantity>.from(FFAppState()
                             .QuantityList
                             .map((e) => e.quantity)
                             .withoutNulls
-                            .toList()
-                            .map((e) => e.name)
                             .toList()),
                         optionLabels: FFAppState()
                             .QuantityList
@@ -452,7 +452,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
               Padding(
                 padding: EdgeInsets.all(4.0),
                 child: Text(
-                  'Пищевая ценность на ${widget.product?.quantity.nutritionportion}',
+                  'Пищевая ценность на ${widget.product?.quantity.nutriTag}',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.inter(
                           fontWeight: FlutterFlowTheme.of(context)

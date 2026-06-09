@@ -18,6 +18,8 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   late InfoTagModel infoTagModel2;
   // Model for InfoTag.
   late InfoTagModel infoTagModel3;
+  // State field(s) for Switch widget.
+  bool? switchValue;
   // Models for IngredientItem.
   late FlutterFlowDynamicModels<IngridientPreviewModel> ingredientItemModels;
   // State field(s) for PaginatedDataTable widget.
@@ -25,6 +27,8 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
       FlutterFlowDataTableController<ProductStruct>();
   // Models for StepPreview.
   late FlutterFlowDynamicModels<StepPreviewModel> stepPreviewModels;
+  // State field(s) for CountController widget.
+  int? countControllerValue;
   // Model for Button.
   late UButtonModel buttonModel;
 

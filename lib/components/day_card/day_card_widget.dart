@@ -188,6 +188,9 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                                       key: Key(
                                         'Keywtr_${mealItem.date!.toString()}',
                                       ),
+                                      isDeleted: widget.hidaAdd,
+                                      hideDelete: false,
+                                      mealEntry: mealItem,
                                     ),
                                   );
                                 }),

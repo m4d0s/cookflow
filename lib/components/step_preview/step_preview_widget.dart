@@ -153,6 +153,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                       widget.step?.desc,
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                     ),
+                    maxLines: 2,
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(
                             fontWeight: FlutterFlowTheme.of(context)
@@ -171,6 +172,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                           lineHeight: 1.5,
                         ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ].divide(SizedBox(height: FFAppConstants.Padding1.toDouble())),
               ),

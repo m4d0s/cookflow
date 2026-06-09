@@ -1,3 +1,4 @@
+import '/backend/schema/enums/enums.dart';
 import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -16,8 +17,8 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   TextEditingController? textController1;
   String? Function(BuildContext, String?)? textController1Validator;
   // State field(s) for DropDown widget.
-  String? dropDownValue;
-  FormFieldController<String>? dropDownValueController;
+  Quantity? dropDownValue;
+  FormFieldController<Quantity>? dropDownValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;

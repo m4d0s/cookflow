@@ -14,13 +14,16 @@ class RecipeCardMiniWidget extends StatefulWidget {
     String? imgDesc,
     this.mealEntry,
     bool? isDeleted,
+    bool? hideDelete,
   })  : this.imgDesc = imgDesc ??
             'https://dimg.dreamflow.cloud/v1/image/oatmeal%20with%20berries',
-        this.isDeleted = isDeleted ?? false;
+        this.isDeleted = isDeleted ?? false,
+        this.hideDelete = hideDelete ?? false;
 
   final String imgDesc;
   final MealEntryStruct? mealEntry;
   final bool isDeleted;
+  final bool hideDelete;
 
   @override
   State<RecipeCardMiniWidget> createState() => _RecipeCardMiniWidgetState();
@@ -269,19 +272,20 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                         ].divide(SizedBox(height: 4.0)),
                       ),
                     ),
-                    FlutterFlowIconButton(
-                      borderRadius: 8.0,
-                      buttonSize: 40.0,
-                      fillColor: Colors.transparent,
-                      icon: Icon(
-                        Icons.close_rounded,
-                        color: FlutterFlowTheme.of(context).error,
-                        size: 18.0,
+                    if (widget.hideDelete)
+                      FlutterFlowIconButton(
+                        borderRadius: 8.0,
+                        buttonSize: 40.0,
+                        fillColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.close_rounded,
+                          color: FlutterFlowTheme.of(context).error,
+                          size: 18.0,
+                        ),
+                        onPressed: () {
+                          print('IconButton pressed ...');
+                        },
                       ),
-                      onPressed: () {
-                        print('IconButton pressed ...');
-                      },
-                    ),
                   ].divide(SizedBox(width: FFAppConstants.Padding2.toDouble())),
                 ),
               ),

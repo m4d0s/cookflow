@@ -30,12 +30,10 @@ enum UploadState {
 
 enum Quantity {
   g,
-  kg,
-  sp,
-  l,
   ml,
-  lsp,
   pi,
+  l,
+  kg,
 }
 
 enum Textfield {

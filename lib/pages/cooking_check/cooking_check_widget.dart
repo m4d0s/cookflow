@@ -1,5 +1,6 @@
 import '/components/ingredient_checker/ingredient_checker_widget.dart';
 import '/components/u_button/u_button_widget.dart';
+import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -446,6 +447,8 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                             'Key368_${productItem.isChecked.toString()}',
                                           ),
                                           product: productItem,
+                                          multiplier:
+                                              _model.countControllerValue!,
                                         ),
                                       );
                                     }),
@@ -543,8 +546,110 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                       shape: BoxShape.rectangle,
                     ),
                   ),
+                  if (FFAppConstants.FalseValue)
+                    Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Количество порций',
+                              style: FlutterFlowTheme.of(context)
+                                  .titleLarge
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .fontStyle,
+                                    ),
+                                    fontSize: 18.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .fontStyle,
+                                    lineHeight: 1.4,
+                                  ),
+                            ),
+                            Container(
+                              width: 120.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.circular(8.0),
+                                shape: BoxShape.rectangle,
+                              ),
+                              child: FlutterFlowCountController(
+                                decrementIconBuilder: (enabled) => Icon(
+                                  Icons.remove_rounded,
+                                  color: enabled
+                                      ? FlutterFlowTheme.of(context)
+                                          .secondaryText
+                                      : FlutterFlowTheme.of(context).alternate,
+                                  size: 24.0,
+                                ),
+                                incrementIconBuilder: (enabled) => Icon(
+                                  Icons.add_rounded,
+                                  color: enabled
+                                      ? FlutterFlowTheme.of(context).primary
+                                      : FlutterFlowTheme.of(context).alternate,
+                                  size: 24.0,
+                                ),
+                                countBuilder: (count) => Text(
+                                  count.toString(),
+                                  style: FlutterFlowTheme.of(context)
+                                      .titleLarge
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleLarge
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleLarge
+                                                  .fontStyle,
+                                        ),
+                                        fontSize: 14.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontStyle,
+                                      ),
+                                ),
+                                count: _model.countControllerValue ??= 1,
+                                updateCount: (count) async {
+                                  safeSetState(() =>
+                                      _model.countControllerValue = count);
+                                  FFAppState().PortionSelect =
+                                      _model.countControllerValue!;
+                                  safeSetState(() {});
+                                },
+                                stepSize: 1,
+                                minimum: 1,
+                                maximum: 20,
+                                contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                    4.0, 0.0, 4.0, 0.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   Padding(
-                    padding: EdgeInsets.all(24.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

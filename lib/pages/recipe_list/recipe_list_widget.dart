@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().RecipeSelect = RecipeStruct();
+      safeSetState(() {});
+      await actions.addEmptyDaily();
+      FFAppState().DailySelect = FFAppState().DailyList.lastOrNull!;
       safeSetState(() {});
     });
   }

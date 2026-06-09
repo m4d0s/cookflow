@@ -14,6 +14,8 @@ class CookingCheckModel extends FlutterFlowModel<CookingCheckWidget> {
 
   // Models for IngredientItem2.
   late FlutterFlowDynamicModels<IngredientCheckerModel> ingredientItem2Models;
+  // State field(s) for CountController widget.
+  int? countControllerValue;
   // Model for Button.
   late UButtonModel buttonModel;
 
