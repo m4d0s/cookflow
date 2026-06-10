@@ -244,8 +244,11 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                             ].divide(SizedBox(width: 8.0)),
                           ),
                           Text(
-                            dateTimeFormat("Время принятия: HH:mm",
-                                widget.mealEntry!.date!),
+                            dateTimeFormat(
+                              "Время принятия: HH:mm",
+                              widget.mealEntry!.date!,
+                              locale: FFLocalizations.of(context).languageCode,
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .labelSmall
                                 .override(

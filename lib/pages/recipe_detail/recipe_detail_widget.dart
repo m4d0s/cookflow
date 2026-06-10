@@ -12,6 +12,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,12 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecipeDetailModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      FFAppState().PortionSelect = FFAppState().RecipeSelect.portions;
+      safeSetState(() {});
+    });
 
     _model.switchValue = FFAppState().SimpleQuantity;
   }
@@ -1532,7 +1539,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                             .fontStyle,
                                       ),
                                 ),
-                                count: _model.countControllerValue ??= 1,
+                                count: _model.countControllerValue ??=
+                                    FFAppState().RecipeSelect.portions,
                                 updateCount: (count) async {
                                   safeSetState(() =>
                                       _model.countControllerValue = count);

@@ -5,3 +5,8 @@ export '/custom_code/actions/import_backup.dart' show importBackup;
 export '/custom_code/actions/import_json.dart' show importJson;
 export '/custom_code/actions/check_backup.dart' show checkBackup;
 export '/custom_code/actions/add_empty_daily.dart' show addEmptyDaily;
+export '/custom_code/actions/update_recipe.dart' show updateRecipe;
+export '/custom_code/actions/move_step_up.dart' show moveStepUp;
+export '/custom_code/actions/renew_ids.dart' show renewIds;
+export '/custom_code/actions/get_next_id.dart' show getNextId;
+export '/custom_code/actions/add_new_struct.dart' show addNewStruct;

@@ -143,19 +143,37 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                         ].divide(SizedBox(
                             height: FFAppConstants.Padding0.toDouble())),
                       ),
-                      FlutterFlowIconButton(
-                        borderRadius: 9999.0,
-                        buttonSize: 40.0,
-                        fillColor:
-                            FlutterFlowTheme.of(context).primaryBackground,
-                        icon: Icon(
-                          Icons.expand_less_rounded,
-                          size: 24.0,
-                        ),
-                        onPressed: () async {
-                          _model.hideInfo = !_model.hideInfo;
-                          safeSetState(() {});
-                        },
+                      Stack(
+                        children: [
+                          if (_model.hideInfo)
+                            FlutterFlowIconButton(
+                              borderRadius: 9999.0,
+                              buttonSize: 40.0,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              icon: Icon(
+                                Icons.keyboard_arrow_up,
+                              ),
+                              onPressed: () async {
+                                _model.hideInfo = !_model.hideInfo;
+                                safeSetState(() {});
+                              },
+                            ),
+                          if (!_model.hideInfo)
+                            FlutterFlowIconButton(
+                              borderRadius: 9999.0,
+                              buttonSize: 40.0,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              icon: Icon(
+                                Icons.expand_more,
+                              ),
+                              onPressed: () async {
+                                _model.hideInfo = !_model.hideInfo;
+                                safeSetState(() {});
+                              },
+                            ),
+                        ],
                       ),
                     ],
                   ),
@@ -188,8 +206,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                                       key: Key(
                                         'Keywtr_${mealItem.date!.toString()}',
                                       ),
-                                      isDeleted: widget.hidaAdd,
-                                      hideDelete: false,
+                                      hideDelete: widget.hidaAdd,
                                       mealEntry: mealItem,
                                     ),
                                   );
@@ -197,7 +214,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                               );
                             },
                           ),
-                          if (widget.hidaAdd)
+                          if (!widget.hidaAdd)
                             InkWell(
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,

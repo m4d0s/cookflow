@@ -416,10 +416,10 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                         ),
                                       ),
                                     ].divide(SizedBox(
-                                        width: FFAppConstants.Padding1
+                                        width: FFAppConstants.Padding0
                                             .toDouble())),
                                   ),
-                                ].divide(SizedBox(width: 8.0)),
+                                ],
                               ),
                             ].divide(SizedBox(height: 16.0)),
                           ),

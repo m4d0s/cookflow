@@ -55,9 +55,16 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
           visible: FFAppConstants.FalseValue,
           child: FloatingActionButton.extended(
             onPressed: () async {
-              if (dateTimeFormat("yMd", getCurrentTimestamp) ==
+              if (dateTimeFormat(
+                    "yMd",
+                    getCurrentTimestamp,
+                    locale: FFLocalizations.of(context).languageCode,
+                  ) ==
                   dateTimeFormat(
-                      "yMd", FFAppState().DailyList.lastOrNull?.date)) {
+                    "yMd",
+                    FFAppState().DailyList.lastOrNull?.date,
+                    locale: FFLocalizations.of(context).languageCode,
+                  )) {
                 FFAppState().addToDailyList(DailyPlanStruct(
                   date: functions
                       .resetTime(functions.resetTime(getCurrentTimestamp)),
@@ -259,6 +266,12 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                                       ),
                                       dayLog: dayItem,
                                       hidaAdd: true,
+                                      label: dateTimeFormat(
+                                        "MMMEd",
+                                        dayItem.date,
+                                        locale: FFLocalizations.of(context)
+                                            .languageCode,
+                                      ),
                                     ),
                                   );
                                 }).divide(SizedBox(height: 0.0)),

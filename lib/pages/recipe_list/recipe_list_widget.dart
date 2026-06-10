@@ -298,7 +298,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
@@ -494,9 +494,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                             ),
                           ),
                         ].divide(SizedBox(
-                            width: FFAppConstants.Padding1.toDouble())),
+                            width: FFAppConstants.Padding0.toDouble())),
                       ),
-                    ].divide(SizedBox(width: 8.0)),
+                    ],
                   ),
                 ].divide(SizedBox(height: 16.0)),
               ),
