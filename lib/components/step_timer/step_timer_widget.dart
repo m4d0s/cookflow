@@ -1,30 +1,22 @@
-import '/archive/switch_component/switch_component_widget.dart';
 import '/components/u_button/u_button_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'step_timer_model.dart';
 export 'step_timer_model.dart';
 
 class StepTimerWidget extends StatefulWidget {
   const StepTimerWidget({
     super.key,
-    bool? autoplay,
-    bool? isRunning,
     int? timeAmount,
-    this.timeLeft,
-  })  : this.autoplay = autoplay ?? true,
-        this.isRunning = isRunning ?? false,
-        this.timeAmount = timeAmount ?? 60000;
+  }) : this.timeAmount = timeAmount ?? 60000;
 
-  final bool autoplay;
-  final bool isRunning;
   final int timeAmount;
-  final int? timeLeft;
 
   @override
   State<StepTimerWidget> createState() => _StepTimerWidgetState();
@@ -56,6 +48,8 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
       child: Container(
@@ -126,20 +120,6 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                         ].divide(SizedBox(
                             width: FFAppConstants.Padding1.toDouble())),
                       ),
-                      if (!FFAppConstants.TrueValue)
-                        wrapWithModel(
-                          model: _model.switchComponentModel,
-                          updateCallback: () => safeSetState(() {}),
-                          child: SwitchComponentWidget(
-                            label: 'Автоплей',
-                            labelPresent: true,
-                            variant: 'iOS',
-                            active: valueOrDefault<bool>(
-                              widget.autoplay,
-                              true,
-                            ),
-                          ),
-                        ),
                     ],
                   ),
                   Column(
@@ -147,100 +127,126 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      FlutterFlowTimer(
-                        initialTime: widget.timeAmount,
-                        getDisplayTime: (value) =>
-                            StopWatchTimer.getDisplayTime(value,
-                                milliSecond: false),
-                        controller: _model.timerController,
-                        updateStateInterval:
-                            Duration(milliseconds: widget.timeLeft!),
-                        onChanged: (value, displayTime, shouldUpdate) {
-                          _model.timerMilliseconds = value;
-                          _model.timerValue = displayTime;
-                          if (shouldUpdate) safeSetState(() {});
-                        },
-                        textAlign: TextAlign.start,
-                        style:
-                            FlutterFlowTheme.of(context).headlineSmall.override(
-                                  font: GoogleFonts.manrope(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .headlineSmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .headlineSmall
-                                        .fontStyle,
-                                  ),
-                                  color: FlutterFlowTheme.of(context)
-                                      .onPrimaryContainer,
-                                  fontSize: 48.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .fontStyle,
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                        child: Stack(
+                          children: [
+                            if (FFAppState().RunningTimer)
+                              FlutterFlowTimer(
+                                initialTime: widget.timeAmount * 1000,
+                                getDisplayTime: (value) =>
+                                    StopWatchTimer.getDisplayTime(
+                                  value,
+                                  hours: false,
+                                  milliSecond: false,
                                 ),
+                                controller: _model.timerController,
+                                updateStateInterval:
+                                    Duration(milliseconds: 1000),
+                                onChanged: (value, displayTime, shouldUpdate) {
+                                  _model.timerMilliseconds = value;
+                                  _model.timerValue = displayTime;
+                                  if (shouldUpdate) safeSetState(() {});
+                                },
+                                onEnded: () async {
+                                  await actions.playbackTimerEnd();
+                                  await Future.delayed(
+                                    Duration(
+                                      milliseconds: 5000,
+                                    ),
+                                  );
+
+                                  safeSetState(() {});
+                                },
+                                textAlign: TextAlign.start,
+                                style: FlutterFlowTheme.of(context)
+                                    .headlineSmall
+                                    .override(
+                                      font: GoogleFonts.manrope(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .headlineSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .headlineSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .onPrimaryContainer,
+                                      fontSize: 48.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .headlineSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineSmall
+                                          .fontStyle,
+                                    ),
+                              ),
+                            if (!FFAppState().RunningTimer)
+                              Text(
+                                '${widget.timeAmount.toString()} минут',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      fontSize: 48.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                              ),
+                          ],
+                        ),
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          if (widget.autoplay)
-                            FlutterFlowIconButton(
-                              borderRadius: 8.0,
-                              buttonSize: 48.0,
-                              fillColor: Colors.transparent,
-                              icon: Icon(
-                                Icons.remove_circle_outline_rounded,
-                                color: FlutterFlowTheme.of(context)
-                                    .onPrimaryContainer,
-                                size: 32.0,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              FFAppState().RunningTimer = true;
+                              safeSetState(() {});
+                            },
+                            child: wrapWithModel(
+                              model: _model.buttonModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: UButtonWidget(
+                                content: FFAppState().RunningTimer
+                                    ? 'Сбросить'
+                                    : 'Запустить',
+                                iconPresent: false,
+                                iconEndPresent: false,
+                                variant: 'primary',
+                                size: 'medium',
+                                fullWidth: false,
+                                loading: false,
+                                disabled: false,
+                                icon: Icon(
+                                  Icons.play_arrow_rounded,
+                                  color: FlutterFlowTheme.of(context).onPrimary,
+                                ),
+                                iconEnd: Icon(
+                                  Icons.play_arrow_rounded,
+                                  color: FlutterFlowTheme.of(context).onPrimary,
+                                ),
+                                maincolor:
+                                    FlutterFlowTheme.of(context).onPrimary,
                               ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                            ),
-                          wrapWithModel(
-                            model: _model.buttonModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: UButtonWidget(
-                              content: widget.isRunning ? 'Пауза' : 'Старт',
-                              iconPresent: false,
-                              iconEndPresent: false,
-                              variant: 'primary',
-                              size: 'medium',
-                              fullWidth: false,
-                              loading: false,
-                              disabled: false,
-                              icon: Icon(
-                                Icons.play_arrow_rounded,
-                                color: FlutterFlowTheme.of(context).onPrimary,
-                              ),
-                              iconEnd: Icon(
-                                Icons.play_arrow_rounded,
-                                color: FlutterFlowTheme.of(context).onPrimary,
-                              ),
-                              maincolor: FlutterFlowTheme.of(context).onPrimary,
                             ),
                           ),
-                          if (widget.autoplay)
-                            FlutterFlowIconButton(
-                              borderRadius: 8.0,
-                              buttonSize: 48.0,
-                              fillColor: Colors.transparent,
-                              icon: Icon(
-                                Icons.add_circle_outline_rounded,
-                                color: FlutterFlowTheme.of(context)
-                                    .onPrimaryContainer,
-                                size: 32.0,
-                              ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                            ),
                         ].divide(SizedBox(
                             width: FFAppConstants.Padding2.toDouble())),
                       ),

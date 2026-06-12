@@ -737,6 +737,12 @@ class FFAppState extends ChangeNotifier {
   set SimpleQuantity(bool value) {
     _SimpleQuantity = value;
   }
+
+  bool _RunningTimer = false;
+  bool get RunningTimer => _RunningTimer;
+  set RunningTimer(bool value) {
+    _RunningTimer = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

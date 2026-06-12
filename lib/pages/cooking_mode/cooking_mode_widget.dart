@@ -463,10 +463,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                               child: wrapWithModel(
                                 model: _model.stepTimerModel,
                                 updateCallback: () => safeSetState(() {}),
-                                child: StepTimerWidget(
-                                  autoplay: false,
-                                  isRunning: false,
-                                ),
+                                child: StepTimerWidget(),
                               ),
                             ),
                           ].divide(SizedBox(height: 16.0)),
