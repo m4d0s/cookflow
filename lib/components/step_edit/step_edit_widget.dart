@@ -1,15 +1,12 @@
 import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'step_edit_model.dart';
 export 'step_edit_model.dart';
 
@@ -38,6 +35,14 @@ class _StepEditWidgetState extends State<StepEditWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => StepEditModel());
+
+    _model.inputTextController1 ??=
+        TextEditingController(text: widget.step?.desc);
+    _model.inputFocusNode1 ??= FocusNode();
+
+    _model.inputTextController2 ??=
+        TextEditingController(text: widget.step?.tip);
+    _model.inputFocusNode2 ??= FocusNode();
   }
 
   @override
@@ -49,8 +54,6 @@ class _StepEditWidgetState extends State<StepEditWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -94,60 +97,28 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                           lineHeight: 1.4,
                         ),
                   ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      // Remove item at last index
-                      FFAppState().updateRecipeSelectStruct(
-                        (e) => e
-                          ..updateCookingSteps(
-                            (e) => e.removeAt(widget.step!.queueId),
-                          ),
-                      );
-                      // Insert item at new index
-                      FFAppState().updateRecipeSelectStruct(
-                        (e) => e
-                          ..updateCookingSteps(
-                            (e) => e.insert(
-                                functions.returnIndexCollide(
-                                    widget.step!.queueId,
-                                    -1,
-                                    FFAppState()
-                                        .RecipeSelect
-                                        .cookingSteps
-                                        .length),
-                                widget.step!),
-                          ),
-                      );
-                      // Renew QueueIds
-                      _model.lastID = await actions.recallStepIds(
-                        FFAppState().RecipeSelect.cookingSteps.toList(),
-                      );
-                      // Rebuild
-                      _model.updatePage(() {});
-
-                      safeSetState(() {});
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          'Поднять',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    letterSpacing: 0.0,
+                  if (widget.step!.queueId > 1)
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        await actions.moveStepUp(
+                          widget.step!,
+                        );
+                        await actions.renewIds();
+                        _model.updatePage(() {});
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            'Поднять',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.inter(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -155,16 +126,25 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                        ),
-                        Icon(
-                          Icons.arrow_upward,
-                          color: FlutterFlowTheme.of(context).primary,
-                          size: 20.0,
-                        ),
-                      ].divide(
-                          SizedBox(width: FFAppConstants.Padding0.toDouble())),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                          ),
+                          Icon(
+                            Icons.arrow_upward,
+                            color: FlutterFlowTheme.of(context).primary,
+                            size: 20.0,
+                          ),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding0.toDouble())),
+                      ),
                     ),
-                  ),
                 ],
               ),
               Padding(
@@ -177,55 +157,294 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                   ),
-                  child: Stack(
-                    alignment: AlignmentDirectional(0.0, 0.0),
-                    children: [
-                      Icon(
-                        Icons.add_a_photo,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 48.0,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          'https://images.unsplash.com/photo-1560986752-2e31d9507413?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxmaXJld29ya3N8ZW58MHx8fHwxNzgwMjc2MzgwfDA&ixlib=rb-4.1.0&q=80&w=400',
-                          width: 300.0,
-                          height: 200.0,
-                          fit: BoxFit.cover,
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      _model.imageBase64 = await actions.imageToBase64(
+                        FFAppConstants.PhotoWidth,
+                        FFAppConstants.PhotoHeight,
+                        FFAppConstants.PhotoQuality,
+                      );
+                      _model.fFUploadImage =
+                          await actions.base64ToFFUploadedFile(
+                        _model.imageBase64,
+                      );
+                      await actions.updateStep(
+                        widget.step!,
+                        widget.step?.queueId,
+                        widget.step?.desc,
+                        widget.step?.tip,
+                        widget.step?.timer,
+                        _model.imageBase64,
+                      );
+                      safeSetState(() {});
+
+                      safeSetState(() {});
+                    },
+                    child: Stack(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      children: [
+                        Icon(
+                          Icons.add_a_photo,
+                          color: FlutterFlowTheme.of(context).primaryText,
+                          size: 48.0,
                         ),
-                      ),
-                    ],
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.memory(
+                            _model.fFUploadImage?.bytes ??
+                                Uint8List.fromList([]),
+                            width: 300.0,
+                            height: 200.0,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Expanded(
-                    child: wrapWithModel(
-                      model: _model.uTextFieldModel1,
-                      updateCallback: () => safeSetState(() {}),
-                      child: UTextFieldWidget(
-                        hint: 'Опишите шаг готовки...',
-                        value: widget.step?.desc,
-                        leadingIcon: Icon(
-                          Icons.edit,
-                        ),
-                        variant: Textfield.ghost,
+                  Container(
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius:
+                          BorderRadius.circular(valueOrDefault<double>(
+                        FFAppConstants.Padding2.toDouble(),
+                        0.0,
+                      )),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          )),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 24.0,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              controller: _model.inputTextController1,
+                              focusNode: _model.inputFocusNode1,
+                              onFieldSubmitted: (_) async {
+                                await actions.updateStep(
+                                  widget.step!,
+                                  widget.step?.queueId,
+                                  _model.inputTextController1.text,
+                                  _model.inputTextController2.text,
+                                  _model.countControllerValue,
+                                  _model.imageBase64,
+                                );
+                              },
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                hintText: 'Описание шага',
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).accent3,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                      lineHeight: 1.55,
+                                    ),
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                    lineHeight: 1.55,
+                                  ),
+                              validator: _model.inputTextController1Validator
+                                  .asValidator(context),
+                            ),
+                          ),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding1.toDouble())),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: wrapWithModel(
-                      model: _model.uTextFieldModel2,
-                      updateCallback: () => safeSetState(() {}),
-                      child: UTextFieldWidget(
-                        hint: 'Cовет (необязательно)',
-                        value: widget.step?.tip,
-                        leadingIcon: Icon(
-                          Icons.auto_awesome_rounded,
-                        ),
-                        variant: Textfield.ghost,
+                  Container(
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius:
+                          BorderRadius.circular(valueOrDefault<double>(
+                        FFAppConstants.Padding2.toDouble(),
+                        0.0,
+                      )),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          )),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.auto_awesome_rounded,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 24.0,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              controller: _model.inputTextController2,
+                              focusNode: _model.inputFocusNode2,
+                              onFieldSubmitted: (_) async {
+                                await actions.updateStep(
+                                  widget.step!,
+                                  widget.step?.queueId,
+                                  _model.inputTextController1.text,
+                                  _model.inputTextController2.text,
+                                  _model.countControllerValue,
+                                  _model.imageBase64,
+                                );
+                              },
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                hintText: 'Совет по готовке (необязательно)',
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).accent3,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                      lineHeight: 1.55,
+                                    ),
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                    lineHeight: 1.55,
+                                  ),
+                              validator: _model.inputTextController2Validator
+                                  .asValidator(context),
+                            ),
+                          ),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding1.toDouble())),
                       ),
                     ),
                   ),
@@ -236,83 +455,93 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.timer_sharp,
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    size: 24.0,
-                  ),
-                  Text(
-                    'Таймер (мин)',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.inter(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                        ),
-                  ),
-                  Container(
-                    width: 100.0,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      borderRadius: BorderRadius.circular(8.0),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: FlutterFlowCountController(
-                      decrementIconBuilder: (enabled) => Icon(
-                        Icons.remove_rounded,
-                        color: enabled
-                            ? FlutterFlowTheme.of(context).secondaryText
-                            : FlutterFlowTheme.of(context).alternate,
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(
+                        Icons.timer_sharp,
+                        color: FlutterFlowTheme.of(context).primaryText,
                         size: 24.0,
                       ),
-                      incrementIconBuilder: (enabled) => Icon(
-                        Icons.add_rounded,
-                        color: enabled
-                            ? FlutterFlowTheme.of(context).primary
-                            : FlutterFlowTheme.of(context).alternate,
-                        size: 24.0,
-                      ),
-                      countBuilder: (count) => Text(
-                        count.toString(),
-                        style: FlutterFlowTheme.of(context).titleLarge.override(
-                              font: GoogleFonts.manrope(
+                      Text(
+                        'Таймер (мин)',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.inter(
                                 fontWeight: FlutterFlowTheme.of(context)
-                                    .titleLarge
+                                    .bodyMedium
                                     .fontWeight,
                                 fontStyle: FlutterFlowTheme.of(context)
-                                    .titleLarge
+                                    .bodyMedium
                                     .fontStyle,
                               ),
-                              fontSize: 16.0,
                               letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
-                                  .titleLarge
+                                  .bodyMedium
                                   .fontWeight,
                               fontStyle: FlutterFlowTheme.of(context)
-                                  .titleLarge
+                                  .bodyMedium
                                   .fontStyle,
                             ),
                       ),
-                      count: _model.countControllerValue ??= 0,
-                      updateCount: (count) => safeSetState(
-                          () => _model.countControllerValue = count),
-                      stepSize: 1,
-                      minimum: 0,
-                      maximum: 999,
-                      contentPadding:
-                          EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
-                    ),
+                      Container(
+                        width: 100.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(8.0),
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: FlutterFlowCountController(
+                          decrementIconBuilder: (enabled) => Icon(
+                            Icons.remove_rounded,
+                            color: enabled
+                                ? FlutterFlowTheme.of(context).secondaryText
+                                : FlutterFlowTheme.of(context).alternate,
+                            size: 24.0,
+                          ),
+                          incrementIconBuilder: (enabled) => Icon(
+                            Icons.add_rounded,
+                            color: enabled
+                                ? FlutterFlowTheme.of(context).primary
+                                : FlutterFlowTheme.of(context).alternate,
+                            size: 24.0,
+                          ),
+                          countBuilder: (count) => Text(
+                            count.toString(),
+                            style: FlutterFlowTheme.of(context)
+                                .titleLarge
+                                .override(
+                                  font: GoogleFonts.manrope(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .fontStyle,
+                                  ),
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleLarge
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleLarge
+                                      .fontStyle,
+                                ),
+                          ),
+                          count: _model.countControllerValue ??= 0,
+                          updateCount: (count) => safeSetState(
+                              () => _model.countControllerValue = count),
+                          stepSize: 1,
+                          minimum: 0,
+                          maximum: 999,
+                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 0.0, 8.0, 0.0),
+                        ),
+                      ),
+                    ].divide(
+                        SizedBox(width: FFAppConstants.Padding1.toDouble())),
                   ),
                   FlutterFlowIconButton(
                     borderRadius: 8.0,
@@ -324,18 +553,12 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       size: 24.0,
                     ),
                     onPressed: () async {
-                      FFAppState().updateRecipeSelectStruct(
-                        (e) => e
-                          ..updateCookingSteps(
-                            (e) => e.removeAt(widget.step!.queueId),
-                          ),
+                      await actions.deleteStruct(
+                        widget.step!.queueId,
+                        Structs.step,
                       );
-                      _model.lastID1 = await actions.recallStepIds(
-                        FFAppState().RecipeSelect.cookingSteps.toList(),
-                      );
+                      await actions.renewIds();
                       _model.updatePage(() {});
-
-                      safeSetState(() {});
                     },
                   ),
                 ].divide(SizedBox(width: 16.0)),

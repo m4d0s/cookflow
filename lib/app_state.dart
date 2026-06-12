@@ -438,15 +438,15 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodQuantityStruct> _QuantityList = [
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"г\",\"nutriTag\":\"100г\",\"multiplier\":\"1.0\",\"quantity\":\"g\",\"altquantity\":\"g\"}')),
+        '{\"name\":\"г\",\"nutriTag\":\"100г\",\"multiplier\":\"1.0\",\"quantity\":\"b093i\",\"altquantity\":\"b093i\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"кг\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"kg\",\"altquantity\":\"g\"}')),
+        '{\"name\":\"кг\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"a5god\",\"altquantity\":\"b093i\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"л\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"l\",\"altquantity\":\"ml\"}')),
+        '{\"name\":\"л\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"xrk7q\",\"altquantity\":\"c13fm\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"мл\",\"quantity\":\"ml\",\"altquantity\":\"ml\"}')),
+        '{\"name\":\"мл\",\"quantity\":\"c13fm\",\"altquantity\":\"c13fm\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"шт.\",\"nutriTag\":\"1 шт.\",\"multiplier\":\"1.0\",\"quantity\":\"pi\",\"altquantity\":\"pi\"}'))
+        '{\"name\":\"шт.\",\"nutriTag\":\"1 шт.\",\"multiplier\":\"1.0\",\"quantity\":\"4l8xw\",\"altquantity\":\"4l8xw\"}'))
   ];
   List<FoodQuantityStruct> get QuantityList => _QuantityList;
   set QuantityList(List<FoodQuantityStruct> value) {
@@ -660,6 +660,18 @@ class FFAppState extends ChangeNotifier {
   int get CurrentStep => _CurrentStep;
   set CurrentStep(int value) {
     _CurrentStep = value;
+  }
+
+  int _CurrentProduct = 0;
+  int get CurrentProduct => _CurrentProduct;
+  set CurrentProduct(int value) {
+    _CurrentProduct = value;
+  }
+
+  int _CheckedPositions = 0;
+  int get CheckedPositions => _CheckedPositions;
+  set CheckedPositions(int value) {
+    _CheckedPositions = value;
   }
 
   bool _DarkMode = false;

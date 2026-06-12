@@ -3,6 +3,11 @@ import 'recipe_card1_widget.dart' show RecipeCard1Widget;
 import 'package:flutter/material.dart';
 
 class RecipeCard1Model extends FlutterFlowModel<RecipeCard1Widget> {
+  ///  State fields for stateful widgets in this component.
+
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeCard1 widget.
+  FFUploadedFile? recipe1Image;
+
   @override
   void initState(BuildContext context) {}
 

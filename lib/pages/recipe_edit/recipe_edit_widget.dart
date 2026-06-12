@@ -1,5 +1,4 @@
 import '/backend/schema/enums/enums.dart';
-import '/backend/schema/structs/index.dart';
 import '/components/ingridient_edit/ingridient_edit_widget.dart';
 import '/components/step_edit/step_edit_widget.dart';
 import '/components/u_button/u_button_widget.dart';
@@ -9,7 +8,9 @@ import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,32 +60,34 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            if ((_model.textFieldModel1.inputTextController.text != '') &&
-                (_model.textFieldModel2.inputTextController.text != '')) {
-              if (FFAppState().isChanging) {
-                FFAppState()
-                    .removeAtIndexFromRecipeList(FFAppState().RecipeSelect.id);
-                safeSetState(() {});
-                FFAppState().addToRecipeList(FFAppState().RecipeSelect);
-                safeSetState(() {});
-              } else {
-                FFAppState().addToRecipeList(FFAppState().RecipeSelect);
-                safeSetState(() {});
-              }
-
-              if (Navigator.of(context).canPop()) {
-                context.pop();
-              }
-              context.pushNamed(
-                RecipeListWidget.routeName,
-                extra: <String, dynamic>{
-                  '__transition_info__': TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.rightToLeft,
-                  ),
+            if ((/* NOT RECOMMENDED */ _model
+                        .textFieldModel1.inputTextController.text ==
+                    'true') &&
+                (/* NOT RECOMMENDED */ _model
+                        .textFieldModel2.inputTextController.text ==
+                    'true')) {
+              await actions.updateRecipe(
+                false,
+              );
+            } else {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Нельзя добавить'),
+                    content: Text('Перепроверьте поля, не все поля заполнены!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Хорошо'),
+                      ),
+                    ],
+                  );
                 },
               );
             }
+
+            safeSetState(() {});
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: Icon(
@@ -273,35 +276,63 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      border: Border.all(
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      _model.recipePhotoBase64 =
+                                          await actions.imageToBase64(
+                                        FFAppConstants.PhotoWidth,
+                                        FFAppConstants.PhotoHeight,
+                                        FFAppConstants.PhotoQuality,
+                                      );
+                                      _model.recipePhoto =
+                                          await actions.base64ToFFUploadedFile(
+                                        _model.recipePhotoBase64,
+                                      );
+                                      FFAppState().updateRecipeSelectStruct(
+                                        (e) => e
+                                          ..pictureBase64 =
+                                              _model.recipePhotoBase64,
+                                      );
+                                      safeSetState(() {});
+
+                                      safeSetState(() {});
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                      ),
-                                    ),
-                                    child: Stack(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      children: [
-                                        Icon(
-                                          Icons.add_a_photo,
+                                            .secondaryBackground,
+                                        border: Border.all(
                                           color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 48.0,
+                                              .alternate,
                                         ),
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1560986752-2e31d9507413?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxmaXJld29ya3N8ZW58MHx8fHwxNzgwMjc2MzgwfDA&ixlib=rb-4.1.0&q=80&w=400',
-                                            width: 300.0,
-                                            height: 200.0,
-                                            fit: BoxFit.cover,
+                                      ),
+                                      child: Stack(
+                                        alignment:
+                                            AlignmentDirectional(0.0, 0.0),
+                                        children: [
+                                          Icon(
+                                            Icons.add_a_photo,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            size: 48.0,
                                           ),
-                                        ),
-                                      ],
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.memory(
+                                              _model.recipePhoto?.bytes ??
+                                                  Uint8List.fromList([]),
+                                              width: 300.0,
+                                              height: 200.0,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -625,7 +656,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                       ),
                                                 ),
                                                 count: _model
-                                                    .countControllerValue2 ??= 1,
+                                                    .countControllerValue2 ??= 4,
                                                 updateCount: (count) async {
                                                   safeSetState(() => _model
                                                           .countControllerValue2 =
@@ -725,7 +756,8 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       fillColor: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                       elevation: 2.0,
-                                      borderColor: Colors.transparent,
+                                      borderColor: FlutterFlowTheme.of(context)
+                                          .alternate,
                                       borderWidth: 0.0,
                                       borderRadius: 8.0,
                                       margin: EdgeInsetsDirectional.fromSTEB(
@@ -795,7 +827,8 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       fillColor: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                       elevation: 2.0,
-                                      borderColor: Colors.transparent,
+                                      borderColor: FlutterFlowTheme.of(context)
+                                          .alternate,
                                       borderWidth: 0.0,
                                       borderRadius: 8.0,
                                       margin: EdgeInsetsDirectional.fromSTEB(
@@ -1015,13 +1048,18 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            FFAppState()
-                                                .updateRecipeSelectStruct(
-                                              (e) => e
-                                                ..updateProducts(
-                                                  (e) => e.add(ProductStruct()),
-                                                ),
+                                            _model.newproductID =
+                                                await actions.getNextId(
+                                              FFAppState().RecipeSelect,
+                                              Structs.product,
                                             );
+                                            await actions.addNewStruct(
+                                              Structs.product,
+                                              _model.newproductID!,
+                                            );
+
+                                            safeSetState(() {});
+
                                             safeSetState(() {});
                                           },
                                           child: Row(
@@ -1162,13 +1200,18 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            FFAppState()
-                                                .updateRecipeSelectStruct(
-                                              (e) => e
-                                                ..updateCookingSteps(
-                                                  (e) => e.add(StepStruct()),
-                                                ),
+                                            _model.newstepID =
+                                                await actions.getNextId(
+                                              FFAppState().RecipeSelect,
+                                              Structs.step,
                                             );
+                                            await actions.addNewStruct(
+                                              Structs.step,
+                                              _model.newstepID!,
+                                            );
+
+                                            safeSetState(() {});
+
                                             safeSetState(() {});
                                           },
                                           child: Row(
@@ -1259,6 +1302,90 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                 ),
                               ],
                             ),
+                            if (FFAppState().isChanging)
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  var confirmDialogResponse =
+                                      await showDialog<bool>(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('Подтверждение'),
+                                                content: Text(
+                                                    'Вы уверены, что хотите удалить рецепт?'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext,
+                                                            false),
+                                                    child: Text('Да, удаляем'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext,
+                                                            true),
+                                                    child: Text('Нет, не хочу'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ) ??
+                                          false;
+                                  if (confirmDialogResponse) {
+                                    Navigator.pop(context);
+                                    await actions.deleteStruct(
+                                      FFAppState().RecipeSelect.id,
+                                      Structs.recipe,
+                                    );
+
+                                    context
+                                        .pushNamed(RecipeListWidget.routeName);
+                                  } else {
+                                    Navigator.pop(context);
+                                  }
+
+                                  FFAppState().update(() {});
+                                },
+                                text: 'Удалить рецепт',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).error,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                  elevation: 0.0,
+                                  borderSide: BorderSide(
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
                             Container(
                               height: 40.0,
                             ),

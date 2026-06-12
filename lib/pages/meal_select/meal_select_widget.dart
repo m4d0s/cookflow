@@ -503,7 +503,6 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                               key: Key(
                                                 'Keyon1_${recipeItem.id.toString()}',
                                               ),
-                                              imgDesc: recipeItem.picture,
                                               recipeDetails: recipeItem,
                                             ),
                                           ),

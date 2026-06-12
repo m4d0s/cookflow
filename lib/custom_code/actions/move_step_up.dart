@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 Future moveStepUp(StepStruct step) async {
   final steps = FFAppState().RecipeSelect.cookingSteps;
 
-  final currentIndex = steps.indexWhere((s) => s.id == step.id);
+  final currentIndex = steps.indexWhere((s) => s.queueId == step.queueId);
 
   if (currentIndex <= 0) return;
 

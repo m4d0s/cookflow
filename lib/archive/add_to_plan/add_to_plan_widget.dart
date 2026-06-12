@@ -163,7 +163,6 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                     key: Key(
                                       'Keyzxr_${recipeItem.id.toString()}',
                                     ),
-                                    imgDesc: recipeItem.picture,
                                     recipeDetails: recipeItem,
                                   ),
                                 ),

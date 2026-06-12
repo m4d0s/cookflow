@@ -1,32 +1,22 @@
 // ignore_for_file: unnecessary_getters_setters
 
 import '/backend/schema/util/schema_util.dart';
-import '/backend/schema/enums/enums.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class FoodQuantityStruct extends BaseStruct {
   FoodQuantityStruct({
-    String? name,
     double? count,
-    String? nutriTag,
+    int? divider,
     double? multiplier,
-    Quantity? quantity,
-    Quantity? altquantity,
-  })  : _name = name,
-        _count = count,
-        _nutriTag = nutriTag,
+    String? quantity,
+    String? altquantity,
+  })  : _count = count,
+        _divider = divider,
         _multiplier = multiplier,
         _quantity = quantity,
         _altquantity = altquantity;
-
-  // "name" field.
-  String? _name;
-  String get name => _name ?? '';
-  set name(String? val) => _name = val;
-
-  bool hasName() => _name != null;
 
   // "count" field.
   double? _count;
@@ -37,12 +27,14 @@ class FoodQuantityStruct extends BaseStruct {
 
   bool hasCount() => _count != null;
 
-  // "nutriTag" field.
-  String? _nutriTag;
-  String get nutriTag => _nutriTag ?? '';
-  set nutriTag(String? val) => _nutriTag = val;
+  // "divider" field.
+  int? _divider;
+  int get divider => _divider ?? 0;
+  set divider(int? val) => _divider = val;
 
-  bool hasNutriTag() => _nutriTag != null;
+  void incrementDivider(int amount) => divider = divider + amount;
+
+  bool hasDivider() => _divider != null;
 
   // "multiplier" field.
   double? _multiplier;
@@ -54,31 +46,26 @@ class FoodQuantityStruct extends BaseStruct {
   bool hasMultiplier() => _multiplier != null;
 
   // "quantity" field.
-  Quantity? _quantity;
-  Quantity? get quantity => _quantity;
-  set quantity(Quantity? val) => _quantity = val;
+  String? _quantity;
+  String get quantity => _quantity ?? '';
+  set quantity(String? val) => _quantity = val;
 
   bool hasQuantity() => _quantity != null;
 
   // "altquantity" field.
-  Quantity? _altquantity;
-  Quantity? get altquantity => _altquantity;
-  set altquantity(Quantity? val) => _altquantity = val;
+  String? _altquantity;
+  String get altquantity => _altquantity ?? '';
+  set altquantity(String? val) => _altquantity = val;
 
   bool hasAltquantity() => _altquantity != null;
 
   static FoodQuantityStruct fromMap(Map<String, dynamic> data) =>
       FoodQuantityStruct(
-        name: data['name'] as String?,
         count: castToType<double>(data['count']),
-        nutriTag: data['nutriTag'] as String?,
+        divider: castToType<int>(data['divider']),
         multiplier: castToType<double>(data['multiplier']),
-        quantity: data['quantity'] is Quantity
-            ? data['quantity']
-            : deserializeEnum<Quantity>(data['quantity']),
-        altquantity: data['altquantity'] is Quantity
-            ? data['altquantity']
-            : deserializeEnum<Quantity>(data['altquantity']),
+        quantity: data['quantity'] as String?,
+        altquantity: data['altquantity'] as String?,
       );
 
   static FoodQuantityStruct? maybeFromMap(dynamic data) => data is Map
@@ -86,27 +73,22 @@ class FoodQuantityStruct extends BaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'name': _name,
         'count': _count,
-        'nutriTag': _nutriTag,
+        'divider': _divider,
         'multiplier': _multiplier,
-        'quantity': _quantity?.serialize(),
-        'altquantity': _altquantity?.serialize(),
+        'quantity': _quantity,
+        'altquantity': _altquantity,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'name': serializeParam(
-          _name,
-          ParamType.String,
-        ),
         'count': serializeParam(
           _count,
           ParamType.double,
         ),
-        'nutriTag': serializeParam(
-          _nutriTag,
-          ParamType.String,
+        'divider': serializeParam(
+          _divider,
+          ParamType.int,
         ),
         'multiplier': serializeParam(
           _multiplier,
@@ -114,29 +96,24 @@ class FoodQuantityStruct extends BaseStruct {
         ),
         'quantity': serializeParam(
           _quantity,
-          ParamType.Enum,
+          ParamType.String,
         ),
         'altquantity': serializeParam(
           _altquantity,
-          ParamType.Enum,
+          ParamType.String,
         ),
       }.withoutNulls;
 
   static FoodQuantityStruct fromSerializableMap(Map<String, dynamic> data) =>
       FoodQuantityStruct(
-        name: deserializeParam(
-          data['name'],
-          ParamType.String,
-          false,
-        ),
         count: deserializeParam(
           data['count'],
           ParamType.double,
           false,
         ),
-        nutriTag: deserializeParam(
-          data['nutriTag'],
-          ParamType.String,
+        divider: deserializeParam(
+          data['divider'],
+          ParamType.int,
           false,
         ),
         multiplier: deserializeParam(
@@ -144,14 +121,14 @@ class FoodQuantityStruct extends BaseStruct {
           ParamType.double,
           false,
         ),
-        quantity: deserializeParam<Quantity>(
+        quantity: deserializeParam(
           data['quantity'],
-          ParamType.Enum,
+          ParamType.String,
           false,
         ),
-        altquantity: deserializeParam<Quantity>(
+        altquantity: deserializeParam(
           data['altquantity'],
-          ParamType.Enum,
+          ParamType.String,
           false,
         ),
       );
@@ -162,9 +139,8 @@ class FoodQuantityStruct extends BaseStruct {
   @override
   bool operator ==(Object other) {
     return other is FoodQuantityStruct &&
-        name == other.name &&
         count == other.count &&
-        nutriTag == other.nutriTag &&
+        divider == other.divider &&
         multiplier == other.multiplier &&
         quantity == other.quantity &&
         altquantity == other.altquantity;
@@ -172,21 +148,19 @@ class FoodQuantityStruct extends BaseStruct {
 
   @override
   int get hashCode => const ListEquality()
-      .hash([name, count, nutriTag, multiplier, quantity, altquantity]);
+      .hash([count, divider, multiplier, quantity, altquantity]);
 }
 
 FoodQuantityStruct createFoodQuantityStruct({
-  String? name,
   double? count,
-  String? nutriTag,
+  int? divider,
   double? multiplier,
-  Quantity? quantity,
-  Quantity? altquantity,
+  String? quantity,
+  String? altquantity,
 }) =>
     FoodQuantityStruct(
-      name: name,
       count: count,
-      nutriTag: nutriTag,
+      divider: divider,
       multiplier: multiplier,
       quantity: quantity,
       altquantity: altquantity,

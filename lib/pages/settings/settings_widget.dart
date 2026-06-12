@@ -111,6 +111,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               size: 30.0,
             ),
             onPressed: () async {
+              if (FFAppState().AutoNutrition) {
+                await actions.measureTDEE();
+              }
               context.pop();
             },
           ),
@@ -1852,9 +1855,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                       FormFieldController<
                                                           HumanSex>(
                                                     _model.sexValue ??=
-                                                        FFAppState()
-                                                            .PeopleStat
-                                                            .sex,
+                                                        HumanSex.male,
                                                   ),
                                                   options: List<HumanSex>.from(
                                                       FFAppState()
@@ -1876,7 +1877,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                     );
                                                     safeSetState(() {});
                                                   },
-                                                  width: 130.0,
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.4,
                                                   textStyle: FlutterFlowTheme
                                                           .of(context)
                                                       .bodyMedium
@@ -2784,14 +2788,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               FlutterFlowDropDown<MealAction>(
-                                                controller: _model
-                                                        .actionValueController ??=
-                                                    FormFieldController<
-                                                        MealAction>(
-                                                  _model.actionValue ??=
-                                                      FFAppState()
-                                                          .PeopleStat
-                                                          .activity,
+                                                controller:
+                                                    _model.daValueController ??=
+                                                        FormFieldController<
+                                                            MealAction>(
+                                                  _model.daValue ??=
+                                                      MealAction.average,
                                                 ),
                                                 options: List<MealAction>.from(
                                                     FFAppState()
@@ -2805,16 +2807,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                     .toList(),
                                                 onChanged: (val) async {
                                                   safeSetState(() =>
-                                                      _model.actionValue = val);
+                                                      _model.daValue = val);
                                                   FFAppState()
                                                       .updatePeopleStatStruct(
                                                     (e) => e
-                                                      ..activity =
-                                                          _model.actionValue,
+                                                      ..activity = FFAppState()
+                                                          .PeopleStat
+                                                          .activity,
                                                   );
                                                   safeSetState(() {});
                                                 },
-                                                width: 150.0,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.4,
                                                 textStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -2844,7 +2850,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                hintText: 'Образ жизни',
+                                                hintText: 'Выбрать',
                                                 icon: Icon(
                                                   Icons
                                                       .keyboard_arrow_down_rounded,
@@ -2872,13 +2878,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                               ),
                                               FlutterFlowDropDown<MealTarget>(
                                                 controller: _model
-                                                        .targetValueController ??=
+                                                        .dropDownValueController ??=
                                                     FormFieldController<
                                                         MealTarget>(
-                                                  _model.targetValue ??=
-                                                      FFAppState()
-                                                          .PeopleStat
-                                                          .target,
+                                                  _model.dropDownValue ??=
+                                                      MealTarget.average,
                                                 ),
                                                 options: List<MealTarget>.from(
                                                     FFAppState()
@@ -2891,17 +2895,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                     .map((e) => e.name)
                                                     .toList(),
                                                 onChanged: (val) async {
-                                                  safeSetState(() =>
-                                                      _model.targetValue = val);
+                                                  safeSetState(() => _model
+                                                      .dropDownValue = val);
                                                   FFAppState()
                                                       .updatePeopleStatStruct(
                                                     (e) => e
-                                                      ..target =
-                                                          _model.targetValue,
+                                                      ..target = FFAppState()
+                                                          .PeopleStat
+                                                          .target,
                                                   );
                                                   safeSetState(() {});
                                                 },
-                                                width: 150.0,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.4,
                                                 textStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -2931,7 +2939,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                hintText: 'Цель',
+                                                hintText: 'Выбрать',
                                                 icon: Icon(
                                                   Icons
                                                       .keyboard_arrow_down_rounded,

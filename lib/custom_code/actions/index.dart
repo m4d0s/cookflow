@@ -10,3 +10,12 @@ export '/custom_code/actions/move_step_up.dart' show moveStepUp;
 export '/custom_code/actions/renew_ids.dart' show renewIds;
 export '/custom_code/actions/get_next_id.dart' show getNextId;
 export '/custom_code/actions/add_new_struct.dart' show addNewStruct;
+export '/custom_code/actions/delete_struct.dart' show deleteStruct;
+export '/custom_code/actions/update_step.dart' show updateStep;
+export '/custom_code/actions/update_product.dart' show updateProduct;
+export '/custom_code/actions/find_quantity.dart' show findQuantity;
+export '/custom_code/actions/image_to_base64.dart' show imageToBase64;
+export '/custom_code/actions/base64_to_f_f_uploaded_file.dart'
+    show base64ToFFUploadedFile;
+export '/custom_code/actions/checked_products.dart' show checkedProducts;
+export '/custom_code/actions/measure_t_d_e_e.dart' show measureTDEE;

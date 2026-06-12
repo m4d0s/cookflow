@@ -8,9 +8,9 @@ import '/flutter_flow/flutter_flow_data_table.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,6 +43,9 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().PortionSelect = FFAppState().RecipeSelect.portions;
       safeSetState(() {});
+      _model.recipeMainPhoto = await actions.base64ToFFUploadedFile(
+        FFAppState().RecipeSelect.pictureBase64,
+      );
     });
 
     _model.switchValue = FFAppState().SimpleQuantity;
@@ -130,10 +133,9 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                             child: Stack(
                               alignment: AlignmentDirectional(-1.0, -1.0),
                               children: [
-                                CachedNetworkImage(
-                                  fadeInDuration: Duration(milliseconds: 0),
-                                  fadeOutDuration: Duration(milliseconds: 0),
-                                  imageUrl: FFAppState().RecipeSelect.picture,
+                                Image.memory(
+                                  _model.recipeMainPhoto?.bytes ??
+                                      Uint8List.fromList([]),
                                   height: 300.0,
                                   fit: BoxFit.cover,
                                   alignment: Alignment(0.0, 0.0),
@@ -191,10 +193,10 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                             size: 24.0,
                                           ),
                                           onPressed: () async {
-                                            FFAppState()
-                                                .updateRecipeSelectStruct(
-                                              (e) =>
-                                                  e..isFavorite = !e.isFavorite,
+                                            await actions.updateRecipe(
+                                              !FFAppState()
+                                                  .RecipeSelect
+                                                  .isFavorite,
                                             );
                                             safeSetState(() {});
                                           },
@@ -1121,211 +1123,228 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           );
                                         },
                                       ),
-                                    Expanded(
-                                      child: Builder(
-                                        builder: (context) {
-                                          final ingridient = FFAppState()
-                                              .RecipeSelect
-                                              .products
-                                              .toList();
-
-                                          return FlutterFlowDataTable<
-                                              ProductStruct>(
-                                            controller: _model
-                                                .paginatedDataTableController,
-                                            data: ingridient,
-                                            numRows: FFAppState()
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                        ),
+                                      ),
+                                      child: Container(
+                                        height: 200.0,
+                                        child: Builder(
+                                          builder: (context) {
+                                            final ingridient = FFAppState()
                                                 .RecipeSelect
                                                 .products
-                                                .length,
-                                            columnsBuilder: (onSortChanged) => [
-                                              DataColumn2(
-                                                label: DefaultTextStyle.merge(
-                                                  softWrap: true,
-                                                  child: Text(
-                                                    'Название',
+                                                .toList();
+
+                                            return FlutterFlowDataTable<
+                                                ProductStruct>(
+                                              controller: _model
+                                                  .paginatedDataTableController,
+                                              data: ingridient,
+                                              numRows: FFAppState()
+                                                  .RecipeSelect
+                                                  .products
+                                                  .length,
+                                              columnsBuilder: (onSortChanged) =>
+                                                  [
+                                                DataColumn2(
+                                                  label: DefaultTextStyle.merge(
+                                                    softWrap: true,
+                                                    child: Text(
+                                                      'Название',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelLarge
+                                                              .override(
+                                                                font: GoogleFonts
+                                                                    .manrope(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .onPrimary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontStyle,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                DataColumn2(
+                                                  label: DefaultTextStyle.merge(
+                                                    softWrap: true,
+                                                    child: Text(
+                                                      'Количество',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelLarge
+                                                              .override(
+                                                                font: GoogleFonts
+                                                                    .manrope(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .onPrimary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .fontStyle,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                              dataRowBuilder: (ingridientItem,
+                                                      ingridientIndex,
+                                                      selected,
+                                                      onSelectChanged) =>
+                                                  DataRow(
+                                                color:
+                                                    WidgetStateProperty.all(
+                                                  ingridientIndex % 2 == 0
+                                                      ? FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryBackground
+                                                      : FlutterFlowTheme.of(
+                                                              context)
+                                                          .primaryBackground,
+                                                ),
+                                                cells: [
+                                                  Text(
+                                                    ingridientItem.name,
+                                                    maxLines: 2,
                                                     style: FlutterFlowTheme.of(
                                                             context)
-                                                        .labelLarge
+                                                        .bodyMedium
                                                         .override(
-                                                          font: GoogleFonts
-                                                              .manrope(
+                                                          font:
+                                                              GoogleFonts.inter(
                                                             fontWeight:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelLarge
+                                                                    .bodyMedium
                                                                     .fontWeight,
                                                             fontStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelLarge
+                                                                    .bodyMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .onPrimary,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .labelLarge
+                                                                  .bodyMedium
                                                                   .fontWeight,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .labelLarge
+                                                                  .bodyMedium
                                                                   .fontStyle,
                                                         ),
                                                   ),
-                                                ),
-                                              ),
-                                              DataColumn2(
-                                                label: DefaultTextStyle.merge(
-                                                  softWrap: true,
-                                                  child: Text(
-                                                    'Количество',
+                                                  Text(
+                                                    FFAppState().SimpleQuantity
+                                                        ? '${(ingridientItem.quantity.count * ingridientItem.quantity.multiplier * (_model.countControllerValue!)).toString()} ${ingridientItem.quantity.altquantity}'
+                                                        : '${(ingridientItem.quantity.count * (_model.countControllerValue!)).toString()} ${ingridientItem.quantity.quantity}',
+                                                    maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
-                                                        .labelLarge
+                                                        .bodyMedium
                                                         .override(
-                                                          font: GoogleFonts
-                                                              .manrope(
+                                                          font:
+                                                              GoogleFonts.inter(
                                                             fontWeight:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelLarge
+                                                                    .bodyMedium
                                                                     .fontWeight,
                                                             fontStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelLarge
+                                                                    .bodyMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .onPrimary,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .labelLarge
+                                                                  .bodyMedium
                                                                   .fontWeight,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .labelLarge
+                                                                  .bodyMedium
                                                                   .fontStyle,
                                                         ),
                                                   ),
-                                                ),
+                                                ]
+                                                    .map((c) => DataCell(c))
+                                                    .toList(),
                                               ),
-                                            ],
-                                            dataRowBuilder: (ingridientItem,
-                                                    ingridientIndex,
-                                                    selected,
-                                                    onSelectChanged) =>
-                                                DataRow(
-                                              color: WidgetStateProperty.all(
-                                                ingridientIndex % 2 == 0
-                                                    ? FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground
-                                                    : FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                              ),
-                                              cells: [
-                                                Text(
-                                                  ingridientItem.name,
-                                                  maxLines: 2,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
-                                                ),
-                                                Text(
-                                                  '${ingridientItem.quantity.count.toString()} ${ingridientItem.quantity.quantity?.name}',
-                                                  maxLines: 1,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
-                                                ),
-                                              ]
-                                                  .map((c) => DataCell(c))
-                                                  .toList(),
-                                            ),
-                                            paginated: false,
-                                            selectable: false,
-                                            minWidth: MediaQuery.sizeOf(context)
-                                                    .width *
-                                                0.2,
-                                            headingRowHeight: 56.0,
-                                            dataRowHeight: 48.0,
-                                            columnSpacing: 16.0,
-                                            headingRowColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            addHorizontalDivider: true,
-                                            addTopAndBottomDivider: false,
-                                            hideDefaultHorizontalDivider: true,
-                                            horizontalDividerColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryBackground,
-                                            horizontalDividerThickness: 1.0,
-                                            addVerticalDivider: false,
-                                          );
-                                        },
+                                              paginated: false,
+                                              selectable: false,
+                                              minWidth:
+                                                  MediaQuery.sizeOf(context)
+                                                          .width *
+                                                      0.2,
+                                              headingRowHeight: 56.0,
+                                              dataRowHeight: 48.0,
+                                              columnSpacing: 16.0,
+                                              headingRowColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              addHorizontalDivider: true,
+                                              addTopAndBottomDivider: false,
+                                              hideDefaultHorizontalDivider:
+                                                  true,
+                                              horizontalDividerColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              horizontalDividerThickness: 1.0,
+                                              addVerticalDivider: false,
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ].divide(SizedBox(height: 8.0)),

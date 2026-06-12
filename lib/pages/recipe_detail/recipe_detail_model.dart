@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeDetail widget.
+  FFUploadedFile? recipeMainPhoto;
   // Model for InfoTag.
   late InfoTagModel infoTagModel1;
   // Model for InfoTag.

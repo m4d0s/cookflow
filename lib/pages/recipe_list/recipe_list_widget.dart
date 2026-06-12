@@ -563,7 +563,6 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                       key: Key(
                                         'Key86_${recipeItem.id.toString()}',
                                       ),
-                                      imgDesc: recipeItem.picture,
                                       recipeDetails: recipeItem,
                                     ),
                                   ),

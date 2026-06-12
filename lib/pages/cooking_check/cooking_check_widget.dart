@@ -1,13 +1,14 @@
-import '/components/ingredient_checker/ingredient_checker_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,11 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CookingCheckModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await actions.checkedProducts();
+    });
   }
 
   @override
@@ -451,22 +457,190 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                             (productIndex) {
                                           final productItem =
                                               product[productIndex];
-                                          return wrapWithModel(
-                                            model: _model.ingredientItem2Models
-                                                .getModel(
-                                              productItem.isChecked.toString(),
-                                              productIndex,
-                                            ),
-                                            updateCallback: () =>
-                                                safeSetState(() {}),
-                                            updateOnChange: true,
-                                            child: IngredientCheckerWidget(
-                                              key: Key(
-                                                'Key368_${productItem.isChecked.toString()}',
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 4.0, 0.0, 4.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .alternate,
+                                                ),
                                               ),
-                                              product: productItem,
-                                              multiplier:
-                                                  _model.countControllerValue!,
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Theme(
+                                                  data: ThemeData(
+                                                    checkboxTheme:
+                                                        CheckboxThemeData(
+                                                      visualDensity:
+                                                          VisualDensity.compact,
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                    ),
+                                                    unselectedWidgetColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                  ),
+                                                  child: CheckboxListTile(
+                                                    value: _model
+                                                            .checkboxListTileValueMap[
+                                                        productItem] ??= true,
+                                                    onChanged:
+                                                        (newValue) async {
+                                                      safeSetState(() =>
+                                                          _model.checkboxListTileValueMap[
+                                                                  productItem] =
+                                                              newValue!);
+                                                      if (newValue!) {
+                                                        await actions
+                                                            .updateProduct(
+                                                          productItem,
+                                                          productItem.quantity
+                                                              .quantity,
+                                                          productItem.name,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .calories,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .protein,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .fats,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .carbs,
+                                                          productItem
+                                                              .quantity.count,
+                                                          productItem.id,
+                                                          true,
+                                                        );
+                                                        safeSetState(() {});
+                                                      } else {
+                                                        await actions
+                                                            .updateProduct(
+                                                          productItem,
+                                                          productItem.quantity
+                                                              .quantity,
+                                                          productItem.name,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .calories,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .protein,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .fats,
+                                                          productItem
+                                                              .nutrition100g
+                                                              .carbs,
+                                                          productItem
+                                                              .quantity.count,
+                                                          productItem.id,
+                                                          false,
+                                                        );
+                                                        safeSetState(() {});
+                                                      }
+                                                    },
+                                                    title: Text(
+                                                      productItem.name,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleLarge
+                                                              .override(
+                                                                font: GoogleFonts
+                                                                    .manrope(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleLarge
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleLarge
+                                                                      .fontStyle,
+                                                                ),
+                                                                fontSize: 20.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleLarge
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleLarge
+                                                                    .fontStyle,
+                                                              ),
+                                                    ),
+                                                    subtitle: Text(
+                                                      '${(productItem.quantity.count * productItem.quantity.multiplier).toString()} ${productItem.quantity.quantity}',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .override(
+                                                                font: GoogleFonts
+                                                                    .manrope(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                    ),
+                                                    tileColor: FlutterFlowTheme
+                                                            .of(context)
+                                                        .secondaryBackground,
+                                                    activeColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
+                                                    checkColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .onPrimary,
+                                                    dense: false,
+                                                    controlAffinity:
+                                                        ListTileControlAffinity
+                                                            .trailing,
+                                                    contentPadding:
+                                                        EdgeInsets.all(4.0),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           );
                                         }),
@@ -709,10 +883,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                 ),
                               ),
                               Text(
-                                '${valueOrDefault<String>(
-                                  _model.checked.toString(),
-                                  '-0',
-                                )} из ${FFAppState().RecipeSelect.products.length.toString()}',
+                                '${FFAppState().CheckedPositions.toString()} из ${FFAppState().RecipeSelect.products.length.toString()}',
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(

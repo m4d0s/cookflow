@@ -14,6 +14,10 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
 
   // Model for Button.
   late UButtonModel buttonModel;
+  // Stores action output result for [Custom Action - imageToBase64] action in Container widget.
+  String? recipePhotoBase64;
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in Container widget.
+  FFUploadedFile? recipePhoto;
   // Model for TextField.
   late UTextFieldModel textFieldModel1;
   // Model for TextField.
@@ -30,8 +34,12 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   FormFieldController<Hardness>? dropDownValueController2;
   // State field(s) for CountController widget.
   int? countControllerValue3;
+  // Stores action output result for [Custom Action - getNextId] action in Row widget.
+  int? newproductID;
   // Models for IngridientEdit dynamic component.
   late FlutterFlowDynamicModels<IngridientEditModel> ingridientEditModels;
+  // Stores action output result for [Custom Action - getNextId] action in Row widget.
+  int? newstepID;
   // Models for StepEdit dynamic component.
   late FlutterFlowDynamicModels<StepEditModel> stepEditModels;
 

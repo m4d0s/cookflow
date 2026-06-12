@@ -27,7 +27,7 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
   String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for sex widget.
+  // State field(s) for Sex widget.
   HumanSex? sexValue;
   FormFieldController<HumanSex>? sexValueController;
   // State field(s) for TextField widget.
@@ -42,12 +42,12 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   FocusNode? textFieldFocusNode7;
   TextEditingController? textController7;
   String? Function(BuildContext, String?)? textController7Validator;
-  // State field(s) for action widget.
-  MealAction? actionValue;
-  FormFieldController<MealAction>? actionValueController;
-  // State field(s) for target widget.
-  MealTarget? targetValue;
-  FormFieldController<MealTarget>? targetValueController;
+  // State field(s) for da widget.
+  MealAction? daValue;
+  FormFieldController<MealAction>? daValueController;
+  // State field(s) for DropDown widget.
+  MealTarget? dropDownValue;
+  FormFieldController<MealTarget>? dropDownValueController;
   // Stores action output result for [Custom Action - exportBackup] action in Container widget.
   String? string1;
   // Stores action output result for [Custom Action - importBackup] action in Container Bordered Content widget.

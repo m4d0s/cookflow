@@ -1,9 +1,9 @@
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'recipe_card2_model.dart';
 export 'recipe_card2_model.dart';
@@ -11,12 +11,9 @@ export 'recipe_card2_model.dart';
 class RecipeCard2Widget extends StatefulWidget {
   const RecipeCard2Widget({
     super.key,
-    String? imgDesc,
     this.recipeDetails,
-  }) : this.imgDesc = imgDesc ??
-            'https://dimg.dreamflow.cloud/v1/image/healthy%20green%20salad%20with%20avocado%20slices';
+  });
 
-  final String imgDesc;
   final RecipeStruct? recipeDetails;
 
   @override
@@ -36,6 +33,13 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecipeCard2Model());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.recipe2Pic = await actions.base64ToFFUploadedFile(
+        widget.recipeDetails?.pictureBase64,
+      );
+    });
   }
 
   @override
@@ -75,16 +79,13 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                 child: Stack(
                   alignment: AlignmentDirectional(-1.0, -1.0),
                   children: [
-                    CachedNetworkImage(
-                      fadeInDuration: Duration(milliseconds: 0),
-                      fadeOutDuration: Duration(milliseconds: 0),
-                      imageUrl: valueOrDefault<String>(
-                        widget.imgDesc,
-                        'https://dimg.dreamflow.cloud/v1/image/healthy%20green%20salad%20with%20avocado%20slices',
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.memory(
+                        _model.recipe2Pic?.bytes ?? Uint8List.fromList([]),
+                        height: 200.0,
+                        fit: BoxFit.cover,
                       ),
-                      height: 160.0,
-                      fit: BoxFit.cover,
-                      alignment: Alignment(0.0, 0.0),
                     ),
                     Align(
                       alignment: AlignmentDirectional(1.0, -1.0),
@@ -107,121 +108,6 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                         )),
                         child: Container(
                           alignment: AlignmentDirectional(-1.0, 1.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(9999.0),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 8.0,
-                                    sigmaY: 8.0,
-                                  ),
-                                  child: Container(
-                                    width: 24.0,
-                                    height: 24.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .surface80,
-                                      borderRadius:
-                                          BorderRadius.circular(9999.0),
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: Icon(
-                                      Icons.favorite_rounded,
-                                      color: widget.recipeDetails!.isFavorite
-                                          ? FlutterFlowTheme.of(context).error
-                                          : Color(0x00000000),
-                                      size: 18.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    valueOrDefault<double>(
-                                  FFAppConstants.Padding1.toDouble(),
-                                  0.0,
-                                )),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 4.0,
-                                    sigmaY: 4.0,
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .surface90,
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 4.0, 8.0, 4.0),
-                                      child: Container(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.schedule_rounded,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              size: 14.0,
-                                            ),
-                                            Text(
-                                              '${valueOrDefault<String>(
-                                                widget.recipeDetails?.cookTime
-                                                    .toString(),
-                                                '-1',
-                                              )} мин',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .labelSmall
-                                                  .override(
-                                                    font: GoogleFonts.manrope(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelSmall
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelSmall
-                                                              .fontStyle,
-                                                    ),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontStyle,
-                                                    lineHeight: 1.3,
-                                                  ),
-                                            ),
-                                          ].divide(SizedBox(width: 4.0)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ].divide(SizedBox(width: 8.0)),
-                          ),
                         ),
                       ),
                     ),
@@ -240,9 +126,260 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                   children: [
                     Row(
                       mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).surface90,
+                            borderRadius: BorderRadius.circular(12.0),
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 4.0, 8.0, 4.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.schedule_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 14.0,
+                                  ),
+                                  Text(
+                                    '${valueOrDefault<String>(
+                                      widget.recipeDetails?.cookTime
+                                          .toString(),
+                                      '-1',
+                                    )} мин',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelSmall
+                                        .override(
+                                          font: GoogleFonts.manrope(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                          lineHeight: 1.3,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(width: 4.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 4.0, 8.0, 4.0),
+                          child: Container(
+                            decoration: BoxDecoration(),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.local_fire_department_rounded,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  size: 14.0,
+                                ),
+                                Text(
+                                  '${valueOrDefault<String>(
+                                    widget.recipeDetails?.nutritions.calories
+                                        .toString(),
+                                    '-1',
+                                  )} ккал',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelSmall
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelSmall
+                                            .fontStyle,
+                                        lineHeight: 1.3,
+                                      ),
+                                ),
+                              ].divide(SizedBox(width: 4.0)),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 4.0, 8.0, 4.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(
+                                    Icons.fastfood_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 14.0,
+                                  ),
+                                  Text(
+                                    valueOrDefault<String>(
+                                      widget.recipeDetails?.hardType?.name,
+                                      'hard',
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelSmall
+                                        .override(
+                                          font: GoogleFonts.manrope(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                          lineHeight: 1.3,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(width: 4.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).surface90,
+                            borderRadius: BorderRadius.circular(12.0),
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 4.0, 8.0, 4.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.restaurant_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 14.0,
+                                  ),
+                                  Text(
+                                    valueOrDefault<String>(
+                                      widget.recipeDetails?.foodType?.name,
+                                      'Trash',
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelSmall
+                                        .override(
+                                          font: GoogleFonts.manrope(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                          lineHeight: 1.3,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(width: 4.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).surface90,
+                            borderRadius: BorderRadius.circular(12.0),
+                            shape: BoxShape.rectangle,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Container(
+                          width: 24.0,
+                          height: 24.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).surface80,
+                            borderRadius: BorderRadius.circular(9999.0),
+                            shape: BoxShape.rectangle,
+                          ),
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: Visibility(
+                            visible: widget.recipeDetails?.isFavorite ?? true,
+                            child: Icon(
+                              Icons.favorite_rounded,
+                              color: FlutterFlowTheme.of(context).error,
+                              size: 18.0,
+                            ),
+                          ),
+                        ),
                         Expanded(
                           flex: 1,
                           child: Text(
@@ -272,45 +409,7 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 4.0, 8.0, 4.0),
-                            child: Container(
-                              child: Text(
-                                valueOrDefault<String>(
-                                  widget.recipeDetails?.hardType?.name,
-                                  'hard',
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .labelSmall
-                                    .override(
-                                      font: GoogleFonts.manrope(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontStyle,
-                                      ),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontStyle,
-                                      lineHeight: 1.3,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ].divide(SizedBox(width: 16.0)),
+                      ].divide(SizedBox(width: 4.0)),
                     ),
                     Text(
                       valueOrDefault<String>(
@@ -338,99 +437,6 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                             lineHeight: 1.5,
                           ),
                       overflow: TextOverflow.ellipsis,
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 4.0, 0.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.local_fire_department_rounded,
-                                color: FlutterFlowTheme.of(context).warning,
-                                size: 14.0,
-                              ),
-                              Text(
-                                '${valueOrDefault<String>(
-                                  widget.recipeDetails?.nutritions.calories
-                                      .toString(),
-                                  '-1',
-                                )} ккал',
-                                style: FlutterFlowTheme.of(context)
-                                    .labelSmall
-                                    .override(
-                                      font: GoogleFonts.manrope(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontStyle,
-                                      ),
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontStyle,
-                                      lineHeight: 1.3,
-                                    ),
-                              ),
-                            ].divide(SizedBox(width: 4.0)),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.restaurant_rounded,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 14.0,
-                              ),
-                              Text(
-                                valueOrDefault<String>(
-                                  widget.recipeDetails?.foodType?.name,
-                                  'Trash',
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .labelSmall
-                                    .override(
-                                      font: GoogleFonts.manrope(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontStyle,
-                                      ),
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontStyle,
-                                      lineHeight: 1.3,
-                                    ),
-                              ),
-                            ].divide(SizedBox(width: 4.0)),
-                          ),
-                        ].divide(SizedBox(width: 16.0)),
-                      ),
                     ),
                   ].divide(SizedBox(height: 4.0)),
                 ),

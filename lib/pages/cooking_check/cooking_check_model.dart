@@ -1,4 +1,4 @@
-import '/components/ingredient_checker/ingredient_checker_widget.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -12,8 +12,14 @@ class CookingCheckModel extends FlutterFlowModel<CookingCheckWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Models for IngredientItem2.
-  late FlutterFlowDynamicModels<IngredientCheckerModel> ingredientItem2Models;
+  // State field(s) for CheckboxListTile widget.
+  Map<ProductStruct, bool> checkboxListTileValueMap = {};
+  List<ProductStruct> get checkboxListTileCheckedItems =>
+      checkboxListTileValueMap.entries
+          .where((e) => e.value)
+          .map((e) => e.key)
+          .toList();
+
   // State field(s) for CountController widget.
   int? countControllerValue;
   // Model for Button.
@@ -21,14 +27,11 @@ class CookingCheckModel extends FlutterFlowModel<CookingCheckWidget> {
 
   @override
   void initState(BuildContext context) {
-    ingredientItem2Models =
-        FlutterFlowDynamicModels(() => IngredientCheckerModel());
     buttonModel = createModel(context, () => UButtonModel());
   }
 
   @override
   void dispose() {
-    ingredientItem2Models.dispose();
     buttonModel.dispose();
   }
 }

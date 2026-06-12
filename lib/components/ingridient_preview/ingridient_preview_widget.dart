@@ -89,7 +89,7 @@ class _IngridientPreviewWidgetState extends State<IngridientPreviewWidget> {
                 ),
               ),
               Text(
-                '${widget.product?.quantity.count.toString()} ${widget.product?.quantity.name}',
+                '${widget.product?.quantity.count.toString()} ${widget.product?.quantity.quantity}',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.inter(
                         fontWeight: FontWeight.w500,

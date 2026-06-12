@@ -2,8 +2,9 @@ import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'recipe_card_mini_model.dart';
 export 'recipe_card_mini_model.dart';
@@ -42,6 +43,13 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecipeCardMiniModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.mealPic = await actions.base64ToFFUploadedFile(
+        widget.mealEntry?.meal.pictureBase64,
+      );
+    });
   }
 
   @override
@@ -108,15 +116,12 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                             FFAppConstants.Padding0.toDouble(),
                             0.0,
                           )),
-                          child: CachedNetworkImage(
-                            fadeInDuration: Duration(milliseconds: 0),
-                            fadeOutDuration: Duration(milliseconds: 0),
-                            imageUrl: valueOrDefault<String>(
-                              widget.imgDesc,
-                              'https://dimg.dreamflow.cloud/v1/image/oatmeal%20with%20berries',
-                            ),
+                          child: Image.memory(
+                            _model.mealPic?.bytes ?? Uint8List.fromList([]),
                             fit: BoxFit.cover,
                             alignment: Alignment(0.0, 0.0),
+                            memCacheWidth: 128,
+                            memCacheHeight: 128,
                           ),
                         ),
                       ),

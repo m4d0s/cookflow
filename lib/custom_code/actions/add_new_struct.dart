@@ -9,18 +9,21 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-int addNewStruct(Structs struct, int id) {
+Future addNewStruct(Structs struct, int id) async {
   switch (struct) {
     case Structs.product:
-      FFAppState().RecipeSelect.cookingSteps.add(StepStruct(queueId: id));
+      if (FFAppConstants.StructLimit <
+          FFAppState().RecipeSelect.cookingSteps.length)
+        FFAppState().RecipeSelect.cookingSteps.add(StepStruct(queueId: id));
       break;
     case Structs.step:
-      FFAppState().RecipeSelect.products.add(ProductStruct(id: id));
+      if (FFAppConstants.StructLimit <
+          FFAppState().RecipeSelect.products.length)
+        FFAppState().RecipeSelect.products.add(ProductStruct(id: id));
       break;
     default:
-      return 1;
+      FFAppState().RecipeList.add(RecipeStruct(id: id));
   }
-  return 0;
 }
 
 // Set your action name, define your arguments and return parameter,

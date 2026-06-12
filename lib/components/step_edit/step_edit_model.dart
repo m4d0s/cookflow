@@ -1,4 +1,3 @@
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'step_edit_widget.dart' show StepEditWidget;
 import 'package:flutter/material.dart';
@@ -6,26 +5,30 @@ import 'package:flutter/material.dart';
 class StepEditModel extends FlutterFlowModel<StepEditWidget> {
   ///  State fields for stateful widgets in this component.
 
-  // Stores action output result for [Custom Action - recallStepIds] action in Row widget.
-  int? lastID;
-  // Model for UTextField component.
-  late UTextFieldModel uTextFieldModel1;
-  // Model for UTextField component.
-  late UTextFieldModel uTextFieldModel2;
+  // Stores action output result for [Custom Action - imageToBase64] action in Stack widget.
+  String? imageBase64;
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in Stack widget.
+  FFUploadedFile? fFUploadImage;
+  // State field(s) for Input widget.
+  FocusNode? inputFocusNode1;
+  TextEditingController? inputTextController1;
+  String? Function(BuildContext, String?)? inputTextController1Validator;
+  // State field(s) for Input widget.
+  FocusNode? inputFocusNode2;
+  TextEditingController? inputTextController2;
+  String? Function(BuildContext, String?)? inputTextController2Validator;
   // State field(s) for CountController widget.
   int? countControllerValue;
-  // Stores action output result for [Custom Action - recallStepIds] action in IconButton widget.
-  int? lastID1;
 
   @override
-  void initState(BuildContext context) {
-    uTextFieldModel1 = createModel(context, () => UTextFieldModel());
-    uTextFieldModel2 = createModel(context, () => UTextFieldModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
   void dispose() {
-    uTextFieldModel1.dispose();
-    uTextFieldModel2.dispose();
+    inputFocusNode1?.dispose();
+    inputTextController1?.dispose();
+
+    inputFocusNode2?.dispose();
+    inputTextController2?.dispose();
   }
 }

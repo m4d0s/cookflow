@@ -131,7 +131,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                           fadeInDuration: Duration(milliseconds: 500),
                           fadeOutDuration: Duration(milliseconds: 500),
                           imageUrl: valueOrDefault<String>(
-                            FFAppState().RecipeSelect.picture,
+                            FFAppState().RecipeSelect.pictureBase64,
                             'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
                           ),
                           width: MediaQuery.sizeOf(context).width * 1.0,
@@ -158,7 +158,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                               ),
                               child: Image.network(
                                 valueOrDefault<String>(
-                                  FFAppState().RecipeSelect.picture,
+                                  FFAppState().RecipeSelect.pictureBase64,
                                   'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
                                 ),
                                 width: MediaQuery.sizeOf(context).width * 1.0,
@@ -174,7 +174,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                             fadeInDuration: Duration(milliseconds: 500),
                             fadeOutDuration: Duration(milliseconds: 500),
                             imageUrl: valueOrDefault<String>(
-                              FFAppState().RecipeSelect.picture,
+                              FFAppState().RecipeSelect.pictureBase64,
                               'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
                             ),
                             width: MediaQuery.sizeOf(context).width * 1.0,

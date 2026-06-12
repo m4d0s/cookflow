@@ -1,8 +1,9 @@
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'recipe_card1_model.dart';
 export 'recipe_card1_model.dart';
@@ -10,12 +11,9 @@ export 'recipe_card1_model.dart';
 class RecipeCard1Widget extends StatefulWidget {
   const RecipeCard1Widget({
     super.key,
-    String? imgDesc,
     this.recipeDetails,
-  }) : this.imgDesc = imgDesc ??
-            'https://dimg.dreamflow.cloud/v1/image/fresh%20green%20salad%20with%20avocado%20and%20seeds';
+  });
 
-  final String imgDesc;
   final RecipeStruct? recipeDetails;
 
   @override
@@ -35,6 +33,13 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecipeCard1Model());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.recipe1Image = await actions.base64ToFFUploadedFile(
+        widget.recipeDetails?.pictureBase64,
+      );
+    });
   }
 
   @override
@@ -76,147 +81,17 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                   child: Stack(
                     alignment: AlignmentDirectional(-1.0, -1.0),
                     children: [
-                      CachedNetworkImage(
-                        fadeInDuration: Duration(milliseconds: 0),
-                        fadeOutDuration: Duration(milliseconds: 0),
-                        imageUrl: valueOrDefault<String>(
-                          widget.imgDesc,
-                          'https://dimg.dreamflow.cloud/v1/image/fresh%20green%20salad%20with%20avocado%20and%20seeds',
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.memory(
+                          _model.recipe1Image?.bytes ?? Uint8List.fromList([]),
+                          height: 200.0,
+                          fit: BoxFit.cover,
                         ),
-                        height: 160.0,
-                        fit: BoxFit.cover,
-                        alignment: Alignment(0.0, 0.0),
                       ),
                       Align(
                         alignment: AlignmentDirectional(-1.0, 1.0),
-                        child: Container(
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                4.0, 0.0, 0.0, 4.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Container(
-                                    width: 24.0,
-                                    height: 24.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: Visibility(
-                                      visible: widget.recipeDetails!.isFavorite
-                                          ? true
-                                          : false,
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          safeSetState(() {});
-                                        },
-                                        child: Icon(
-                                          Icons.favorite_rounded,
-                                          color:
-                                              widget.recipeDetails!.isFavorite
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .error
-                                                  : FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        borderRadius: BorderRadius.circular(
-                                            valueOrDefault<double>(
-                                          FFAppConstants.Padding1.toDouble(),
-                                          0.0,
-                                        )),
-                                        shape: BoxShape.rectangle,
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            valueOrDefault<double>(
-                                              FFAppConstants.Padding1
-                                                  .toDouble(),
-                                              0.0,
-                                            ),
-                                            valueOrDefault<double>(
-                                              FFAppConstants.Padding0
-                                                  .toDouble(),
-                                              0.0,
-                                            ),
-                                            valueOrDefault<double>(
-                                              FFAppConstants.Padding1
-                                                  .toDouble(),
-                                              0.0,
-                                            ),
-                                            valueOrDefault<double>(
-                                              FFAppConstants.Padding0
-                                                  .toDouble(),
-                                              0.0,
-                                            )),
-                                        child: Container(
-                                          child: Text(
-                                            valueOrDefault<String>(
-                                              widget.recipeDetails?.foodType
-                                                  ?.name,
-                                              'Nullify',
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelSmall
-                                                .override(
-                                                  font: GoogleFonts.manrope(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontStyle,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .onPrimary,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelSmall
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelSmall
-                                                          .fontStyle,
-                                                  lineHeight: 1.3,
-                                                ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        child: Container(),
                       ),
                     ],
                   ),
@@ -274,7 +149,7 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                                   Icon(
                                     Icons.schedule_rounded,
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                        .primaryText,
                                     size: 14.0,
                                   ),
                                   Text(
@@ -320,7 +195,7 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                                   Icon(
                                     Icons.local_fire_department_rounded,
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                        .primaryText,
                                     size: 14.0,
                                   ),
                                   Text(
@@ -360,11 +235,92 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                                 ].divide(SizedBox(
                                     width: FFAppConstants.Padding0.toDouble())),
                               ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.fastfood_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 14.0,
+                                  ),
+                                  Text(
+                                    valueOrDefault<String>(
+                                      widget.recipeDetails?.foodType?.name,
+                                      'nullify',
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelSmall
+                                        .override(
+                                          font: GoogleFonts.manrope(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                          lineHeight: 1.3,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(
+                                    width: FFAppConstants.Padding0.toDouble())),
+                              ),
                             ].divide(SizedBox(
                                 width: FFAppConstants.Padding2.toDouble())),
                           ),
                         ].divide(SizedBox(
                             height: FFAppConstants.Padding0.toDouble())),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 32.0,
+                        height: 32.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        child: Visibility(
+                          visible:
+                              widget.recipeDetails!.isFavorite ? true : false,
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              await actions.updateRecipe(
+                                !widget.recipeDetails!.isFavorite,
+                              );
+
+                              safeSetState(() {});
+                            },
+                            child: Icon(
+                              Icons.favorite_rounded,
+                              color: widget.recipeDetails!.isFavorite
+                                  ? FlutterFlowTheme.of(context).error
+                                  : FlutterFlowTheme.of(context).primaryText,
+                              size: 32.0,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

@@ -9,21 +9,24 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future addEmptyDaily() async {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-
-  final exists = FFAppState().DailyList.any((plan) {
-    final planDate = plan.date;
-    if (planDate == null) return false;
-    final planDay = DateTime(planDate.year, planDate.month, planDate.day);
-    return planDay.isAtSameMomentAs(today);
-  });
-
-  if (!exists) {
-    FFAppState().addToDailyList(
-      DailyPlanStruct(date: today, goal: FFAppState().DailyGoal),
-    );
+Future deleteStruct(int id, Structs struct) async {
+  switch (struct) {
+    case Structs.step:
+      FFAppState().RecipeSelect.cookingSteps.removeWhere(
+            (s) => s.queueId == id,
+          );
+      break;
+    case Structs.product:
+      FFAppState().RecipeSelect.products.removeWhere(
+            (p) => p.id == id,
+          );
+      break;
+    default: //Structs.recipe
+      FFAppState().removeFromRecipeList(
+        FFAppState().RecipeList.firstWhere(
+              (r) => r.id == id,
+            ),
+      );
   }
 }
 

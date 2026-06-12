@@ -9,21 +9,21 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future addEmptyDaily() async {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
+Future updateStep(StepStruct step, int? queueId, String? desc, String? tip,
+    int? timer, String? base64) async {
+  final steps = FFAppState().RecipeSelect.cookingSteps;
+  final index = steps.indexWhere((s) => s.queueId == step.queueId);
 
-  final exists = FFAppState().DailyList.any((plan) {
-    final planDate = plan.date;
-    if (planDate == null) return false;
-    final planDay = DateTime(planDate.year, planDate.month, planDate.day);
-    return planDay.isAtSameMomentAs(today);
-  });
+  if (queueId != null) step.queueId = queueId;
+  if (desc != null) step.desc = desc;
+  if (tip != null) step.tip = tip;
+  if (timer != null) step.timer = timer;
+  if (base64 != null) step.pictureBase64 = base64;
 
-  if (!exists) {
-    FFAppState().addToDailyList(
-      DailyPlanStruct(date: today, goal: FFAppState().DailyGoal),
-    );
+  if (index != -1) {
+    steps[index] = step;
+  } else {
+    steps.add(step);
   }
 }
 

@@ -9,22 +9,16 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future addEmptyDaily() async {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
+import 'dart:convert';
 
-  final exists = FFAppState().DailyList.any((plan) {
-    final planDate = plan.date;
-    if (planDate == null) return false;
-    final planDay = DateTime(planDate.year, planDate.month, planDate.day);
-    return planDay.isAtSameMomentAs(today);
-  });
-
-  if (!exists) {
-    FFAppState().addToDailyList(
-      DailyPlanStruct(date: today, goal: FFAppState().DailyGoal),
-    );
+FFUploadedFile? base64ToFFUploadedFile(String? imageBase64) {
+  if (imageBase64 == null || imageBase64.isEmpty) {
+    return null;
   }
+
+  return FFUploadedFile(
+    bytes: base64Decode(imageBase64),
+  );
 }
 
 // Set your action name, define your arguments and return parameter,
