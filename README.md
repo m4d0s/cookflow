@@ -1,8 +1,18 @@
 # Cook Flow
 
-A new Flutter project.
+CookFlow — приложение для хранения рецептов,
+планирования питания и создания списков покупок.
 
-## Getting Started
+Features:
+- создание собственных рецептов
+- планирование меню
+- список покупок
+- локальное хранение данных
+
+## Licence
+GNU GPL v3
+
+# Build info
 
 FlutterFlow projects are built to run on the Flutter _stable_ release.
 
