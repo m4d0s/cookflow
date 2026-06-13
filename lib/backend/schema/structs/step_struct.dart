@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_getters_setters
 
 import '/backend/schema/util/schema_util.dart';
-import '/backend/schema/enums/enums.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -12,18 +11,16 @@ class StepStruct extends BaseStruct {
     String? desc,
     String? tip,
     int? timer,
-    String? picture,
-    Picture? pictureType,
+    String? pictureBase64,
   })  : _queueId = queueId,
         _desc = desc,
         _tip = tip,
         _timer = timer,
-        _picture = picture,
-        _pictureType = pictureType;
+        _pictureBase64 = pictureBase64;
 
   // "queue_id" field.
   int? _queueId;
-  int get queueId => _queueId ?? 0;
+  int get queueId => _queueId ?? -1;
   set queueId(int? val) => _queueId = val;
 
   void incrementQueueId(int amount) => queueId = queueId + amount;
@@ -53,29 +50,19 @@ class StepStruct extends BaseStruct {
 
   bool hasTimer() => _timer != null;
 
-  // "picture" field.
-  String? _picture;
-  String get picture => _picture ?? '';
-  set picture(String? val) => _picture = val;
+  // "pictureBase64" field.
+  String? _pictureBase64;
+  String get pictureBase64 => _pictureBase64 ?? '';
+  set pictureBase64(String? val) => _pictureBase64 = val;
 
-  bool hasPicture() => _picture != null;
-
-  // "picture_type" field.
-  Picture? _pictureType;
-  Picture? get pictureType => _pictureType;
-  set pictureType(Picture? val) => _pictureType = val;
-
-  bool hasPictureType() => _pictureType != null;
+  bool hasPictureBase64() => _pictureBase64 != null;
 
   static StepStruct fromMap(Map<String, dynamic> data) => StepStruct(
         queueId: castToType<int>(data['queue_id']),
         desc: data['desc'] as String?,
         tip: data['tip'] as String?,
         timer: castToType<int>(data['timer']),
-        picture: data['picture'] as String?,
-        pictureType: data['picture_type'] is Picture
-            ? data['picture_type']
-            : deserializeEnum<Picture>(data['picture_type']),
+        pictureBase64: data['pictureBase64'] as String?,
       );
 
   static StepStruct? maybeFromMap(dynamic data) =>
@@ -86,8 +73,7 @@ class StepStruct extends BaseStruct {
         'desc': _desc,
         'tip': _tip,
         'timer': _timer,
-        'picture': _picture,
-        'picture_type': _pictureType?.serialize(),
+        'pictureBase64': _pictureBase64,
       }.withoutNulls;
 
   @override
@@ -108,13 +94,9 @@ class StepStruct extends BaseStruct {
           _timer,
           ParamType.int,
         ),
-        'picture': serializeParam(
-          _picture,
+        'pictureBase64': serializeParam(
+          _pictureBase64,
           ParamType.String,
-        ),
-        'picture_type': serializeParam(
-          _pictureType,
-          ParamType.Enum,
         ),
       }.withoutNulls;
 
@@ -140,14 +122,9 @@ class StepStruct extends BaseStruct {
           ParamType.int,
           false,
         ),
-        picture: deserializeParam(
-          data['picture'],
+        pictureBase64: deserializeParam(
+          data['pictureBase64'],
           ParamType.String,
-          false,
-        ),
-        pictureType: deserializeParam<Picture>(
-          data['picture_type'],
-          ParamType.Enum,
           false,
         ),
       );
@@ -162,13 +139,12 @@ class StepStruct extends BaseStruct {
         desc == other.desc &&
         tip == other.tip &&
         timer == other.timer &&
-        picture == other.picture &&
-        pictureType == other.pictureType;
+        pictureBase64 == other.pictureBase64;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([queueId, desc, tip, timer, picture, pictureType]);
+  int get hashCode =>
+      const ListEquality().hash([queueId, desc, tip, timer, pictureBase64]);
 }
 
 StepStruct createStepStruct({
@@ -176,14 +152,12 @@ StepStruct createStepStruct({
   String? desc,
   String? tip,
   int? timer,
-  String? picture,
-  Picture? pictureType,
+  String? pictureBase64,
 }) =>
     StepStruct(
       queueId: queueId,
       desc: desc,
       tip: tip,
       timer: timer,
-      picture: picture,
-      pictureType: pictureType,
+      pictureBase64: pictureBase64,
     );

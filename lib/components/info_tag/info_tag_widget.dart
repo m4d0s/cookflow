@@ -46,7 +46,10 @@ class _InfoTagWidgetState extends State<InfoTagWidget> {
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(valueOrDefault<double>(
+          FFAppConstants.Padding2.toDouble(),
+          0.0,
+        )),
         shape: BoxShape.rectangle,
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
@@ -54,7 +57,10 @@ class _InfoTagWidgetState extends State<InfoTagWidget> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 8.0),
+        padding: EdgeInsets.all(valueOrDefault<double>(
+          FFAppConstants.Padding1.toDouble(),
+          0.0,
+        )),
         child: Container(
           child: Row(
             mainAxisSize: MainAxisSize.min,

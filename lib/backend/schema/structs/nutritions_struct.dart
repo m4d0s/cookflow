@@ -7,57 +7,57 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class NutritionsStruct extends BaseStruct {
   NutritionsStruct({
-    int? calories,
-    int? protein,
-    int? fats,
-    int? carbs,
+    double? calories,
+    double? protein,
+    double? fats,
+    double? carbs,
   })  : _calories = calories,
         _protein = protein,
         _fats = fats,
         _carbs = carbs;
 
   // "calories" field.
-  int? _calories;
-  int get calories => _calories ?? 99;
-  set calories(int? val) => _calories = val;
+  double? _calories;
+  double get calories => _calories ?? 0.0;
+  set calories(double? val) => _calories = val;
 
-  void incrementCalories(int amount) => calories = calories + amount;
+  void incrementCalories(double amount) => calories = calories + amount;
 
   bool hasCalories() => _calories != null;
 
   // "protein" field.
-  int? _protein;
-  int get protein => _protein ?? 0;
-  set protein(int? val) => _protein = val;
+  double? _protein;
+  double get protein => _protein ?? 0.0;
+  set protein(double? val) => _protein = val;
 
-  void incrementProtein(int amount) => protein = protein + amount;
+  void incrementProtein(double amount) => protein = protein + amount;
 
   bool hasProtein() => _protein != null;
 
   // "fats" field.
-  int? _fats;
-  int get fats => _fats ?? 0;
-  set fats(int? val) => _fats = val;
+  double? _fats;
+  double get fats => _fats ?? 0.0;
+  set fats(double? val) => _fats = val;
 
-  void incrementFats(int amount) => fats = fats + amount;
+  void incrementFats(double amount) => fats = fats + amount;
 
   bool hasFats() => _fats != null;
 
   // "carbs" field.
-  int? _carbs;
-  int get carbs => _carbs ?? 0;
-  set carbs(int? val) => _carbs = val;
+  double? _carbs;
+  double get carbs => _carbs ?? 0.0;
+  set carbs(double? val) => _carbs = val;
 
-  void incrementCarbs(int amount) => carbs = carbs + amount;
+  void incrementCarbs(double amount) => carbs = carbs + amount;
 
   bool hasCarbs() => _carbs != null;
 
   static NutritionsStruct fromMap(Map<String, dynamic> data) =>
       NutritionsStruct(
-        calories: castToType<int>(data['calories']),
-        protein: castToType<int>(data['protein']),
-        fats: castToType<int>(data['fats']),
-        carbs: castToType<int>(data['carbs']),
+        calories: castToType<double>(data['calories']),
+        protein: castToType<double>(data['protein']),
+        fats: castToType<double>(data['fats']),
+        carbs: castToType<double>(data['carbs']),
       );
 
   static NutritionsStruct? maybeFromMap(dynamic data) => data is Map
@@ -75,19 +75,19 @@ class NutritionsStruct extends BaseStruct {
   Map<String, dynamic> toSerializableMap() => {
         'calories': serializeParam(
           _calories,
-          ParamType.int,
+          ParamType.double,
         ),
         'protein': serializeParam(
           _protein,
-          ParamType.int,
+          ParamType.double,
         ),
         'fats': serializeParam(
           _fats,
-          ParamType.int,
+          ParamType.double,
         ),
         'carbs': serializeParam(
           _carbs,
-          ParamType.int,
+          ParamType.double,
         ),
       }.withoutNulls;
 
@@ -95,22 +95,22 @@ class NutritionsStruct extends BaseStruct {
       NutritionsStruct(
         calories: deserializeParam(
           data['calories'],
-          ParamType.int,
+          ParamType.double,
           false,
         ),
         protein: deserializeParam(
           data['protein'],
-          ParamType.int,
+          ParamType.double,
           false,
         ),
         fats: deserializeParam(
           data['fats'],
-          ParamType.int,
+          ParamType.double,
           false,
         ),
         carbs: deserializeParam(
           data['carbs'],
-          ParamType.int,
+          ParamType.double,
           false,
         ),
       );
@@ -133,10 +133,10 @@ class NutritionsStruct extends BaseStruct {
 }
 
 NutritionsStruct createNutritionsStruct({
-  int? calories,
-  int? protein,
-  int? fats,
-  int? carbs,
+  double? calories,
+  double? protein,
+  double? fats,
+  double? carbs,
 }) =>
     NutritionsStruct(
       calories: calories,

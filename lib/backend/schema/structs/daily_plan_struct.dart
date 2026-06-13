@@ -6,16 +6,27 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class DailyPlanStruct extends BaseStruct {
   DailyPlanStruct({
+    int? id,
     DateTime? date,
     List<MealEntryStruct>? completedRecipes,
     NutritionsStruct? done,
     NutritionsStruct? goal,
-    int? waterMl,
-  })  : _date = date,
+    int? waterCups,
+  })  : _id = id,
+        _date = date,
         _completedRecipes = completedRecipes,
         _done = done,
         _goal = goal,
-        _waterMl = waterMl;
+        _waterCups = waterCups;
+
+  // "id" field.
+  int? _id;
+  int get id => _id ?? -1;
+  set id(int? val) => _id = val;
+
+  void incrementId(int amount) => id = id + amount;
+
+  bool hasId() => _id != null;
 
   // "date" field.
   DateTime? _date;
@@ -57,16 +68,17 @@ class DailyPlanStruct extends BaseStruct {
 
   bool hasGoal() => _goal != null;
 
-  // "waterMl" field.
-  int? _waterMl;
-  int get waterMl => _waterMl ?? 0;
-  set waterMl(int? val) => _waterMl = val;
+  // "waterCups" field.
+  int? _waterCups;
+  int get waterCups => _waterCups ?? 0;
+  set waterCups(int? val) => _waterCups = val;
 
-  void incrementWaterMl(int amount) => waterMl = waterMl + amount;
+  void incrementWaterCups(int amount) => waterCups = waterCups + amount;
 
-  bool hasWaterMl() => _waterMl != null;
+  bool hasWaterCups() => _waterCups != null;
 
   static DailyPlanStruct fromMap(Map<String, dynamic> data) => DailyPlanStruct(
+        id: castToType<int>(data['id']),
         date: data['date'] as DateTime?,
         completedRecipes: getStructList(
           data['completedRecipes'],
@@ -78,7 +90,7 @@ class DailyPlanStruct extends BaseStruct {
         goal: data['goal'] is NutritionsStruct
             ? data['goal']
             : NutritionsStruct.maybeFromMap(data['goal']),
-        waterMl: castToType<int>(data['waterMl']),
+        waterCups: castToType<int>(data['waterCups']),
       );
 
   static DailyPlanStruct? maybeFromMap(dynamic data) => data is Map
@@ -86,15 +98,20 @@ class DailyPlanStruct extends BaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
+        'id': _id,
         'date': _date,
         'completedRecipes': _completedRecipes?.map((e) => e.toMap()).toList(),
         'done': _done?.toMap(),
         'goal': _goal?.toMap(),
-        'waterMl': _waterMl,
+        'waterCups': _waterCups,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
+        'id': serializeParam(
+          _id,
+          ParamType.int,
+        ),
         'date': serializeParam(
           _date,
           ParamType.DateTime,
@@ -112,14 +129,19 @@ class DailyPlanStruct extends BaseStruct {
           _goal,
           ParamType.DataStruct,
         ),
-        'waterMl': serializeParam(
-          _waterMl,
+        'waterCups': serializeParam(
+          _waterCups,
           ParamType.int,
         ),
       }.withoutNulls;
 
   static DailyPlanStruct fromSerializableMap(Map<String, dynamic> data) =>
       DailyPlanStruct(
+        id: deserializeParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
         date: deserializeParam(
           data['date'],
           ParamType.DateTime,
@@ -143,8 +165,8 @@ class DailyPlanStruct extends BaseStruct {
           false,
           structBuilder: NutritionsStruct.fromSerializableMap,
         ),
-        waterMl: deserializeParam(
-          data['waterMl'],
+        waterCups: deserializeParam(
+          data['waterCups'],
           ParamType.int,
           false,
         ),
@@ -157,27 +179,30 @@ class DailyPlanStruct extends BaseStruct {
   bool operator ==(Object other) {
     const listEquality = ListEquality();
     return other is DailyPlanStruct &&
+        id == other.id &&
         date == other.date &&
         listEquality.equals(completedRecipes, other.completedRecipes) &&
         done == other.done &&
         goal == other.goal &&
-        waterMl == other.waterMl;
+        waterCups == other.waterCups;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([date, completedRecipes, done, goal, waterMl]);
+  int get hashCode => const ListEquality()
+      .hash([id, date, completedRecipes, done, goal, waterCups]);
 }
 
 DailyPlanStruct createDailyPlanStruct({
+  int? id,
   DateTime? date,
   NutritionsStruct? done,
   NutritionsStruct? goal,
-  int? waterMl,
+  int? waterCups,
 }) =>
     DailyPlanStruct(
+      id: id,
       date: date,
       done: done ?? NutritionsStruct(),
       goal: goal ?? NutritionsStruct(),
-      waterMl: waterMl,
+      waterCups: waterCups,
     );

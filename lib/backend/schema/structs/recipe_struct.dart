@@ -20,8 +20,7 @@ class RecipeStruct extends BaseStruct {
     int? portions,
     Food? foodType,
     Hardness? hardType,
-    String? picture,
-    Picture? pictureType,
+    String? pictureBase64,
     bool? isFavorite,
   })  : _id = id,
         _name = name,
@@ -36,13 +35,12 @@ class RecipeStruct extends BaseStruct {
         _portions = portions,
         _foodType = foodType,
         _hardType = hardType,
-        _picture = picture,
-        _pictureType = pictureType,
+        _pictureBase64 = pictureBase64,
         _isFavorite = isFavorite;
 
   // "id" field.
   int? _id;
-  int get id => _id ?? 0;
+  int get id => _id ?? -1;
   set id(int? val) => _id = val;
 
   void incrementId(int amount) => id = id + amount;
@@ -137,31 +135,24 @@ class RecipeStruct extends BaseStruct {
 
   // "food_type" field.
   Food? _foodType;
-  Food? get foodType => _foodType;
+  Food get foodType => _foodType ?? Food.all;
   set foodType(Food? val) => _foodType = val;
 
   bool hasFoodType() => _foodType != null;
 
   // "hard_type" field.
   Hardness? _hardType;
-  Hardness? get hardType => _hardType;
+  Hardness get hardType => _hardType ?? Hardness.all;
   set hardType(Hardness? val) => _hardType = val;
 
   bool hasHardType() => _hardType != null;
 
-  // "picture" field.
-  String? _picture;
-  String get picture => _picture ?? '';
-  set picture(String? val) => _picture = val;
+  // "pictureBase64" field.
+  String? _pictureBase64;
+  String get pictureBase64 => _pictureBase64 ?? '';
+  set pictureBase64(String? val) => _pictureBase64 = val;
 
-  bool hasPicture() => _picture != null;
-
-  // "picture_type" field.
-  Picture? _pictureType;
-  Picture? get pictureType => _pictureType;
-  set pictureType(Picture? val) => _pictureType = val;
-
-  bool hasPictureType() => _pictureType != null;
+  bool hasPictureBase64() => _pictureBase64 != null;
 
   // "isFavorite" field.
   bool? _isFavorite;
@@ -196,10 +187,7 @@ class RecipeStruct extends BaseStruct {
         hardType: data['hard_type'] is Hardness
             ? data['hard_type']
             : deserializeEnum<Hardness>(data['hard_type']),
-        picture: data['picture'] as String?,
-        pictureType: data['picture_type'] is Picture
-            ? data['picture_type']
-            : deserializeEnum<Picture>(data['picture_type']),
+        pictureBase64: data['pictureBase64'] as String?,
         isFavorite: data['isFavorite'] as bool?,
       );
 
@@ -220,8 +208,7 @@ class RecipeStruct extends BaseStruct {
         'portions': _portions,
         'food_type': _foodType?.serialize(),
         'hard_type': _hardType?.serialize(),
-        'picture': _picture,
-        'picture_type': _pictureType?.serialize(),
+        'pictureBase64': _pictureBase64,
         'isFavorite': _isFavorite,
       }.withoutNulls;
 
@@ -281,13 +268,9 @@ class RecipeStruct extends BaseStruct {
           _hardType,
           ParamType.Enum,
         ),
-        'picture': serializeParam(
-          _picture,
+        'pictureBase64': serializeParam(
+          _pictureBase64,
           ParamType.String,
-        ),
-        'picture_type': serializeParam(
-          _pictureType,
-          ParamType.Enum,
         ),
         'isFavorite': serializeParam(
           _isFavorite,
@@ -365,14 +348,9 @@ class RecipeStruct extends BaseStruct {
           ParamType.Enum,
           false,
         ),
-        picture: deserializeParam(
-          data['picture'],
+        pictureBase64: deserializeParam(
+          data['pictureBase64'],
           ParamType.String,
-          false,
-        ),
-        pictureType: deserializeParam<Picture>(
-          data['picture_type'],
-          ParamType.Enum,
           false,
         ),
         isFavorite: deserializeParam(
@@ -402,8 +380,7 @@ class RecipeStruct extends BaseStruct {
         portions == other.portions &&
         foodType == other.foodType &&
         hardType == other.hardType &&
-        picture == other.picture &&
-        pictureType == other.pictureType &&
+        pictureBase64 == other.pictureBase64 &&
         isFavorite == other.isFavorite;
   }
 
@@ -422,8 +399,7 @@ class RecipeStruct extends BaseStruct {
         portions,
         foodType,
         hardType,
-        picture,
-        pictureType,
+        pictureBase64,
         isFavorite
       ]);
 }
@@ -440,8 +416,7 @@ RecipeStruct createRecipeStruct({
   int? portions,
   Food? foodType,
   Hardness? hardType,
-  String? picture,
-  Picture? pictureType,
+  String? pictureBase64,
   bool? isFavorite,
 }) =>
     RecipeStruct(
@@ -456,7 +431,6 @@ RecipeStruct createRecipeStruct({
       portions: portions,
       foodType: foodType,
       hardType: hardType,
-      picture: picture,
-      pictureType: pictureType,
+      pictureBase64: pictureBase64,
       isFavorite: isFavorite,
     );

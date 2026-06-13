@@ -1,12 +1,18 @@
-import '/components/button/button_widget.dart';
-import '/components/progress_step/progress_step_widget.dart';
+import '/components/info_tag/info_tag_widget.dart';
 import '/components/step_timer/step_timer_widget.dart';
+import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'cooking_mode_model.dart';
 export 'cooking_mode_model.dart';
 
@@ -29,6 +35,13 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CookingModeModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.currentstep = functions.findStepByID(
+          FFAppState().RecipeSelect.cookingSteps.toList(), 1);
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -40,6 +53,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -48,6 +63,48 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primary,
+          automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.close,
+              color: FlutterFlowTheme.of(context).onPrimary,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(RecipeListWidget.routeName);
+            },
+          ),
+          title: Text(
+            FFAppState().RecipeSelect.name,
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  font: GoogleFonts.manrope(
+                    fontWeight:
+                        FlutterFlowTheme.of(context).headlineMedium.fontWeight,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).headlineMedium.fontStyle,
+                  ),
+                  color: FlutterFlowTheme.of(context).onPrimary,
+                  fontSize: 22.0,
+                  letterSpacing: 0.0,
+                  fontWeight:
+                      FlutterFlowTheme.of(context).headlineMedium.fontWeight,
+                  fontStyle:
+                      FlutterFlowTheme.of(context).headlineMedium.fontStyle,
+                ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 0.0,
+        ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -61,13 +118,79 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(32.0),
+                          bottomRight: Radius.circular(32.0),
+                        ),
+                        child: CachedNetworkImage(
+                          fadeInDuration: Duration(milliseconds: 500),
+                          fadeOutDuration: Duration(milliseconds: 500),
+                          imageUrl: valueOrDefault<String>(
+                            FFAppState().RecipeSelect.pictureBase64,
+                            'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+                          ),
+                          width: MediaQuery.sizeOf(context).width * 1.0,
+                          height: 200.0,
+                          fit: BoxFit.cover,
+                          alignment: Alignment(0.0, 0.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (FFAppConstants.FalseValue)
+                    Stack(
+                      children: [
+                        ClipRect(
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 10.0,
+                              sigmaY: 10.0,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8.0),
+                                bottomRight: Radius.circular(8.0),
+                              ),
+                              child: Image.network(
+                                valueOrDefault<String>(
+                                  FFAppState().RecipeSelect.pictureBase64,
+                                  'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+                                ),
+                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                height: 128.0,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(0.0),
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 500),
+                            fadeOutDuration: Duration(milliseconds: 500),
+                            imageUrl: valueOrDefault<String>(
+                              FFAppState().RecipeSelect.pictureBase64,
+                              'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+                            ),
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: 128.0,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ],
+                    ),
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 24.0, 16.0, 24.0),
+                    padding: EdgeInsets.all(valueOrDefault<double>(
+                      FFAppConstants.Padding1.toDouble(),
+                      0.0,
+                    )),
                     child: Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
@@ -75,27 +198,32 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              FlutterFlowIconButton(
-                                borderRadius: 8.0,
-                                buttonSize: 40.0,
-                                fillColor: Colors.transparent,
-                                icon: Icon(
-                                  Icons.close_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 24.0,
+                              if (FFAppConstants.FalseValue)
+                                FlutterFlowIconButton(
+                                  borderRadius: 8.0,
+                                  buttonSize: 40.0,
+                                  fillColor: Colors.transparent,
+                                  icon: Icon(
+                                    Icons.close_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24.0,
+                                  ),
+                                  onPressed: () async {
+                                    context
+                                        .goNamed(RecipeDetailWidget.routeName);
+                                  },
                                 ),
-                                onPressed: () async {
-                                  context.goNamed(RecipeDetailWidget.routeName);
-                                },
-                              ),
                               Column(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Шаг 3 из 8',
+                                    valueOrDefault<String>(
+                                      'Шаг ${FFAppState().CurrentStep.toString()} из ${FFAppState().RecipeSelect.cookingSteps.length.toString()}',
+                                      'Шаг -1 из -0',
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(
@@ -113,35 +241,6 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                                   .titleMedium
                                                   .fontStyle,
                                           lineHeight: 1.45,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Паста Карбонара',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelSmall
-                                        .override(
-                                          font: GoogleFonts.manrope(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelSmall
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontStyle,
-                                          lineHeight: 1.3,
                                         ),
                                   ),
                                 ],
@@ -163,101 +262,6 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 ),
                             ],
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel1,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: true,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel2,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: true,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel3,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: true,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel4,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel5,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel6,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel7,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: wrapWithModel(
-                                  model: _model.progressStepModel8,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ProgressStepWidget(
-                                    active: false,
-                                    completed: false,
-                                  ),
-                                ),
-                              ),
-                            ].divide(SizedBox(width: 0.0)),
-                          ),
                         ].divide(SizedBox(height: 16.0)),
                       ),
                     ),
@@ -275,181 +279,197 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
             Expanded(
               flex: 1,
               child: Container(
-                child: SingleChildScrollView(
-                  primary: false,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 32.0, 24.0, 32.0),
-                        child: Container(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Инструкции',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelLarge
-                                        .override(
-                                          font: GoogleFonts.manrope(
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLarge
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .onBackground,
-                                          fontSize: 28.0,
-                                          letterSpacing: 0.0,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    primary: false,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Инструкция',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelLarge
+                                      .override(
+                                        font: GoogleFonts.manrope(
                                           fontWeight: FontWeight.bold,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
                                                   .labelLarge
                                                   .fontStyle,
-                                          lineHeight: 1.4,
                                         ),
-                                  ),
-                                  Text(
-                                    'Отварите спагетти в подсоленной воде до состояния аль денте. Обычно это занимает около 8-10 минут. Не забудьте оставить немного воды от варки.',
-                                    style: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .override(
-                                          font: GoogleFonts.manrope(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineMedium
-                                                    .fontStyle,
+                                        color: FlutterFlowTheme.of(context)
+                                            .onBackground,
+                                        fontSize: 26.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelLarge
+                                            .fontStyle,
+                                        lineHeight: 1.4,
+                                      ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    if (_model.currentstep?.tip != '')
+                                      wrapWithModel(
+                                        model: _model.infoTagModel1,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: InfoTagWidget(
+                                          icon: Icon(
+                                            Icons.auto_awesome_rounded,
                                           ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          fontSize: 18.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .headlineMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .headlineMedium
-                                                  .fontStyle,
-                                          lineHeight: 1.4,
+                                          label: 'Совет',
                                         ),
+                                      ),
+                                    if (_model.currentstep!.timer > 0)
+                                      wrapWithModel(
+                                        model: _model.infoTagModel2,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: InfoTagWidget(
+                                          label: 'Таймер',
+                                        ),
+                                      ),
+                                  ].divide(SizedBox(
+                                      width:
+                                          FFAppConstants.Padding0.toDouble())),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              valueOrDefault<String>(
+                                _model.currentstep?.desc,
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 16.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .fontStyle,
+                                    lineHeight: 1.4,
                                   ),
-                                  if (() {
-                                    if (MediaQuery.sizeOf(context).width <
-                                        kBreakpointSmall) {
-                                      return false;
-                                    } else if (MediaQuery.sizeOf(context)
-                                            .width <
-                                        kBreakpointMedium) {
-                                      return false;
-                                    } else if (MediaQuery.sizeOf(context)
-                                            .width <
-                                        kBreakpointLarge) {
-                                      return false;
-                                    } else {
-                                      return false;
-                                    }
-                                  }())
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(24.0),
-                                        shape: BoxShape.rectangle,
-                                        border: Border.all(
+                            ),
+                            if (valueOrDefault<bool>(
+                              _model.currentstep?.tip == '' ? false : true,
+                              false,
+                            ))
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      valueOrDefault<double>(
+                                    FFAppConstants.Padding2.toDouble(),
+                                    0.0,
+                                  )),
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.auto_awesome,
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
-                                          width: 1.0,
+                                          size: 20.0,
                                         ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.auto_awesome,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 20.0,
-                                              ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  'Совет: Достаньте яйца из холодильника заранее, чтобы они были комнатной температуры.',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodySmall
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmall
-                                                                  .fontStyle,
-                                                        ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontStyle,
-                                                        lineHeight: 1.5,
-                                                      ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            valueOrDefault<String>(
+                                              _model.currentstep?.tip,
+                                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontStyle,
+                                                  ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall
+                                                          .fontStyle,
+                                                  lineHeight: 1.5,
                                                 ),
-                                              ),
-                                            ].divide(SizedBox(width: 16.0)),
                                           ),
                                         ),
-                                      ),
+                                      ].divide(SizedBox(width: 16.0)),
                                     ),
-                                ].divide(SizedBox(height: 16.0)),
+                                  ),
+                                ),
                               ),
-                              wrapWithModel(
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 16.0, 0.0, 0.0),
+                              child: wrapWithModel(
                                 model: _model.stepTimerModel,
                                 updateCallback: () => safeSetState(() {}),
                                 child: StepTimerWidget(
-                                  autoplay: true,
-                                  isRunning: false,
+                                  timeAmount: _model.currentstep?.timer,
                                 ),
                               ),
-                            ].divide(SizedBox(height: 32.0)),
-                          ),
+                            ),
+                          ].divide(SizedBox(height: 16.0)),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -484,47 +504,115 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: wrapWithModel(
-                                model: _model.buttonModel1,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ButtonWidget(
-                                  content: 'Назад',
-                                  icon: Icon(
-                                    Icons.arrow_back_rounded,
-                                    color: FlutterFlowTheme.of(context)
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (FFAppState().CurrentStep <
+                                      FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .length) {
+                                    FFAppState().CurrentStep =
+                                        FFAppState().CurrentStep + 0;
+                                    safeSetState(() {});
+                                  } else {
+                                    FFAppState().CurrentStep =
+                                        FFAppState().CurrentStep + 1;
+                                    safeSetState(() {});
+                                  }
+
+                                  _model.currentstep = functions.findStepByID(
+                                      FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .toList(),
+                                      FFAppState().CurrentStep);
+                                  safeSetState(() {});
+                                },
+                                child: wrapWithModel(
+                                  model: _model.buttonModel1,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: UButtonWidget(
+                                    content: 'Назад',
+                                    icon: Icon(
+                                      Icons.arrow_back_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 16.0,
+                                    ),
+                                    iconPresent: true,
+                                    iconEndPresent: false,
+                                    variant: 'outline',
+                                    size: 'medium',
+                                    fullWidth: true,
+                                    loading: false,
+                                    disabled: false,
+                                    maincolor: FlutterFlowTheme.of(context)
                                         .primaryText,
-                                    size: 16.0,
                                   ),
-                                  iconPresent: true,
-                                  iconEndPresent: false,
-                                  variant: 'outline',
-                                  size: 'medium',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: false,
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 2,
-                              child: wrapWithModel(
-                                model: _model.buttonModel2,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ButtonWidget(
-                                  content: 'Следующий шаг',
-                                  iconPresent: false,
-                                  iconEnd: Icon(
-                                    Icons.arrow_forward_rounded,
-                                    color:
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  FFAppState().CurrentStep =
+                                      FFAppState().CurrentStep + 1;
+                                  if (FFAppState().CurrentStep >
+                                      FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .length) {
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
+                                    context
+                                        .pushNamed(CookingEndWidget.routeName);
+                                  } else {
+                                    _model.currentstep = functions.findStepByID(
+                                        FFAppState()
+                                            .RecipeSelect
+                                            .cookingSteps
+                                            .toList(),
+                                        FFAppState().CurrentStep);
+                                    safeSetState(() {});
+                                  }
+                                },
+                                child: wrapWithModel(
+                                  model: _model.buttonModel2,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: UButtonWidget(
+                                    content: 'Следующий шаг',
+                                    iconPresent: false,
+                                    iconEnd: Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onPrimary,
+                                      size: 8.0,
+                                    ),
+                                    iconEndPresent: true,
+                                    variant: 'primary',
+                                    size: 'medium',
+                                    fullWidth: true,
+                                    loading: false,
+                                    disabled: false,
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.play,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onPrimary,
+                                      size: 12.0,
+                                    ),
+                                    maincolor:
                                         FlutterFlowTheme.of(context).onPrimary,
-                                    size: 16.0,
                                   ),
-                                  iconEndPresent: true,
-                                  variant: 'primary',
-                                  size: 'medium',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: false,
                                 ),
                               ),
                             ),

@@ -26,7 +26,7 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>cookflow.com</string>
+        <string>test.link</string>
         <key>CFBundleURLSchemes</key>
         <array>
         <string>cookflow</string>

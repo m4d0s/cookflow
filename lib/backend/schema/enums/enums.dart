@@ -8,12 +8,14 @@ enum Food {
   dessert,
   snack,
   baking,
+  all,
 }
 
 enum Hardness {
   easy,
   medium,
   hard,
+  all,
 }
 
 enum Picture {
@@ -28,12 +30,55 @@ enum UploadState {
 
 enum Quantity {
   g,
-  kg,
-  sp,
-  l,
   ml,
-  lsp,
   pi,
+  l,
+  kg,
+}
+
+enum Textfield {
+  ghost,
+  empty,
+  filled,
+  error,
+}
+
+enum ProgressStep {
+  done,
+  ongoing,
+  future,
+}
+
+enum MealTarget {
+  extraloss,
+  lessloss,
+  average,
+  lessget,
+  extraget,
+}
+
+enum MealAction {
+  low,
+  lessaverage,
+  average,
+  moreaverage,
+  high,
+}
+
+enum HumanSex {
+  male,
+  female,
+}
+
+enum Structs {
+  recipe,
+  step,
+  product,
+}
+
+enum Tags {
+  food,
+  hard,
 }
 
 extension FFEnumExtensions<T extends Enum> on T {
@@ -57,6 +102,20 @@ T? deserializeEnum<T>(String? value) {
       return UploadState.values.deserialize(value) as T?;
     case (Quantity):
       return Quantity.values.deserialize(value) as T?;
+    case (Textfield):
+      return Textfield.values.deserialize(value) as T?;
+    case (ProgressStep):
+      return ProgressStep.values.deserialize(value) as T?;
+    case (MealTarget):
+      return MealTarget.values.deserialize(value) as T?;
+    case (MealAction):
+      return MealAction.values.deserialize(value) as T?;
+    case (HumanSex):
+      return HumanSex.values.deserialize(value) as T?;
+    case (Structs):
+      return Structs.values.deserialize(value) as T?;
+    case (Tags):
+      return Tags.values.deserialize(value) as T?;
     default:
       return null;
   }

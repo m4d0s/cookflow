@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '/backend/schema/structs/index.dart';
 
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -35,17 +36,43 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => RecipesWidget(),
+      errorBuilder: (context, state) => appStateNotifier.showSplashImage
+          ? Builder(
+              builder: (context) => Container(
+                color: FlutterFlowTheme.of(context).secondary,
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/cookflow_foreground.png',
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            )
+          : RecipeListWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => RecipesWidget(),
+          builder: (context, _) => appStateNotifier.showSplashImage
+              ? Builder(
+                  builder: (context) => Container(
+                    color: FlutterFlowTheme.of(context).secondary,
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/cookflow_foreground.png',
+                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )
+              : RecipeListWidget(),
         ),
         FFRoute(
-          name: RecipesWidget.routeName,
-          path: RecipesWidget.routePath,
-          builder: (context, params) => RecipesWidget(),
+          name: RecipeListWidget.routeName,
+          path: RecipeListWidget.routePath,
+          builder: (context, params) => RecipeListWidget(),
         ),
         FFRoute(
           name: RecipeDetailWidget.routeName,
@@ -53,14 +80,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => RecipeDetailWidget(),
         ),
         FFRoute(
-          name: AddEditRecipeWidget.routeName,
-          path: AddEditRecipeWidget.routePath,
-          builder: (context, params) => AddEditRecipeWidget(),
+          name: RecipeEditWidget.routeName,
+          path: RecipeEditWidget.routePath,
+          builder: (context, params) => RecipeEditWidget(),
         ),
         FFRoute(
-          name: IngredientCheckWidget.routeName,
-          path: IngredientCheckWidget.routePath,
-          builder: (context, params) => IngredientCheckWidget(),
+          name: CookingCheckWidget.routeName,
+          path: CookingCheckWidget.routePath,
+          builder: (context, params) => CookingCheckWidget(),
         ),
         FFRoute(
           name: CookingModeWidget.routeName,
@@ -83,9 +110,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AddToPlanWidget(),
         ),
         FFRoute(
-          name: SettingsPageWidget.routeName,
-          path: SettingsPageWidget.routePath,
-          builder: (context, params) => SettingsPageWidget(),
+          name: SettingsWidget.routeName,
+          path: SettingsWidget.routePath,
+          builder: (context, params) => SettingsWidget(),
+        ),
+        FFRoute(
+          name: MealSelectWidget.routeName,
+          path: MealSelectWidget.routePath,
+          builder: (context, params) => MealSelectWidget(),
+        ),
+        FFRoute(
+          name: MealPreviewWidget.routeName,
+          path: MealPreviewWidget.routePath,
+          builder: (context, params) => MealPreviewWidget(),
+        ),
+        FFRoute(
+          name: CookingEndWidget.routeName,
+          path: CookingEndWidget.routePath,
+          builder: (context, params) => CookingEndWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
