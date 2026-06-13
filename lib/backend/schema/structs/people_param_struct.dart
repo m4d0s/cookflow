@@ -50,21 +50,21 @@ class PeopleParamStruct extends BaseStruct {
 
   // "Activity" field.
   MealAction? _activity;
-  MealAction? get activity => _activity;
+  MealAction get activity => _activity ?? MealAction.average;
   set activity(MealAction? val) => _activity = val;
 
   bool hasActivity() => _activity != null;
 
   // "Target" field.
   MealTarget? _target;
-  MealTarget? get target => _target;
+  MealTarget get target => _target ?? MealTarget.average;
   set target(MealTarget? val) => _target = val;
 
   bool hasTarget() => _target != null;
 
   // "Sex" field.
   HumanSex? _sex;
-  HumanSex? get sex => _sex;
+  HumanSex get sex => _sex ?? HumanSex.male;
   set sex(HumanSex? val) => _sex = val;
 
   bool hasSex() => _sex != null;

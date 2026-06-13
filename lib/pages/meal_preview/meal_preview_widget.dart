@@ -1,6 +1,8 @@
-import '/components/day_card/day_card_widget.dart';
+import '/backend/schema/enums/enums.dart';
+import '/components/day_card1/day_card1_widget.dart';
 import '/components/macro_stat/macro_stat_widget.dart';
 import '/components/parameter_input/parameter_input_widget.dart';
+import '/components/water_balance/water_balance_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -8,6 +10,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'meal_preview_model.dart';
 export 'meal_preview_model.dart';
@@ -154,70 +157,144 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      valueOrDefault<String>(
-                                        FFAppState()
-                                            .DailySelect
-                                            .goal
-                                            .calories
-                                            .toString(),
-                                        '12345',
+                                Container(
+                                  width: 190.0,
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            valueOrDefault<String>(
+                                              FFAppState()
+                                                  .DailySelect
+                                                  .done
+                                                  .calories
+                                                  .toString(),
+                                              '12345',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .onSecondary,
+                                                  fontSize: 36.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                  lineHeight: 1.4,
+                                                ),
+                                          ),
+                                          Text(
+                                            'ккал',
+                                            style: FlutterFlowTheme.of(context)
+                                                .titleMedium
+                                                .override(
+                                                  font: GoogleFonts.manrope(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .onSecondary,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleMedium
+                                                          .fontStyle,
+                                                  lineHeight: 1.4,
+                                                ),
+                                          ),
+                                        ].divide(SizedBox(width: 8.0)),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight: FontWeight.w900,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .onSecondary,
-                                            fontSize: 48.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w900,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                            lineHeight: 1.4,
-                                          ),
-                                    ),
-                                    Text(
-                                      'ккал',
-                                      style: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .override(
-                                            font: GoogleFonts.manrope(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .onSecondary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleMedium
-                                                    .fontStyle,
-                                            lineHeight: 1.4,
-                                          ),
-                                    ),
-                                  ].divide(SizedBox(width: 8.0)),
+                                      LinearPercentIndicator(
+                                        percent: functions.procentCalc(
+                                            FFAppState()
+                                                .DailySelect
+                                                .done
+                                                .calories,
+                                            FFAppState().DailyGoal.calories),
+                                        lineHeight: 12.0,
+                                        animation: true,
+                                        animateFromLastPercent: true,
+                                        progressColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .accent4,
+                                        barRadius: Radius.circular(8.0),
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(1.0, 0.0),
+                                        child: Text(
+                                          '${(FFAppState().DailySelect.goal.calories.ceil()).toString()} ккал (${(double.parse((functions.procentCalc(FFAppState().DailySelect.done.calories, FFAppState().DailyGoal.calories) * 100).toStringAsFixed(1))).toString()}%)',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .onSecondary,
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -312,11 +389,10 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 child: MacroStatWidget(
                                   label: 'Белки',
                                   value:
-                                      '${FFAppState().DailySelect.done.protein.toString()}/${FFAppState().DailySelect.goal.protein.toString()}г',
+                                      '${(FFAppState().DailySelect.done.protein.ceil()).toString()}/${(FFAppState().DailySelect.goal.protein.ceil()).toString()}г',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.protein,
-                                      FFAppState().DailySelect.goal.protein),
-                                  tone: 'accent',
+                                      FFAppState().DailyGoal.protein),
                                 ),
                               ),
                             ),
@@ -331,8 +407,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                       '${FFAppState().DailySelect.done.fats.toString()}/${FFAppState().DailySelect.goal.fats.toString()}г',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.fats,
-                                      FFAppState().DailySelect.goal.fats),
-                                  tone: 'warning',
+                                      FFAppState().DailyGoal.fats),
                                 ),
                               ),
                             ),
@@ -344,15 +419,14 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 child: MacroStatWidget(
                                   label: 'Углеводы',
                                   value:
-                                      '${FFAppState().DailyGoal.carbs.toString()}г',
+                                      '${(FFAppState().DailySelect.done.carbs.ceil()).toString()}/${(FFAppState().DailySelect.goal.carbs.ceil()).toString()}г',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.carbs,
-                                      FFAppState().DailySelect.goal.carbs),
-                                  tone: 'info',
+                                      FFAppState().DailyGoal.carbs),
                                 ),
                               ),
                             ),
-                          ].divide(SizedBox(width: 16.0)),
+                          ].divide(SizedBox(width: 8.0)),
                         ),
                       ].divide(SizedBox(height: 24.0)),
                     ),
@@ -367,9 +441,16 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     wrapWithModel(
-                      model: _model.dayCardModel,
+                      model: _model.waterBalanceModel,
                       updateCallback: () => safeSetState(() {}),
-                      child: DayCardWidget(
+                      child: WaterBalanceWidget(
+                        dailyplan: FFAppState().DailySelect,
+                      ),
+                    ),
+                    wrapWithModel(
+                      model: _model.dayCard1Model,
+                      updateCallback: () => safeSetState(() {}),
+                      child: DayCard1Widget(
                         hidaAdd: false,
                         label: 'Сегодняшнее питание',
                         dayLog: FFAppState().DailySelect,
@@ -410,7 +491,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 updateCallback: () => safeSetState(() {}),
                                 child: ParameterInputWidget(
                                   icon: Icon(
-                                    Icons.monitor_weight_rounded,
+                                    Icons.scale_rounded,
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     size: 18.0,
@@ -483,8 +564,35 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                   ),
                                   tone: FlutterFlowTheme.of(context).tertiary,
                                   label: 'Активность',
-                                  value: '',
-                                  unit: '',
+                                  value: () {
+                                    if (FFAppState().PeopleStat.activity ==
+                                        MealAction.low) {
+                                      return 'Сидячая';
+                                    } else if (FFAppState()
+                                            .PeopleStat
+                                            .activity ==
+                                        MealAction.lessaverage) {
+                                      return 'Лёгкая';
+                                    } else if (FFAppState()
+                                            .PeopleStat
+                                            .activity ==
+                                        MealAction.average) {
+                                      return 'Средняя';
+                                    } else if (FFAppState()
+                                            .PeopleStat
+                                            .activity ==
+                                        MealAction.moreaverage) {
+                                      return 'Подвижная';
+                                    } else if (FFAppState()
+                                            .PeopleStat
+                                            .activity ==
+                                        MealAction.high) {
+                                      return 'Активная';
+                                    } else {
+                                      return 'Отсутствует';
+                                    }
+                                  }(),
+                                  unit: ' ',
                                 ),
                               ),
                             ),
@@ -513,8 +621,27 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                           ),
                           tone: FlutterFlowTheme.of(context).tertiary,
                           label: 'Цель',
-                          value: '',
-                          unit: '',
+                          value: () {
+                            if (FFAppState().PeopleStat.target ==
+                                MealTarget.extraloss) {
+                              return 'Быстрый сброс веса';
+                            } else if (FFAppState().PeopleStat.target ==
+                                MealTarget.lessloss) {
+                              return 'Постепенное похудение';
+                            } else if (FFAppState().PeopleStat.target ==
+                                MealTarget.average) {
+                              return 'Поддержание веса';
+                            } else if (FFAppState().PeopleStat.target ==
+                                MealTarget.lessget) {
+                              return 'Увеличение массы';
+                            } else if (FFAppState().PeopleStat.target ==
+                                MealTarget.extraget) {
+                              return 'Ускоренный набор веса';
+                            } else {
+                              return 'Не определено';
+                            }
+                          }(),
+                          unit: '  ',
                         ),
                       ),
                     ),

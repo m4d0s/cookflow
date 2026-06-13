@@ -8,27 +8,31 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'day_card_model.dart';
-export 'day_card_model.dart';
+import 'package:provider/provider.dart';
+import 'day_card1_model.dart';
+export 'day_card1_model.dart';
 
-class DayCardWidget extends StatefulWidget {
-  const DayCardWidget({
+class DayCard1Widget extends StatefulWidget {
+  const DayCard1Widget({
     super.key,
     this.dayLog,
     bool? hidaAdd,
     this.label,
-  }) : this.hidaAdd = hidaAdd ?? false;
+    bool? hidePanel,
+  })  : this.hidaAdd = hidaAdd ?? false,
+        this.hidePanel = hidePanel ?? true;
 
   final DailyPlanStruct? dayLog;
   final bool hidaAdd;
   final String? label;
+  final bool hidePanel;
 
   @override
-  State<DayCardWidget> createState() => _DayCardWidgetState();
+  State<DayCard1Widget> createState() => _DayCard1WidgetState();
 }
 
-class _DayCardWidgetState extends State<DayCardWidget> {
-  late DayCardModel _model;
+class _DayCard1WidgetState extends State<DayCard1Widget> {
+  late DayCard1Model _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -39,7 +43,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => DayCardModel());
+    _model = createModel(context, () => DayCard1Model());
   }
 
   @override
@@ -51,6 +55,8 @@ class _DayCardWidgetState extends State<DayCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
       child: Container(
@@ -116,7 +122,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                             )} рецепта • ${valueOrDefault<String>(
                               widget.dayLog?.done.calories.toString(),
                               '-1',
-                            )} ккал',
+                            )} ккал • ${widget.dayLog?.waterCups.toString()} кружек',
                             style: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
@@ -145,7 +151,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                       ),
                       Stack(
                         children: [
-                          if (_model.hideInfo)
+                          if (!_model.hideInfo)
                             FlutterFlowIconButton(
                               borderRadius: 9999.0,
                               buttonSize: 40.0,
@@ -159,7 +165,7 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                                 safeSetState(() {});
                               },
                             ),
-                          if (!_model.hideInfo)
+                          if (_model.hideInfo)
                             FlutterFlowIconButton(
                               borderRadius: 9999.0,
                               buttonSize: 40.0,
@@ -177,42 +183,97 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                       ),
                     ],
                   ),
-                  Container(
-                    child: Visibility(
-                      visible: _model.hideInfo,
+                  if (!_model.hideInfo)
+                    Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Builder(
-                            builder: (context) {
-                              final meal =
-                                  widget.dayLog?.completedRecipes.toList() ??
-                                      [];
-
-                              return Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children:
-                                    List.generate(meal.length, (mealIndex) {
-                                  final mealItem = meal[mealIndex];
-                                  return wrapWithModel(
-                                    model: _model.recipeCardMiniModels.getModel(
-                                      mealItem.date!.toString(),
-                                      mealIndex,
+                          Stack(
+                            children: [
+                              if (widget.dayLog!.completedRecipes.length < 1)
+                                Align(
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    height: 64.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
                                     ),
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: RecipeCardMiniWidget(
-                                      key: Key(
-                                        'Keywtr_${mealItem.date!.toString()}',
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: Text(
+                                        'В этот день нету записей по приёму пищи',
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                              fontSize: 24.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                       ),
-                                      hideDelete: widget.hidaAdd,
-                                      mealEntry: mealItem,
                                     ),
-                                  );
-                                }),
-                              );
-                            },
+                                  ),
+                                ),
+                              if (widget.dayLog!.completedRecipes.length > 0)
+                                Builder(
+                                  builder: (context) {
+                                    final meal = widget
+                                            .dayLog?.completedRecipes
+                                            .toList() ??
+                                        [];
+
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: List.generate(meal.length,
+                                          (mealIndex) {
+                                        final mealItem = meal[mealIndex];
+                                        return wrapWithModel(
+                                          model: _model.recipeCardMiniModels
+                                              .getModel(
+                                            mealItem.date!.toString(),
+                                            mealIndex,
+                                          ),
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: RecipeCardMiniWidget(
+                                            key: Key(
+                                              'Keywtr_${mealItem.date!.toString()}',
+                                            ),
+                                            isDeleted: false,
+                                            hideDelete: !widget.hidaAdd,
+                                            mealEntry: mealItem,
+                                          ),
+                                        );
+                                      }),
+                                    );
+                                  },
+                                ),
+                            ],
                           ),
                           if (!widget.hidaAdd)
                             InkWell(
@@ -221,22 +282,36 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                FFAppState().DailySelect = DailyPlanStruct(
-                                  date: dateTimeFromSecondsSinceEpoch(
-                                      getCurrentTimestamp.secondsSinceEpoch),
-                                );
-                                safeSetState(() {});
-
-                                context.pushNamed(
-                                  MealSelectWidget.routeName,
-                                  extra: <String, dynamic>{
-                                    '__transition_info__': TransitionInfo(
-                                      hasTransition: true,
-                                      transitionType:
-                                          PageTransitionType.rightToLeft,
-                                    ),
-                                  },
-                                );
+                                if (FFAppState().RecipeList.length > 0) {
+                                  context.pushNamed(
+                                    MealSelectWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.rightToLeft,
+                                      ),
+                                    },
+                                  );
+                                } else {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('У вас нету рецептов'),
+                                        content: Text(
+                                            'Прежде, чем добавлять рецепты в план питания, сначала создайте их в главном меню по кнопке \"Создать рецепт\"'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Хорошо, сделаю'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: wrapWithModel(
                                 model: _model.buttonModel,
@@ -263,7 +338,6 @@ class _DayCardWidgetState extends State<DayCardWidget> {
                         ].divide(SizedBox(height: 0.0)),
                       ),
                     ),
-                  ),
                 ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
               ),
             ),

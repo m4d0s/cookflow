@@ -12,16 +12,13 @@ class MacroStatWidget extends StatefulWidget {
     String? label,
     String? value,
     double? progress,
-    String? tone,
   })  : this.label = label ?? 'Proteins',
         this.value = value ?? '184g',
-        this.progress = progress ?? 0.7,
-        this.tone = tone ?? 'accent';
+        this.progress = progress ?? 0.7;
 
   final String label;
   final String value;
   final double progress;
-  final String tone;
 
   @override
   State<MacroStatWidget> createState() => _MacroStatWidgetState();

@@ -114,17 +114,13 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                       'Ингридиент',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontWeight,
+                              fontWeight: FontWeight.bold,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontStyle,
                             ),
                             letterSpacing: 0.0,
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontWeight,
+                            fontWeight: FontWeight.bold,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
@@ -214,7 +210,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                       obscureText: false,
                       decoration: InputDecoration(
                         isDense: true,
-                        labelText: 'Количество',
+                        labelText: 'Название',
                         labelStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
                                   font: GoogleFonts.manrope(
@@ -233,7 +229,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                       .labelMedium
                                       .fontStyle,
                                 ),
-                        hintText: 'Белки (г)',
+                        hintText: 'Название продукта',
                         hintStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
                                   font: GoogleFonts.manrope(
@@ -322,22 +318,18 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(4.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                   child: Text(
                     'Количество продукта',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontWeight,
+                            fontWeight: FontWeight.bold,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
                           ),
                           letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .fontWeight,
+                          fontWeight: FontWeight.bold,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
@@ -345,7 +337,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Column(
@@ -355,7 +347,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                       children: [
                         Container(
                           child: Container(
-                            width: 200.0,
+                            width: MediaQuery.sizeOf(context).width * 0.4,
                             child: TextFormField(
                               controller: _model.textController2,
                               focusNode: _model.textFieldFocusNode2,
@@ -547,7 +539,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                             );
                             _model.updatePage(() {});
                           },
-                          width: 90.58,
+                          width: 100.0,
                           height: 40.0,
                           textStyle:
                               FlutterFlowTheme.of(context).bodyMedium.override(
@@ -601,22 +593,18 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.all(4.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 8.0),
                   child: Text(
                     'Пищевая ценность на ${widget.product?.quantity.divider.toString()}${widget.product?.quantity.altquantity}',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontWeight,
+                            fontWeight: FontWeight.bold,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
                           ),
                           letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .fontWeight,
+                          fontWeight: FontWeight.bold,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),

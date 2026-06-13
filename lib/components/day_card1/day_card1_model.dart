@@ -1,10 +1,10 @@
 import '/components/recipe_card_mini/recipe_card_mini_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'day_card_widget.dart' show DayCardWidget;
+import 'day_card1_widget.dart' show DayCard1Widget;
 import 'package:flutter/material.dart';
 
-class DayCardModel extends FlutterFlowModel<DayCardWidget> {
+class DayCard1Model extends FlutterFlowModel<DayCard1Widget> {
   ///  Local state fields for this component.
 
   bool hideInfo = true;

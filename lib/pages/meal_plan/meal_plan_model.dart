@@ -1,7 +1,6 @@
 import '/backend/schema/structs/index.dart';
-import '/components/day_card/day_card_widget.dart';
+import '/components/day_card1/day_card1_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
 import 'meal_plan_widget.dart' show MealPlanWidget;
 import 'package:flutter/material.dart';
 
@@ -16,11 +15,11 @@ class MealPlanModel extends FlutterFlowModel<MealPlanWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Models for DayCard.
-  late FlutterFlowDynamicModels<DayCardModel> dayCardModels;
+  late FlutterFlowDynamicModels<DayCard1Model> dayCardModels;
 
   @override
   void initState(BuildContext context) {
-    dayCardModels = FlutterFlowDynamicModels(() => DayCardModel());
+    dayCardModels = FlutterFlowDynamicModels(() => DayCard1Model());
   }
 
   @override

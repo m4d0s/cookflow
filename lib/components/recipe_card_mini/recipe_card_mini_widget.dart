@@ -100,8 +100,8 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                         0.0,
                       )),
                       child: Container(
-                        width: 60.0,
-                        height: 60.0,
+                        width: 64.0,
+                        height: 64.0,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(valueOrDefault<double>(
@@ -110,18 +110,19 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                           )),
                           shape: BoxShape.rectangle,
                         ),
-                        child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(valueOrDefault<double>(
-                            FFAppConstants.Padding0.toDouble(),
-                            0.0,
-                          )),
-                          child: Image.memory(
-                            _model.mealPic?.bytes ?? Uint8List.fromList([]),
-                            fit: BoxFit.cover,
-                            alignment: Alignment(0.0, 0.0),
-                            memCacheWidth: 128,
-                            memCacheHeight: 128,
+                        child: Align(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(valueOrDefault<double>(
+                              FFAppConstants.Padding0.toDouble(),
+                              0.0,
+                            )),
+                            child: Image.memory(
+                              _model.mealPic?.bytes ?? Uint8List.fromList([]),
+                              fit: BoxFit.fitWidth,
+                              alignment: Alignment(0.0, 0.0),
+                            ),
                           ),
                         ),
                       ),

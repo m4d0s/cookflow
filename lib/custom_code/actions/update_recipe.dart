@@ -11,22 +11,23 @@ import 'package:flutter/material.dart';
 
 /// update ids for steps and ingridients in recipe count from 1, delete recipe
 /// by recipe id in AppState RecipeList and add updated one
-Future updateRecipe(bool? fav) async {
+Future updateRecipe(bool? fav, bool clear) async {
   final recipe = FFAppState().RecipeSelect;
 
   if (fav != null) recipe.isFavorite = fav;
 
-  final existingRecipes =
-      FFAppState().RecipeList.where((r) => r.id == recipe.id);
+  final index = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
 
-  if (existingRecipes.isNotEmpty) {
-    FFAppState().removeFromRecipeList(
-      existingRecipes.first,
-    );
-  }
+  final existing =
+      FFAppState().RecipeList.where((r) => r.id == recipe.id).first;
+  existing.nutritions.calories = 0;
+  existing.nutritions.protein = 0;
+  existing.nutritions.fats = 0;
+  existing.nutritions.carbs = 0;
 
   for (final product in recipe.products) {
     final measure = product.quantity.count * product.quantity.multiplier;
+
     final callories =
         product.nutrition100g.calories / product.quantity.divider * measure;
     final protein =
@@ -36,17 +37,17 @@ Future updateRecipe(bool? fav) async {
     final carbs =
         product.nutrition100g.carbs / product.quantity.divider * measure;
 
-    recipe.nutritions = NutritionsStruct(
-        calories: callories / recipe.portions,
-        protein: protein / recipe.portions,
-        fats: fats / recipe.portions,
-        carbs: carbs / recipe.portions);
+    existing.nutritions.calories += callories;
+    existing.nutritions.protein += protein;
+    existing.nutritions.fats += fats;
+    existing.nutritions.carbs += carbs;
   }
 
-  FFAppState().addToRecipeList(recipe);
+  //if (index >= 0) FFAppState().RecipeList[index] = existing;
+  //FFAppState().RecipeList.sort((a, b) => a.id.compareTo(b.id));
 
   FFAppState().update(() {
-    FFAppState().RecipeSelect = RecipeStruct();
+    if (clear) FFAppState().RecipeSelect = RecipeStruct();
   });
 }
 // Set your action name, define your arguments and return parameter,

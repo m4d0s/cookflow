@@ -10,12 +10,11 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future checkedProducts() async {
-  final checked = FFAppState()
+  FFAppState().CheckedPositions = FFAppState()
       .RecipeSelect
       .products
       .where((p) => p.isChecked == true)
       .length;
-  FFAppState().CheckedPositions = checked;
 }
 
 // Set your action name, define your arguments and return parameter,

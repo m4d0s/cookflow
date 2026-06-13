@@ -17,12 +17,7 @@ import 'cooking_mode_model.dart';
 export 'cooking_mode_model.dart';
 
 class CookingModeWidget extends StatefulWidget {
-  const CookingModeWidget({
-    super.key,
-    required this.step,
-  });
-
-  final int? step;
+  const CookingModeWidget({super.key});
 
   static String routeName = 'CookingMode';
   static String routePath = '/cookingMode';
@@ -44,7 +39,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.currentstep = functions.findStepByID(
-          FFAppState().RecipeSelect.cookingSteps.toList(), widget.step);
+          FFAppState().RecipeSelect.cookingSteps.toList(), 1);
       safeSetState(() {});
     });
   }
@@ -77,12 +72,15 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
             borderWidth: 1.0,
             buttonSize: 60.0,
             icon: Icon(
-              Icons.arrow_back_rounded,
+              Icons.close,
               color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(RecipeListWidget.routeName);
             },
           ),
           title: Text(
@@ -463,7 +461,9 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                               child: wrapWithModel(
                                 model: _model.stepTimerModel,
                                 updateCallback: () => safeSetState(() {}),
-                                child: StepTimerWidget(),
+                                child: StepTimerWidget(
+                                  timeAmount: _model.currentstep?.timer,
+                                ),
                               ),
                             ),
                           ].divide(SizedBox(height: 16.0)),
@@ -529,7 +529,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                           .RecipeSelect
                                           .cookingSteps
                                           .toList(),
-                                      widget.step);
+                                      FFAppState().CurrentStep);
                                   safeSetState(() {});
                                 },
                                 child: wrapWithModel(
@@ -566,14 +566,6 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 onTap: () async {
                                   FFAppState().CurrentStep =
                                       FFAppState().CurrentStep + 1;
-                                  safeSetState(() {});
-                                  _model.currentstep = functions.findStepByID(
-                                      FFAppState()
-                                          .RecipeSelect
-                                          .cookingSteps
-                                          .toList(),
-                                      widget.step);
-                                  safeSetState(() {});
                                   if (FFAppState().CurrentStep >
                                       FFAppState()
                                           .RecipeSelect
@@ -584,6 +576,14 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                     }
                                     context
                                         .pushNamed(CookingEndWidget.routeName);
+                                  } else {
+                                    _model.currentstep = functions.findStepByID(
+                                        FFAppState()
+                                            .RecipeSelect
+                                            .cookingSteps
+                                            .toList(),
+                                        FFAppState().CurrentStep);
+                                    safeSetState(() {});
                                   }
                                 },
                                 child: wrapWithModel(

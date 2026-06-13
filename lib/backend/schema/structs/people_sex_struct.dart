@@ -22,7 +22,7 @@ class PeopleSexStruct extends BaseStruct {
 
   // "type" field.
   HumanSex? _type;
-  HumanSex? get type => _type;
+  HumanSex get type => _type ?? HumanSex.male;
   set type(HumanSex? val) => _type = val;
 
   bool hasType() => _type != null;

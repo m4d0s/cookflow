@@ -22,7 +22,7 @@ class PeopleTargetStruct extends BaseStruct {
 
   // "type" field.
   MealTarget? _type;
-  MealTarget? get type => _type;
+  MealTarget get type => _type ?? MealTarget.average;
   set type(MealTarget? val) => _type = val;
 
   bool hasType() => _type != null;

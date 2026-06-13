@@ -76,6 +76,11 @@ enum Structs {
   product,
 }
 
+enum Tags {
+  food,
+  hard,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -109,6 +114,8 @@ T? deserializeEnum<T>(String? value) {
       return HumanSex.values.deserialize(value) as T?;
     case (Structs):
       return Structs.values.deserialize(value) as T?;
+    case (Tags):
+      return Tags.values.deserialize(value) as T?;
     default:
       return null;
   }

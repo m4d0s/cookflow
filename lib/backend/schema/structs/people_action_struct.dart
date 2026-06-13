@@ -22,7 +22,7 @@ class PeopleActionStruct extends BaseStruct {
 
   // "type" field.
   MealAction? _type;
-  MealAction? get type => _type;
+  MealAction get type => _type ?? MealAction.average;
   set type(MealAction? val) => _type = val;
 
   bool hasType() => _type != null;

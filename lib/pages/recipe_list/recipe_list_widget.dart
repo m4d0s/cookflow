@@ -41,7 +41,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().RecipeSelect = RecipeStruct();
       safeSetState(() {});
-      await actions.addEmptyDaily();
+      await actions.addDaily();
       FFAppState().DailySelect = FFAppState().DailyList.lastOrNull!;
       safeSetState(() {});
     });
@@ -71,6 +71,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
             FFAppState().RecipeSelect = RecipeStruct();
             FFAppState().isChanging = false;
             safeSetState(() {});
+            await actions.addNewStruct(
+              Structs.recipe,
+            );
 
             context.pushNamed(RecipeEditWidget.routeName);
           },
@@ -312,19 +315,14 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                               options: List<Food>.from(FFAppState()
                                   .CategoryList
                                   .map((e) => e.category)
-                                  .withoutNulls
-                                  .toList()
-                                  .take(7)
                                   .toList()),
                               optionLabels: FFAppState()
                                   .CategoryList
                                   .map((e) => e.name)
-                                  .toList()
-                                  .take(7)
                                   .toList(),
                               onChanged: (val) => safeSetState(
                                   () => _model.dropdownValue1 = val),
-                              width: MediaQuery.sizeOf(context).width * 0.35,
+                              width: MediaQuery.sizeOf(context).width * 0.38,
                               height: 40.0,
                               textStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -409,9 +407,6 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                               options: List<Hardness>.from(FFAppState()
                                   .HardList
                                   .map((e) => e.difficult)
-                                  .withoutNulls
-                                  .toList()
-                                  .take(3)
                                   .toList()),
                               optionLabels: FFAppState()
                                   .HardList
@@ -419,7 +414,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                   .toList(),
                               onChanged: (val) => safeSetState(
                                   () => _model.dropdownValue2 = val),
-                              width: MediaQuery.sizeOf(context).width * 0.35,
+                              width: MediaQuery.sizeOf(context).width * 0.38,
                               height: 40.0,
                               textStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -509,70 +504,154 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
               flex: 1,
               child: Container(
                 height: MediaQuery.sizeOf(context).height * 0.6,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Builder(
-                    builder: (context) {
-                      final recipe =
-                          FFAppState().RecipeList.map((e) => e).toList();
-
-                      return SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: List.generate(recipe.length, (recipeIndex) {
-                            final recipeItem = recipe[recipeIndex];
-                            return Visibility(
-                              visible: (FFAppState().SearchFavorite
-                                      ? recipeItem.isFavorite
-                                      : true) &&
-                                  (_model.dropdownValue1 == Food.all
-                                      ? true
-                                      : (recipeItem.foodType ==
-                                          _model.dropdownValue1)) &&
-                                  (_model.dropdownValue2 == Hardness.all
-                                      ? true
-                                      : (recipeItem.hardType ==
-                                          _model.dropdownValue2)) &&
-                                  (FFAppState().SearchQuery == ''
-                                      ? true
-                                      : functions.substringFind(
-                                          recipeItem.name,
-                                          _model.textFieldModel
-                                              .inputTextController.text)),
-                              child: Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    FFAppState().RecipeSelect = recipeItem;
-                                    safeSetState(() {});
-
-                                    context.pushNamed(
-                                        RecipeDetailWidget.routeName);
-                                  },
-                                  child: wrapWithModel(
-                                    model: _model.recipeCardModels.getModel(
-                                      recipeItem.id.toString(),
-                                      recipeIndex,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Stack(
+                        children: [
+                          if (FFAppState().RecipeList.length < 1)
+                            Align(
+                              alignment: AlignmentDirectional(0.0, 0.0),
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width * 0.8,
+                                height: MediaQuery.sizeOf(context).height * 0.5,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
+                                      Icons.cookie_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      size: 150.0,
                                     ),
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: RecipeCard1Widget(
-                                      key: Key(
-                                        'Key86_${recipeItem.id.toString()}',
-                                      ),
-                                      recipeDetails: recipeItem,
+                                    Text(
+                                      'Создай свой первый рецепт, нажав кнопку \"Создать рецепт\"',
+                                      textAlign: TextAlign.center,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            fontSize: 28.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                            );
-                          }),
+                            ),
+                          if (FFAppState().RecipeList.length > 0)
+                            Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Builder(
+                                builder: (context) {
+                                  final recipe = FFAppState()
+                                      .RecipeList
+                                      .map((e) => e)
+                                      .toList();
+
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: List.generate(recipe.length,
+                                        (recipeIndex) {
+                                      final recipeItem = recipe[recipeIndex];
+                                      return Visibility(
+                                        visible: (FFAppState().SearchFavorite
+                                                ? recipeItem.isFavorite
+                                                : true) &&
+                                            (recipeItem.foodType ==
+                                                    _model.dropdownValue1
+                                                ? true
+                                                : (_model.dropdownValue1 ==
+                                                    Food.all)) &&
+                                            (recipeItem.hardType ==
+                                                    _model.dropdownValue2
+                                                ? true
+                                                : (_model.dropdownValue2 ==
+                                                    Hardness.all)) &&
+                                            (functions.substringFind(
+                                                    recipeItem.name,
+                                                    _model
+                                                        .textFieldModel
+                                                        .inputTextController
+                                                        .text)
+                                                ? true
+                                                : (_model
+                                                            .textFieldModel
+                                                            .inputTextController
+                                                            .text ==
+                                                        '')),
+                                        child: Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              FFAppState().RecipeSelect =
+                                                  recipeItem;
+                                              safeSetState(() {});
+
+                                              context.pushNamed(
+                                                  RecipeDetailWidget.routeName);
+                                            },
+                                            child: wrapWithModel(
+                                              model: _model.recipeCardModels
+                                                  .getModel(
+                                                recipeItem.id.toString(),
+                                                recipeIndex,
+                                              ),
+                                              updateCallback: () =>
+                                                  safeSetState(() {}),
+                                              child: RecipeCard1Widget(
+                                                key: Key(
+                                                  'Keyg80_${recipeItem.id.toString()}',
+                                                ),
+                                                recipeDetails: recipeItem,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                        ],
+                      ),
+                      Container(
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 ),
               ),

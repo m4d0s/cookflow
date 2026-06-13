@@ -9,22 +9,66 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future addNewStruct(Structs struct, int id) async {
+Future addNewStruct(Structs struct) async {
+  final recipe = FFAppState().RecipeSelect;
+
+  int id;
+
   switch (struct) {
     case Structs.product:
-      if (FFAppConstants.StructLimit <
-          FFAppState().RecipeSelect.cookingSteps.length)
-        FFAppState().RecipeSelect.cookingSteps.add(StepStruct(queueId: id));
-      break;
-    case Structs.step:
-      if (FFAppConstants.StructLimit <
-          FFAppState().RecipeSelect.products.length)
-        FFAppState().RecipeSelect.products.add(ProductStruct(id: id));
-      break;
-    default:
-      FFAppState().RecipeList.add(RecipeStruct(id: id));
-  }
-}
+      id = recipe.products.isEmpty
+          ? 1
+          : recipe.products.map((r) => r.id).reduce((a, b) => a > b ? a : b) +
+              1;
 
+      if (recipe.products.length < FFAppConstants.StructLimit) {
+        recipe.products.add(
+          ProductStruct(
+            id: id,
+            quantity: FoodQuantityStruct(),
+            nutrition100g: NutritionsStruct(),
+          ),
+        );
+      }
+      break;
+
+    case Structs.step:
+      id = recipe.cookingSteps.isEmpty
+          ? 1
+          : recipe.cookingSteps
+                  .map((r) => r.queueId)
+                  .reduce((a, b) => a > b ? a : b) +
+              1;
+
+      if (recipe.cookingSteps.length < FFAppConstants.StructLimit) {
+        recipe.cookingSteps.add(
+          StepStruct(queueId: id),
+        );
+      }
+      break;
+
+    default:
+      id = FFAppState().RecipeList.isEmpty
+          ? 1
+          : FFAppState()
+                  .RecipeList
+                  .map((r) => r.id)
+                  .reduce((a, b) => a > b ? a : b) +
+              1;
+
+      FFAppState().addToRecipeList(
+        RecipeStruct(
+          id: id,
+          cookingSteps: [],
+          products: [],
+          nutritions: NutritionsStruct(),
+        ),
+      );
+
+      FFAppState().RecipeSelect = FFAppState().RecipeList.last;
+  }
+
+  FFAppState().update(() {});
+}
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the green button on the right!

@@ -2,7 +2,6 @@ import '/backend/schema/enums/enums.dart';
 import '/components/ingridient_edit/ingridient_edit_widget.dart';
 import '/components/step_edit/step_edit_widget.dart';
 import '/components/u_button/u_button_widget.dart';
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
@@ -12,16 +11,22 @@ import 'package:flutter/material.dart';
 class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeEdit widget.
+  FFUploadedFile? recipePicture111;
   // Model for Button.
   late UButtonModel buttonModel;
   // Stores action output result for [Custom Action - imageToBase64] action in Container widget.
   String? recipePhotoBase64;
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in Container widget.
   FFUploadedFile? recipePhoto;
-  // Model for TextField.
-  late UTextFieldModel textFieldModel1;
-  // Model for TextField.
-  late UTextFieldModel textFieldModel2;
+  // State field(s) for Input widget.
+  FocusNode? inputFocusNode1;
+  TextEditingController? inputTextController1;
+  String? Function(BuildContext, String?)? inputTextController1Validator;
+  // State field(s) for Input widget.
+  FocusNode? inputFocusNode2;
+  TextEditingController? inputTextController2;
+  String? Function(BuildContext, String?)? inputTextController2Validator;
   // State field(s) for CountController widget.
   int? countControllerValue1;
   // State field(s) for CountController widget.
@@ -34,20 +39,14 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   FormFieldController<Hardness>? dropDownValueController2;
   // State field(s) for CountController widget.
   int? countControllerValue3;
-  // Stores action output result for [Custom Action - getNextId] action in Row widget.
-  int? newproductID;
   // Models for IngridientEdit dynamic component.
   late FlutterFlowDynamicModels<IngridientEditModel> ingridientEditModels;
-  // Stores action output result for [Custom Action - getNextId] action in Row widget.
-  int? newstepID;
   // Models for StepEdit dynamic component.
   late FlutterFlowDynamicModels<StepEditModel> stepEditModels;
 
   @override
   void initState(BuildContext context) {
     buttonModel = createModel(context, () => UButtonModel());
-    textFieldModel1 = createModel(context, () => UTextFieldModel());
-    textFieldModel2 = createModel(context, () => UTextFieldModel());
     ingridientEditModels =
         FlutterFlowDynamicModels(() => IngridientEditModel());
     stepEditModels = FlutterFlowDynamicModels(() => StepEditModel());
@@ -56,8 +55,12 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   @override
   void dispose() {
     buttonModel.dispose();
-    textFieldModel1.dispose();
-    textFieldModel2.dispose();
+    inputFocusNode1?.dispose();
+    inputTextController1?.dispose();
+
+    inputFocusNode2?.dispose();
+    inputTextController2?.dispose();
+
     ingridientEditModels.dispose();
     stepEditModels.dispose();
   }

@@ -12,16 +12,23 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
 
 Future<void> exportJson(String jsonString) async {
-  final DateTime today = DateTime.now();
-  final DateFormat formatter = DateFormat('yMd_Hm', 'ru');
-  final String timemark = formatter.format(today);
+  final timestamp = DateTime.now().millisecondsSinceEpoch;
+  final result = await FilePicker.platform.saveFile(
+    dialogTitle: 'Сохранить рецепт',
+    fileName: 'cookflow_${timestamp}.json',
+    type: FileType.custom,
+    allowedExtensions: ['json'],
+  );
 
-  final dir = Directory('/storage/emulated/0/Download/Cookflow');
+  if (result == null) {
+    // пользователь отменил
+    return;
+  }
 
-  final file = File('${dir.path}/cookflow_$timemark.json');
-
+  final file = File(result);
   await file.writeAsString(jsonString);
 }
 

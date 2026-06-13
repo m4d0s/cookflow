@@ -92,12 +92,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CookingModeWidget.routeName,
           path: CookingModeWidget.routePath,
-          builder: (context, params) => CookingModeWidget(
-            step: params.getParam(
-              'step',
-              ParamType.int,
-            ),
-          ),
+          builder: (context, params) => CookingModeWidget(),
         ),
         FFRoute(
           name: MealPlanWidget.routeName,

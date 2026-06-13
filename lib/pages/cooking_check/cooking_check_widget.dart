@@ -74,7 +74,10 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(RecipeListWidget.routeName);
             },
           ),
           title: Text(
@@ -423,7 +426,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                             ),
                             Container(
                               width: MediaQuery.sizeOf(context).width * 1.0,
-                              height: MediaQuery.sizeOf(context).height * 0.5,
+                              height: MediaQuery.sizeOf(context).height * 0.52,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
@@ -494,7 +497,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                   child: CheckboxListTile(
                                                     value: _model
                                                             .checkboxListTileValueMap[
-                                                        productItem] ??= true,
+                                                        productItem] ??= false,
                                                     onChanged:
                                                         (newValue) async {
                                                       safeSetState(() =>
@@ -502,54 +505,18 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                                   productItem] =
                                                               newValue!);
                                                       if (newValue!) {
-                                                        await actions
-                                                            .updateProduct(
-                                                          productItem,
-                                                          productItem.quantity
-                                                              .quantity,
-                                                          productItem.name,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .calories,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .protein,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .fats,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .carbs,
-                                                          productItem
-                                                              .quantity.count,
-                                                          productItem.id,
-                                                          true,
-                                                        );
+                                                        FFAppState()
+                                                                .CheckedPositions =
+                                                            FFAppState()
+                                                                    .CheckedPositions +
+                                                                1;
                                                         safeSetState(() {});
                                                       } else {
-                                                        await actions
-                                                            .updateProduct(
-                                                          productItem,
-                                                          productItem.quantity
-                                                              .quantity,
-                                                          productItem.name,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .calories,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .protein,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .fats,
-                                                          productItem
-                                                              .nutrition100g
-                                                              .carbs,
-                                                          productItem
-                                                              .quantity.count,
-                                                          productItem.id,
-                                                          false,
-                                                        );
+                                                        FFAppState()
+                                                                .CheckedPositions =
+                                                            FFAppState()
+                                                                    .CheckedPositions +
+                                                                -1;
                                                         safeSetState(() {});
                                                       }
                                                     },
@@ -724,7 +691,6 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
               ),
             ),
             Container(
-              height: MediaQuery.sizeOf(context).height * 0.15,
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
                 borderRadius: BorderRadius.only(
@@ -848,120 +814,134 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                   Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: LinearPercentIndicator(
-                                  percent: valueOrDefault<double>(
-                                    functions.procentCalc(
-                                        _model.checked.toDouble(),
-                                        FFAppState()
-                                            .RecipeSelect
-                                            .products
-                                            .length
-                                            .toDouble()),
-                                    0.5,
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: LinearPercentIndicator(
+                                    percent: valueOrDefault<double>(
+                                      functions.procentCalc(
+                                          _model.checked.toDouble(),
+                                          FFAppState()
+                                              .RecipeSelect
+                                              .products
+                                              .length
+                                              .toDouble()),
+                                      0.5,
+                                    ),
+                                    lineHeight: 8.0,
+                                    animation: true,
+                                    animateFromLastPercent: true,
+                                    progressColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    barRadius: Radius.circular(4.0),
+                                    padding: EdgeInsets.zero,
                                   ),
-                                  lineHeight: 8.0,
-                                  animation: true,
-                                  animateFromLastPercent: true,
-                                  progressColor:
-                                      FlutterFlowTheme.of(context).primary,
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).alternate,
-                                  barRadius: Radius.circular(4.0),
-                                  padding: EdgeInsets.zero,
                                 ),
-                              ),
-                              Text(
-                                '${FFAppState().CheckedPositions.toString()} из ${FFAppState().RecipeSelect.products.length.toString()}',
-                                style: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      font: GoogleFonts.manrope(
+                                Text(
+                                  '${FFAppState().CheckedPositions.toString()} из ${FFAppState().RecipeSelect.products.length.toString()}',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .fontWeight,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .fontStyle,
+                                        lineHeight: 1.4,
                                       ),
+                                ),
+                              ].divide(SizedBox(width: 16.0)),
+                            ),
+                            if (FFAppState().CheckedPositions >=
+                                FFAppState().RecipeSelect.products.length)
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (FFAppState()
+                                          .RecipeSelect
+                                          .cookingSteps
+                                          .length >
+                                      0) {
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
+                                    context
+                                        .pushNamed(CookingModeWidget.routeName);
+                                  } else {
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
+                                    context
+                                        .pushNamed(CookingEndWidget.routeName);
+                                  }
+                                },
+                                child: wrapWithModel(
+                                  model: _model.buttonModel,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: UButtonWidget(
+                                    content: 'Начать готовку',
+                                    icon: Icon(
+                                      Icons.play_arrow_rounded,
                                       color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .fontStyle,
-                                      lineHeight: 1.4,
+                                          .onPrimary,
+                                      size: 16.0,
                                     ),
-                              ),
-                            ].divide(SizedBox(width: 16.0)),
-                          ),
-                          if (_model.checked >=
-                              FFAppState().RecipeSelect.products.length)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context.pushNamed(
-                                  CookingModeWidget.routeName,
-                                  queryParameters: {
-                                    'step': serializeParam(
-                                      1,
-                                      ParamType.int,
-                                    ),
-                                  }.withoutNulls,
-                                );
-                              },
-                              child: wrapWithModel(
-                                model: _model.buttonModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: UButtonWidget(
-                                  content: 'Начать готовку',
-                                  icon: Icon(
-                                    Icons.play_arrow_rounded,
-                                    color:
+                                    iconPresent: true,
+                                    iconEndPresent: false,
+                                    variant: 'primary',
+                                    size: 'large',
+                                    fullWidth: true,
+                                    loading: false,
+                                    disabled: functions
+                                                .procentCalc(
+                                                    _model.checked.toDouble(),
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .products
+                                                        .length
+                                                        .toDouble())
+                                                .toString() ==
+                                            '1'
+                                        ? false
+                                        : true,
+                                    maincolor:
                                         FlutterFlowTheme.of(context).onPrimary,
-                                    size: 16.0,
                                   ),
-                                  iconPresent: true,
-                                  iconEndPresent: false,
-                                  variant: 'primary',
-                                  size: 'large',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: functions
-                                              .procentCalc(
-                                                  _model.checked.toDouble(),
-                                                  FFAppState()
-                                                      .RecipeSelect
-                                                      .products
-                                                      .length
-                                                      .toDouble())
-                                              .toString() ==
-                                          '1'
-                                      ? false
-                                      : true,
-                                  maincolor:
-                                      FlutterFlowTheme.of(context).onPrimary,
                                 ),
                               ),
-                            ),
-                        ].divide(SizedBox(height: 16.0)),
+                          ].divide(SizedBox(height: 16.0)),
+                        ),
                       ),
                     ),
                   ),

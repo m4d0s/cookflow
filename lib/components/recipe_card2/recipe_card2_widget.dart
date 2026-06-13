@@ -79,26 +79,6 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                 child: Stack(
                   alignment: AlignmentDirectional(-1.0, -1.0),
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.memory(
-                        _model.recipe2Pic?.bytes ?? Uint8List.fromList([]),
-                        height: 200.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(1.0, -1.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(valueOrDefault<double>(
-                          FFAppConstants.Padding2.toDouble(),
-                          0.0,
-                        )),
-                        child: Container(
-                          alignment: AlignmentDirectional(1.0, -1.0),
-                        ),
-                      ),
-                    ),
                     Align(
                       alignment: AlignmentDirectional(-1.0, 1.0),
                       child: Padding(
@@ -108,6 +88,26 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                         )),
                         child: Container(
                           alignment: AlignmentDirectional(-1.0, 1.0),
+                          child: Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: Icon(
+                              Icons.no_photography,
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              size: 48.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.memory(
+                          _model.recipe2Pic?.bytes ?? Uint8List.fromList([]),
+                          height: 200.0,
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment(0.0, 0.0),
                         ),
                       ),
                     ),
@@ -257,7 +257,7 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                   ),
                                   Text(
                                     valueOrDefault<String>(
-                                      widget.recipeDetails?.hardType?.name,
+                                      widget.recipeDetails?.foodType.name,
                                       'hard',
                                     ),
                                     style: FlutterFlowTheme.of(context)
@@ -313,7 +313,7 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                   ),
                                   Text(
                                     valueOrDefault<String>(
-                                      widget.recipeDetails?.foodType?.name,
+                                      widget.recipeDetails?.hardType.name,
                                       'Trash',
                                     ),
                                     style: FlutterFlowTheme.of(context)

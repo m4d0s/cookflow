@@ -22,7 +22,7 @@ class FoodCategoryStruct extends BaseStruct {
 
   // "category" field.
   Food? _category;
-  Food? get category => _category;
+  Food get category => _category ?? Food.all;
   set category(Food? val) => _category = val;
 
   bool hasCategory() => _category != null;

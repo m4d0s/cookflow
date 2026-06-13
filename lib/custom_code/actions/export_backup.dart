@@ -14,19 +14,15 @@ import 'package:path_provider/path_provider.dart';
 
 String exportBackup() {
   final backup = {
-    'version': 1,
+    'version': FFAppConstants.BackupVersion,
     'darkMode': FFAppState().DarkMode,
+    'autoMode': FFAppState().AutoNutrition,
     'dailyGoal': FFAppState().DailyGoal.toSerializableMap(),
     'allDailyPlans':
         FFAppState().DailyList.map((e) => e.toSerializableMap()).toList(),
     'recipeList':
         FFAppState().RecipeList.map((e) => e.toSerializableMap()).toList(),
-    'categoriesList':
-        FFAppState().CategoryList.map((e) => e.toSerializableMap()).toList(),
-    'hardnessList':
-        FFAppState().HardList.map((e) => e.toSerializableMap()).toList(),
-    'quantityList':
-        FFAppState().QuantityList.map((e) => e.toSerializableMap()).toList(),
+    'humanParams': FFAppState().PeopleStat.toSerializableMap()
   };
 
   return jsonEncode(backup);

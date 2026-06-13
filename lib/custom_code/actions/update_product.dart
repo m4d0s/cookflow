@@ -40,6 +40,10 @@ Future updateProduct(
   } else {
     products.add(product);
   }
+
+  FFAppState().update(() {
+    FFAppState().RecipeSelect = RecipeStruct();
+  });
 }
 
 // Set your action name, define your arguments and return parameter,

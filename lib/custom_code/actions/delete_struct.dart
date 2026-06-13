@@ -12,21 +12,22 @@ import 'package:flutter/material.dart';
 Future deleteStruct(int id, Structs struct) async {
   switch (struct) {
     case Structs.step:
-      FFAppState().RecipeSelect.cookingSteps.removeWhere(
-            (s) => s.queueId == id,
+      final index = FFAppState().RecipeSelect.cookingSteps.indexWhere(
+            (r) => r.queueId == id,
           );
+      FFAppState().RecipeSelect.cookingSteps.removeAt(index);
       break;
     case Structs.product:
-      FFAppState().RecipeSelect.products.removeWhere(
-            (p) => p.id == id,
+      final index = FFAppState().RecipeSelect.products.indexWhere(
+            (r) => r.id == id,
           );
+      FFAppState().RecipeSelect.products.removeAt(index);
       break;
     default: //Structs.recipe
-      FFAppState().removeFromRecipeList(
-        FFAppState().RecipeList.firstWhere(
-              (r) => r.id == id,
-            ),
-      );
+      final index = FFAppState().RecipeList.indexWhere(
+            (r) => r.id == id,
+          );
+      FFAppState().removeAtIndexFromRecipeList(index);
   }
 }
 

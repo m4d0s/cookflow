@@ -15,7 +15,7 @@ class MealEntryStruct extends BaseStruct {
 
   // "id" field.
   int? _id;
-  int get id => _id ?? 0;
+  int get id => _id ?? -1;
   set id(int? val) => _id = val;
 
   void incrementId(int amount) => id = id + amount;

@@ -2,7 +2,6 @@ import '/backend/schema/enums/enums.dart';
 import '/components/ingridient_edit/ingridient_edit_widget.dart';
 import '/components/step_edit/step_edit_widget.dart';
 import '/components/u_button/u_button_widget.dart';
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -12,7 +11,9 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'recipe_edit_model.dart';
@@ -37,6 +38,23 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecipeEditModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.recipePicture111 = await actions.base64ToFFUploadedFile(
+        FFAppState().RecipeSelect.pictureBase64,
+      );
+
+      safeSetState(() {});
+    });
+
+    _model.inputTextController1 ??=
+        TextEditingController(text: FFAppState().RecipeSelect.name);
+    _model.inputFocusNode1 ??= FocusNode();
+
+    _model.inputTextController2 ??=
+        TextEditingController(text: FFAppState().RecipeSelect.info);
+    _model.inputFocusNode2 ??= FocusNode();
   }
 
   @override
@@ -60,34 +78,37 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            if ((/* NOT RECOMMENDED */ _model
-                        .textFieldModel1.inputTextController.text ==
-                    'true') &&
-                (/* NOT RECOMMENDED */ _model
-                        .textFieldModel2.inputTextController.text ==
-                    'true')) {
+            if ((_model.inputTextController1.text != '') &&
+                (_model.inputTextController2.text != '') &&
+                (_model.countControllerValue1! > 0) &&
+                (_model.countControllerValue2! > 0) &&
+                (_model.dropDownValue1 != Food.all) &&
+                (_model.dropDownValue2 != Hardness.all)) {
               await actions.updateRecipe(
                 false,
+                FFAppConstants.TrueValue,
               );
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(RecipeListWidget.routeName);
             } else {
               await showDialog(
                 context: context,
                 builder: (alertDialogContext) {
                   return AlertDialog(
-                    title: Text('Нельзя добавить'),
+                    title: Text('Обновление невозможно'),
                     content: Text('Перепроверьте поля, не все поля заполнены!'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(alertDialogContext),
-                        child: Text('Хорошо'),
+                        child: Text('Хорошо, исправлю'),
                       ),
                     ],
                   );
                 },
               );
             }
-
-            safeSetState(() {});
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: Icon(
@@ -320,6 +341,22 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                 .primaryText,
                                             size: 48.0,
                                           ),
+                                          if (FFAppState()
+                                                      .RecipeSelect
+                                                      .pictureBase64 !=
+                                                  '')
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.memory(
+                                                _model.recipePicture111
+                                                        ?.bytes ??
+                                                    Uint8List.fromList([]),
+                                                width: 300.0,
+                                                height: 200.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
@@ -336,34 +373,364 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                     ),
                                   ),
                                 ),
-                              ].divide(SizedBox(height: 16.0)),
+                                Align(
+                                  alignment: AlignmentDirectional(-1.0, 1.0),
+                                  child: Text(
+                                    'Рекомендуется фото альбомной ориентации',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          fontSize: 11.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ),
+                              ],
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                wrapWithModel(
-                                  model: _model.textFieldModel1,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: UTextFieldWidget(
-                                    hint: 'Напр: Паста Карбонара',
-                                    value: '',
-                                    variant: Textfield.ghost,
-                                    leadingIcon: Icon(
-                                      Icons.edit,
+                                Container(
+                                  height: 60.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    borderRadius: BorderRadius.circular(
+                                        valueOrDefault<double>(
+                                      FFAppConstants.Padding2.toDouble(),
+                                      0.0,
+                                    )),
+                                    border: Border.all(
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        valueOrDefault<double>(
+                                          FFAppConstants.Padding1.toDouble(),
+                                          0.0,
+                                        ),
+                                        valueOrDefault<double>(
+                                          FFAppConstants.Padding1.toDouble(),
+                                          0.0,
+                                        ),
+                                        valueOrDefault<double>(
+                                          FFAppConstants.Padding1.toDouble(),
+                                          0.0,
+                                        ),
+                                        valueOrDefault<double>(
+                                          FFAppConstants.Padding1.toDouble(),
+                                          0.0,
+                                        )),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.edit,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 24.0,
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: TextFormField(
+                                            controller:
+                                                _model.inputTextController1,
+                                            focusNode: _model.inputFocusNode1,
+                                            onChanged: (_) =>
+                                                EasyDebounce.debounce(
+                                              '_model.inputTextController1',
+                                              Duration(milliseconds: 2000),
+                                              () async {
+                                                FFAppState()
+                                                    .updateRecipeSelectStruct(
+                                                  (e) => e
+                                                    ..name = _model
+                                                        .inputTextController1
+                                                        .text,
+                                                );
+                                                safeSetState(() {});
+                                              },
+                                            ),
+                                            obscureText: false,
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              hintText: 'Название блюда',
+                                              hintStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .accent3,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                        lineHeight: 1.55,
+                                                      ),
+                                              enabledBorder: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              errorBorder: InputBorder.none,
+                                              focusedErrorBorder:
+                                                  InputBorder.none,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                  lineHeight: 1.55,
+                                                ),
+                                            maxLength: 64,
+                                            buildCounter: (context,
+                                                    {required currentLength,
+                                                    required isFocused,
+                                                    maxLength}) =>
+                                                null,
+                                            validator: _model
+                                                .inputTextController1Validator
+                                                .asValidator(context),
+                                          ),
+                                        ),
+                                      ].divide(SizedBox(
+                                          width: FFAppConstants.Padding1
+                                              .toDouble())),
                                     ),
                                   ),
                                 ),
-                                wrapWithModel(
-                                  model: _model.textFieldModel2,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: UTextFieldWidget(
-                                    hint: 'Коротко о блюде...',
-                                    value: '',
-                                    variant: Textfield.ghost,
-                                    leadingIcon: Icon(
-                                      Icons.edit_note_rounded,
+                                Container(
+                                  height: 180.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    borderRadius: BorderRadius.circular(
+                                        valueOrDefault<double>(
+                                      FFAppConstants.Padding2.toDouble(),
+                                      0.0,
+                                    )),
+                                    border: Border.all(
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: Align(
+                                    alignment: AlignmentDirectional(-1.0, -1.0),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.all(valueOrDefault<double>(
+                                        FFAppConstants.Padding2.toDouble(),
+                                        0.0,
+                                      )),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Align(
+                                            alignment: AlignmentDirectional(
+                                                -1.0, -1.0),
+                                            child: Icon(
+                                              Icons.sort,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Align(
+                                              alignment: AlignmentDirectional(
+                                                  -1.0, -1.0),
+                                              child: TextFormField(
+                                                controller:
+                                                    _model.inputTextController2,
+                                                focusNode:
+                                                    _model.inputFocusNode2,
+                                                onChanged: (_) =>
+                                                    EasyDebounce.debounce(
+                                                  '_model.inputTextController2',
+                                                  Duration(milliseconds: 2000),
+                                                  () async {
+                                                    FFAppState()
+                                                        .updateRecipeSelectStruct(
+                                                      (e) => e
+                                                        ..info = _model
+                                                            .inputTextController2
+                                                            .text,
+                                                    );
+                                                    safeSetState(() {});
+                                                  },
+                                                ),
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  hintText: 'Описание блюда',
+                                                  hintStyle: FlutterFlowTheme
+                                                          .of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .accent3,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                        lineHeight: 1.55,
+                                                      ),
+                                                  enabledBorder:
+                                                      InputBorder.none,
+                                                  focusedBorder:
+                                                      InputBorder.none,
+                                                  errorBorder: InputBorder.none,
+                                                  focusedErrorBorder:
+                                                      InputBorder.none,
+                                                ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.inter(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                      lineHeight: 1.55,
+                                                    ),
+                                                maxLines: 6,
+                                                maxLength: 512,
+                                                buildCounter: (context,
+                                                        {required currentLength,
+                                                        required isFocused,
+                                                        maxLength}) =>
+                                                    null,
+                                                validator: _model
+                                                    .inputTextController2Validator
+                                                    .asValidator(context),
+                                              ),
+                                            ),
+                                          ),
+                                        ].divide(SizedBox(
+                                            width: FFAppConstants.Padding1
+                                                .toDouble())),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -503,7 +870,10 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                       ),
                                                 ),
                                                 count: _model
-                                                    .countControllerValue1 ??= 5,
+                                                        .countControllerValue1 ??=
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .cookTime,
                                                 updateCount: (count) async {
                                                   safeSetState(() => _model
                                                           .countControllerValue1 =
@@ -656,7 +1026,10 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                       ),
                                                 ),
                                                 count: _model
-                                                    .countControllerValue2 ??= 4,
+                                                        .countControllerValue2 ??=
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .portions,
                                                 updateCount: (count) async {
                                                   safeSetState(() => _model
                                                           .countControllerValue2 =
@@ -697,15 +1070,13 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       controller:
                                           _model.dropDownValueController1 ??=
                                               FormFieldController<Food>(
-                                        _model.dropDownValue1 ??=
-                                            Food.breakfast,
+                                        _model.dropDownValue1 ??= Food.all,
                                       ),
                                       options: List<Food>.from(FFAppState()
                                           .CategoryList
                                           .take(10)
                                           .toList()
                                           .map((e) => e.category)
-                                          .withoutNulls
                                           .toList()),
                                       optionLabels: FFAppState()
                                           .CategoryList
@@ -771,12 +1142,11 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       controller:
                                           _model.dropDownValueController2 ??=
                                               FormFieldController<Hardness>(
-                                        _model.dropDownValue2 ??= Hardness.easy,
+                                        _model.dropDownValue2 ??= Hardness.all,
                                       ),
                                       options: List<Hardness>.from(FFAppState()
                                           .HardList
                                           .map((e) => e.difficult)
-                                          .withoutNulls
                                           .toList()),
                                       optionLabels: FFAppState()
                                           .HardList
@@ -1048,17 +1418,9 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            _model.newproductID =
-                                                await actions.getNextId(
-                                              FFAppState().RecipeSelect,
-                                              Structs.product,
-                                            );
                                             await actions.addNewStruct(
                                               Structs.product,
-                                              _model.newproductID!,
                                             );
-
-                                            safeSetState(() {});
 
                                             safeSetState(() {});
                                           },
@@ -1200,17 +1562,9 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            _model.newstepID =
-                                                await actions.getNextId(
-                                              FFAppState().RecipeSelect,
-                                              Structs.step,
-                                            );
                                             await actions.addNewStruct(
                                               Structs.step,
-                                              _model.newstepID!,
                                             );
-
-                                            safeSetState(() {});
 
                                             safeSetState(() {});
                                           },
@@ -1334,7 +1688,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           ) ??
                                           false;
                                   if (confirmDialogResponse) {
-                                    Navigator.pop(context);
                                     await actions.deleteStruct(
                                       FFAppState().RecipeSelect.id,
                                       Structs.recipe,
@@ -1342,8 +1695,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
 
                                     context
                                         .pushNamed(RecipeListWidget.routeName);
-                                  } else {
-                                    Navigator.pop(context);
                                   }
 
                                   FFAppState().update(() {});

@@ -104,7 +104,9 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                               ),
                         ),
                         Text(
-                          'Вы успешно завершили приготовление рецепта, самое время его попробовать!',
+                          FFAppState().RecipeSelect.cookingSteps.length > 0
+                              ? 'Вы успешно завершили приготовление рецепта, самое время его попробовать!'
+                              : 'Вы ничего не приготовили, так как не предприняли никаких шагов для готовки!',
                           textAlign: TextAlign.center,
                           style: FlutterFlowTheme.of(context)
                               .bodyLarge

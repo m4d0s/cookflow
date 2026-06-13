@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'step_edit_model.dart';
 export 'step_edit_model.dart';
@@ -35,6 +36,13 @@ class _StepEditWidgetState extends State<StepEditWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => StepEditModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.stepUploadAgain = await actions.base64ToFFUploadedFile(
+        widget.step?.pictureBase64,
+      );
+    });
 
     _model.inputTextController1 ??=
         TextEditingController(text: widget.step?.desc);
@@ -157,54 +165,98 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                   ),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      _model.imageBase64 = await actions.imageToBase64(
-                        FFAppConstants.PhotoWidth,
-                        FFAppConstants.PhotoHeight,
-                        FFAppConstants.PhotoQuality,
-                      );
-                      _model.fFUploadImage =
-                          await actions.base64ToFFUploadedFile(
-                        _model.imageBase64,
-                      );
-                      await actions.updateStep(
-                        widget.step!,
-                        widget.step?.queueId,
-                        widget.step?.desc,
-                        widget.step?.tip,
-                        widget.step?.timer,
-                        _model.imageBase64,
-                      );
-                      safeSetState(() {});
+                  child: Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        _model.imageBase64 = await actions.imageToBase64(
+                          FFAppConstants.PhotoWidth,
+                          FFAppConstants.PhotoHeight,
+                          FFAppConstants.PhotoQuality,
+                        );
+                        _model.fFUploadImage =
+                            await actions.base64ToFFUploadedFile(
+                          _model.imageBase64,
+                        );
+                        await actions.updateStep(
+                          widget.step!,
+                          widget.step?.queueId,
+                          widget.step?.desc,
+                          widget.step?.tip,
+                          widget.step?.timer,
+                          _model.imageBase64,
+                        );
+                        safeSetState(() {});
 
-                      safeSetState(() {});
-                    },
-                    child: Stack(
-                      alignment: AlignmentDirectional(0.0, 0.0),
-                      children: [
-                        Icon(
-                          Icons.add_a_photo,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 48.0,
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.memory(
-                            _model.fFUploadImage?.bytes ??
-                                Uint8List.fromList([]),
-                            width: 300.0,
-                            height: 200.0,
-                            fit: BoxFit.cover,
+                        safeSetState(() {});
+                      },
+                      child: Stack(
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        children: [
+                          Icon(
+                            Icons.add_a_photo,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 48.0,
                           ),
-                        ),
-                      ],
+                          if (widget.step?.pictureBase64 != null &&
+                              widget.step?.pictureBase64 != '')
+                            Align(
+                              alignment: AlignmentDirectional(0.0, 0.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.memory(
+                                  _model.stepUploadAgain?.bytes ??
+                                      Uint8List.fromList([]),
+                                  width: 300.0,
+                                  height: 200.0,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment(0.0, 0.0),
+                                ),
+                              ),
+                            ),
+                          Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.memory(
+                                _model.fFUploadImage?.bytes ??
+                                    Uint8List.fromList([]),
+                                width: 300.0,
+                                height: 200.0,
+                                fit: BoxFit.cover,
+                                alignment: Alignment(0.0, 0.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                ),
+              ),
+              Align(
+                alignment: AlignmentDirectional(-1.0, 1.0),
+                child: Text(
+                  'Рекомендуется фото альбомной ориентации',
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        font: GoogleFonts.inter(
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
+                        fontSize: 11.0,
+                        letterSpacing: 0.0,
+                        fontWeight:
+                            FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                 ),
               ),
               Column(
@@ -455,97 +507,116 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(
-                        Icons.timer_sharp,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 24.0,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius:
+                          BorderRadius.circular(valueOrDefault<double>(
+                        FFAppConstants.FrameRound.toDouble(),
+                        0.0,
+                      )),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).alternate,
                       ),
-                      Text(
-                        'Таймер (мин)',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.inter(
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              letterSpacing: 0.0,
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                      ),
-                      Container(
-                        width: 100.0,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(8.0),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: FlutterFlowCountController(
-                          decrementIconBuilder: (enabled) => Icon(
-                            Icons.remove_rounded,
-                            color: enabled
-                                ? FlutterFlowTheme.of(context).secondaryText
-                                : FlutterFlowTheme.of(context).alternate,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Icon(
+                            Icons.timer_sharp,
+                            color: FlutterFlowTheme.of(context).primaryText,
                             size: 24.0,
                           ),
-                          incrementIconBuilder: (enabled) => Icon(
-                            Icons.add_rounded,
-                            color: enabled
-                                ? FlutterFlowTheme.of(context).primary
-                                : FlutterFlowTheme.of(context).alternate,
-                            size: 24.0,
-                          ),
-                          countBuilder: (count) => Text(
-                            count.toString(),
+                          Text(
+                            'Таймер (мин)',
                             style: FlutterFlowTheme.of(context)
-                                .titleLarge
+                                .bodyMedium
                                 .override(
-                                  font: GoogleFonts.manrope(
+                                  font: GoogleFonts.inter(
                                     fontWeight: FlutterFlowTheme.of(context)
-                                        .titleLarge
+                                        .bodyMedium
                                         .fontWeight,
                                     fontStyle: FlutterFlowTheme.of(context)
-                                        .titleLarge
+                                        .bodyMedium
                                         .fontStyle,
                                   ),
-                                  fontSize: 16.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
-                                      .titleLarge
+                                      .bodyMedium
                                       .fontWeight,
                                   fontStyle: FlutterFlowTheme.of(context)
-                                      .titleLarge
+                                      .bodyMedium
                                       .fontStyle,
                                 ),
                           ),
-                          count: _model.countControllerValue ??= 0,
-                          updateCount: (count) => safeSetState(
-                              () => _model.countControllerValue = count),
-                          stepSize: 1,
-                          minimum: 0,
-                          maximum: 999,
-                          contentPadding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 8.0, 0.0),
-                        ),
+                          Container(
+                            width: 100.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(8.0),
+                              shape: BoxShape.rectangle,
+                            ),
+                            child: FlutterFlowCountController(
+                              decrementIconBuilder: (enabled) => Icon(
+                                Icons.remove_rounded,
+                                color: enabled
+                                    ? FlutterFlowTheme.of(context).secondaryText
+                                    : FlutterFlowTheme.of(context).alternate,
+                                size: 24.0,
+                              ),
+                              incrementIconBuilder: (enabled) => Icon(
+                                Icons.add_rounded,
+                                color: enabled
+                                    ? FlutterFlowTheme.of(context).primary
+                                    : FlutterFlowTheme.of(context).alternate,
+                                size: 24.0,
+                              ),
+                              countBuilder: (count) => Text(
+                                count.toString(),
+                                style: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .override(
+                                      font: GoogleFonts.manrope(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontStyle,
+                                      ),
+                                      fontSize: 16.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .fontStyle,
+                                    ),
+                              ),
+                              count: _model.countControllerValue ??= 0,
+                              updateCount: (count) => safeSetState(
+                                  () => _model.countControllerValue = count),
+                              stepSize: 1,
+                              minimum: 0,
+                              maximum: 999,
+                              contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 0.0, 8.0, 0.0),
+                            ),
+                          ),
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding1.toDouble())),
                       ),
-                    ].divide(
-                        SizedBox(width: FFAppConstants.Padding1.toDouble())),
+                    ),
                   ),
                   FlutterFlowIconButton(
+                    borderColor: FlutterFlowTheme.of(context).alternate,
                     borderRadius: 8.0,
-                    buttonSize: 40.0,
+                    buttonSize: 55.0,
                     fillColor: Colors.transparent,
                     icon: Icon(
                       Icons.delete_outline_rounded,
@@ -563,7 +634,7 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                   ),
                 ].divide(SizedBox(width: 16.0)),
               ),
-            ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
+            ].divide(SizedBox(height: FFAppConstants.Padding1.toDouble())),
           ),
         ),
       ),

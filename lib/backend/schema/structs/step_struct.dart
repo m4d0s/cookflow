@@ -20,7 +20,7 @@ class StepStruct extends BaseStruct {
 
   // "queue_id" field.
   int? _queueId;
-  int get queueId => _queueId ?? 0;
+  int get queueId => _queueId ?? -1;
   set queueId(int? val) => _queueId = val;
 
   void incrementQueueId(int amount) => queueId = queueId + amount;

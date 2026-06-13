@@ -18,7 +18,7 @@ class NutritionsStruct extends BaseStruct {
 
   // "calories" field.
   double? _calories;
-  double get calories => _calories ?? 99.0;
+  double get calories => _calories ?? 0.0;
   set calories(double? val) => _calories = val;
 
   void incrementCalories(double amount) => calories = calories + amount;

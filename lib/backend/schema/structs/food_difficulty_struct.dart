@@ -22,7 +22,7 @@ class FoodDifficultyStruct extends BaseStruct {
 
   // "difficult" field.
   Hardness? _difficult;
-  Hardness? get difficult => _difficult;
+  Hardness get difficult => _difficult ?? Hardness.all;
   set difficult(Hardness? val) => _difficult = val;
 
   bool hasDifficult() => _difficult != null;

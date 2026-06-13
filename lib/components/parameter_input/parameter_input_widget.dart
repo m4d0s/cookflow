@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'parameter_input_model.dart';
@@ -107,11 +108,12 @@ class _ParameterInputWidgetState extends State<ParameterInputWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  AutoSizeText(
                     valueOrDefault<String>(
                       widget.value,
                       '82.5',
                     ),
+                    minFontSize: 15.0,
                     style: FlutterFlowTheme.of(context).titleLarge.override(
                           font: GoogleFonts.manrope(
                             fontWeight: FontWeight.bold,
@@ -120,6 +122,7 @@ class _ParameterInputWidgetState extends State<ParameterInputWidget> {
                                 .fontStyle,
                           ),
                           color: FlutterFlowTheme.of(context).primaryText,
+                          fontSize: 17.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
                           fontStyle:

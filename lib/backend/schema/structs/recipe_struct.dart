@@ -40,7 +40,7 @@ class RecipeStruct extends BaseStruct {
 
   // "id" field.
   int? _id;
-  int get id => _id ?? 0;
+  int get id => _id ?? -1;
   set id(int? val) => _id = val;
 
   void incrementId(int amount) => id = id + amount;
@@ -135,14 +135,14 @@ class RecipeStruct extends BaseStruct {
 
   // "food_type" field.
   Food? _foodType;
-  Food? get foodType => _foodType;
+  Food get foodType => _foodType ?? Food.all;
   set foodType(Food? val) => _foodType = val;
 
   bool hasFoodType() => _foodType != null;
 
   // "hard_type" field.
   Hardness? _hardType;
-  Hardness? get hardType => _hardType;
+  Hardness get hardType => _hardType ?? Hardness.all;
   set hardType(Hardness? val) => _hardType = val;
 
   bool hasHardType() => _hardType != null;

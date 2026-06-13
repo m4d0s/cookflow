@@ -62,6 +62,18 @@ class FFAppState extends ChangeNotifier {
           _RecipeList;
     });
     await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_PeopleStat') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_PeopleStat') ?? '{}';
+          _PeopleStat =
+              PeopleParamStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
+    });
+    await _safeInitAsync(() async {
       _CategoryList = (await secureStorage.getStringList('ff_CategoryList'))
               ?.map((x) {
                 try {
@@ -103,18 +115,6 @@ class FFAppState extends ChangeNotifier {
               .withoutNulls
               .toList() ??
           _QuantityList;
-    });
-    await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_PeopleStat') != null) {
-        try {
-          final serializedData =
-              await secureStorage.getString('ff_PeopleStat') ?? '{}';
-          _PeopleStat =
-              PeopleParamStruct.fromSerializableMap(jsonDecode(serializedData));
-        } catch (e) {
-          print("Can't decode persisted data type. Error: $e.");
-        }
-      }
     });
     await _safeInitAsync(() async {
       _ActionList = (await secureStorage.getStringList('ff_ActionList'))
@@ -246,17 +246,6 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setString('ff_DailyGoal', _DailyGoal.serialize());
   }
 
-  NutritionsStruct _DailyHGoal = NutritionsStruct.fromSerializableMap(jsonDecode(
-      '{\"calories\":\"2400.0\",\"protein\":\"170.0\",\"fats\":\"200.0\",\"carbs\":\"320.0\"}'));
-  NutritionsStruct get DailyHGoal => _DailyHGoal;
-  set DailyHGoal(NutritionsStruct value) {
-    _DailyHGoal = value;
-  }
-
-  void updateDailyHGoalStruct(Function(NutritionsStruct) updateFn) {
-    updateFn(_DailyHGoal);
-  }
-
   List<RecipeStruct> _RecipeList = [];
   List<RecipeStruct> get RecipeList => _RecipeList;
   set RecipeList(List<RecipeStruct> value) {
@@ -312,9 +301,26 @@ class FFAppState extends ChangeNotifier {
     updateFn(_RecipeSelect);
   }
 
+  PeopleParamStruct _PeopleStat = PeopleParamStruct.fromSerializableMap(jsonDecode(
+      '{\"Weight\":\"30\",\"Height\":\"180\",\"Age\":\"80\",\"Activity\":\"average\",\"Target\":\"average\",\"Sex\":\"male\"}'));
+  PeopleParamStruct get PeopleStat => _PeopleStat;
+  set PeopleStat(PeopleParamStruct value) {
+    _PeopleStat = value;
+    secureStorage.setString('ff_PeopleStat', value.serialize());
+  }
+
+  void deletePeopleStat() {
+    secureStorage.delete(key: 'ff_PeopleStat');
+  }
+
+  void updatePeopleStatStruct(Function(PeopleParamStruct) updateFn) {
+    updateFn(_PeopleStat);
+    secureStorage.setString('ff_PeopleStat', _PeopleStat.serialize());
+  }
+
   List<FoodCategoryStruct> _CategoryList = [
     FoodCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}')),
+        jsonDecode('{\"name\":\"Все\",\"category\":\"all\"}')),
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Обед\",\"category\":\"lunch\"}')),
     FoodCategoryStruct.fromSerializableMap(
@@ -326,7 +332,9 @@ class FFAppState extends ChangeNotifier {
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Закуска\",\"category\":\"snack\"}')),
     FoodCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Выпечка\",\"category\":\"baking\"}'))
+        jsonDecode('{\"name\":\"Выпечка\",\"category\":\"baking\"}')),
+    FoodCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}'))
   ];
   List<FoodCategoryStruct> get CategoryList => _CategoryList;
   set CategoryList(List<FoodCategoryStruct> value) {
@@ -384,7 +392,9 @@ class FFAppState extends ChangeNotifier {
     FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Средний\",\"difficult\":\"medium\"}')),
     FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}'))
+        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}')),
+    FoodDifficultyStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Любая\",\"difficult\":\"all\"}'))
   ];
   List<FoodDifficultyStruct> get HardList => _HardList;
   set HardList(List<FoodDifficultyStruct> value) {
@@ -492,24 +502,18 @@ class FFAppState extends ChangeNotifier {
         'ff_QuantityList', _QuantityList.map((x) => x.serialize()).toList());
   }
 
-  PeopleParamStruct _PeopleStat = PeopleParamStruct.fromSerializableMap(jsonDecode(
-      '{\"Weight\":\"30\",\"Height\":\"180\",\"Age\":\"80\",\"Activity\":\"average\",\"Target\":\"average\",\"Sex\":\"male\"}'));
-  PeopleParamStruct get PeopleStat => _PeopleStat;
-  set PeopleStat(PeopleParamStruct value) {
-    _PeopleStat = value;
-    secureStorage.setString('ff_PeopleStat', value.serialize());
-  }
-
-  void deletePeopleStat() {
-    secureStorage.delete(key: 'ff_PeopleStat');
-  }
-
-  void updatePeopleStatStruct(Function(PeopleParamStruct) updateFn) {
-    updateFn(_PeopleStat);
-    secureStorage.setString('ff_PeopleStat', _PeopleStat.serialize());
-  }
-
-  List<PeopleActionStruct> _ActionList = [];
+  List<PeopleActionStruct> _ActionList = [
+    PeopleActionStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Сидячая\",\"type\":\"low\"}')),
+    PeopleActionStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Лёгкая\",\"type\":\"lessaverage\"}')),
+    PeopleActionStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Средняя\",\"type\":\"average\"}')),
+    PeopleActionStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Высокая\",\"type\":\"moreaverage\"}')),
+    PeopleActionStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Очень высокая\",\"type\":\"high\"}'))
+  ];
   List<PeopleActionStruct> get ActionList => _ActionList;
   set ActionList(List<PeopleActionStruct> value) {
     _ActionList = value;
@@ -554,7 +558,18 @@ class FFAppState extends ChangeNotifier {
         'ff_ActionList', _ActionList.map((x) => x.serialize()).toList());
   }
 
-  List<PeopleTargetStruct> _TargetList = [];
+  List<PeopleTargetStruct> _TargetList = [
+    PeopleTargetStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Быстрое похудение\",\"type\":\"extraloss\"}')),
+    PeopleTargetStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Похудение\",\"type\":\"lessloss\"}')),
+    PeopleTargetStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Поддержание\",\"type\":\"average\"}')),
+    PeopleTargetStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Набор веса\",\"type\":\"lessget\"}')),
+    PeopleTargetStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Быстрый набор\",\"type\":\"extraget\"}'))
+  ];
   List<PeopleTargetStruct> get TargetList => _TargetList;
   set TargetList(List<PeopleTargetStruct> value) {
     _TargetList = value;
@@ -599,7 +614,12 @@ class FFAppState extends ChangeNotifier {
         'ff_TargetList', _TargetList.map((x) => x.serialize()).toList());
   }
 
-  List<PeopleSexStruct> _SexList = [];
+  List<PeopleSexStruct> _SexList = [
+    PeopleSexStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Мужчина\",\"type\":\"male\"}')),
+    PeopleSexStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Женщина\",\"type\":\"female\"}'))
+  ];
   List<PeopleSexStruct> get SexList => _SexList;
   set SexList(List<PeopleSexStruct> value) {
     _SexList = value;

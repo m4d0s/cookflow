@@ -1,10 +1,7 @@
-import '/backend/schema/structs/index.dart';
-import '/components/day_card/day_card_widget.dart';
+import '/components/day_card1/day_card1_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -51,56 +48,6 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        floatingActionButton: Visibility(
-          visible: FFAppConstants.FalseValue,
-          child: FloatingActionButton.extended(
-            onPressed: () async {
-              if (dateTimeFormat(
-                    "yMd",
-                    getCurrentTimestamp,
-                    locale: FFLocalizations.of(context).languageCode,
-                  ) ==
-                  dateTimeFormat(
-                    "yMd",
-                    FFAppState().DailyList.lastOrNull?.date,
-                    locale: FFLocalizations.of(context).languageCode,
-                  )) {
-                FFAppState().addToDailyList(DailyPlanStruct(
-                  date: functions
-                      .resetTime(functions.resetTime(getCurrentTimestamp)),
-                ));
-                safeSetState(() {});
-              }
-
-              context.pushNamed(MealSelectWidget.routeName);
-            },
-            backgroundColor: FlutterFlowTheme.of(context).primary,
-            icon: Icon(
-              Icons.plus_one,
-              color: FlutterFlowTheme.of(context).onPrimary,
-              size: 24.0,
-            ),
-            elevation: 0.0,
-            label: Text(
-              'Добавить сегодня',
-              style: FlutterFlowTheme.of(context).labelLarge.override(
-                    font: GoogleFonts.manrope(
-                      fontWeight:
-                          FlutterFlowTheme.of(context).labelLarge.fontWeight,
-                      fontStyle:
-                          FlutterFlowTheme.of(context).labelLarge.fontStyle,
-                    ),
-                    color: FlutterFlowTheme.of(context).onPrimary,
-                    letterSpacing: 0.0,
-                    fontWeight:
-                        FlutterFlowTheme.of(context).labelLarge.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).labelLarge.fontStyle,
-                    lineHeight: 1.4,
-                  ),
-            ),
-          ),
-        ),
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
@@ -145,90 +92,6 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (FFAppConstants.FalseValue)
-              Container(
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  shape: BoxShape.rectangle,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(24.0),
-                  child: Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        FlutterFlowIconButton(
-                          borderRadius: 8.0,
-                          buttonSize: 40.0,
-                          fillColor: FlutterFlowTheme.of(context).transparent,
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: FlutterFlowTheme.of(context).primary,
-                            size: 24.0,
-                          ),
-                          onPressed: () async {
-                            context.pushNamed(RecipeListWidget.routeName);
-                          },
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'План питания',
-                              style: FlutterFlowTheme.of(context)
-                                  .headlineMedium
-                                  .override(
-                                    font: GoogleFonts.manrope(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .headlineMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .fontStyle,
-                                    lineHeight: 1.3,
-                                  ),
-                            ),
-                            Text(
-                              'Ваш план питания',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                    lineHeight: 1.55,
-                                  ),
-                            ),
-                          ].divide(SizedBox(height: 8.0)),
-                        ),
-                      ].divide(SizedBox(width: 36.0)),
-                    ),
-                  ),
-                ),
-              ),
             Expanded(
               flex: 1,
               child: Container(
@@ -260,7 +123,7 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                                       dayIndex,
                                     ),
                                     updateCallback: () => safeSetState(() {}),
-                                    child: DayCardWidget(
+                                    child: DayCard1Widget(
                                       key: Key(
                                         'Key511_${dayItem.date!.toString()}',
                                       ),
