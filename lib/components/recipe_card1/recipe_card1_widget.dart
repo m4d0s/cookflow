@@ -125,25 +125,23 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Container(
-                                width: 24.0,
-                                height: 24.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).surface80,
-                                  borderRadius: BorderRadius.circular(9999.0),
-                                  shape: BoxShape.rectangle,
-                                ),
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Visibility(
-                                  visible:
-                                      widget.recipeDetails?.isFavorite ?? true,
+                              if (widget.recipeDetails?.isFavorite ?? true)
+                                Container(
+                                  width: 24.0,
+                                  height: 24.0,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        FlutterFlowTheme.of(context).surface80,
+                                    borderRadius: BorderRadius.circular(9999.0),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Icon(
                                     Icons.favorite_rounded,
                                     color: FlutterFlowTheme.of(context).error,
                                     size: 18.0,
                                   ),
                                 ),
-                              ),
                               Text(
                                 valueOrDefault<String>(
                                   widget.recipeDetails?.name,

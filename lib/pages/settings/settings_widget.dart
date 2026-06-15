@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/upload_data.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -3273,30 +3274,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                   .primaryBackground,
                                         ),
                                       );
-                                      _model.string1 =
-                                          await actions.exportBackup();
-                                      await actions.exportJson(
-                                        _model.string1!,
-                                      );
-                                      await showDialog(
-                                        context: context,
-                                        builder: (alertDialogContext) {
-                                          return AlertDialog(
-                                            title: Text('Выгрузка завершена'),
-                                            content: Text(
-                                                'Данные ваших рецептов и плана питания хранятся в папке ~/Downloads/Cookflow'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext),
-                                                child: Text('Ok'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-
-                                      safeSetState(() {});
+                                      await actions.exportJson();
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -3466,21 +3444,55 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                       onTap: () async {
                                         _model.inputJson =
                                             await actions.importBackup();
-                                        _model.isUpToDate =
-                                            await actions.checkBackup(
-                                          _model.inputJson!,
-                                        );
-                                        if (_model.isUpToDate!) {
-                                          await actions.importJson(
-                                            _model.inputJson!,
+                                        if (_model.inputJson!) {
+                                          final selectedFiles =
+                                              await selectFiles(
+                                            multiFile: false,
                                           );
+                                          if (selectedFiles != null) {
+                                            safeSetState(() => _model
+                                                    .isDataUploading_uploadDataUwf =
+                                                true);
+                                            var selectedUploadedFiles =
+                                                <FFUploadedFile>[];
+
+                                            try {
+                                              selectedUploadedFiles =
+                                                  selectedFiles
+                                                      .map(
+                                                          (m) => FFUploadedFile(
+                                                                name: m
+                                                                    .storagePath
+                                                                    .split('/')
+                                                                    .last,
+                                                                bytes: m.bytes,
+                                                                originalFilename:
+                                                                    m.originalFilename,
+                                                              ))
+                                                      .toList();
+                                            } finally {
+                                              _model.isDataUploading_uploadDataUwf =
+                                                  false;
+                                            }
+                                            if (selectedUploadedFiles.length ==
+                                                selectedFiles.length) {
+                                              safeSetState(() {
+                                                _model.uploadedLocalFile_uploadDataUwf =
+                                                    selectedUploadedFiles.first;
+                                              });
+                                            } else {
+                                              safeSetState(() {});
+                                              return;
+                                            }
+                                          }
+
                                           await showDialog(
                                             context: context,
                                             builder: (alertDialogContext) {
                                               return AlertDialog(
                                                 title: Text('Загружены данные'),
                                                 content: Text(
-                                                    'Данные с резервной копии загружено в приложение успешно! Для корректной работы приложения, оно будет перезаущено'),
+                                                    'Данные с резервной копии загружено в приложение успешно! Для корректной работы приложения, требуется перезапуск'),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
@@ -3492,17 +3504,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                               );
                                             },
                                           );
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(
-                                            '/',
-                                            (route) => false,
-                                          );
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                'Версия резервной копии устарела',
+                                                'Версия резервной копии устарела либо файл бэкапа повреждён/пустой',
                                                 style: TextStyle(
                                                   color: FlutterFlowTheme.of(
                                                           context)

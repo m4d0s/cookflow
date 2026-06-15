@@ -127,37 +127,52 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).surface90,
-                            borderRadius: BorderRadius.circular(12.0),
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 4.0, 8.0, 4.0),
-                            child: Container(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.schedule_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 14.0,
-                                  ),
-                                  Text(
-                                    '${valueOrDefault<String>(
-                                      widget.recipeDetails?.cookTime
-                                          .toString(),
-                                      '-1',
-                                    )} мин',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelSmall
-                                        .override(
-                                          font: GoogleFonts.manrope(
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              4.0, 0.0, 0.0, 0.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).surface90,
+                              borderRadius: BorderRadius.circular(12.0),
+                              shape: BoxShape.rectangle,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 4.0, 8.0, 4.0),
+                              child: Container(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.schedule_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 14.0,
+                                    ),
+                                    Text(
+                                      '${valueOrDefault<String>(
+                                        widget.recipeDetails?.cookTime
+                                            .toString(),
+                                        '-1',
+                                      )} мин',
+                                      style: FlutterFlowTheme.of(context)
+                                          .labelSmall
+                                          .override(
+                                            font: GoogleFonts.manrope(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .labelSmall
@@ -166,22 +181,11 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                                 FlutterFlowTheme.of(context)
                                                     .labelSmall
                                                     .fontStyle,
+                                            lineHeight: 1.3,
                                           ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontStyle,
-                                          lineHeight: 1.3,
-                                        ),
-                                  ),
-                                ].divide(SizedBox(width: 4.0)),
+                                    ),
+                                  ].divide(SizedBox(width: 4.0)),
+                                ),
                               ),
                             ),
                           ),
@@ -362,24 +366,22 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 24.0,
-                          height: 24.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).surface80,
-                            borderRadius: BorderRadius.circular(9999.0),
-                            shape: BoxShape.rectangle,
-                          ),
-                          alignment: AlignmentDirectional(0.0, 0.0),
-                          child: Visibility(
-                            visible: widget.recipeDetails?.isFavorite ?? true,
+                        if (widget.recipeDetails?.isFavorite ?? true)
+                          Container(
+                            width: 24.0,
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).surface80,
+                              borderRadius: BorderRadius.circular(9999.0),
+                              shape: BoxShape.rectangle,
+                            ),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Icon(
                               Icons.favorite_rounded,
                               color: FlutterFlowTheme.of(context).error,
                               size: 18.0,
                             ),
                           ),
-                        ),
                         Expanded(
                           flex: 1,
                           child: Text(
@@ -411,32 +413,36 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                         ),
                       ].divide(SizedBox(width: 4.0)),
                     ),
-                    Text(
-                      valueOrDefault<String>(
-                        widget.recipeDetails?.info,
-                        'Lorem Inspus something i forgot so i just copy some words or just dont do it and gone some water in the rain lol',
-                      ),
-                      maxLines: 2,
-                      style: FlutterFlowTheme.of(context).bodySmall.override(
-                            font: GoogleFonts.inter(
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                      child: Text(
+                        valueOrDefault<String>(
+                          widget.recipeDetails?.info,
+                          'Lorem Inspus something i forgot so i just copy some words or just dont do it and gone some water in the rain lol',
+                        ),
+                        maxLines: 2,
+                        style: FlutterFlowTheme.of(context).bodySmall.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .fontWeight,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .fontStyle,
+                              lineHeight: 1.5,
                             ),
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            letterSpacing: 0.0,
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodySmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodySmall
-                                .fontStyle,
-                            lineHeight: 1.5,
-                          ),
-                      overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ].divide(SizedBox(height: 4.0)),
                 ),

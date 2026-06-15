@@ -12,6 +12,8 @@ class CookingCheckModel extends FlutterFlowModel<CookingCheckWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in CookingCheck widget.
+  FFUploadedFile? picture;
   // State field(s) for CheckboxListTile widget.
   Map<ProductStruct, bool> checkboxListTileValueMap = {};
   List<ProductStruct> get checkboxListTileCheckedItems =>

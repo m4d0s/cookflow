@@ -12,14 +12,11 @@ import '/flutter_flow/uploaded_file.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 
-FoodDifficultyStruct? foodDifficultByEnum(
-  Hardness difficult,
-  List<FoodDifficultyStruct>? hardlist,
-) {
-  // find in datatype list first item by enum
-  if (hardlist == null) return null;
-  return hardlist.firstWhere(
-    (item) => item.difficult == difficult,
-    orElse: () => new FoodDifficultyStruct(),
-  );
+int sklonenie(int num) {
+  final decimal = num % 10;
+  if ([1].contains(decimal)) return 1;
+  if ([2, 3, 4].contains(decimal))
+    return 2;
+  else
+    return 3;
 }

@@ -83,6 +83,7 @@ class _AchievementBadgeWidgetState extends State<AchievementBadgeWidget> {
                   '150 XP Earned',
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 2,
                 style: FlutterFlowTheme.of(context).labelSmall.override(
                       font: GoogleFonts.manrope(
                         fontWeight:

@@ -134,7 +134,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                           children: [
                             if (FFAppState().RunningTimer)
                               FlutterFlowTimer(
-                                initialTime: widget.timeAmount * 1000,
+                                initialTime: widget.timeAmount * 60 * 1000,
                                 getDisplayTime: (value) =>
                                     StopWatchTimer.getDisplayTime(
                                   value,
@@ -217,7 +217,8 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              FFAppState().RunningTimer = true;
+                              FFAppState().RunningTimer =
+                                  !(FFAppState().RunningTimer ?? true);
                               safeSetState(() {});
                             },
                             child: wrapWithModel(

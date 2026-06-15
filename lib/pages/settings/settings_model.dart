@@ -48,12 +48,11 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   // State field(s) for DropDown widget.
   MealTarget? dropDownValue;
   FormFieldController<MealTarget>? dropDownValueController;
-  // Stores action output result for [Custom Action - exportBackup] action in Container widget.
-  String? string1;
   // Stores action output result for [Custom Action - importBackup] action in Container Bordered Content widget.
-  String? inputJson;
-  // Stores action output result for [Custom Action - checkBackup] action in Container Bordered Content widget.
-  bool? isUpToDate;
+  bool? inputJson;
+  bool isDataUploading_uploadDataUwf = false;
+  FFUploadedFile uploadedLocalFile_uploadDataUwf =
+      FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
 
   @override
   void initState(BuildContext context) {}

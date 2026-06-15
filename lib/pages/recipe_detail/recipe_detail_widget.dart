@@ -480,7 +480,24 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${(FFAppState().RecipeSelect.nutritions.calories.ceil()).toString()} / ${(FFAppState().DailyGoal.calories.ceil()).toString()} ккал',
+                                                  '${formatNumber(
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .nutritions
+                                                        .calories,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#',
+                                                    locale: '',
+                                                  )} / ${formatNumber(
+                                                    FFAppState()
+                                                        .DailyGoal
+                                                        .calories,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '# ккал',
+                                                    locale: '',
+                                                  )}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -541,9 +558,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       FFAppState()
                                                           .DailyGoal
                                                           .protein),
-                                                  formatType: FormatType.custom,
-                                                  format: '#0.0%',
-                                                  locale: '',
+                                                  formatType:
+                                                      FormatType.percent,
                                                 ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
@@ -655,7 +671,24 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${(FFAppState().RecipeSelect.nutritions.protein.ceil()).toString()}/${(FFAppState().DailyGoal.protein.ceil()).toString()} г',
+                                                  '${formatNumber(
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .nutritions
+                                                        .protein,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#.0',
+                                                    locale: '',
+                                                  )} / ${formatNumber(
+                                                    FFAppState()
+                                                        .DailyGoal
+                                                        .protein,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#.0 г',
+                                                    locale: '',
+                                                  )}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -768,7 +801,22 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${(FFAppState().RecipeSelect.nutritions.fats.ceil()).toString()}/${(FFAppState().DailyGoal.fats.ceil()).toString()} г',
+                                                  '${formatNumber(
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .nutritions
+                                                        .fats,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#.0',
+                                                    locale: '',
+                                                  )} / ${formatNumber(
+                                                    FFAppState().DailyGoal.fats,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#.0 г',
+                                                    locale: '',
+                                                  )}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall
@@ -881,7 +929,24 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '${(FFAppState().RecipeSelect.nutritions.carbs.ceil()).toString()}/${(FFAppState().DailyGoal.carbs.ceil()).toString()} г',
+                                                  '${formatNumber(
+                                                    FFAppState()
+                                                        .RecipeSelect
+                                                        .nutritions
+                                                        .carbs,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#.0',
+                                                    locale: '',
+                                                  )} / ${formatNumber(
+                                                    FFAppState()
+                                                        .DailyGoal
+                                                        .carbs,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '#.0 г',
+                                                    locale: '',
+                                                  )}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleSmall

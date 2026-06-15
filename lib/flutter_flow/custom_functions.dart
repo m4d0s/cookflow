@@ -1,10 +1,5 @@
-export '/custom_code/functions/food_difficult_by_enum.dart';
-export '/custom_code/functions/food_category_by_enum.dart';
-export '/custom_code/functions/meal_entry_define.dart';
 export '/custom_code/functions/find_step_by_i_d.dart';
 export '/custom_code/functions/procent_calc.dart';
-export '/custom_code/functions/recalc_step_ids.dart';
-export '/custom_code/functions/return_index_collide.dart';
-export '/custom_code/functions/reset_time.dart';
 export '/custom_code/functions/day_detect012.dart';
 export '/custom_code/functions/substring_find.dart';
+export '/custom_code/functions/sklonenie.dart';

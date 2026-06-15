@@ -15,7 +15,14 @@ Future deleteStruct(int id, Structs struct) async {
       final index = FFAppState().RecipeSelect.cookingSteps.indexWhere(
             (r) => r.queueId == id,
           );
+      List<int> indexList = List.generate(
+          FFAppState().RecipeSelect.cookingSteps.length, (index) => index);
       FFAppState().RecipeSelect.cookingSteps.removeAt(index);
+      for (final index in indexList) {
+        if (FFAppState().RecipeSelect.cookingSteps[index].queueId > id) {
+          FFAppState().RecipeSelect.cookingSteps[index].queueId -= 1;
+        }
+      }
       break;
     case Structs.product:
       final index = FFAppState().RecipeSelect.products.indexWhere(

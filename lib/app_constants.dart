@@ -2,7 +2,7 @@
 abstract class FFAppConstants {
   static const bool TrueValue = true;
   static const bool FalseValue = false;
-  static const int BackupVersion = 3;
+  static const int BackupVersion = 4;
   static const int NutritionRound = 10;
   static const int StructLimit = 20;
   static const String AppName = 'Cook Flow';

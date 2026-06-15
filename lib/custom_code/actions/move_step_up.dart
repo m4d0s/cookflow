@@ -13,20 +13,12 @@ Future moveStepUp(StepStruct step) async {
   final steps = FFAppState().RecipeSelect.cookingSteps;
 
   final currentIndex = steps.indexWhere((s) => s.queueId == step.queueId);
+  final previousIndex = steps.indexWhere((s) => s.queueId == step.queueId - 1);
 
-  if (currentIndex <= 0) return;
-
-  final currentStep = steps[currentIndex];
-  final previousStep = steps[currentIndex - 1];
-
-  // Меняем id
-  //final tempId = currentStep.id;
-  //currentStep.id = previousStep.id;
-  //previousStep.id = tempId;
-
-  // Меняем местами в списке
-  steps[currentIndex] = previousStep;
-  steps[currentIndex - 1] = currentStep;
+  if (previousIndex > -1) {
+    FFAppState().RecipeSelect.cookingSteps[currentIndex].queueId -= 1;
+    FFAppState().RecipeSelect.cookingSteps[previousIndex].queueId += 1;
+  }
 }
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the green button on the right!

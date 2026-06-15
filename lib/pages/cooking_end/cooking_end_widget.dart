@@ -2,8 +2,10 @@ import '/components/achievement_badge/achievement_badge_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -31,6 +33,12 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CookingEndModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      FFAppState().CurrentStep = 0;
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -66,18 +74,19 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 240.0,
-                      height: 240.0,
-                      alignment: AlignmentDirectional(0.0, 0.0),
-                      child: Lottie.network(
-                        '',
-                        width: 273.1,
-                        height: 279.52,
-                        fit: BoxFit.contain,
-                        animate: true,
+                    if (FFAppConstants.FalseValue)
+                      Container(
+                        width: 240.0,
+                        height: 240.0,
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        child: Lottie.network(
+                          '',
+                          width: 273.1,
+                          height: 279.52,
+                          fit: BoxFit.contain,
+                          animate: true,
+                        ),
                       ),
-                    ),
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -106,7 +115,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                         Text(
                           FFAppState().RecipeSelect.cookingSteps.length > 0
                               ? 'Вы успешно завершили приготовление рецепта, самое время его попробовать!'
-                              : 'Вы ничего не приготовили, так как не предприняли никаких шагов для готовки!',
+                              : 'Вы ничего не приготовили, так как не предприняли никаких шагов для готовки...',
                           textAlign: TextAlign.center,
                           style: FlutterFlowTheme.of(context)
                               .bodyLarge
@@ -152,6 +161,52 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                                   ),
                         ),
                       ].divide(SizedBox(height: 16.0)),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          await actions.updateDatePlan(
+                            FFAppState().DailySelect,
+                            FFAppConstants.FalseValue,
+                            FFAppState().RecipeSelect,
+                          );
+
+                          context.goNamed(MealPreviewWidget.routeName);
+                        },
+                        text: 'Добавить в план питания',
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle: FlutterFlowTheme.of(context)
+                              .titleSmall
+                              .override(
+                                font: GoogleFonts.manrope(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).onPrimary,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
+                              ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding:
@@ -266,6 +321,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                                         .titleMedium
                                         .fontStyle,
                                   ),
+                                  fontSize: 15.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w600,
                                   fontStyle: FlutterFlowTheme.of(context)
@@ -286,7 +342,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                             unratedColor:
                                 FlutterFlowTheme.of(context).alternate,
                             itemCount: 5,
-                            itemSize: 24.0,
+                            itemSize: 22.0,
                             glowColor: FlutterFlowTheme.of(context).secondary,
                           ),
                         ],
@@ -313,25 +369,26 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.manrope(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontStyle,
-                                  ),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .titleSmall
+                              .override(
+                                font: GoogleFonts.manrope(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).onPrimary,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
+                              ),
                           elevation: 0.0,
                           borderRadius: BorderRadius.circular(8.0),
                         ),

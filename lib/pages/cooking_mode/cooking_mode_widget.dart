@@ -3,10 +3,11 @@ import '/components/step_timer/step_timer_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -42,6 +43,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
           FFAppState().RecipeSelect.cookingSteps.toList(), 1);
       safeSetState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -140,48 +143,6 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                       ),
                     ],
                   ),
-                  if (FFAppConstants.FalseValue)
-                    Stack(
-                      children: [
-                        ClipRect(
-                          child: ImageFiltered(
-                            imageFilter: ImageFilter.blur(
-                              sigmaX: 10.0,
-                              sigmaY: 10.0,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(8.0),
-                                bottomRight: Radius.circular(8.0),
-                              ),
-                              child: Image.network(
-                                valueOrDefault<String>(
-                                  FFAppState().RecipeSelect.pictureBase64,
-                                  'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
-                                ),
-                                width: MediaQuery.sizeOf(context).width * 1.0,
-                                height: 128.0,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(0.0),
-                          child: CachedNetworkImage(
-                            fadeInDuration: Duration(milliseconds: 500),
-                            fadeOutDuration: Duration(milliseconds: 500),
-                            imageUrl: valueOrDefault<String>(
-                              FFAppState().RecipeSelect.pictureBase64,
-                              'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHxzdW5zZXR8ZW58MHx8fHwxNzgwNzk2NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
-                            ),
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: 128.0,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ],
-                    ),
                   Padding(
                     padding: EdgeInsets.all(valueOrDefault<double>(
                       FFAppConstants.Padding1.toDouble(),
@@ -198,68 +159,127 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              if (FFAppConstants.FalseValue)
-                                FlutterFlowIconButton(
-                                  borderRadius: 8.0,
-                                  buttonSize: 40.0,
-                                  fillColor: Colors.transparent,
-                                  icon: Icon(
-                                    Icons.close_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 24.0,
-                                  ),
-                                  onPressed: () async {
-                                    context
-                                        .goNamed(RecipeDetailWidget.routeName);
-                                  },
-                                ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    valueOrDefault<String>(
-                                      'Шаг ${FFAppState().CurrentStep.toString()} из ${FFAppState().RecipeSelect.cookingSteps.length.toString()}',
-                                      'Шаг -1 из -0',
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .titleMedium
-                                        .override(
-                                          font: GoogleFonts.manrope(
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    8.0, 0.0, 0.0, 0.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      valueOrDefault<String>(
+                                        'Шаг ${FFAppState().CurrentStep.toString()} из ${FFAppState().RecipeSelect.cookingSteps.length.toString()}',
+                                        'Шаг -1 из -0',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .override(
+                                            font: GoogleFonts.manrope(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .titleMedium
                                                     .fontStyle,
+                                            lineHeight: 1.45,
                                           ),
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMedium
-                                                  .fontStyle,
-                                          lineHeight: 1.45,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, -1.0),
+                                    child: Text(
+                                      'Время готовки ',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 1.0),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 8.0, 0.0),
+                                      child: FlutterFlowTimer(
+                                        initialTime: _model.timerInitialTimeMs,
+                                        getDisplayTime: (value) =>
+                                            StopWatchTimer.getDisplayTime(
+                                          value,
+                                          hours: false,
+                                          milliSecond: false,
                                         ),
+                                        controller: _model.timerController,
+                                        updateStateInterval:
+                                            Duration(milliseconds: 1000),
+                                        onChanged:
+                                            (value, displayTime, shouldUpdate) {
+                                          _model.timerMilliseconds = value;
+                                          _model.timerValue = displayTime;
+                                          if (shouldUpdate) safeSetState(() {});
+                                        },
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineSmall
+                                            .override(
+                                              font: GoogleFonts.manrope(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .headlineSmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .headlineSmall
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 18.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .headlineSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .headlineSmall
+                                                      .fontStyle,
+                                            ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              if (!FFAppConstants.TrueValue)
-                                FlutterFlowIconButton(
-                                  borderRadius: 8.0,
-                                  buttonSize: 40.0,
-                                  fillColor: Colors.transparent,
-                                  icon: Icon(
-                                    Icons.settings_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 24.0,
-                                  ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
-                                  },
-                                ),
                             ],
                           ),
                         ].divide(SizedBox(height: 16.0)),
@@ -510,20 +530,9 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  if (FFAppState().CurrentStep <
-                                      FFAppState()
-                                          .RecipeSelect
-                                          .cookingSteps
-                                          .length) {
-                                    FFAppState().CurrentStep =
-                                        FFAppState().CurrentStep + 0;
-                                    safeSetState(() {});
-                                  } else {
-                                    FFAppState().CurrentStep =
-                                        FFAppState().CurrentStep + 1;
-                                    safeSetState(() {});
-                                  }
-
+                                  FFAppState().CurrentStep =
+                                      FFAppState().CurrentStep + -1;
+                                  safeSetState(() {});
                                   _model.currentstep = functions.findStepByID(
                                       FFAppState()
                                           .RecipeSelect

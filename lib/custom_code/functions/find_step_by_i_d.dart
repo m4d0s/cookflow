@@ -13,10 +13,11 @@ import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 
 StepStruct? findStepByID(
-  List<StepStruct>? allSteps,
-  int? queueid,
+  List<StepStruct> allSteps,
+  int queueid,
 ) {
-// find step by queue_id
-  return allSteps?.firstWhere((step) => step.queueId == queueid,
-      orElse: null); // firstWhere((step) => step.queue_id == queueid);
+  if (queueid < 1) return allSteps.first;
+  return allSteps.firstWhere((step) =>
+      step.queueId ==
+      queueid); // firstWhere((step) => step.queue_id == queueid);
 }

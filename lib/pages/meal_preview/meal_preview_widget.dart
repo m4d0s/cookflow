@@ -1,4 +1,5 @@
 import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/day_card1/day_card1_widget.dart';
 import '/components/macro_stat/macro_stat_widget.dart';
 import '/components/parameter_input/parameter_input_widget.dart';
@@ -6,9 +7,11 @@ import '/components/water_balance/water_balance_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +39,21 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MealPreviewModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (FFAppState().AutoNutrition) {
+        await actions.measureTDEE();
+      }
+      await actions.updateDatePlan(
+        FFAppState().DailySelect,
+        false,
+        RecipeStruct(
+          id: -1,
+        ),
+      );
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -170,11 +188,15 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                         children: [
                                           Text(
                                             valueOrDefault<String>(
-                                              FFAppState()
-                                                  .DailySelect
-                                                  .done
-                                                  .calories
-                                                  .toString(),
+                                              formatNumber(
+                                                FFAppState()
+                                                    .DailySelect
+                                                    .done
+                                                    .calories,
+                                                formatType: FormatType.custom,
+                                                format: '#',
+                                                locale: '',
+                                              ),
                                               '12345',
                                             ),
                                             style: FlutterFlowTheme.of(context)
@@ -261,7 +283,25 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                         alignment:
                                             AlignmentDirectional(1.0, 0.0),
                                         child: Text(
-                                          '${(FFAppState().DailySelect.goal.calories.ceil()).toString()} ккал (${(double.parse((functions.procentCalc(FFAppState().DailySelect.done.calories, FFAppState().DailyGoal.calories) * 100).toStringAsFixed(1))).toString()}%)',
+                                          '${formatNumber(
+                                            FFAppState()
+                                                .DailySelect
+                                                .goal
+                                                .calories,
+                                            formatType: FormatType.custom,
+                                            format: 'Цель: # ккал',
+                                            locale: '',
+                                          )}(${formatNumber(
+                                            functions.procentCalc(
+                                                FFAppState()
+                                                    .DailySelect
+                                                    .done
+                                                    .calories,
+                                                FFAppState()
+                                                    .DailyGoal
+                                                    .calories),
+                                            formatType: FormatType.percent,
+                                          )})',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -388,8 +428,17 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 updateCallback: () => safeSetState(() {}),
                                 child: MacroStatWidget(
                                   label: 'Белки',
-                                  value:
-                                      '${(FFAppState().DailySelect.done.protein.ceil()).toString()}/${(FFAppState().DailySelect.goal.protein.ceil()).toString()}г',
+                                  value: '${formatNumber(
+                                    FFAppState().DailySelect.done.protein,
+                                    formatType: FormatType.custom,
+                                    format: '#.0',
+                                    locale: '',
+                                  )}/${formatNumber(
+                                    FFAppState().DailySelect.goal.protein,
+                                    formatType: FormatType.custom,
+                                    format: '#.0 г',
+                                    locale: '',
+                                  )}',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.protein,
                                       FFAppState().DailyGoal.protein),
@@ -403,8 +452,17 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 updateCallback: () => safeSetState(() {}),
                                 child: MacroStatWidget(
                                   label: 'Жиры',
-                                  value:
-                                      '${FFAppState().DailySelect.done.fats.toString()}/${FFAppState().DailySelect.goal.fats.toString()}г',
+                                  value: '${formatNumber(
+                                    FFAppState().DailySelect.done.fats,
+                                    formatType: FormatType.custom,
+                                    format: '#.0',
+                                    locale: '',
+                                  )}/${formatNumber(
+                                    FFAppState().DailySelect.goal.fats,
+                                    formatType: FormatType.custom,
+                                    format: '#.0 г',
+                                    locale: '',
+                                  )}',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.fats,
                                       FFAppState().DailyGoal.fats),
@@ -418,8 +476,17 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 updateCallback: () => safeSetState(() {}),
                                 child: MacroStatWidget(
                                   label: 'Углеводы',
-                                  value:
-                                      '${(FFAppState().DailySelect.done.carbs.ceil()).toString()}/${(FFAppState().DailySelect.goal.carbs.ceil()).toString()}г',
+                                  value: '${formatNumber(
+                                    FFAppState().DailySelect.done.carbs,
+                                    formatType: FormatType.custom,
+                                    format: '#.0',
+                                    locale: '',
+                                  )}/${formatNumber(
+                                    FFAppState().DailySelect.goal.carbs,
+                                    formatType: FormatType.custom,
+                                    format: '#.0 г',
+                                    locale: '',
+                                  )}',
                                   progress: functions.procentCalc(
                                       FFAppState().DailySelect.done.carbs,
                                       FFAppState().DailyGoal.carbs),
@@ -451,9 +518,8 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                       model: _model.dayCard1Model,
                       updateCallback: () => safeSetState(() {}),
                       child: DayCard1Widget(
-                        hidaAdd: false,
-                        label: 'Сегодняшнее питание',
                         dayLog: FFAppState().DailySelect,
+                        hidePanel: false,
                       ),
                     ),
                     Column(

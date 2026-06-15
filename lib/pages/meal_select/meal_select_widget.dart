@@ -445,32 +445,53 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                         Align(
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
-                                          child: Container(
-                                            width: MediaQuery.sizeOf(context)
-                                                    .width *
-                                                0.8,
-                                            height: MediaQuery.sizeOf(context)
-                                                    .height *
-                                                0.5,
-                                            decoration: BoxDecoration(),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Icon(
-                                                  Icons.cookie_rounded,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .alternate,
-                                                  size: 150.0,
-                                                ),
-                                                Text(
-                                                  'Создай свой первый рецепт, нажав кнопку \"Создать рецепт\"',
-                                                  textAlign: TextAlign.center,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font: GoogleFonts.inter(
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 50.0, 0.0, 0.0),
+                                            child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.8,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.5,
+                                              decoration: BoxDecoration(),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Icon(
+                                                    Icons.cookie_rounded,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .alternate,
+                                                    size: 150.0,
+                                                  ),
+                                                  Text(
+                                                    'Создай свой первый рецепт, нажав кнопку \"Создать рецепт\"',
+                                                    textAlign: TextAlign.center,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .alternate,
+                                                          fontSize: 28.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -482,25 +503,9 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        fontSize: 28.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -552,8 +557,6 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                       FFAppState()
                                                               .RecipeSelect =
                                                           recipeItem;
-                                                      FFAppState()
-                                                          .update(() {});
                                                       await actions
                                                           .updateDatePlan(
                                                         FFAppState()
@@ -562,13 +565,12 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                             .FalseValue,
                                                         recipeItem,
                                                       );
-                                                      if (Navigator.of(context)
-                                                          .canPop()) {
-                                                        context.pop();
-                                                      }
-                                                      context.pushNamed(
+
+                                                      context.goNamed(
                                                           MealPreviewWidget
                                                               .routeName);
+
+                                                      safeSetState(() {});
                                                     },
                                                     child: wrapWithModel(
                                                       model: _model

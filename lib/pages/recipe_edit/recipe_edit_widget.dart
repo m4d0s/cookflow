@@ -11,7 +11,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,10 +50,25 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
     _model.inputTextController1 ??=
         TextEditingController(text: FFAppState().RecipeSelect.name);
     _model.inputFocusNode1 ??= FocusNode();
-
+    _model.inputFocusNode1!.addListener(
+      () async {
+        FFAppState().updateRecipeSelectStruct(
+          (e) => e..name = _model.inputTextController1.text,
+        );
+        safeSetState(() {});
+      },
+    );
     _model.inputTextController2 ??=
         TextEditingController(text: FFAppState().RecipeSelect.info);
     _model.inputFocusNode2 ??= FocusNode();
+    _model.inputFocusNode2!.addListener(
+      () async {
+        FFAppState().updateRecipeSelectStruct(
+          (e) => e..info = _model.inputTextController2.text,
+        );
+        safeSetState(() {});
+      },
+    );
   }
 
   @override
@@ -76,70 +90,81 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            if ((_model.inputTextController1.text != '') &&
-                (_model.inputTextController2.text != '') &&
-                (_model.countControllerValue1! > 0) &&
-                (_model.countControllerValue2! > 0) &&
-                (_model.dropDownValue1 != Food.all) &&
-                (_model.dropDownValue2 != Hardness.all)) {
-              await actions.updateRecipe(
-                false,
-                FFAppConstants.TrueValue,
-              );
-              if (Navigator.of(context).canPop()) {
-                context.pop();
+        floatingActionButton: Visibility(
+          visible: (_model.inputTextController1.text != '') &&
+              (_model.inputTextController2.text != '') &&
+              (_model.countControllerValue1! > 0) &&
+              (_model.countControllerValue2! > 0) &&
+              (_model.dropDownValue1 != Food.all) &&
+              (_model.dropDownValue2 != Hardness.all),
+          child: FloatingActionButton.extended(
+            onPressed: () async {
+              if ((_model.inputTextController1.text != '') &&
+                  (_model.inputTextController2.text != '') &&
+                  (_model.countControllerValue1! > 0) &&
+                  (_model.countControllerValue2! > 0) &&
+                  (_model.dropDownValue1 != Food.all) &&
+                  (_model.dropDownValue2 != Hardness.all)) {
+                await actions.updateRecipe(
+                  false,
+                  FFAppConstants.TrueValue,
+                );
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
+                context.pushNamed(RecipeListWidget.routeName);
+              } else {
+                await showDialog(
+                  context: context,
+                  builder: (alertDialogContext) {
+                    return AlertDialog(
+                      title: Text('Обновление невозможно'),
+                      content:
+                          Text('Перепроверьте поля, не все поля заполнены!'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(alertDialogContext),
+                          child: Text('Хорошо, исправлю'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               }
-              context.pushNamed(RecipeListWidget.routeName);
-            } else {
-              await showDialog(
-                context: context,
-                builder: (alertDialogContext) {
-                  return AlertDialog(
-                    title: Text('Обновление невозможно'),
-                    content: Text('Перепроверьте поля, не все поля заполнены!'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(alertDialogContext),
-                        child: Text('Хорошо, исправлю'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
-          },
-          backgroundColor: FlutterFlowTheme.of(context).primary,
-          icon: Icon(
-            Icons.check_circle,
-          ),
-          elevation: 8.0,
-          label: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  FFAppState().isChanging ? 'Изменить' : 'Добавить',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.inter(
+            },
+            backgroundColor: FlutterFlowTheme.of(context).primary,
+            icon: Icon(
+              Icons.check_circle,
+            ),
+            elevation: 8.0,
+            label: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    FFAppState().isChanging ? 'Изменить' : 'Добавить',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.inter(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          letterSpacing: 0.0,
                           fontWeight: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .fontWeight,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
-                        color: FlutterFlowTheme.of(context).primaryBackground,
-                        letterSpacing: 0.0,
-                        fontWeight:
-                            FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                      ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -157,7 +182,39 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              var confirmDialogResponse = await showDialog<bool>(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('Подтверждение'),
+                        content: Text(
+                            'Вы уверены, что хотите выйти? Ваши изменения не сохранятся'),
+                        actions: [
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pop(alertDialogContext, false),
+                            child: Text('Сохраню сначала'),
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pop(alertDialogContext, true),
+                            child: Text('Уверен, удаляйте'),
+                          ),
+                        ],
+                      );
+                    },
+                  ) ??
+                  false;
+              if (confirmDialogResponse) {
+                if (!FFAppState().isChanging) {
+                  await actions.deleteStruct(
+                    FFAppState().RecipeSelect.id,
+                    Structs.product,
+                  );
+                }
+
+                context.goNamed(RecipeListWidget.routeName);
+              }
             },
           ),
           title: Text(
@@ -463,21 +520,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                             controller:
                                                 _model.inputTextController1,
                                             focusNode: _model.inputFocusNode1,
-                                            onChanged: (_) =>
-                                                EasyDebounce.debounce(
-                                              '_model.inputTextController1',
-                                              Duration(milliseconds: 2000),
-                                              () async {
-                                                FFAppState()
-                                                    .updateRecipeSelectStruct(
-                                                  (e) => e
-                                                    ..name = _model
-                                                        .inputTextController1
-                                                        .text,
-                                                );
-                                                safeSetState(() {});
-                                              },
-                                            ),
                                             obscureText: false,
                                             decoration: InputDecoration(
                                               isDense: true,
@@ -621,21 +663,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                     _model.inputTextController2,
                                                 focusNode:
                                                     _model.inputFocusNode2,
-                                                onChanged: (_) =>
-                                                    EasyDebounce.debounce(
-                                                  '_model.inputTextController2',
-                                                  Duration(milliseconds: 2000),
-                                                  () async {
-                                                    FFAppState()
-                                                        .updateRecipeSelectStruct(
-                                                      (e) => e
-                                                        ..info = _model
-                                                            .inputTextController2
-                                                            .text,
-                                                    );
-                                                    safeSetState(() {});
-                                                  },
-                                                ),
                                                 obscureText: false,
                                                 decoration: InputDecoration(
                                                   isDense: true,
@@ -1070,16 +1097,19 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       controller:
                                           _model.dropDownValueController1 ??=
                                               FormFieldController<Food>(
-                                        _model.dropDownValue1 ??= Food.all,
+                                        _model.dropDownValue1 ??=
+                                            FFAppState().RecipeSelect.foodType,
                                       ),
                                       options: List<Food>.from(FFAppState()
                                           .CategoryList
-                                          .take(10)
+                                          .where((e) => e.category != Food.all)
                                           .toList()
                                           .map((e) => e.category)
                                           .toList()),
                                       optionLabels: FFAppState()
                                           .CategoryList
+                                          .where((e) => e.category != Food.all)
+                                          .toList()
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (val) async {
@@ -1142,14 +1172,21 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       controller:
                                           _model.dropDownValueController2 ??=
                                               FormFieldController<Hardness>(
-                                        _model.dropDownValue2 ??= Hardness.all,
+                                        _model.dropDownValue2 ??=
+                                            FFAppState().RecipeSelect.hardType,
                                       ),
                                       options: List<Hardness>.from(FFAppState()
                                           .HardList
+                                          .where((e) =>
+                                              e.difficult != Hardness.all)
+                                          .toList()
                                           .map((e) => e.difficult)
                                           .toList()),
                                       optionLabels: FFAppState()
                                           .HardList
+                                          .where((e) =>
+                                              e.difficult != Hardness.all)
+                                          .toList()
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (val) async {
@@ -1624,6 +1661,9 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                     final stepList = FFAppState()
                                         .RecipeSelect
                                         .cookingSteps
+                                        .sortedList(
+                                            keyOf: (e) => e.queueId,
+                                            desc: false)
                                         .toList();
 
                                     return Column(
@@ -1659,34 +1699,30 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                             if (FFAppState().isChanging)
                               FFButtonWidget(
                                 onPressed: () async {
-                                  var confirmDialogResponse =
-                                      await showDialog<bool>(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Подтверждение'),
-                                                content: Text(
-                                                    'Вы уверены, что хотите удалить рецепт?'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext,
-                                                            false),
-                                                    child: Text('Да, удаляем'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext,
-                                                            true),
-                                                    child: Text('Нет, не хочу'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          ) ??
-                                          false;
+                                  var confirmDialogResponse = await showDialog<
+                                          bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: Text('Подтверждение'),
+                                            content: Text(
+                                                'Вы уверены, что хотите удалить рецепт?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: Text('Нет, я передумал'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: Text('Да, удаляем'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
                                   if (confirmDialogResponse) {
                                     await actions.deleteStruct(
                                       FFAppState().RecipeSelect.id,

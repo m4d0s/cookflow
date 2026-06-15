@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,6 +37,9 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await actions.checkedProducts();
+      _model.picture = await actions.base64ToFFUploadedFile(
+        FFAppState().RecipeSelect.pictureBase64,
+      );
     });
   }
 
@@ -74,10 +76,16 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              if (Navigator.of(context).canPop()) {
-                context.pop();
-              }
-              context.pushNamed(RecipeListWidget.routeName);
+              context.pushNamed(
+                RecipeListWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.fade,
+                    duration: Duration(milliseconds: 0),
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -279,7 +287,11 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                     shape: BoxShape.rectangle,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsets.all(24.0),
+                                    padding:
+                                        EdgeInsets.all(valueOrDefault<double>(
+                                      FFAppConstants.Padding1.toDouble(),
+                                      0.0,
+                                    )),
                                     child: Container(
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -290,24 +302,43 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                         children: [
                                           ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(24.0),
+                                                BorderRadius.circular(8.0),
                                             child: Container(
                                               width: 64.0,
                                               height: 64.0,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(24.0),
+                                                    BorderRadius.circular(8.0),
                                                 shape: BoxShape.rectangle,
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .alternate,
+                                                ),
                                               ),
-                                              child: CachedNetworkImage(
-                                                fadeInDuration:
-                                                    Duration(milliseconds: 0),
-                                                fadeOutDuration:
-                                                    Duration(milliseconds: 0),
-                                                imageUrl:
-                                                    'https://dimg.dreamflow.cloud/v1/image/delicious%20pasta%20dish',
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment(0.0, 0.0),
+                                              child: Stack(
+                                                children: [
+                                                  Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            0.0, 0.0),
+                                                    child: Icon(
+                                                      Icons.no_photography,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      size: 36.0,
+                                                    ),
+                                                  ),
+                                                  Image.memory(
+                                                    _model.picture?.bytes ??
+                                                        Uint8List.fromList([]),
+                                                    fit: BoxFit.cover,
+                                                    alignment:
+                                                        Alignment(0.0, 0.0),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -477,58 +508,79 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                       .alternate,
                                                 ),
                                               ),
-                                              child: Material(
-                                                color: Colors.transparent,
-                                                child: Theme(
-                                                  data: ThemeData(
-                                                    checkboxTheme:
-                                                        CheckboxThemeData(
-                                                      visualDensity:
-                                                          VisualDensity.compact,
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .shrinkWrap,
-                                                    ),
-                                                    unselectedWidgetColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .alternate,
-                                                  ),
-                                                  child: CheckboxListTile(
-                                                    value: _model
-                                                            .checkboxListTileValueMap[
-                                                        productItem] ??= false,
-                                                    onChanged:
-                                                        (newValue) async {
-                                                      safeSetState(() =>
-                                                          _model.checkboxListTileValueMap[
-                                                                  productItem] =
-                                                              newValue!);
-                                                      if (newValue!) {
-                                                        FFAppState()
-                                                                .CheckedPositions =
-                                                            FFAppState()
-                                                                    .CheckedPositions +
-                                                                1;
-                                                        safeSetState(() {});
-                                                      } else {
-                                                        FFAppState()
-                                                                .CheckedPositions =
-                                                            FFAppState()
-                                                                    .CheckedPositions +
-                                                                -1;
-                                                        safeSetState(() {});
-                                                      }
-                                                    },
-                                                    title: Text(
-                                                      productItem.name,
-                                                      style:
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 0.0, 8.0, 0.0),
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: Theme(
+                                                    data: ThemeData(
+                                                      checkboxTheme:
+                                                          CheckboxThemeData(
+                                                        visualDensity:
+                                                            VisualDensity
+                                                                .compact,
+                                                        materialTapTargetSize:
+                                                            MaterialTapTargetSize
+                                                                .shrinkWrap,
+                                                      ),
+                                                      unselectedWidgetColor:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .titleLarge
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .manrope(
+                                                              .alternate,
+                                                    ),
+                                                    child: CheckboxListTile(
+                                                      value: _model
+                                                              .checkboxListTileValueMap[
+                                                          productItem] ??= false,
+                                                      onChanged:
+                                                          (newValue) async {
+                                                        safeSetState(() =>
+                                                            _model.checkboxListTileValueMap[
+                                                                    productItem] =
+                                                                newValue!);
+                                                        if (newValue!) {
+                                                          FFAppState()
+                                                                  .CheckedPositions =
+                                                              FFAppState()
+                                                                      .CheckedPositions +
+                                                                  1;
+                                                          safeSetState(() {});
+                                                        } else {
+                                                          FFAppState()
+                                                                  .CheckedPositions =
+                                                              FFAppState()
+                                                                      .CheckedPositions +
+                                                                  -1;
+                                                          safeSetState(() {});
+                                                        }
+                                                      },
+                                                      title: Text(
+                                                        valueOrDefault<String>(
+                                                          productItem.name,
+                                                          '[Название продукта отсутствует]',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleLarge
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .manrope(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleLarge
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleLarge
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight: FlutterFlowTheme.of(
                                                                           context)
                                                                       .titleLarge
@@ -538,28 +590,29 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                                       .titleLarge
                                                                       .fontStyle,
                                                                 ),
-                                                                fontSize: 20.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleLarge
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleLarge
-                                                                    .fontStyle,
-                                                              ),
-                                                    ),
-                                                    subtitle: Text(
-                                                      '${(productItem.quantity.count * productItem.quantity.multiplier).toString()} ${productItem.quantity.quantity}',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .manrope(
+                                                      ),
+                                                      subtitle: Text(
+                                                        '${(productItem.quantity.count * productItem.quantity.multiplier).toString()} ${productItem.quantity.quantity}',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .manrope(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight: FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
@@ -569,41 +622,30 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                                       .labelMedium
                                                                       .fontStyle,
                                                                 ),
-                                                                fontSize: 12.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMedium
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMedium
-                                                                    .fontStyle,
-                                                              ),
-                                                    ),
-                                                    tileColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    activeColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                    checkColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .onPrimary,
-                                                    dense: false,
-                                                    controlAffinity:
-                                                        ListTileControlAffinity
-                                                            .trailing,
-                                                    contentPadding:
-                                                        EdgeInsets.all(4.0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
+                                                      ),
+                                                      tileColor: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      activeColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      checkColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .onPrimary,
+                                                      dense: false,
+                                                      controlAffinity:
+                                                          ListTileControlAffinity
+                                                              .trailing,
+                                                      contentPadding:
+                                                          EdgeInsets.all(4.0),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -617,71 +659,6 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                 ),
                               ),
                             ),
-                            if (FFAppConstants.TrueValue)
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24.0),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: FlutterFlowTheme.of(context).info,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(16.0),
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Icon(
-                                          Icons.lightbulb_rounded,
-                                          color:
-                                              FlutterFlowTheme.of(context).info,
-                                          size: 20.0,
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            'Совет: Достаньте яйца из холодильника заранее, чтобы они были комнатной температуры.',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodySmall
-                                                .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodySmall
-                                                            .fontStyle,
-                                                  ),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodySmall
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodySmall
-                                                          .fontStyle,
-                                                  lineHeight: 1.5,
-                                                ),
-                                          ),
-                                        ),
-                                      ].divide(SizedBox(width: 16.0)),
-                                    ),
-                                  ),
-                                ),
-                              ),
                           ].divide(SizedBox(height: 16.0)),
                         ),
                       ),
@@ -832,7 +809,9 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                   child: LinearPercentIndicator(
                                     percent: valueOrDefault<double>(
                                       functions.procentCalc(
-                                          _model.checked.toDouble(),
+                                          FFAppState()
+                                              .CheckedPositions
+                                              .toDouble(),
                                           FFAppState()
                                               .RecipeSelect
                                               .products
@@ -893,18 +872,20 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                           .cookingSteps
                                           .length >
                                       0) {
+                                    FFAppState().CurrentStep =
+                                        FFAppState().CurrentStep + 1;
+                                    safeSetState(() {});
                                     if (Navigator.of(context).canPop()) {
                                       context.pop();
                                     }
                                     context
                                         .pushNamed(CookingModeWidget.routeName);
                                   } else {
-                                    if (Navigator.of(context).canPop()) {
-                                      context.pop();
-                                    }
-                                    context
-                                        .pushNamed(CookingEndWidget.routeName);
+                                    context.goNamed(CookingEndWidget.routeName);
                                   }
+
+                                  FFAppState().CheckedPositions = 0;
+                                  safeSetState(() {});
                                 },
                                 child: wrapWithModel(
                                   model: _model.buttonModel,

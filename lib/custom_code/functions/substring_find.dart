@@ -16,8 +16,9 @@ bool substringFind(
   String string,
   String query,
 ) {
-  // lowcase string and substring and find, if string contain substring
-  return string
-      .toLowerCase()
-      .contains(query.toLowerCase()); // Check if string contains substring
+  query = query.trim();
+
+  if (query.isEmpty) return true;
+
+  return string.toLowerCase().contains(query.toLowerCase());
 }

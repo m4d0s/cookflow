@@ -27,7 +27,7 @@ Future updateStep(StepStruct step, int? queueId, String? desc, String? tip,
   }
 
   FFAppState().update(() {
-    FFAppState().RecipeSelect = RecipeStruct();
+    //FFAppState().RecipeSelect = RecipeStruct();
   });
 }
 

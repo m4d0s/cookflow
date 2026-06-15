@@ -16,10 +16,7 @@ Future addNewStruct(Structs struct) async {
 
   switch (struct) {
     case Structs.product:
-      id = recipe.products.isEmpty
-          ? 1
-          : recipe.products.map((r) => r.id).reduce((a, b) => a > b ? a : b) +
-              1;
+      id = FFAppState().LastProductId + 1;
 
       if (recipe.products.length < FFAppConstants.StructLimit) {
         recipe.products.add(
@@ -29,16 +26,12 @@ Future addNewStruct(Structs struct) async {
             nutrition100g: NutritionsStruct(),
           ),
         );
+        FFAppState().LastProductId += 1;
       }
       break;
 
     case Structs.step:
-      id = recipe.cookingSteps.isEmpty
-          ? 1
-          : recipe.cookingSteps
-                  .map((r) => r.queueId)
-                  .reduce((a, b) => a > b ? a : b) +
-              1;
+      id = recipe.cookingSteps.length + 1;
 
       if (recipe.cookingSteps.length < FFAppConstants.StructLimit) {
         recipe.cookingSteps.add(
@@ -48,13 +41,8 @@ Future addNewStruct(Structs struct) async {
       break;
 
     default:
-      id = FFAppState().RecipeList.isEmpty
-          ? 1
-          : FFAppState()
-                  .RecipeList
-                  .map((r) => r.id)
-                  .reduce((a, b) => a > b ? a : b) +
-              1;
+      id = FFAppState().LastRecipeId + 1;
+      FFAppState().LastRecipeId += 1;
 
       FFAppState().addToRecipeList(
         RecipeStruct(
