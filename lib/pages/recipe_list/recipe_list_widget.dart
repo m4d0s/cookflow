@@ -41,9 +41,17 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().RecipeSelect = RecipeStruct();
       safeSetState(() {});
+      if (FFAppState().DarkMode == AppTheme.light) {
+        setDarkModeSetting(context, ThemeMode.light);
+      } else {
+        if (FFAppState().DarkMode == AppTheme.dark) {
+          setDarkModeSetting(context, ThemeMode.dark);
+        } else {
+          setDarkModeSetting(context, ThemeMode.system);
+        }
+      }
+
       await actions.addDaily();
-      FFAppState().DailySelect = FFAppState().DailyList.lastOrNull!;
-      safeSetState(() {});
     });
   }
 
@@ -105,45 +113,26 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).onPrimary,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              context.pop();
-            },
-          ),
           title: Align(
             alignment: AlignmentDirectional(0.0, 0.0),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 40.0, 0.0),
-              child: Text(
-                FFAppConstants.AppName,
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      font: GoogleFonts.manrope(
-                        fontWeight: FlutterFlowTheme.of(context)
-                            .headlineMedium
-                            .fontWeight,
-                        fontStyle: FlutterFlowTheme.of(context)
-                            .headlineMedium
-                            .fontStyle,
-                      ),
-                      color: FlutterFlowTheme.of(context).onPrimary,
-                      fontSize: 22.0,
-                      letterSpacing: 0.0,
+            child: Text(
+              FFAppConstants.AppName,
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    font: GoogleFonts.manrope(
                       fontWeight: FlutterFlowTheme.of(context)
                           .headlineMedium
                           .fontWeight,
                       fontStyle:
                           FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                     ),
-              ),
+                    color: FlutterFlowTheme.of(context).onPrimary,
+                    fontSize: 22.0,
+                    letterSpacing: 0.0,
+                    fontWeight:
+                        FlutterFlowTheme.of(context).headlineMedium.fontWeight,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).headlineMedium.fontStyle,
+                  ),
             ),
           ),
           actions: [],
@@ -253,9 +242,10 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                               size: 24.0,
                             ),
                             onPressed: () async {
-                              if (Navigator.of(context).canPop()) {
-                                context.pop();
+                              if (FFAppState().AutoNutrition) {
+                                await actions.measureTDEE();
                               }
+
                               context.pushNamed(MealPreviewWidget.routeName);
                             },
                           ),
@@ -513,29 +503,44 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                           if (FFAppState().RecipeList.length < 1)
                             Align(
                               alignment: AlignmentDirectional(0.0, 0.0),
-                              child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.8,
-                                height: MediaQuery.sizeOf(context).height * 0.5,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Icon(
-                                      Icons.cookie_rounded,
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      size: 150.0,
-                                    ),
-                                    Text(
-                                      'Создай свой первый рецепт, нажав кнопку \"Создать рецепт\"',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 50.0, 0.0, 0.0),
+                                child: Container(
+                                  width: MediaQuery.sizeOf(context).width * 0.8,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.5,
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Icon(
+                                        Icons.cookie_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        size: 150.0,
+                                      ),
+                                      Text(
+                                        'Создай свой первый рецепт, нажав кнопку \"Создать рецепт\"',
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                              fontSize: 28.0,
+                                              letterSpacing: 0.0,
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -545,21 +550,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            fontSize: 28.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -645,11 +638,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                         ],
                       ),
                       Container(
+                        width: MediaQuery.sizeOf(context).width * 1.0,
                         height: 50.0,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
+                        decoration: BoxDecoration(),
                       ),
                     ],
                   ),

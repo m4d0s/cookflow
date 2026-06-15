@@ -1,6 +1,6 @@
+import '/archive/ingridient_preview/ingridient_preview_widget.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
-import '/components/ingridient_preview/ingridient_preview_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_data_table.dart';
@@ -12,10 +12,8 @@ import 'package:flutter/material.dart';
 class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Custom Action - getTag] action in RecipeDetail widget.
-  String? foodTag;
-  // Stores action output result for [Custom Action - getTag] action in RecipeDetail widget.
-  String? hardTag;
+  // Stores action output result for [Custom Action - getRecipeTags] action in RecipeDetail widget.
+  FulltagStruct? recipeTags;
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeDetail widget.
   FFUploadedFile? recipeMainPhoto;
   // Model for InfoTag.

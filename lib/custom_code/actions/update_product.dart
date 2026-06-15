@@ -42,7 +42,7 @@ Future updateProduct(
   }
 
   FFAppState().update(() {
-    FFAppState().RecipeSelect = RecipeStruct();
+    //FFAppState().RecipeSelect = RecipeStruct();
   });
 }
 

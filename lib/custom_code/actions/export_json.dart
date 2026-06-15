@@ -13,23 +13,44 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:share_plus/share_plus.dart';
 
-Future<void> exportJson(String jsonString) async {
-  final timestamp = DateTime.now().millisecondsSinceEpoch;
-  final result = await FilePicker.platform.saveFile(
-    dialogTitle: 'Сохранить рецепт',
-    fileName: 'cookflow_${timestamp}.json',
-    type: FileType.custom,
-    allowedExtensions: ['json'],
-  );
+Future<void> exportJson() async {
+  final timestamp =
+      '${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}';
+  try {
+    final jsonString = jsonEncode({
+      'version': FFAppConstants.BackupVersion,
+      'darkMode': FFAppState().DarkMode,
+      'autoMode': FFAppState().AutoNutrition,
+      'nutritions': FFAppState().DailyGoal.toSerializableMap(),
+      'lastprodid': FFAppState().LastProductId,
+      'lastrecid': FFAppState().LastRecipeId,
+      'dailysel': FFAppState().DailySelect.toSerializableMap(),
+      'dailyList':
+          FFAppState().DailyList.map((e) => e.toSerializableMap()).toList(),
+      'recipeList':
+          FFAppState().RecipeList.map((e) => e.toSerializableMap()).toList(),
+      'recipesel': FFAppState().RecipeSelect.toSerializableMap(),
+      'properties': FFAppState().PeopleStat.toSerializableMap(),
+    });
 
-  if (result == null) {
-    // пользователь отменил
-    return;
+    final tempDir = await getTemporaryDirectory();
+
+    final file = File(
+      '${tempDir.path}/cookflow_backup_${timestamp}.json',
+    );
+
+    await file.writeAsString(jsonString);
+
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'CookFlow_Backup',
+      subject: 'CookFlow Backup',
+    );
+  } catch (e) {
+    debugPrint('Export error: $e');
   }
-
-  final file = File(result);
-  await file.writeAsString(jsonString);
 }
 
 // Set your action name, define your arguments and return parameter,

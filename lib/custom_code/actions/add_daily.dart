@@ -14,17 +14,20 @@ Future addDaily() async {
   final today = DateTime(now.year, now.month, now.day, 0, 0, 0);
   final todayId = today.day + today.month * 10 ^ 4 + today.year * 10 ^ 8;
 
-  final exists = FFAppState().DailyList.any((plan) {
+  final exists = FFAppState().DailyList.indexWhere((plan) {
     return plan.id == todayId;
   });
 
-  if (!exists) {
+  if (exists == -1) {
     FFAppState().addToDailyList(DailyPlanStruct(
         date: today,
         goal: FFAppState().DailyGoal,
         completedRecipes: [],
         id: todayId,
         done: NutritionsStruct()));
+    FFAppState().DailySelect = FFAppState().DailyList.last;
+  } else {
+    FFAppState().DailySelect = FFAppState().DailyList[exists];
   }
 }
 

@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'dark_mode_setting_model.dart';
 export 'dark_mode_setting_model.dart';
 
@@ -55,8 +54,6 @@ class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       constraints: BoxConstraints(
         maxHeight: 300.0,
@@ -174,25 +171,6 @@ class _DarkModeSettingWidgetState extends State<DarkModeSettingWidget> {
                       value: _model.switchValue!,
                       onChanged: (newValue) async {
                         safeSetState(() => _model.switchValue = newValue);
-                        if (newValue) {
-                          FFAppState().DarkMode = true;
-                          safeSetState(() {});
-                          setDarkModeSetting(
-                            context,
-                            FFAppState().DarkMode
-                                ? ThemeMode.dark
-                                : ThemeMode.light,
-                          );
-                        } else {
-                          FFAppState().DarkMode = false;
-                          safeSetState(() {});
-                          setDarkModeSetting(
-                            context,
-                            FFAppState().DarkMode
-                                ? ThemeMode.dark
-                                : ThemeMode.light,
-                          );
-                        }
                       },
                       activeColor: FlutterFlowTheme.of(context).accent3,
                       activeTrackColor: FlutterFlowTheme.of(context).primary,

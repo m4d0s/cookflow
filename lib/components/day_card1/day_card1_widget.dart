@@ -16,15 +16,10 @@ class DayCard1Widget extends StatefulWidget {
   const DayCard1Widget({
     super.key,
     this.dayLog,
-    bool? hidaAdd,
-    this.label,
     bool? hidePanel,
-  })  : this.hidaAdd = hidaAdd ?? false,
-        this.hidePanel = hidePanel ?? true;
+  }) : this.hidePanel = hidePanel ?? true;
 
   final DailyPlanStruct? dayLog;
-  final bool hidaAdd;
-  final String? label;
   final bool hidePanel;
 
   @override
@@ -88,13 +83,7 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            valueOrDefault<String>(
-                              widget.label == ''
-                                  ? functions
-                                      .dayDetect012(widget.dayLog!.date!)
-                                  : widget.label,
-                              '123',
-                            ),
+                            'Сегодняшний рацион',
                             style: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
@@ -119,10 +108,23 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                               widget.dayLog?.completedRecipes.length
                                   .toString(),
                               '-0',
-                            )} рецепта • ${valueOrDefault<String>(
-                              widget.dayLog?.done.calories.toString(),
-                              '-1',
-                            )} ккал • ${widget.dayLog?.waterCups.toString()} кружек',
+                            )} ${() {
+                              if (functions
+                                      .sklonenie(widget
+                                          .dayLog!.completedRecipes.length)
+                                      .toString() ==
+                                  '1') {
+                                return 'рецепт';
+                              } else if (functions
+                                      .sklonenie(widget
+                                          .dayLog!.completedRecipes.length)
+                                      .toString() ==
+                                  '2') {
+                                return 'рецепта';
+                              } else {
+                                return 'рецептов';
+                              }
+                            }()}',
                             style: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
@@ -265,7 +267,6 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                                               'Keywtr_${mealItem.date!.toString()}',
                                             ),
                                             isDeleted: false,
-                                            hideDelete: !widget.hidaAdd,
                                             mealEntry: mealItem,
                                           ),
                                         );
@@ -275,66 +276,55 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                                 ),
                             ],
                           ),
-                          if (!widget.hidaAdd)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                if (FFAppState().RecipeList.length > 0) {
-                                  context.pushNamed(
-                                    MealSelectWidget.routeName,
-                                    extra: <String, dynamic>{
-                                      '__transition_info__': TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType:
-                                            PageTransitionType.rightToLeft,
-                                      ),
-                                    },
-                                  );
-                                } else {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('У вас нету рецептов'),
-                                        content: Text(
-                                            'Прежде, чем добавлять рецепты в план питания, сначала создайте их в главном меню по кнопке \"Создать рецепт\"'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Хорошо, сделаю'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                              child: wrapWithModel(
-                                model: _model.buttonModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: UButtonWidget(
-                                  content: 'Добавить рецепт',
-                                  icon: Icon(
-                                    Icons.add_rounded,
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    size: 16.0,
-                                  ),
-                                  iconPresent: true,
-                                  iconEndPresent: false,
-                                  variant: 'ghost',
-                                  size: 'small',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: false,
-                                  maincolor:
-                                      FlutterFlowTheme.of(context).primary,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              if (FFAppState().RecipeList.length > 0) {
+                                context.pushNamed(MealSelectWidget.routeName);
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('У вас нету рецептов'),
+                                      content: Text(
+                                          'Прежде, чем добавлять рецепты в план питания, сначала создайте их в главном меню по кнопке \"Создать рецепт\"'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Хорошо, сделаю'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: wrapWithModel(
+                              model: _model.buttonModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: UButtonWidget(
+                                content: 'Добавить рецепт',
+                                icon: Icon(
+                                  Icons.add_rounded,
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  size: 16.0,
                                 ),
+                                iconPresent: true,
+                                iconEndPresent: false,
+                                variant: 'ghost',
+                                size: 'small',
+                                fullWidth: true,
+                                loading: false,
+                                disabled: false,
+                                maincolor: FlutterFlowTheme.of(context).primary,
                               ),
                             ),
+                          ),
                         ].divide(SizedBox(height: 0.0)),
                       ),
                     ),

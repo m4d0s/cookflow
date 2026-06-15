@@ -12,17 +12,52 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
-Future<String?> importBackup() async {
+Future<bool> importBackup() async {
   final result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['json'],
   );
 
   if (result == null || result.files.single.path == null) {
-    return null;
+    return false;
   }
 
-  return await File(result.files.single.path!).readAsString();
+  try {
+    final backup =
+        jsonDecode(await File(result.files.single.path!).readAsString());
+
+    if (backup['version'] != FFAppConstants.BackupVersion) return false;
+
+    FFAppState().update(() {
+      FFAppState().DarkMode = backup['darkMode'];
+      FFAppState().AutoNutrition = backup['autoMode'];
+      FFAppState().LastProductId = backup['lastprodid'];
+      FFAppState().LastRecipeId = backup['lastrecid'];
+      FFAppState().DailySelect =
+          DailyPlanStruct.fromSerializableMap(backup['dailysel']);
+
+      FFAppState().RecipeSelect =
+          RecipeStruct.fromSerializableMap(backup['recipesel']);
+
+      FFAppState().DailyGoal =
+          NutritionsStruct.fromSerializableMap(backup['nutritions']);
+
+      FFAppState().PeopleStat =
+          PeopleParamStruct.fromSerializableMap(backup['properties']);
+
+      FFAppState().DailyList = (backup['dailyList'] as List)
+          .map((e) => DailyPlanStruct.fromSerializableMap(e))
+          .toList();
+
+      FFAppState().RecipeList = (backup['recipeList'] as List)
+          .map((e) => RecipeStruct.fromSerializableMap(e))
+          .toList();
+    });
+  } catch (e) {
+    return false;
+  }
+
+  return true;
 }
 
 // Set your action name, define your arguments and return parameter,

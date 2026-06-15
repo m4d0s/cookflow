@@ -4,9 +4,11 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/upload_data.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -35,46 +37,73 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     super.initState();
     _model = createModel(context, () => SettingsModel());
 
-    _model.switchValue1 = FFAppState().DarkMode;
-    _model.switchValue2 = FFAppState().AutoNutrition;
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.appInfo = await actions.getAppVersion();
+    });
+
+    _model.switchValue = FFAppState().AutoNutrition;
     _model.textController1 ??= TextEditingController(
-        text: valueOrDefault<String>(
-      FFAppState().DailyGoal.calories.toString(),
-      '1000',
+        text: formatNumber(
+      FFAppState().DailyGoal.calories,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
     ));
     _model.textFieldFocusNode1 ??= FocusNode();
 
     _model.textController2 ??= TextEditingController(
-        text: valueOrDefault<String>(
-      FFAppState().DailyGoal.protein.toString(),
-      '100',
+        text: formatNumber(
+      FFAppState().DailyGoal.protein,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
     ));
     _model.textFieldFocusNode2 ??= FocusNode();
 
     _model.textController3 ??= TextEditingController(
-        text: valueOrDefault<String>(
-      FFAppState().DailyGoal.fats.toString(),
-      '200',
+        text: formatNumber(
+      FFAppState().DailyGoal.fats,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
     ));
     _model.textFieldFocusNode3 ??= FocusNode();
 
     _model.textController4 ??= TextEditingController(
-        text: valueOrDefault<String>(
-      FFAppState().DailyGoal.carbs.toString(),
-      '300',
+        text: formatNumber(
+      FFAppState().DailyGoal.carbs,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
     ));
     _model.textFieldFocusNode4 ??= FocusNode();
 
-    _model.textController5 ??=
-        TextEditingController(text: FFAppState().PeopleStat.weight.toString());
+    _model.textController5 ??= TextEditingController(
+        text: formatNumber(
+      FFAppState().PeopleStat.weight,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
+    ));
     _model.textFieldFocusNode5 ??= FocusNode();
 
-    _model.textController6 ??=
-        TextEditingController(text: FFAppState().PeopleStat.height.toString());
+    _model.textController6 ??= TextEditingController(
+        text: formatNumber(
+      FFAppState().PeopleStat.height,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
+    ));
     _model.textFieldFocusNode6 ??= FocusNode();
 
-    _model.textController7 ??=
-        TextEditingController(text: FFAppState().PeopleStat.age.toString());
+    _model.textController7 ??= TextEditingController(
+        text: formatNumber(
+      FFAppState().PeopleStat.age,
+      formatType: FormatType.custom,
+      format: '#.0',
+      locale: '',
+    ));
     _model.textFieldFocusNode7 ??= FocusNode();
   }
 
@@ -151,7 +180,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                   child: Container(
-                    height: 200.0,
+                    height: 180.0,
                     constraints: BoxConstraints(
                       maxHeight: 250.0,
                     ),
@@ -186,7 +215,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                           ),
                           Container(
-                            height: 170.0,
+                            height: 150.0,
                             constraints: BoxConstraints(
                               maxHeight: 300.0,
                             ),
@@ -234,7 +263,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
                                           child: Icon(
-                                            Icons.dark_mode_rounded,
+                                            Icons.dark_mode_outlined,
                                             size: 24.0,
                                           ),
                                         ),
@@ -285,44 +314,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                     ),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
-                                              Text(
-                                                'Готовьте с комфортом даже ночью',
-                                                maxLines: 1,
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodySmall
-                                                    .override(
-                                                      font: GoogleFonts.inter(
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .fontStyle,
-                                                      ),
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryText,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .fontStyle,
-                                                      lineHeight: 1.4,
-                                                    ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
                                             ].divide(SizedBox(height: 2.0)),
                                           ),
                                         ),
@@ -331,52 +322,93 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                             borderRadius:
                                                 BorderRadius.circular(16.0),
                                           ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(
-                                                valueOrDefault<double>(
-                                              FFAppConstants.Padding0
-                                                  .toDouble(),
-                                              0.0,
-                                            )),
-                                            child: Switch.adaptive(
-                                              value: _model.switchValue1!,
-                                              onChanged: (newValue) async {
-                                                safeSetState(() => _model
-                                                    .switchValue1 = newValue);
-                                                if (newValue) {
-                                                  FFAppState().DarkMode = true;
-                                                  safeSetState(() {});
-                                                  setDarkModeSetting(
-                                                    context,
-                                                    FFAppState().DarkMode
-                                                        ? ThemeMode.dark
-                                                        : ThemeMode.light,
-                                                  );
-                                                } else {
-                                                  FFAppState().DarkMode = false;
-                                                  safeSetState(() {});
-                                                  setDarkModeSetting(
-                                                    context,
-                                                    FFAppState().DarkMode
-                                                        ? ThemeMode.dark
-                                                        : ThemeMode.light,
-                                                  );
-                                                }
-                                              },
-                                              activeColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent3,
-                                              activeTrackColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              inactiveTrackColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              inactiveThumbColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .fullContrast,
-                                            ),
+                                        ),
+                                        FlutterFlowDropDown<AppTheme>(
+                                          controller: _model
+                                                  .dropDownValueController1 ??=
+                                              FormFieldController<AppTheme>(
+                                            _model.dropDownValue1 ??=
+                                                FFAppState().DarkMode,
                                           ),
+                                          options: List<AppTheme>.from(
+                                              AppTheme.values),
+                                          optionLabels: [
+                                            'Тёмная',
+                                            'Белая',
+                                            'Система'
+                                          ],
+                                          onChanged: (val) async {
+                                            safeSetState(() =>
+                                                _model.dropDownValue1 = val);
+                                            FFAppState().DarkMode =
+                                                _model.dropDownValue1;
+                                            safeSetState(() {});
+                                            if (FFAppState().DarkMode ==
+                                                AppTheme.light) {
+                                              setDarkModeSetting(
+                                                  context, ThemeMode.light);
+                                            } else {
+                                              if (FFAppState().DarkMode ==
+                                                  AppTheme.dark) {
+                                                setDarkModeSetting(
+                                                    context, ThemeMode.dark);
+                                              } else {
+                                                setDarkModeSetting(
+                                                    context, ThemeMode.system);
+                                              }
+                                            }
+                                          },
+                                          width: 140.0,
+                                          height: 40.0,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                          hintText: 'Тема',
+                                          icon: Icon(
+                                            Icons.keyboard_arrow_down_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 24.0,
+                                          ),
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                          elevation: 2.0,
+                                          borderColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .alternate,
+                                          borderWidth: 0.0,
+                                          borderRadius: 8.0,
+                                          margin:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 0.0, 12.0, 0.0),
+                                          hidesUnderline: true,
+                                          isOverButton: false,
+                                          isSearchable: false,
+                                          isMultiSelect: false,
                                         ),
                                       ].divide(SizedBox(
                                           width: FFAppConstants.Padding1
@@ -526,10 +558,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                               0.0,
                                             )),
                                             child: Switch.adaptive(
-                                              value: _model.switchValue2!,
+                                              value: _model.switchValue!,
                                               onChanged: (newValue) async {
                                                 safeSetState(() => _model
-                                                    .switchValue2 = newValue);
+                                                    .switchValue = newValue);
                                                 if (newValue) {
                                                   FFAppState().AutoNutrition =
                                                       true;
@@ -3064,10 +3096,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                               ),
                                               FlutterFlowDropDown<MealTarget>(
                                                 controller: _model
-                                                        .dropDownValueController ??=
+                                                        .dropDownValueController2 ??=
                                                     FormFieldController<
                                                         MealTarget>(
-                                                  _model.dropDownValue ??=
+                                                  _model.dropDownValue2 ??=
                                                       MealTarget.average,
                                                 ),
                                                 options: List<MealTarget>.from(
@@ -3081,7 +3113,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                     .toList(),
                                                 onChanged: (val) async {
                                                   safeSetState(() => _model
-                                                      .dropDownValue = val);
+                                                      .dropDownValue2 = val);
                                                   FFAppState()
                                                       .updatePeopleStatStruct(
                                                     (e) => e
@@ -3179,7 +3211,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 Container(
                   width: 100.0,
-                  height: 300.0,
+                  height: 250.0,
                   constraints: BoxConstraints(
                     maxHeight: 300.0,
                   ),
@@ -3187,8 +3219,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     color: FlutterFlowTheme.of(context).primaryBackground,
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                     child: Container(
                       decoration: BoxDecoration(),
                       child: Column(
@@ -3273,30 +3304,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                   .primaryBackground,
                                         ),
                                       );
-                                      _model.string1 =
-                                          await actions.exportBackup();
-                                      await actions.exportJson(
-                                        _model.string1!,
-                                      );
-                                      await showDialog(
-                                        context: context,
-                                        builder: (alertDialogContext) {
-                                          return AlertDialog(
-                                            title: Text('Выгрузка завершена'),
-                                            content: Text(
-                                                'Данные ваших рецептов и плана питания хранятся в папке ~/Downloads/Cookflow'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext),
-                                                child: Text('Ok'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-
-                                      safeSetState(() {});
+                                      await actions.exportJson();
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -3466,21 +3474,55 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                       onTap: () async {
                                         _model.inputJson =
                                             await actions.importBackup();
-                                        _model.isUpToDate =
-                                            await actions.checkBackup(
-                                          _model.inputJson!,
-                                        );
-                                        if (_model.isUpToDate!) {
-                                          await actions.importJson(
-                                            _model.inputJson!,
+                                        if (_model.inputJson!) {
+                                          final selectedFiles =
+                                              await selectFiles(
+                                            multiFile: false,
                                           );
+                                          if (selectedFiles != null) {
+                                            safeSetState(() => _model
+                                                    .isDataUploading_uploadDataUwf =
+                                                true);
+                                            var selectedUploadedFiles =
+                                                <FFUploadedFile>[];
+
+                                            try {
+                                              selectedUploadedFiles =
+                                                  selectedFiles
+                                                      .map(
+                                                          (m) => FFUploadedFile(
+                                                                name: m
+                                                                    .storagePath
+                                                                    .split('/')
+                                                                    .last,
+                                                                bytes: m.bytes,
+                                                                originalFilename:
+                                                                    m.originalFilename,
+                                                              ))
+                                                      .toList();
+                                            } finally {
+                                              _model.isDataUploading_uploadDataUwf =
+                                                  false;
+                                            }
+                                            if (selectedUploadedFiles.length ==
+                                                selectedFiles.length) {
+                                              safeSetState(() {
+                                                _model.uploadedLocalFile_uploadDataUwf =
+                                                    selectedUploadedFiles.first;
+                                              });
+                                            } else {
+                                              safeSetState(() {});
+                                              return;
+                                            }
+                                          }
+
                                           await showDialog(
                                             context: context,
                                             builder: (alertDialogContext) {
                                               return AlertDialog(
                                                 title: Text('Загружены данные'),
                                                 content: Text(
-                                                    'Данные с резервной копии загружено в приложение успешно! Для корректной работы приложения, оно будет перезаущено'),
+                                                    'Данные с резервной копии загружено в приложение успешно! Для корректной работы приложения, требуется перезапуск'),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
@@ -3492,17 +3534,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                               );
                                             },
                                           );
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(
-                                            '/',
-                                            (route) => false,
-                                          );
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                'Версия резервной копии устарела',
+                                                'Версия резервной копии устарела либо файл бэкапа повреждён/пустой',
                                                 style: TextStyle(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -3665,6 +3702,52 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             ),
                           ),
                         ].divide(SizedBox(height: 8.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional(0.0, 0.0),
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    height: 100.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(16.0),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).alternate,
+                      ),
+                    ),
+                    child: Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                        child: Text(
+                          valueOrDefault<String>(
+                            _model.appInfo,
+                            'CookFlow - готовим просто и удобно!',
+                          ),
+                          textAlign: TextAlign.center,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                font: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 12.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                        ),
                       ),
                     ),
                   ),

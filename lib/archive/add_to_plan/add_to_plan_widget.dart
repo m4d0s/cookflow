@@ -4,7 +4,7 @@ import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -140,14 +140,11 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  FFAppState().updateDailySelectStruct(
-                                    (e) => e
-                                      ..updateCompletedRecipes(
-                                        (e) => e.add(functions
-                                            .mealEntryDefine(recipeItem)),
-                                      ),
+                                  await actions.updateDatePlan(
+                                    FFAppState().DailySelect,
+                                    FFAppConstants.FalseValue,
+                                    recipeItem,
                                   );
-                                  safeSetState(() {});
                                   if (Navigator.of(context).canPop()) {
                                     context.pop();
                                   }

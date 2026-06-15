@@ -6,12 +6,21 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ShopItemStruct extends BaseStruct {
   ShopItemStruct({
+    double? count,
     ProductStruct? item,
     bool? bought,
-    double? count,
-  })  : _item = item,
-        _bought = bought,
-        _count = count;
+  })  : _count = count,
+        _item = item,
+        _bought = bought;
+
+  // "count" field.
+  double? _count;
+  double get count => _count ?? -1.0;
+  set count(double? val) => _count = val;
+
+  void incrementCount(double amount) => count = count + amount;
+
+  bool hasCount() => _count != null;
 
   // "item" field.
   ProductStruct? _item;
@@ -31,34 +40,29 @@ class ShopItemStruct extends BaseStruct {
 
   bool hasBought() => _bought != null;
 
-  // "count" field.
-  double? _count;
-  double get count => _count ?? -1.0;
-  set count(double? val) => _count = val;
-
-  void incrementCount(double amount) => count = count + amount;
-
-  bool hasCount() => _count != null;
-
   static ShopItemStruct fromMap(Map<String, dynamic> data) => ShopItemStruct(
+        count: castToType<double>(data['count']),
         item: data['item'] is ProductStruct
             ? data['item']
             : ProductStruct.maybeFromMap(data['item']),
         bought: data['bought'] as bool?,
-        count: castToType<double>(data['count']),
       );
 
   static ShopItemStruct? maybeFromMap(dynamic data) =>
       data is Map ? ShopItemStruct.fromMap(data.cast<String, dynamic>()) : null;
 
   Map<String, dynamic> toMap() => {
+        'count': _count,
         'item': _item?.toMap(),
         'bought': _bought,
-        'count': _count,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
+        'count': serializeParam(
+          _count,
+          ParamType.double,
+        ),
         'item': serializeParam(
           _item,
           ParamType.DataStruct,
@@ -67,14 +71,15 @@ class ShopItemStruct extends BaseStruct {
           _bought,
           ParamType.bool,
         ),
-        'count': serializeParam(
-          _count,
-          ParamType.double,
-        ),
       }.withoutNulls;
 
   static ShopItemStruct fromSerializableMap(Map<String, dynamic> data) =>
       ShopItemStruct(
+        count: deserializeParam(
+          data['count'],
+          ParamType.double,
+          false,
+        ),
         item: deserializeStructParam(
           data['item'],
           ParamType.DataStruct,
@@ -86,11 +91,6 @@ class ShopItemStruct extends BaseStruct {
           ParamType.bool,
           false,
         ),
-        count: deserializeParam(
-          data['count'],
-          ParamType.double,
-          false,
-        ),
       );
 
   @override
@@ -99,22 +99,22 @@ class ShopItemStruct extends BaseStruct {
   @override
   bool operator ==(Object other) {
     return other is ShopItemStruct &&
+        count == other.count &&
         item == other.item &&
-        bought == other.bought &&
-        count == other.count;
+        bought == other.bought;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([item, bought, count]);
+  int get hashCode => const ListEquality().hash([count, item, bought]);
 }
 
 ShopItemStruct createShopItemStruct({
+  double? count,
   ProductStruct? item,
   bool? bought,
-  double? count,
 }) =>
     ShopItemStruct(
+      count: count,
       item: item ?? ProductStruct(),
       bought: bought,
-      count: count,
     );

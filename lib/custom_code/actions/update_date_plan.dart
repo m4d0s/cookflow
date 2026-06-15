@@ -54,7 +54,7 @@ Future updateDatePlan(
   }
 
   FFAppState().update(() {
-    FFAppState().RecipeSelect = RecipeStruct();
+    //FFAppState().RecipeSelect = RecipeStruct();
   });
 
   // FFAppState().addToDailyList(plan);

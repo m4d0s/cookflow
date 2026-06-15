@@ -9,23 +9,16 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future renewIds() async {
-  final recipe = FFAppState().RecipeSelect;
-  if (recipe == null) return;
+import 'package:package_info_plus/package_info_plus.dart';
 
-  for (int i = 0; i < recipe.products.length; i++) {
-    recipe.products[i].id = i + 1;
-  }
+Future<String> getAppVersion() async {
+  final info = await PackageInfo.fromPlatform();
 
-  for (int i = 0; i < recipe.cookingSteps.length; i++) {
-    recipe.cookingSteps[i].queueId = i + 1;
-  }
-
-  FFAppState().removeFromRecipeList(
-    FFAppState().RecipeList.firstWhere(
-          (r) => r.id == recipe.id,
-        ),
-  );
+  final str1 = '${info.appName} - готовим просто и удобно!';
+  final str2 = 'Название пакета: ${info.packageName}';
+  final str3 = 'Версия пакета: ${info.version} (${info.buildNumber})';
+  final str4 = 'Подпись: ${info.buildSignature}';
+  return '${str1}\n${str2}\n${str3}\n${str4}\n';
 }
 
 // Set your action name, define your arguments and return parameter,

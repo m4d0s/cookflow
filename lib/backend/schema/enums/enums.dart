@@ -81,6 +81,12 @@ enum Tags {
   hard,
 }
 
+enum AppTheme {
+  dark,
+  light,
+  system,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -116,6 +122,8 @@ T? deserializeEnum<T>(String? value) {
       return Structs.values.deserialize(value) as T?;
     case (Tags):
       return Tags.values.deserialize(value) as T?;
+    case (AppTheme):
+      return AppTheme.values.deserialize(value) as T?;
     default:
       return null;
   }

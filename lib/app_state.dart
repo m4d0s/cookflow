@@ -159,7 +159,18 @@ class FFAppState extends ChangeNotifier {
           _SexList;
     });
     await _safeInitAsync(() async {
-      _DarkMode = await secureStorage.getBool('ff_DarkMode') ?? _DarkMode;
+      _LastProductId =
+          await secureStorage.getInt('ff_LastProductId') ?? _LastProductId;
+    });
+    await _safeInitAsync(() async {
+      _LastRecipeId =
+          await secureStorage.getInt('ff_LastRecipeId') ?? _LastRecipeId;
+    });
+    await _safeInitAsync(() async {
+      _DarkMode = await secureStorage.read(key: 'ff_DarkMode') != null
+          ? deserializeEnum<AppTheme>(
+              (await secureStorage.getString('ff_DarkMode')))
+          : _DarkMode;
     });
     await _safeInitAsync(() async {
       _AutoNutrition =
@@ -320,7 +331,7 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodCategoryStruct> _CategoryList = [
     FoodCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Все\",\"category\":\"all\"}')),
+        jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}')),
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Обед\",\"category\":\"lunch\"}')),
     FoodCategoryStruct.fromSerializableMap(
@@ -334,7 +345,7 @@ class FFAppState extends ChangeNotifier {
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Выпечка\",\"category\":\"baking\"}')),
     FoodCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}'))
+        jsonDecode('{\"name\":\"Все\",\"category\":\"all\"}'))
   ];
   List<FoodCategoryStruct> get CategoryList => _CategoryList;
   set CategoryList(List<FoodCategoryStruct> value) {
@@ -388,13 +399,13 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodDifficultyStruct> _HardList = [
     FoodDifficultyStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Любой\",\"difficult\":\"all\"}')),
+    FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Лёгкий\",\"difficult\":\"easy\"}')),
     FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Средний\",\"difficult\":\"medium\"}')),
     FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}')),
-    FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Любая\",\"difficult\":\"all\"}'))
+        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}'))
   ];
   List<FoodDifficultyStruct> get HardList => _HardList;
   set HardList(List<FoodDifficultyStruct> value) {
@@ -448,15 +459,15 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodQuantityStruct> _QuantityList = [
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"г\",\"nutriTag\":\"100г\",\"multiplier\":\"1.0\",\"quantity\":\"b093i\",\"altquantity\":\"b093i\"}')),
+        '{\"divider\":\"100\",\"multiplier\":\"1\",\"quantity\":\"г\",\"altquantity\":\"г\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"кг\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"a5god\",\"altquantity\":\"b093i\"}')),
+        '{\"divider\":\"100\",\"multiplier\":\"1000\",\"quantity\":\"кг\",\"altquantity\":\"г\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"л\",\"nutriTag\":\"100г\",\"multiplier\":\"1000.0\",\"quantity\":\"xrk7q\",\"altquantity\":\"c13fm\"}')),
+        '{\"divider\":\"100\",\"multiplier\":\"1000\",\"quantity\":\"л\",\"altquantity\":\"мл\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"мл\",\"quantity\":\"c13fm\",\"altquantity\":\"c13fm\"}')),
+        '{\"divider\":\"100\",\"multiplier\":\"1\",\"quantity\":\"мл\",\"altquantity\":\"мл\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"name\":\"шт.\",\"nutriTag\":\"1 шт.\",\"multiplier\":\"1.0\",\"quantity\":\"4l8xw\",\"altquantity\":\"4l8xw\"}'))
+        '{\"divider\":\"1\",\"multiplier\":\"1\",\"quantity\":\"шт\",\"altquantity\":\"шт\"}'))
   ];
   List<FoodQuantityStruct> get QuantityList => _QuantityList;
   set QuantityList(List<FoodQuantityStruct> value) {
@@ -670,7 +681,7 @@ class FFAppState extends ChangeNotifier {
     _SearchQuery = value;
   }
 
-  int _PortionSelect = 0;
+  int _PortionSelect = 1;
   int get PortionSelect => _PortionSelect;
   set PortionSelect(int value) {
     _PortionSelect = value;
@@ -694,18 +705,42 @@ class FFAppState extends ChangeNotifier {
     _CheckedPositions = value;
   }
 
-  bool _DarkMode = false;
-  bool get DarkMode => _DarkMode;
-  set DarkMode(bool value) {
+  int _LastProductId = 0;
+  int get LastProductId => _LastProductId;
+  set LastProductId(int value) {
+    _LastProductId = value;
+    secureStorage.setInt('ff_LastProductId', value);
+  }
+
+  void deleteLastProductId() {
+    secureStorage.delete(key: 'ff_LastProductId');
+  }
+
+  int _LastRecipeId = 0;
+  int get LastRecipeId => _LastRecipeId;
+  set LastRecipeId(int value) {
+    _LastRecipeId = value;
+    secureStorage.setInt('ff_LastRecipeId', value);
+  }
+
+  void deleteLastRecipeId() {
+    secureStorage.delete(key: 'ff_LastRecipeId');
+  }
+
+  AppTheme? _DarkMode = AppTheme.system;
+  AppTheme? get DarkMode => _DarkMode;
+  set DarkMode(AppTheme? value) {
     _DarkMode = value;
-    secureStorage.setBool('ff_DarkMode', value);
+    value != null
+        ? secureStorage.setString('ff_DarkMode', value.serialize())
+        : secureStorage.remove('ff_DarkMode');
   }
 
   void deleteDarkMode() {
     secureStorage.delete(key: 'ff_DarkMode');
   }
 
-  bool _AutoNutrition = false;
+  bool _AutoNutrition = true;
   bool get AutoNutrition => _AutoNutrition;
   set AutoNutrition(bool value) {
     _AutoNutrition = value;

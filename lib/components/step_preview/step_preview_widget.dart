@@ -99,53 +99,78 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                               lineHeight: 1.4,
                             ),
                       ),
-                      if ((int var1) {
-                        return var1 <= 0;
-                      }(valueOrDefault<int>(
-                        widget.step?.timer,
-                        0,
-                      )))
-                        Container(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.timer_rounded,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 14.0,
-                              ),
-                              Text(
-                                '${widget.step?.timer.toString()} мин',
-                                style: FlutterFlowTheme.of(context)
-                                    .labelSmall
-                                    .override(
-                                      font: GoogleFonts.manrope(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelSmall
-                                            .fontStyle,
-                                      ),
+                      Container(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            if (widget.step?.tip != null &&
+                                widget.step?.tip != '')
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(
+                                    Icons.lightbulb,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 14.0,
+                                  ),
+                                  SizedBox(
+                                    height: 16.0,
+                                    child: VerticalDivider(
+                                      thickness: 2.0,
                                       color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontStyle,
-                                      lineHeight: 1.3,
+                                          .alternate,
                                     ),
+                                  ),
+                                ],
                               ),
-                            ].divide(SizedBox(
-                                width: FFAppConstants.Padding0.toDouble())),
-                          ),
+                            if (widget.step!.timer > 0)
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.timer_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 14.0,
+                                  ),
+                                  Text(
+                                    '${widget.step?.timer.toString()} мин',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelSmall
+                                        .override(
+                                          font: GoogleFonts.manrope(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                          lineHeight: 1.3,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(
+                                    width: FFAppConstants.Padding0.toDouble())),
+                              ),
+                          ],
                         ),
+                      ),
                     ],
                   ),
                   Text(

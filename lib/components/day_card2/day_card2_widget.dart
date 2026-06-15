@@ -1,14 +1,11 @@
 import '/backend/schema/structs/index.dart';
 import '/components/recipe_card_mini/recipe_card_mini_widget.dart';
-import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'day_card2_model.dart';
 export 'day_card2_model.dart';
 
@@ -16,16 +13,11 @@ class DayCard2Widget extends StatefulWidget {
   const DayCard2Widget({
     super.key,
     this.dayLog,
-    bool? hidaAdd,
     this.label,
-    bool? hidePanel,
-  })  : this.hidaAdd = hidaAdd ?? false,
-        this.hidePanel = hidePanel ?? true;
+  });
 
   final DailyPlanStruct? dayLog;
-  final bool hidaAdd;
   final String? label;
-  final bool hidePanel;
 
   @override
   State<DayCard2Widget> createState() => _DayCard2WidgetState();
@@ -55,8 +47,6 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
       child: Container(
@@ -88,13 +78,7 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            valueOrDefault<String>(
-                              widget.label == ''
-                                  ? functions
-                                      .dayDetect012(widget.dayLog!.date!)
-                                  : widget.label,
-                              '123',
-                            ),
+                            functions.dayDetect012(widget.dayLog!.date!),
                             style: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
@@ -119,10 +103,40 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
                               widget.dayLog?.completedRecipes.length
                                   .toString(),
                               '-0',
-                            )} рецепта • ${valueOrDefault<String>(
+                            )}${() {
+                              if (functions
+                                      .sklonenie(widget
+                                          .dayLog!.completedRecipes.length)
+                                      .toString() ==
+                                  '1') {
+                                return ' рецепт';
+                              } else if (functions
+                                      .sklonenie(widget
+                                          .dayLog!.completedRecipes.length)
+                                      .toString() ==
+                                  '2') {
+                                return ' рецепта';
+                              } else {
+                                return ' рецептов';
+                              }
+                            }()} • ${valueOrDefault<String>(
                               widget.dayLog?.done.calories.toString(),
                               '-1',
-                            )} ккал • ${widget.dayLog?.waterCups.toString()} кружек',
+                            )} ккал • ${widget.dayLog?.waterCups.toString()}${() {
+                              if (functions
+                                      .sklonenie(widget.dayLog!.waterCups)
+                                      .toString() ==
+                                  '1') {
+                                return ' кружка';
+                              } else if (functions
+                                      .sklonenie(widget.dayLog!.waterCups)
+                                      .toString() ==
+                                  '2') {
+                                return ' кружки';
+                              } else {
+                                return ' кружек';
+                              }
+                            }()}',
                             style: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
@@ -265,7 +279,7 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
                                               'Keyn67_${mealItem.date!.toString()}',
                                             ),
                                             isDeleted: false,
-                                            hideDelete: !widget.hidaAdd,
+                                            hideDelete: true,
                                             mealEntry: mealItem,
                                           ),
                                         );
@@ -275,66 +289,6 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
                                 ),
                             ],
                           ),
-                          if (!widget.hidaAdd)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                if (FFAppState().RecipeList.length > 0) {
-                                  context.pushNamed(
-                                    MealSelectWidget.routeName,
-                                    extra: <String, dynamic>{
-                                      '__transition_info__': TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType:
-                                            PageTransitionType.rightToLeft,
-                                      ),
-                                    },
-                                  );
-                                } else {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('У вас нету рецептов'),
-                                        content: Text(
-                                            'Прежде, чем добавлять рецепты в план питания, сначала создайте их в главном меню по кнопке \"Создать рецепт\"'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Хорошо, сделаю'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                              child: wrapWithModel(
-                                model: _model.buttonModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: UButtonWidget(
-                                  content: 'Добавить рецепт',
-                                  icon: Icon(
-                                    Icons.add_rounded,
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    size: 16.0,
-                                  ),
-                                  iconPresent: true,
-                                  iconEndPresent: false,
-                                  variant: 'ghost',
-                                  size: 'small',
-                                  fullWidth: true,
-                                  loading: false,
-                                  disabled: false,
-                                  maincolor:
-                                      FlutterFlowTheme.of(context).primary,
-                                ),
-                              ),
-                            ),
                         ].divide(SizedBox(height: 0.0)),
                       ),
                     ),

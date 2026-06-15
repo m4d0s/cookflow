@@ -1,3 +1,4 @@
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'recipe_card2_widget.dart' show RecipeCard2Widget;
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ class RecipeCard2Model extends FlutterFlowModel<RecipeCard2Widget> {
 
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeCard2 widget.
   FFUploadedFile? recipe2Pic;
+  // Stores action output result for [Custom Action - getRecipeTags] action in RecipeCard2 widget.
+  FulltagStruct? recipeTags1;
 
   @override
   void initState(BuildContext context) {}

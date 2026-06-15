@@ -1,4 +1,4 @@
-import '/components/day_card1/day_card1_widget.dart';
+import '/components/day_card2/day_card2_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -118,23 +118,16 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                                 children: List.generate(day.length, (dayIndex) {
                                   final dayItem = day[dayIndex];
                                   return wrapWithModel(
-                                    model: _model.dayCardModels.getModel(
-                                      dayItem.date!.toString(),
+                                    model: _model.dayCard2Models.getModel(
+                                      dayItem.id.toString(),
                                       dayIndex,
                                     ),
                                     updateCallback: () => safeSetState(() {}),
-                                    child: DayCard1Widget(
+                                    child: DayCard2Widget(
                                       key: Key(
-                                        'Key511_${dayItem.date!.toString()}',
+                                        'Keywh0_${dayItem.id.toString()}',
                                       ),
                                       dayLog: dayItem,
-                                      hidaAdd: true,
-                                      label: dateTimeFormat(
-                                        "MMMEd",
-                                        dayItem.date,
-                                        locale: FFLocalizations.of(context)
-                                            .languageCode,
-                                      ),
                                     ),
                                   );
                                 }).divide(SizedBox(height: 0.0)),

@@ -2,6 +2,7 @@ import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,6 +39,9 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.recipe2Pic = await actions.base64ToFFUploadedFile(
         widget.recipeDetails?.pictureBase64,
+      );
+      _model.recipeTags1 = await actions.getRecipeTags(
+        widget.recipeDetails!,
       );
     });
   }
@@ -127,68 +131,9 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).surface90,
-                            borderRadius: BorderRadius.circular(12.0),
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 4.0, 8.0, 4.0),
-                            child: Container(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.schedule_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 14.0,
-                                  ),
-                                  Text(
-                                    '${valueOrDefault<String>(
-                                      widget.recipeDetails?.cookTime
-                                          .toString(),
-                                      '-1',
-                                    )} мин',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelSmall
-                                        .override(
-                                          font: GoogleFonts.manrope(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelSmall
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontStyle,
-                                          lineHeight: 1.3,
-                                        ),
-                                  ),
-                                ].divide(SizedBox(width: 4.0)),
-                              ),
-                            ),
-                          ),
-                        ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 4.0, 8.0, 4.0),
+                              4.0, 4.0, 8.0, 4.0),
                           child: Container(
                             decoration: BoxDecoration(),
                             child: Row(
@@ -257,8 +202,8 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                   ),
                                   Text(
                                     valueOrDefault<String>(
-                                      widget.recipeDetails?.foodType.name,
-                                      'hard',
+                                      _model.recipeTags1?.foodname,
+                                      '[Не задано]',
                                     ),
                                     style: FlutterFlowTheme.of(context)
                                         .labelSmall
@@ -294,6 +239,12 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context).surface90,
                             borderRadius: BorderRadius.circular(12.0),
+                            shape: BoxShape.rectangle,
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
                             shape: BoxShape.rectangle,
                           ),
                           child: Padding(
@@ -301,21 +252,32 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                 8.0, 4.0, 8.0, 4.0),
                             child: Container(
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Icon(
-                                    Icons.restaurant_rounded,
+                                    Icons.eco_outlined,
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     size: 14.0,
                                   ),
                                   Text(
-                                    valueOrDefault<String>(
-                                      widget.recipeDetails?.hardType.name,
-                                      'Trash',
-                                    ),
+                                    '${widget.recipeDetails?.products.length.toString()} ${() {
+                                      if (functions
+                                              .sklonenie(widget.recipeDetails!
+                                                  .products.length)
+                                              .toString() ==
+                                          '1') {
+                                        return 'продукт';
+                                      } else if (functions
+                                              .sklonenie(widget.recipeDetails!
+                                                  .products.length)
+                                              .toString() ==
+                                          '2') {
+                                        return 'продукта';
+                                      } else {
+                                        return 'продуктов';
+                                      }
+                                    }()}',
                                     style: FlutterFlowTheme.of(context)
                                         .labelSmall
                                         .override(
@@ -329,8 +291,6 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                                     .labelSmall
                                                     .fontStyle,
                                           ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
                                           letterSpacing: 0.0,
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
@@ -346,13 +306,6 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                 ].divide(SizedBox(width: 4.0)),
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).surface90,
-                            borderRadius: BorderRadius.circular(12.0),
-                            shape: BoxShape.rectangle,
                           ),
                         ),
                       ],
@@ -362,24 +315,22 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 24.0,
-                          height: 24.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).surface80,
-                            borderRadius: BorderRadius.circular(9999.0),
-                            shape: BoxShape.rectangle,
-                          ),
-                          alignment: AlignmentDirectional(0.0, 0.0),
-                          child: Visibility(
-                            visible: widget.recipeDetails?.isFavorite ?? true,
+                        if (widget.recipeDetails?.isFavorite ?? true)
+                          Container(
+                            width: 24.0,
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).surface80,
+                              borderRadius: BorderRadius.circular(9999.0),
+                              shape: BoxShape.rectangle,
+                            ),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Icon(
                               Icons.favorite_rounded,
                               color: FlutterFlowTheme.of(context).error,
                               size: 18.0,
                             ),
                           ),
-                        ),
                         Expanded(
                           flex: 1,
                           child: Text(
@@ -411,32 +362,36 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                         ),
                       ].divide(SizedBox(width: 4.0)),
                     ),
-                    Text(
-                      valueOrDefault<String>(
-                        widget.recipeDetails?.info,
-                        'Lorem Inspus something i forgot so i just copy some words or just dont do it and gone some water in the rain lol',
-                      ),
-                      maxLines: 2,
-                      style: FlutterFlowTheme.of(context).bodySmall.override(
-                            font: GoogleFonts.inter(
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                      child: Text(
+                        valueOrDefault<String>(
+                          widget.recipeDetails?.info,
+                          'Lorem Inspus something i forgot so i just copy some words or just dont do it and gone some water in the rain lol',
+                        ),
+                        maxLines: 2,
+                        style: FlutterFlowTheme.of(context).bodySmall.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .fontWeight,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .fontStyle,
+                              lineHeight: 1.5,
                             ),
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            letterSpacing: 0.0,
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodySmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodySmall
-                                .fontStyle,
-                            lineHeight: 1.5,
-                          ),
-                      overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ].divide(SizedBox(height: 4.0)),
                 ),
