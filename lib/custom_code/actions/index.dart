@@ -16,3 +16,5 @@ export '/custom_code/actions/playback_timer_end.dart' show playbackTimerEnd;
 export '/custom_code/actions/update_date_plan.dart' show updateDatePlan;
 export '/custom_code/actions/add_daily.dart' show addDaily;
 export '/custom_code/actions/get_tag.dart' show getTag;
+export '/custom_code/actions/get_app_version.dart' show getAppVersion;
+export '/custom_code/actions/get_recipe_tags.dart' show getRecipeTags;

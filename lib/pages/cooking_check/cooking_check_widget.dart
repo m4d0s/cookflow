@@ -36,7 +36,8 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await actions.checkedProducts();
+      FFAppState().CheckedPositions = 0;
+      safeSetState(() {});
       _model.picture = await actions.base64ToFFUploadedFile(
         FFAppState().RecipeSelect.pictureBase64,
       );

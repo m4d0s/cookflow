@@ -38,7 +38,7 @@ class FoodQuantityStruct extends BaseStruct {
 
   // "multiplier" field.
   double? _multiplier;
-  double get multiplier => _multiplier ?? 0.0;
+  double get multiplier => _multiplier ?? 1.0;
   set multiplier(double? val) => _multiplier = val;
 
   void incrementMultiplier(double amount) => multiplier = multiplier + amount;

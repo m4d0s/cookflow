@@ -7,10 +7,13 @@ import 'package:flutter/material.dart';
 class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - getAppVersion] action in Settings widget.
+  String? appInfo;
+  // State field(s) for DropDown widget.
+  AppTheme? dropDownValue1;
+  FormFieldController<AppTheme>? dropDownValueController1;
   // State field(s) for Switch widget.
-  bool? switchValue1;
-  // State field(s) for Switch widget.
-  bool? switchValue2;
+  bool? switchValue;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -46,8 +49,8 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   MealAction? daValue;
   FormFieldController<MealAction>? daValueController;
   // State field(s) for DropDown widget.
-  MealTarget? dropDownValue;
-  FormFieldController<MealTarget>? dropDownValueController;
+  MealTarget? dropDownValue2;
+  FormFieldController<MealTarget>? dropDownValueController2;
   // Stores action output result for [Custom Action - importBackup] action in Container Bordered Content widget.
   bool? inputJson;
   bool isDataUploading_uploadDataUwf = false;

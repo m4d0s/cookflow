@@ -8,6 +8,7 @@ export 'people_param_struct.dart';
 export 'people_sex_struct.dart';
 export 'people_target_struct.dart';
 export 'daily_plan_struct.dart';
+export 'fulltag_struct.dart';
 export 'meal_entry_struct.dart';
 export 'nutritions_struct.dart';
 export 'product_struct.dart';

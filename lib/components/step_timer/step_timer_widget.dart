@@ -220,6 +220,11 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                               FFAppState().RunningTimer =
                                   !(FFAppState().RunningTimer ?? true);
                               safeSetState(() {});
+                              if (FFAppState().RunningTimer) {
+                                _model.timerController.onStartTimer();
+                              } else {
+                                _model.timerController.onResetTimer();
+                              }
                             },
                             child: wrapWithModel(
                               model: _model.buttonModel,

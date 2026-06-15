@@ -193,7 +193,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Продукт ${widget.product!.nutrition100g.calories > 0.0 ? formatNumber(
+                      'Продукт ${widget.product?.id.toString()} ${widget.product!.nutrition100g.calories > 0.0 ? formatNumber(
                           widget.product?.nutrition100g.calories,
                           formatType: FormatType.custom,
                           format: '(#.0 ккал)',

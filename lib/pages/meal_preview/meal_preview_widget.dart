@@ -7,9 +7,11 @@ import '/components/water_balance/water_balance_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -545,126 +547,275 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     lineHeight: 1.4,
                                   ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: wrapWithModel(
-                                model: _model.parameterInputModel1,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ParameterInputWidget(
-                                  icon: Icon(
-                                    Icons.scale_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 18.0,
-                                  ),
-                                  tone: FlutterFlowTheme.of(context).primary,
-                                  label: 'Вес',
-                                  value:
-                                      FFAppState().PeopleStat.weight.toString(),
-                                  unit: 'кг',
+                        if (!FFAppState().AutoNutrition)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(8.0),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context).alternate,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(24.0),
+                              child: Container(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(
+                                      'Ваши параметры КБЖУ не подсчитываются автоматически',
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      minFontSize: 15.0,
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .override(
+                                            font: GoogleFonts.manrope(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLarge
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleLarge
+                                                    .fontStyle,
+                                            lineHeight: 1.4,
+                                          ),
+                                    ),
+                                    Text(
+                                      'Если хотите атоматический подсчёт вашей нормы КБЖУ по параметрам тела (вес, рост, возраст, активность, цель), перейдите в найтройки и включите параметр \"Автоматический подсчёт\" или нажмите кнопку',
+                                      textAlign: TextAlign.start,
+                                      style: FlutterFlowTheme.of(context)
+                                          .labelSmall
+                                          .override(
+                                            font: GoogleFonts.manrope(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                            lineHeight: 1.4,
+                                          ),
+                                    ),
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        await actions.measureTDEE();
+
+                                        safeSetState(() {});
+                                      },
+                                      text: 'Включить автоподсчёт',
+                                      options: FFButtonOptions(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                1.0,
+                                        height: 40.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              font: GoogleFonts.manrope(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
+                                              ),
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontStyle,
+                                            ),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ].divide(SizedBox(height: 8.0)),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: wrapWithModel(
-                                model: _model.parameterInputModel2,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ParameterInputWidget(
-                                  icon: Icon(
-                                    Icons.straight_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 18.0,
+                          ),
+                        if (FFAppState().AutoNutrition)
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: wrapWithModel(
+                                      model: _model.parameterInputModel1,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ParameterInputWidget(
+                                        icon: Icon(
+                                          Icons.scale_rounded,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 18.0,
+                                        ),
+                                        tone: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        label: 'Вес',
+                                        value: FFAppState()
+                                            .PeopleStat
+                                            .weight
+                                            .toString(),
+                                        unit: 'кг',
+                                      ),
+                                    ),
                                   ),
-                                  tone: FlutterFlowTheme.of(context).primary,
-                                  label: 'Рост',
-                                  value:
-                                      FFAppState().PeopleStat.height.toString(),
-                                  unit: 'см',
-                                ),
-                              ),
-                            ),
-                          ].divide(SizedBox(width: 16.0)),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: wrapWithModel(
-                                model: _model.parameterInputModel3,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ParameterInputWidget(
-                                  icon: Icon(
-                                    Icons.cake_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 18.0,
+                                  Expanded(
+                                    flex: 1,
+                                    child: wrapWithModel(
+                                      model: _model.parameterInputModel2,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ParameterInputWidget(
+                                        icon: Icon(
+                                          Icons.straight_rounded,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 18.0,
+                                        ),
+                                        tone: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        label: 'Рост',
+                                        value: FFAppState()
+                                            .PeopleStat
+                                            .height
+                                            .toString(),
+                                        unit: 'см',
+                                      ),
+                                    ),
                                   ),
-                                  tone: FlutterFlowTheme.of(context).primary,
-                                  label: 'Возраст',
-                                  value: FFAppState().PeopleStat.age.toString(),
-                                  unit: 'лет',
-                                ),
+                                ].divide(SizedBox(width: 16.0)),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: wrapWithModel(
-                                model: _model.parameterInputModel4,
-                                updateCallback: () => safeSetState(() {}),
-                                child: ParameterInputWidget(
-                                  icon: Icon(
-                                    Icons.fitness_center_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 18.0,
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: wrapWithModel(
+                                      model: _model.parameterInputModel3,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ParameterInputWidget(
+                                        icon: Icon(
+                                          Icons.cake_rounded,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 18.0,
+                                        ),
+                                        tone: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        label: 'Возраст',
+                                        value: FFAppState()
+                                            .PeopleStat
+                                            .age
+                                            .toString(),
+                                        unit: 'лет',
+                                      ),
+                                    ),
                                   ),
-                                  tone: FlutterFlowTheme.of(context).tertiary,
-                                  label: 'Активность',
-                                  value: () {
-                                    if (FFAppState().PeopleStat.activity ==
-                                        MealAction.low) {
-                                      return 'Сидячая';
-                                    } else if (FFAppState()
-                                            .PeopleStat
-                                            .activity ==
-                                        MealAction.lessaverage) {
-                                      return 'Лёгкая';
-                                    } else if (FFAppState()
-                                            .PeopleStat
-                                            .activity ==
-                                        MealAction.average) {
-                                      return 'Средняя';
-                                    } else if (FFAppState()
-                                            .PeopleStat
-                                            .activity ==
-                                        MealAction.moreaverage) {
-                                      return 'Подвижная';
-                                    } else if (FFAppState()
-                                            .PeopleStat
-                                            .activity ==
-                                        MealAction.high) {
-                                      return 'Активная';
-                                    } else {
-                                      return 'Отсутствует';
-                                    }
-                                  }(),
-                                  unit: ' ',
-                                ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: wrapWithModel(
+                                      model: _model.parameterInputModel4,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ParameterInputWidget(
+                                        icon: Icon(
+                                          Icons.fitness_center_rounded,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 18.0,
+                                        ),
+                                        tone: FlutterFlowTheme.of(context)
+                                            .tertiary,
+                                        label: 'Активность',
+                                        value: () {
+                                          if (FFAppState()
+                                                  .PeopleStat
+                                                  .activity ==
+                                              MealAction.low) {
+                                            return 'Сидячая';
+                                          } else if (FFAppState()
+                                                  .PeopleStat
+                                                  .activity ==
+                                              MealAction.lessaverage) {
+                                            return 'Лёгкая';
+                                          } else if (FFAppState()
+                                                  .PeopleStat
+                                                  .activity ==
+                                              MealAction.average) {
+                                            return 'Средняя';
+                                          } else if (FFAppState()
+                                                  .PeopleStat
+                                                  .activity ==
+                                              MealAction.moreaverage) {
+                                            return 'Подвижная';
+                                          } else if (FFAppState()
+                                                  .PeopleStat
+                                                  .activity ==
+                                              MealAction.high) {
+                                            return 'Активная';
+                                          } else {
+                                            return 'Отсутствует';
+                                          }
+                                        }(),
+                                        unit: ' ',
+                                      ),
+                                    ),
+                                  ),
+                                ].divide(SizedBox(width: 16.0)),
                               ),
-                            ),
-                          ].divide(SizedBox(width: 16.0)),
-                        ),
-                      ].divide(SizedBox(height: 16.0)),
+                            ].divide(SizedBox(height: 16.0)),
+                          ),
+                      ].divide(SizedBox(height: 8.0)),
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -704,7 +855,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 MealTarget.extraget) {
                               return 'Ускоренный набор веса';
                             } else {
-                              return 'Не определено';
+                              return 'Произвольная';
                             }
                           }(),
                           unit: '  ',

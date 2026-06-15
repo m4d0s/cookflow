@@ -53,7 +53,13 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
     _model.inputFocusNode1!.addListener(
       () async {
         FFAppState().updateRecipeSelectStruct(
-          (e) => e..name = _model.inputTextController1.text,
+          (e) => e
+            ..name = _model.inputTextController1.text
+            ..info = _model.inputTextController2.text
+            ..cookTime = _model.countControllerValue1
+            ..portions = _model.countControllerValue2
+            ..foodType = _model.dropDownValue1
+            ..hardType = _model.dropDownValue2,
         );
         safeSetState(() {});
       },
@@ -64,7 +70,13 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
     _model.inputFocusNode2!.addListener(
       () async {
         FFAppState().updateRecipeSelectStruct(
-          (e) => e..info = _model.inputTextController2.text,
+          (e) => e
+            ..name = _model.inputTextController1.text
+            ..info = _model.inputTextController2.text
+            ..cookTime = _model.countControllerValue1
+            ..portions = _model.countControllerValue2
+            ..foodType = _model.dropDownValue1
+            ..hardType = _model.dropDownValue2,
         );
         safeSetState(() {});
       },
@@ -182,38 +194,65 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              var confirmDialogResponse = await showDialog<bool>(
-                    context: context,
-                    builder: (alertDialogContext) {
-                      return AlertDialog(
-                        title: Text('Подтверждение'),
-                        content: Text(
-                            'Вы уверены, что хотите выйти? Ваши изменения не сохранятся'),
-                        actions: [
-                          TextButton(
-                            onPressed: () =>
-                                Navigator.pop(alertDialogContext, false),
-                            child: Text('Сохраню сначала'),
-                          ),
-                          TextButton(
-                            onPressed: () =>
-                                Navigator.pop(alertDialogContext, true),
-                            child: Text('Уверен, удаляйте'),
-                          ),
-                        ],
-                      );
-                    },
-                  ) ??
-                  false;
-              if (confirmDialogResponse) {
-                if (!FFAppState().isChanging) {
+              if (FFAppState().isChanging) {
+                var confirmDialogResponse = await showDialog<bool>(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: Text('Подтверждение'),
+                          content: Text(
+                              'Вы уверены, что хотите выйти? Ваши изменения не сохранятся'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext, false),
+                              child: Text('Сохраню сначала'),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext, true),
+                              child: Text('Отмена изменений'),
+                            ),
+                          ],
+                        );
+                      },
+                    ) ??
+                    false;
+                if (confirmDialogResponse) {
+                  context.pushNamed(RecipeListWidget.routeName);
+                }
+              } else {
+                var confirmDialogResponse = await showDialog<bool>(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: Text('Подтверждение'),
+                          content: Text(
+                              'Вы уверены, что хотите выйти? Ваши изменения не сохранятся'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext, false),
+                              child: Text('Сохраню сначала'),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext, true),
+                              child: Text('Уверен, удаляйте'),
+                            ),
+                          ],
+                        );
+                      },
+                    ) ??
+                    false;
+                if (confirmDialogResponse) {
                   await actions.deleteStruct(
                     FFAppState().RecipeSelect.id,
-                    Structs.product,
+                    Structs.recipe,
                   );
-                }
 
-                context.goNamed(RecipeListWidget.routeName);
+                  context.pushNamed(RecipeListWidget.routeName);
+                }
               }
             },
           ),
@@ -908,12 +947,20 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                   FFAppState()
                                                       .updateRecipeSelectStruct(
                                                     (e) => e
-                                                      ..cookTime =
-                                                          valueOrDefault<int>(
-                                                        _model
-                                                            .countControllerValue1,
-                                                        1,
-                                                      ),
+                                                      ..name = _model
+                                                          .inputTextController1
+                                                          .text
+                                                      ..info = _model
+                                                          .inputTextController2
+                                                          .text
+                                                      ..cookTime = _model
+                                                          .countControllerValue1
+                                                      ..portions = _model
+                                                          .countControllerValue2
+                                                      ..foodType =
+                                                          _model.dropDownValue1
+                                                      ..hardType =
+                                                          _model.dropDownValue2,
                                                   );
                                                   safeSetState(() {});
                                                 },
@@ -1064,12 +1111,20 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                   FFAppState()
                                                       .updateRecipeSelectStruct(
                                                     (e) => e
-                                                      ..portions =
-                                                          valueOrDefault<int>(
-                                                        _model
-                                                            .countControllerValue2,
-                                                        1,
-                                                      ),
+                                                      ..name = _model
+                                                          .inputTextController1
+                                                          .text
+                                                      ..info = _model
+                                                          .inputTextController2
+                                                          .text
+                                                      ..cookTime = _model
+                                                          .countControllerValue1
+                                                      ..portions = _model
+                                                          .countControllerValue2
+                                                      ..foodType =
+                                                          _model.dropDownValue1
+                                                      ..hardType =
+                                                          _model.dropDownValue2,
                                                   );
                                                   safeSetState(() {});
                                                 },
@@ -1117,7 +1172,16 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                             () => _model.dropDownValue1 = val);
                                         FFAppState().updateRecipeSelectStruct(
                                           (e) => e
-                                            ..foodType = _model.dropDownValue1,
+                                            ..name =
+                                                _model.inputTextController1.text
+                                            ..info =
+                                                _model.inputTextController2.text
+                                            ..cookTime =
+                                                _model.countControllerValue1
+                                            ..portions =
+                                                _model.countControllerValue2
+                                            ..foodType = _model.dropDownValue1
+                                            ..hardType = _model.dropDownValue2,
                                         );
                                         safeSetState(() {});
                                       },
@@ -1194,6 +1258,15 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                             () => _model.dropDownValue2 = val);
                                         FFAppState().updateRecipeSelectStruct(
                                           (e) => e
+                                            ..name =
+                                                _model.inputTextController1.text
+                                            ..info =
+                                                _model.inputTextController2.text
+                                            ..cookTime =
+                                                _model.countControllerValue1
+                                            ..portions =
+                                                _model.countControllerValue2
+                                            ..foodType = _model.dropDownValue1
                                             ..hardType = _model.dropDownValue2,
                                         );
                                         safeSetState(() {});
@@ -1724,13 +1797,13 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                       ) ??
                                       false;
                                   if (confirmDialogResponse) {
+                                    context
+                                        .pushNamed(RecipeListWidget.routeName);
+
                                     await actions.deleteStruct(
                                       FFAppState().RecipeSelect.id,
                                       Structs.recipe,
                                     );
-
-                                    context
-                                        .pushNamed(RecipeListWidget.routeName);
                                   }
 
                                   FFAppState().update(() {});

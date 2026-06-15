@@ -42,6 +42,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
       _model.currentstep = functions.findStepByID(
           FFAppState().RecipeSelect.cookingSteps.toList(), 1);
       safeSetState(() {});
+      _model.timerController.onStartTimer();
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -475,17 +476,18 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                   ),
                                 ),
                               ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 16.0, 0.0, 0.0),
-                              child: wrapWithModel(
-                                model: _model.stepTimerModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: StepTimerWidget(
-                                  timeAmount: _model.currentstep?.timer,
+                            if (_model.currentstep!.timer > 0)
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 16.0, 0.0, 0.0),
+                                child: wrapWithModel(
+                                  model: _model.stepTimerModel,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: StepTimerWidget(
+                                    timeAmount: _model.currentstep?.timer,
+                                  ),
                                 ),
                               ),
-                            ),
                           ].divide(SizedBox(height: 16.0)),
                         ),
                       ],
@@ -530,9 +532,11 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  FFAppState().CurrentStep =
-                                      FFAppState().CurrentStep + -1;
-                                  safeSetState(() {});
+                                  if (FFAppState().CurrentStep > 0) {
+                                    FFAppState().CurrentStep =
+                                        FFAppState().CurrentStep + -1;
+                                    safeSetState(() {});
+                                  }
                                   _model.currentstep = functions.findStepByID(
                                       FFAppState()
                                           .RecipeSelect

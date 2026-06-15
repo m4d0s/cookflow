@@ -130,10 +130,13 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                await actions.moveStepUp(
-                                  widget.step!,
-                                );
-                                _model.updatePage(() {});
+                                if (widget.step!.queueId > 1) {
+                                  await actions.moveStepUp(
+                                    widget.step!,
+                                  );
+                                }
+
+                                FFAppState().update(() {});
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -143,8 +146,14 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                         8.0, 0.0, 0.0, 0.0),
                                     child: Icon(
                                       Icons.arrow_upward,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: valueOrDefault<Color>(
+                                        widget.step!.queueId > 1
+                                            ? FlutterFlowTheme.of(context)
+                                                .primary
+                                            : FlutterFlowTheme.of(context)
+                                                .alternate,
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
                                       size: 20.0,
                                     ),
                                   ),
@@ -163,8 +172,15 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
+                                            color: valueOrDefault<Color>(
+                                              widget.step!.queueId > 1
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .primary
+                                                  : FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
                                             fontStyle:

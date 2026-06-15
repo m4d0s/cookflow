@@ -41,6 +41,16 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().RecipeSelect = RecipeStruct();
       safeSetState(() {});
+      if (FFAppState().DarkMode == AppTheme.light) {
+        setDarkModeSetting(context, ThemeMode.light);
+      } else {
+        if (FFAppState().DarkMode == AppTheme.dark) {
+          setDarkModeSetting(context, ThemeMode.dark);
+        } else {
+          setDarkModeSetting(context, ThemeMode.system);
+        }
+      }
+
       await actions.addDaily();
     });
   }

@@ -167,7 +167,10 @@ class FFAppState extends ChangeNotifier {
           await secureStorage.getInt('ff_LastRecipeId') ?? _LastRecipeId;
     });
     await _safeInitAsync(() async {
-      _DarkMode = await secureStorage.getBool('ff_DarkMode') ?? _DarkMode;
+      _DarkMode = await secureStorage.read(key: 'ff_DarkMode') != null
+          ? deserializeEnum<AppTheme>(
+              (await secureStorage.getString('ff_DarkMode')))
+          : _DarkMode;
     });
     await _safeInitAsync(() async {
       _AutoNutrition =
@@ -328,7 +331,7 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodCategoryStruct> _CategoryList = [
     FoodCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Все\",\"category\":\"all\"}')),
+        jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}')),
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Обед\",\"category\":\"lunch\"}')),
     FoodCategoryStruct.fromSerializableMap(
@@ -342,7 +345,7 @@ class FFAppState extends ChangeNotifier {
     FoodCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Выпечка\",\"category\":\"baking\"}')),
     FoodCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Завтрак\",\"category\":\"breakfast\"}'))
+        jsonDecode('{\"name\":\"Все\",\"category\":\"all\"}'))
   ];
   List<FoodCategoryStruct> get CategoryList => _CategoryList;
   set CategoryList(List<FoodCategoryStruct> value) {
@@ -724,18 +727,20 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_LastRecipeId');
   }
 
-  bool _DarkMode = false;
-  bool get DarkMode => _DarkMode;
-  set DarkMode(bool value) {
+  AppTheme? _DarkMode = AppTheme.system;
+  AppTheme? get DarkMode => _DarkMode;
+  set DarkMode(AppTheme? value) {
     _DarkMode = value;
-    secureStorage.setBool('ff_DarkMode', value);
+    value != null
+        ? secureStorage.setString('ff_DarkMode', value.serialize())
+        : secureStorage.remove('ff_DarkMode');
   }
 
   void deleteDarkMode() {
     secureStorage.delete(key: 'ff_DarkMode');
   }
 
-  bool _AutoNutrition = false;
+  bool _AutoNutrition = true;
   bool get AutoNutrition => _AutoNutrition;
   set AutoNutrition(bool value) {
     _AutoNutrition = value;

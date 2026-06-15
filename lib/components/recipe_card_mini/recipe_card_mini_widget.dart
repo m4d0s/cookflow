@@ -250,7 +250,7 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                                             size: 14.0,
                                           ),
                                           Text(
-                                            '${widget.mealEntry?.meal.products.length.toString()}${() {
+                                            '${widget.mealEntry?.meal.products.length.toString()} ${() {
                                               if (functions
                                                       .sklonenie(widget
                                                           .mealEntry!

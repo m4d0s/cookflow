@@ -39,6 +39,9 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
       _model.recipe1Image = await actions.base64ToFFUploadedFile(
         widget.recipeDetails?.pictureBase64,
       );
+      _model.recipeTags2 = await actions.getRecipeTags(
+        widget.recipeDetails!,
+      );
     });
   }
 
@@ -240,6 +243,53 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                                             .toString(),
                                         '-1',
                                       )} ккал',
+                                      style: FlutterFlowTheme.of(context)
+                                          .labelSmall
+                                          .override(
+                                            font: GoogleFonts.manrope(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelSmall
+                                                    .fontStyle,
+                                            lineHeight: 1.3,
+                                          ),
+                                    ),
+                                  ].divide(SizedBox(
+                                      width:
+                                          FFAppConstants.Padding0.toDouble())),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.restaurant_menu_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 14.0,
+                                    ),
+                                    Text(
+                                      valueOrDefault<String>(
+                                        _model.recipeTags2?.hardname,
+                                        '[не задано]',
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .labelSmall
                                           .override(

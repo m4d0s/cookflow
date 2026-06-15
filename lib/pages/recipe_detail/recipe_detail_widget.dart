@@ -1,7 +1,6 @@
-import '/backend/schema/enums/enums.dart';
+import '/archive/ingridient_preview/ingridient_preview_widget.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
-import '/components/ingridient_preview/ingridient_preview_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
 import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
@@ -44,11 +43,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().PortionSelect = FFAppState().RecipeSelect.portions;
       safeSetState(() {});
-      _model.foodTag = await actions.getTag(
-        Tags.food,
-      );
-      _model.hardTag = await actions.getTag(
-        Tags.hard,
+      _model.recipeTags = await actions.getRecipeTags(
+        FFAppState().RecipeSelect,
       );
       _model.recipeMainPhoto = await actions.base64ToFFUploadedFile(
         FFAppState().RecipeSelect.pictureBase64,
@@ -355,7 +351,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       .primary,
                                               size: 16.0,
                                             ),
-                                            label: _model.foodTag,
+                                            label: _model.recipeTags?.foodname,
                                           ),
                                         ),
                                         wrapWithModel(
@@ -370,7 +366,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       .primary,
                                               size: 16.0,
                                             ),
-                                            label: _model.hardTag,
+                                            label: _model.recipeTags?.hardname,
                                           ),
                                         ),
                                       ],

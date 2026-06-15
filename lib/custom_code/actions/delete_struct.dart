@@ -34,7 +34,9 @@ Future deleteStruct(int id, Structs struct) async {
       final index = FFAppState().RecipeList.indexWhere(
             (r) => r.id == id,
           );
-      FFAppState().removeAtIndexFromRecipeList(index);
+      FFAppState().update(() {
+        FFAppState().removeAtIndexFromRecipeList(index);
+      });
   }
 }
 
