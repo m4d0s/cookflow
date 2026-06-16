@@ -26,7 +26,7 @@ class MealPreviewWidget extends StatefulWidget {
   const MealPreviewWidget({super.key});
 
   static String routeName = 'MealPreview';
-  static String routePath = '/mealPreview';
+  static String routePath = 'mealPreview';
 
   @override
   State<MealPreviewWidget> createState() => _MealPreviewWidgetState();
@@ -53,6 +53,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
         RecipeStruct(
           id: -1,
         ),
+        -1,
       );
       safeSetState(() {});
     });
@@ -87,11 +88,22 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).onPrimary,
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(
+                RecipeListWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.topToBottom,
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -103,7 +115,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
@@ -344,7 +356,16 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    context.pushNamed(MealPlanWidget.routeName);
+                                    context.pushNamed(
+                                      MealPlanWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        '__transition_info__': TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.leftToRight,
+                                        ),
+                                      },
+                                    );
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -356,28 +377,25 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                             .alternate,
                                       ),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 8.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          FlutterFlowIconButton(
-                                            borderRadius: 8.0,
-                                            buttonSize: 40.0,
-                                            fillColor: Colors.transparent,
-                                            icon: Icon(
-                                              Icons.history_rounded,
-                                              color: Colors.white,
-                                              size: 24.0,
-                                            ),
-                                            onPressed: () {
-                                              print('IconButton pressed ...');
-                                            },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.history_sharp,
+                                            color: FlutterFlowTheme.of(context)
+                                                .onPrimary,
+                                            size: 24.0,
                                           ),
-                                          Text(
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 8.0, 0.0),
+                                          child: Text(
                                             'История',
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
@@ -409,8 +427,8 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                                   lineHeight: 1.4,
                                                 ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -568,7 +586,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     AutoSizeText(
-                                      'Ваши параметры КБЖУ не подсчитываются автоматически',
+                                      'Ваши параметры КБЖУ установлены вручную',
                                       textAlign: TextAlign.center,
                                       maxLines: 2,
                                       minFontSize: 15.0,
@@ -595,7 +613,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Если хотите атоматический подсчёт вашей нормы КБЖУ по параметрам тела (вес, рост, возраст, активность, цель), перейдите в найтройки и включите параметр \"Автоматический подсчёт\" или нажмите кнопку',
+                                      'Если хотите атоматический подсчёт вашей нормы КБЖУ по параметрам тела (пол, вес, рост, возраст, активность, цель), перейдите в найтройки и включите параметр \"Автоматический подсчёт\" или нажмите кнопку',
                                       textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
                                           .labelSmall
@@ -627,8 +645,9 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     FFButtonWidget(
                                       onPressed: () async {
                                         await actions.measureTDEE();
-
-                                        safeSetState(() {});
+                                        FFAppState().AutoNutrition =
+                                            FFAppConstants.TrueValue;
+                                        FFAppState().update(() {});
                                       },
                                       text: 'Включить автоподсчёт',
                                       options: FFButtonOptions(
@@ -656,7 +675,9 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                                         .titleSmall
                                                         .fontStyle,
                                               ),
-                                              color: Colors.white,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .onPrimary,
                                               letterSpacing: 0.0,
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
@@ -681,6 +702,78 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                           Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  border: Border.all(
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Icon(
+                                        Icons.emoji_people_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 24.0,
+                                      ),
+                                      Text(
+                                        'Пол человека: ',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                      ),
+                                      Text(
+                                        FFAppState().PeopleStat.sex ==
+                                                HumanSex.female
+                                            ? 'Женщина'
+                                            : 'Мужчина',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 18.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                      ),
+                                    ].divide(SizedBox(width: 4.0)),
+                                  ),
+                                ),
+                              ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,

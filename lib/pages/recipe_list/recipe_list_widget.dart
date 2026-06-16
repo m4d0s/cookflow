@@ -21,7 +21,7 @@ class RecipeListWidget extends StatefulWidget {
   const RecipeListWidget({super.key});
 
   static String routeName = 'RecipeList';
-  static String routePath = '/recipeList';
+  static String routePath = 'recipeList';
 
   @override
   State<RecipeListWidget> createState() => _RecipeListWidgetState();
@@ -83,7 +83,15 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
               Structs.recipe,
             );
 
-            context.pushNamed(RecipeEditWidget.routeName);
+            context.goNamed(
+              RecipeEditWidget.routeName,
+              extra: <String, dynamic>{
+                '__transition_info__': TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.rightToLeft,
+                ),
+              },
+            );
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: Icon(
@@ -116,7 +124,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
           title: Align(
             alignment: AlignmentDirectional(0.0, 0.0),
             child: Text(
-              FFAppConstants.AppName,
+              'Ваши рецепты',
               style: FlutterFlowTheme.of(context).headlineMedium.override(
                     font: GoogleFonts.manrope(
                       fontWeight: FlutterFlowTheme.of(context)
@@ -149,110 +157,158 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Привет, Шеф! 👋',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.inter(
+                  if (FFAppConstants.FalseValue)
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Привет, Шеф! 👋',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontStyle,
+                                    lineHeight: 1.55,
                                   ),
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                  lineHeight: 1.55,
-                                ),
-                          ),
-                          Text(
-                            'Ваши рецепты',
-                            style: FlutterFlowTheme.of(context)
-                                .headlineMedium
-                                .override(
-                                  font: GoogleFonts.manrope(
+                            ),
+                            Text(
+                              'Ваши рецепты',
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    font: GoogleFonts.manrope(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .headlineMedium
                                         .fontStyle,
+                                    lineHeight: 1.3,
                                   ),
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .headlineMedium
-                                      .fontStyle,
-                                  lineHeight: 1.3,
+                            ),
+                          ],
+                        ),
+                        if (FFAppConstants.FalseValue)
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              FlutterFlowIconButton(
+                                borderColor:
+                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    FFAppConstants.Padding1.toDouble(),
+                                buttonSize: 40.0,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryContainer,
+                                icon: Icon(
+                                  Icons.settings_sharp,
+                                  color: FlutterFlowTheme.of(context)
+                                      .onSecondaryContainer,
+                                  size: 24.0,
                                 ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          FlutterFlowIconButton(
-                            borderColor: FlutterFlowTheme.of(context).alternate,
-                            borderRadius: FFAppConstants.Padding1.toDouble(),
-                            buttonSize: 40.0,
-                            fillColor:
-                                FlutterFlowTheme.of(context).secondaryContainer,
-                            icon: Icon(
-                              Icons.settings_sharp,
-                              color: FlutterFlowTheme.of(context)
-                                  .onSecondaryContainer,
-                              size: 24.0,
-                            ),
-                            onPressed: () async {
-                              if (Navigator.of(context).canPop()) {
-                                context.pop();
-                              }
-                              context.pushNamed(SettingsWidget.routeName);
-                            },
-                          ),
-                          FlutterFlowIconButton(
-                            borderColor: FlutterFlowTheme.of(context).alternate,
-                            borderRadius: FFAppConstants.Padding1.toDouble(),
-                            buttonSize: 40.0,
-                            fillColor:
-                                FlutterFlowTheme.of(context).secondaryContainer,
-                            icon: Icon(
-                              Icons.calendar_month,
-                              color: FlutterFlowTheme.of(context)
-                                  .onSecondaryContainer,
-                              size: 24.0,
-                            ),
-                            onPressed: () async {
-                              if (FFAppState().AutoNutrition) {
-                                await actions.measureTDEE();
-                              }
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    SettingsWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.topToBottom,
+                                      ),
+                                    },
+                                  );
+                                },
+                              ),
+                              FlutterFlowIconButton(
+                                borderColor:
+                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    FFAppConstants.Padding1.toDouble(),
+                                buttonSize: 40.0,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryContainer,
+                                icon: Icon(
+                                  Icons.calendar_month,
+                                  color: FlutterFlowTheme.of(context)
+                                      .onSecondaryContainer,
+                                  size: 24.0,
+                                ),
+                                onPressed: () async {
+                                  if (FFAppState().AutoNutrition) {
+                                    await actions.measureTDEE();
+                                  }
 
-                              context.pushNamed(MealPreviewWidget.routeName);
-                            },
+                                  context.pushNamed(
+                                    MealPreviewWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.bottomToTop,
+                                      ),
+                                    },
+                                  );
+                                },
+                              ),
+                              FlutterFlowIconButton(
+                                borderColor:
+                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    FFAppConstants.Padding1.toDouble(),
+                                buttonSize: 40.0,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryContainer,
+                                icon: Icon(
+                                  Icons.list_alt,
+                                  color: FlutterFlowTheme.of(context)
+                                      .onSecondaryContainer,
+                                  size: 24.0,
+                                ),
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    ShopListWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.leftToRight,
+                                      ),
+                                    },
+                                  );
+                                },
+                              ),
+                            ].divide(SizedBox(width: 4.0)),
                           ),
-                        ].divide(SizedBox(width: 4.0)),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   wrapWithModel(
                     model: _model.textFieldModel,
                     updateCallback: () => safeSetState(() {}),
@@ -348,17 +404,10 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                   FlutterFlowTheme.of(context).alternate,
                               borderWidth: 1.0,
                               borderRadius: FFAppConstants.Padding2.toDouble(),
-                              margin: EdgeInsetsDirectional.fromSTEB(
-                                  valueOrDefault<double>(
-                                    FFAppConstants.Padding2.toDouble(),
-                                    0.0,
-                                  ),
-                                  0.0,
-                                  valueOrDefault<double>(
-                                    FFAppConstants.Padding2.toDouble(),
-                                    0.0,
-                                  ),
-                                  0.0),
+                              margin: EdgeInsets.all(valueOrDefault<double>(
+                                FFAppConstants.Padding1.toDouble(),
+                                0.0,
+                              )),
                               hidesUnderline: true,
                               isOverButton: false,
                               isSearchable: false,
@@ -440,17 +489,10 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                   FlutterFlowTheme.of(context).alternate,
                               borderWidth: 1.0,
                               borderRadius: FFAppConstants.Padding2.toDouble(),
-                              margin: EdgeInsetsDirectional.fromSTEB(
-                                  valueOrDefault<double>(
-                                    FFAppConstants.Padding2.toDouble(),
-                                    0.0,
-                                  ),
-                                  0.0,
-                                  valueOrDefault<double>(
-                                    FFAppConstants.Padding2.toDouble(),
-                                    0.0,
-                                  ),
-                                  0.0),
+                              margin: EdgeInsets.all(valueOrDefault<double>(
+                                FFAppConstants.Padding1.toDouble(),
+                                0.0,
+                              )),
                               hidesUnderline: true,
                               isOverButton: false,
                               isSearchable: false,

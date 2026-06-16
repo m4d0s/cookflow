@@ -18,7 +18,7 @@ class CookingEndWidget extends StatefulWidget {
   const CookingEndWidget({super.key});
 
   static String routeName = 'CookingEnd';
-  static String routePath = '/cookingEnd';
+  static String routePath = 'cookingEnd';
 
   @override
   State<CookingEndWidget> createState() => _CookingEndWidgetState();
@@ -38,6 +38,9 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().CurrentStep = 0;
       safeSetState(() {});
+      _model.endpic = await actions.base64ToFFUploadedFile(
+        FFAppState().RecipeSelect.pictureBase64,
+      );
     });
   }
 
@@ -60,6 +63,36 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primary,
+          automaticallyImplyLeading: false,
+          title: Align(
+            alignment: AlignmentDirectional(0.0, 0.0),
+            child: Text(
+              FFAppState().RecipeSelect.name,
+              textAlign: TextAlign.center,
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    font: GoogleFonts.manrope(
+                      fontWeight: FlutterFlowTheme.of(context)
+                          .headlineMedium
+                          .fontWeight,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).headlineMedium.fontStyle,
+                    ),
+                    color: FlutterFlowTheme.of(context).onPrimary,
+                    fontSize: 22.0,
+                    letterSpacing: 0.0,
+                    fontWeight:
+                        FlutterFlowTheme.of(context).headlineMedium.fontWeight,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).headlineMedium.fontStyle,
+                  ),
+            ),
+          ),
+          actions: [],
+          centerTitle: false,
+          elevation: 2.0,
+        ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -71,9 +104,37 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                 padding: EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Container(
+                        height: 200.0,
+                        child: Stack(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          children: [
+                            Icon(
+                              Icons.emoji_food_beverage_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 128.0,
+                            ),
+                            if (_model.endpic != null &&
+                                (_model.endpic?.bytes?.isNotEmpty ?? false))
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.memory(
+                                  _model.endpic?.bytes ??
+                                      Uint8List.fromList([]),
+                                  width: 300.0,
+                                  height: 200.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
                     if (FFAppConstants.FalseValue)
                       Container(
                         width: 240.0,
@@ -87,193 +148,230 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                           animate: true,
                         ),
                       ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Вы великолепны, шеф!',
-                          style: FlutterFlowTheme.of(context)
-                              .headlineLarge
-                              .override(
-                                font: GoogleFonts.manrope(
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Вы великолепны, шеф!',
+                            maxLines: 1,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineLarge
+                                .override(
+                                  font: GoogleFonts.manrope(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineLarge
+                                        .fontStyle,
+                                  ),
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 26.0,
+                                  letterSpacing: 0.0,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .headlineLarge
                                       .fontStyle,
+                                  lineHeight: 1.4,
                                 ),
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .headlineLarge
-                                    .fontStyle,
-                                lineHeight: 1.4,
-                              ),
+                          ),
+                          Text(
+                            FFAppState().RecipeSelect.cookingSteps.length > 0
+                                ? 'Вы успешно завершили приготовление рецепта, самое время его попробовать!'
+                                : 'Вы ничего не приготовили, так как не предприняли никаких шагов для готовки...',
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            style:
+                                FlutterFlowTheme.of(context).bodyLarge.override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyLarge
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyLarge
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .fontStyle,
+                                      lineHeight: 1.4,
+                                    ),
+                          ),
+                        ].divide(SizedBox(height: 16.0)),
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        height: 120.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(16.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).alternate,
+                          ),
                         ),
-                        Text(
-                          FFAppState().RecipeSelect.cookingSteps.length > 0
-                              ? 'Вы успешно завершили приготовление рецепта, самое время его попробовать!'
-                              : 'Вы ничего не приготовили, так как не предприняли никаких шагов для готовки...',
-                          textAlign: TextAlign.center,
-                          style: FlutterFlowTheme.of(context)
-                              .bodyLarge
-                              .override(
-                                font: GoogleFonts.inter(
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .fontStyle,
-                                ),
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                letterSpacing: 0.0,
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .fontStyle,
-                                lineHeight: 1.4,
-                              ),
-                        ),
-                        Text(
-                          FFAppState().RecipeSelect.name,
-                          textAlign: TextAlign.center,
-                          style:
-                              FlutterFlowTheme.of(context).titleLarge.override(
-                                    font: GoogleFonts.manrope(
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                FFAppState().RecipeSelect.name,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                style: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .override(
+                                      font: GoogleFonts.manrope(
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontStyle,
+                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      fontSize: 18.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .fontStyle,
+                                      lineHeight: 1.4,
                                     ),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .fontStyle,
-                                    lineHeight: 1.4,
-                                  ),
-                        ),
-                      ].divide(SizedBox(height: 16.0)),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          await actions.updateDatePlan(
-                            FFAppState().DailySelect,
-                            FFAppConstants.FalseValue,
-                            FFAppState().RecipeSelect,
-                          );
+                              ),
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  await actions.updateDatePlan(
+                                    FFAppState().DailySelect,
+                                    FFAppConstants.FalseValue,
+                                    FFAppState().RecipeSelect,
+                                    -1,
+                                  );
 
-                          context.goNamed(MealPreviewWidget.routeName);
-                        },
-                        text: 'Добавить в план питания',
-                        options: FFButtonOptions(
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .override(
-                                font: GoogleFonts.manrope(
-                                  fontWeight: FlutterFlowTheme.of(context)
+                                  context.goNamed(
+                                    MealPreviewWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      '__transition_info__': TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.bottomToTop,
+                                      ),
+                                    },
+                                  );
+                                },
+                                text: 'Добавить в план питания',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .fontStyle,
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .onPrimary,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                color: FlutterFlowTheme.of(context).onPrimary,
-                                letterSpacing: 0.0,
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .fontStyle,
                               ),
-                          elevation: 0.0,
-                          borderRadius: BorderRadius.circular(8.0),
+                            ].divide(SizedBox(height: 8.0)),
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: wrapWithModel(
-                              model: _model.achievementBadgeModel1,
-                              updateCallback: () => safeSetState(() {}),
-                              child: AchievementBadgeWidget(
-                                tone: FlutterFlowTheme.of(context).warning,
-                                icon: Icon(
-                                  Icons.access_time,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 24.0,
-                                ),
-                                label:
-                                    '${FFAppState().RecipeSelect.cookTime.toString()} мин',
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: wrapWithModel(
+                            model: _model.achievementBadgeModel1,
+                            updateCallback: () => safeSetState(() {}),
+                            child: AchievementBadgeWidget(
+                              tone: FlutterFlowTheme.of(context).warning,
+                              icon: Icon(
+                                Icons.access_time,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 24.0,
                               ),
+                              label:
+                                  '${FFAppState().RecipeSelect.cookTime.toString()} мин',
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: wrapWithModel(
-                              model: _model.achievementBadgeModel2,
-                              updateCallback: () => safeSetState(() {}),
-                              child: AchievementBadgeWidget(
-                                tone: FlutterFlowTheme.of(context).success,
-                                icon: Icon(
-                                  Icons.airline_stops_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 24.0,
-                                ),
-                                label:
-                                    '${FFAppState().RecipeSelect.cookingSteps.length.toString()} шагов',
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: wrapWithModel(
+                            model: _model.achievementBadgeModel2,
+                            updateCallback: () => safeSetState(() {}),
+                            child: AchievementBadgeWidget(
+                              tone: FlutterFlowTheme.of(context).success,
+                              icon: Icon(
+                                Icons.airline_stops_rounded,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 24.0,
                               ),
+                              label:
+                                  '${FFAppState().RecipeSelect.cookingSteps.length.toString()} шагов',
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: wrapWithModel(
-                              model: _model.achievementBadgeModel3,
-                              updateCallback: () => safeSetState(() {}),
-                              child: AchievementBadgeWidget(
-                                tone: FlutterFlowTheme.of(context).error,
-                                icon: Icon(
-                                  Icons.list_alt_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 24.0,
-                                ),
-                                label:
-                                    '${FFAppState().RecipeSelect.products.length.toString()} продуктов',
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: wrapWithModel(
+                            model: _model.achievementBadgeModel3,
+                            updateCallback: () => safeSetState(() {}),
+                            child: AchievementBadgeWidget(
+                              tone: FlutterFlowTheme.of(context).error,
+                              icon: Icon(
+                                Icons.list_alt_rounded,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 24.0,
                               ),
+                              label:
+                                  '${FFAppState().RecipeSelect.products.length.toString()} продуктов',
                             ),
                           ),
-                        ].divide(SizedBox(width: 8.0)),
-                      ),
+                        ),
+                      ].divide(SizedBox(width: 8.0)),
                     ),
-                  ].divide(SizedBox(height: 32.0)),
+                  ].divide(SizedBox(height: 8.0)),
                 ),
               ),
             ),
@@ -347,6 +445,30 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                           ),
                         ],
                       ),
+                      Text(
+                        'ID структуры: ${FFAppState().RecipeSelect.id.toString()}',
+                        textAlign: TextAlign.start,
+                        style: FlutterFlowTheme.of(context).bodyLarge.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontSize: 9.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .fontStyle,
+                              lineHeight: 1.4,
+                            ),
+                      ),
                       Divider(
                         height: 16.0,
                         thickness: 1.0,
@@ -356,10 +478,15 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                       ),
                       FFButtonWidget(
                         onPressed: () async {
-                          if (Navigator.of(context).canPop()) {
-                            context.pop();
-                          }
-                          context.pushNamed(RecipeListWidget.routeName);
+                          context.goNamed(
+                            RecipeListWidget.routeName,
+                            extra: <String, dynamic>{
+                              '__transition_info__': TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.leftToRight,
+                              ),
+                            },
+                          );
                         },
                         text: 'Вернуться к списку рецептов',
                         options: FFButtonOptions(
@@ -393,7 +520,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                    ].divide(SizedBox(height: 16.0)),
+                    ].divide(SizedBox(height: 8.0)),
                   ),
                 ),
               ),

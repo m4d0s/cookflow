@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
 
-Future<void> exportJson() async {
+Future<String> exportJson() async {
   final timestamp =
       '${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}';
   try {
@@ -26,12 +26,17 @@ Future<void> exportJson() async {
       'nutritions': FFAppState().DailyGoal.toSerializableMap(),
       'lastprodid': FFAppState().LastProductId,
       'lastrecid': FFAppState().LastRecipeId,
+      'laststepid': FFAppState().LastStepId,
+      'lastbuyid': FFAppState().LastBuyId,
       'dailysel': FFAppState().DailySelect.toSerializableMap(),
       'dailyList':
           FFAppState().DailyList.map((e) => e.toSerializableMap()).toList(),
       'recipeList':
           FFAppState().RecipeList.map((e) => e.toSerializableMap()).toList(),
       'recipesel': FFAppState().RecipeSelect.toSerializableMap(),
+      'buyList':
+          FFAppState().BuyList.map((e) => e.toSerializableMap()).toList(),
+      'buysel': FFAppState().RecipeSelect.toSerializableMap(),
       'properties': FFAppState().PeopleStat.toSerializableMap(),
     });
 
@@ -48,8 +53,9 @@ Future<void> exportJson() async {
       text: 'CookFlow_Backup',
       subject: 'CookFlow Backup',
     );
+    return '';
   } catch (e) {
-    debugPrint('Export error: $e');
+    return 'Ошибка при экспорте:\n$e';
   }
 }
 

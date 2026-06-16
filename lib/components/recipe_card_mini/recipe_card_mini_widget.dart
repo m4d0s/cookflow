@@ -7,6 +7,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'recipe_card_mini_model.dart';
 export 'recipe_card_mini_model.dart';
 
@@ -58,6 +59,8 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Visibility(
       visible: !widget.isDeleted,
       child: Container(
@@ -352,19 +355,28 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
                             .addToStart(SizedBox(width: 8.0)),
                       ),
                     ),
-                    if (widget.hideDelete)
+                    if (!widget.hideDelete)
                       FlutterFlowIconButton(
                         borderColor: FlutterFlowTheme.of(context).error,
                         borderRadius: 8.0,
-                        buttonSize: 36.0,
+                        buttonSize: 48.0,
                         fillColor: FlutterFlowTheme.of(context).alternate,
                         icon: Icon(
                           Icons.close_rounded,
                           color: FlutterFlowTheme.of(context).error,
-                          size: 20.0,
+                          size: 28.0,
                         ),
-                        onPressed: () {
-                          print('IconButton pressed ...');
+                        onPressed: () async {
+                          await actions.updateDatePlan(
+                            FFAppState().DailySelect,
+                            FFAppConstants.FalseValue,
+                            RecipeStruct(
+                              id: -1,
+                            ),
+                            widget.mealEntry!.id,
+                          );
+
+                          _model.updatePage(() {});
                         },
                       ),
                   ].divide(SizedBox(width: FFAppConstants.Padding2.toDouble())),

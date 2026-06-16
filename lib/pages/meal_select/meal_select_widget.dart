@@ -17,7 +17,7 @@ class MealSelectWidget extends StatefulWidget {
   const MealSelectWidget({super.key});
 
   static String routeName = 'MealSelect';
-  static String routePath = '/mealSelect';
+  static String routePath = 'mealSelect';
 
   @override
   State<MealSelectWidget> createState() => _MealSelectWidgetState();
@@ -67,7 +67,18 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(
+                MealPreviewWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                  ),
+                },
+              );
             },
           ),
           title: Align(
@@ -238,20 +249,12 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                               borderWidth: 1.0,
                                               borderRadius: FFAppConstants
                                                   .Padding2.toDouble(),
-                                              margin: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      valueOrDefault<double>(
-                                                        FFAppConstants.Padding2
-                                                            .toDouble(),
-                                                        0.0,
-                                                      ),
-                                                      0.0,
-                                                      valueOrDefault<double>(
-                                                        FFAppConstants.Padding2
-                                                            .toDouble(),
-                                                        0.0,
-                                                      ),
-                                                      0.0),
+                                              margin: EdgeInsets.all(
+                                                  valueOrDefault<double>(
+                                                FFAppConstants.Padding1
+                                                    .toDouble(),
+                                                0.0,
+                                              )),
                                               hidesUnderline: true,
                                               isOverButton: false,
                                               isSearchable: false,
@@ -363,20 +366,12 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                               borderWidth: 1.0,
                                               borderRadius: FFAppConstants
                                                   .Padding2.toDouble(),
-                                              margin: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      valueOrDefault<double>(
-                                                        FFAppConstants.Padding2
-                                                            .toDouble(),
-                                                        0.0,
-                                                      ),
-                                                      0.0,
-                                                      valueOrDefault<double>(
-                                                        FFAppConstants.Padding2
-                                                            .toDouble(),
-                                                        0.0,
-                                                      ),
-                                                      0.0),
+                                              margin: EdgeInsets.all(
+                                                  valueOrDefault<double>(
+                                                FFAppConstants.Padding1
+                                                    .toDouble(),
+                                                0.0,
+                                              )),
                                               hidesUnderline: true,
                                               isOverButton: false,
                                               isSearchable: false,
@@ -557,20 +552,48 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                       FFAppState()
                                                               .RecipeSelect =
                                                           recipeItem;
-                                                      await actions
-                                                          .updateDatePlan(
-                                                        FFAppState()
-                                                            .DailySelect,
-                                                        FFAppConstants
-                                                            .FalseValue,
-                                                        recipeItem,
-                                                      );
+                                                      if (FFAppState()
+                                                          .isDailyChoose) {
+                                                        await actions
+                                                            .updateDatePlan(
+                                                          FFAppState()
+                                                              .DailySelect,
+                                                          FFAppConstants
+                                                              .FalseValue,
+                                                          recipeItem,
+                                                          -1,
+                                                        );
 
-                                                      context.goNamed(
+                                                        context.goNamed(
                                                           MealPreviewWidget
-                                                              .routeName);
+                                                              .routeName,
+                                                          extra: <String,
+                                                              dynamic>{
+                                                            '__transition_info__':
+                                                                TransitionInfo(
+                                                              hasTransition:
+                                                                  true,
+                                                              transitionType:
+                                                                  PageTransitionType
+                                                                      .leftToRight,
+                                                            ),
+                                                          },
+                                                        );
+                                                      } else {
+                                                        await actions
+                                                            .recipeToShopItem();
 
-                                                      safeSetState(() {});
+                                                        context.goNamed(
+                                                            ShopListWidget
+                                                                .routeName);
+                                                      }
+
+                                                      FFAppState()
+                                                              .isDailyChoose =
+                                                          FFAppConstants
+                                                              .TrueValue;
+                                                      FFAppState()
+                                                          .update(() {});
                                                     },
                                                     child: wrapWithModel(
                                                       model: _model

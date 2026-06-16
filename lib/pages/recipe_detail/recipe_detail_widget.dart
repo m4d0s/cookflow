@@ -1,4 +1,5 @@
 import '/archive/ingridient_preview/ingridient_preview_widget.dart';
+import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
@@ -23,7 +24,7 @@ class RecipeDetailWidget extends StatefulWidget {
   const RecipeDetailWidget({super.key});
 
   static String routeName = 'RecipeDetail';
-  static String routePath = '/recipeDetail';
+  static String routePath = 'recipeDetail';
 
   @override
   State<RecipeDetailWidget> createState() => _RecipeDetailWidgetState();
@@ -87,7 +88,18 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(
+                RecipeListWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -1673,6 +1685,60 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                FlutterFlowIconButton(
+                                  borderColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                  borderRadius: 8.0,
+                                  buttonSize: 40.0,
+                                  icon: Icon(
+                                    Icons.delete_rounded,
+                                    color: FlutterFlowTheme.of(context).error,
+                                    size: 24.0,
+                                  ),
+                                  onPressed: () async {
+                                    var confirmDialogResponse =
+                                        await showDialog<bool>(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: Text('Подтверждение'),
+                                                  content: Text(
+                                                      'Вы уверены, что хотите удалить рецепт?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              false),
+                                                      child: Text(
+                                                          'Нет, я передумал'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              true),
+                                                      child:
+                                                          Text('Да, удаляем'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ) ??
+                                            false;
+                                    if (confirmDialogResponse) {
+                                      context.pushNamed(
+                                          RecipeListWidget.routeName);
+
+                                      await actions.deleteStruct(
+                                        FFAppState().RecipeSelect.id,
+                                        Structs.recipe,
+                                      );
+                                    }
+
+                                    FFAppState().update(() {});
+                                  },
+                                ),
                                 Expanded(
                                   flex: 1,
                                   child: Container(
@@ -1688,7 +1754,17 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                 .length >
                                             0) {
                                           context.pushNamed(
-                                              CookingCheckWidget.routeName);
+                                            CookingCheckWidget.routeName,
+                                            extra: <String, dynamic>{
+                                              '__transition_info__':
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .rightToLeft,
+                                              ),
+                                            },
+                                          );
                                         } else {
                                           await showDialog(
                                             context: context,
@@ -1738,6 +1814,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   ),
                                 ),
                                 FlutterFlowIconButton(
+                                  borderColor:
+                                      FlutterFlowTheme.of(context).alternate,
                                   borderRadius: 8.0,
                                   buttonSize: 40.0,
                                   icon: Icon(
@@ -1749,8 +1827,16 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                     FFAppState().isChanging = true;
                                     safeSetState(() {});
 
-                                    context
-                                        .pushNamed(RecipeEditWidget.routeName);
+                                    context.goNamed(
+                                      RecipeEditWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        '__transition_info__': TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                        ),
+                                      },
+                                    );
                                   },
                                 ),
                               ].divide(SizedBox(width: 16.0)),

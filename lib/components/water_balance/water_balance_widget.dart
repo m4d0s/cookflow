@@ -175,7 +175,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                           unratedColor:
                               FlutterFlowTheme.of(context).primaryText,
                           itemCount: FFAppConstants.WaterCups,
-                          itemSize: 24.0,
+                          itemSize: 18.0,
                         ),
                         if (widget.dailyplan!.waterCups > 8)
                           Align(
@@ -222,6 +222,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                     RecipeStruct(
                       id: -1,
                     ),
+                    -1,
                   );
                   _model.updatePage(() {});
                 },

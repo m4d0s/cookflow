@@ -21,7 +21,7 @@ class CookingModeWidget extends StatefulWidget {
   const CookingModeWidget({super.key});
 
   static String routeName = 'CookingMode';
-  static String routePath = '/cookingMode';
+  static String routePath = 'cookingMode';
 
   @override
   State<CookingModeWidget> createState() => _CookingModeWidgetState();
@@ -84,7 +84,15 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
               if (Navigator.of(context).canPop()) {
                 context.pop();
               }
-              context.pushNamed(RecipeListWidget.routeName);
+              context.pushNamed(
+                RecipeListWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -524,51 +532,52 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  if (FFAppState().CurrentStep > 0) {
-                                    FFAppState().CurrentStep =
-                                        FFAppState().CurrentStep + -1;
+                            if (FFAppState().CurrentStep > 1)
+                              Expanded(
+                                flex: 1,
+                                child: InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    if (FFAppState().CurrentStep > 0) {
+                                      FFAppState().CurrentStep =
+                                          FFAppState().CurrentStep + -1;
+                                      safeSetState(() {});
+                                    }
+                                    _model.currentstep = functions.findStepByID(
+                                        FFAppState()
+                                            .RecipeSelect
+                                            .cookingSteps
+                                            .toList(),
+                                        FFAppState().CurrentStep);
                                     safeSetState(() {});
-                                  }
-                                  _model.currentstep = functions.findStepByID(
-                                      FFAppState()
-                                          .RecipeSelect
-                                          .cookingSteps
-                                          .toList(),
-                                      FFAppState().CurrentStep);
-                                  safeSetState(() {});
-                                },
-                                child: wrapWithModel(
-                                  model: _model.buttonModel1,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: UButtonWidget(
-                                    content: 'Назад',
-                                    icon: Icon(
-                                      Icons.arrow_back_rounded,
-                                      color: FlutterFlowTheme.of(context)
+                                  },
+                                  child: wrapWithModel(
+                                    model: _model.buttonModel1,
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: UButtonWidget(
+                                      content: 'Назад',
+                                      icon: Icon(
+                                        Icons.arrow_back_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 16.0,
+                                      ),
+                                      iconPresent: true,
+                                      iconEndPresent: false,
+                                      variant: 'outline',
+                                      size: 'medium',
+                                      fullWidth: true,
+                                      loading: false,
+                                      disabled: false,
+                                      maincolor: FlutterFlowTheme.of(context)
                                           .primaryText,
-                                      size: 16.0,
                                     ),
-                                    iconPresent: true,
-                                    iconEndPresent: false,
-                                    variant: 'outline',
-                                    size: 'medium',
-                                    fullWidth: true,
-                                    loading: false,
-                                    disabled: false,
-                                    maincolor: FlutterFlowTheme.of(context)
-                                        .primaryText,
                                   ),
                                 ),
                               ),
-                            ),
                             Expanded(
                               flex: 2,
                               child: InkWell(
@@ -584,11 +593,16 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                                           .RecipeSelect
                                           .cookingSteps
                                           .length) {
-                                    if (Navigator.of(context).canPop()) {
-                                      context.pop();
-                                    }
-                                    context
-                                        .pushNamed(CookingEndWidget.routeName);
+                                    context.goNamed(
+                                      CookingEndWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        '__transition_info__': TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                        ),
+                                      },
+                                    );
                                   } else {
                                     _model.currentstep = functions.findStepByID(
                                         FFAppState()

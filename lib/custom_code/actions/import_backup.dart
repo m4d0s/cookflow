@@ -33,11 +33,16 @@ Future<bool> importBackup() async {
       FFAppState().AutoNutrition = backup['autoMode'];
       FFAppState().LastProductId = backup['lastprodid'];
       FFAppState().LastRecipeId = backup['lastrecid'];
+      FFAppState().LastStepId = backup['laststepid'];
+      FFAppState().LastStepId = backup['lastbuyid'];
       FFAppState().DailySelect =
           DailyPlanStruct.fromSerializableMap(backup['dailysel']);
 
       FFAppState().RecipeSelect =
           RecipeStruct.fromSerializableMap(backup['recipesel']);
+
+      FFAppState().BuySelect =
+          ShopItemStruct.fromSerializableMap(backup['buysel']);
 
       FFAppState().DailyGoal =
           NutritionsStruct.fromSerializableMap(backup['nutritions']);
@@ -47,6 +52,10 @@ Future<bool> importBackup() async {
 
       FFAppState().DailyList = (backup['dailyList'] as List)
           .map((e) => DailyPlanStruct.fromSerializableMap(e))
+          .toList();
+
+      FFAppState().BuyList = (backup['buyList'] as List)
+          .map((e) => ShopItemStruct.fromSerializableMap(e))
           .toList();
 
       FFAppState().RecipeList = (backup['recipeList'] as List)

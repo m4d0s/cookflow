@@ -18,7 +18,7 @@ class CookingCheckWidget extends StatefulWidget {
   const CookingCheckWidget({super.key});
 
   static String routeName = 'CookingCheck';
-  static String routePath = '/cookingCheck';
+  static String routePath = 'cookingCheck';
 
   @override
   State<CookingCheckWidget> createState() => _CookingCheckWidgetState();
@@ -77,13 +77,15 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
               size: 30.0,
             ),
             onPressed: () async {
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
               context.pushNamed(
                 RecipeListWidget.routeName,
                 extra: <String, dynamic>{
                   '__transition_info__': TransitionInfo(
                     hasTransition: true,
-                    transitionType: PageTransitionType.fade,
-                    duration: Duration(milliseconds: 0),
+                    transitionType: PageTransitionType.leftToRight,
                   ),
                 },
               );
@@ -876,13 +878,28 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                     FFAppState().CurrentStep =
                                         FFAppState().CurrentStep + 1;
                                     safeSetState(() {});
-                                    if (Navigator.of(context).canPop()) {
-                                      context.pop();
-                                    }
-                                    context
-                                        .pushNamed(CookingModeWidget.routeName);
+
+                                    context.goNamed(
+                                      CookingModeWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        '__transition_info__': TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                        ),
+                                      },
+                                    );
                                   } else {
-                                    context.goNamed(CookingEndWidget.routeName);
+                                    context.goNamed(
+                                      CookingEndWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        '__transition_info__': TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                        ),
+                                      },
+                                    );
                                   }
 
                                   FFAppState().CheckedPositions = 0;

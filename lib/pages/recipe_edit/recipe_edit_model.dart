@@ -31,12 +31,12 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   int? countControllerValue1;
   // State field(s) for CountController widget.
   int? countControllerValue2;
+  // State field(s) for category widget.
+  Food? categoryValue;
+  FormFieldController<Food>? categoryValueController;
   // State field(s) for DropDown widget.
-  Food? dropDownValue1;
-  FormFieldController<Food>? dropDownValueController1;
-  // State field(s) for DropDown widget.
-  Hardness? dropDownValue2;
-  FormFieldController<Hardness>? dropDownValueController2;
+  Hardness? dropDownValue;
+  FormFieldController<Hardness>? dropDownValueController;
   // State field(s) for CountController widget.
   int? countControllerValue3;
   // Models for IngridientEdit dynamic component.

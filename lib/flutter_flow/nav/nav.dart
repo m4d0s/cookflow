@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '/backend/schema/structs/index.dart';
 
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
@@ -49,7 +50,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
               ),
             )
-          : RecipeListWidget(),
+          : NavBarPage(),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -67,68 +68,83 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     ),
                   ),
                 )
-              : RecipeListWidget(),
+              : NavBarPage(),
+          routes: [
+            FFRoute(
+              name: RecipeListWidget.routeName,
+              path: RecipeListWidget.routePath,
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'RecipeList')
+                  : RecipeListWidget(),
+            ),
+            FFRoute(
+              name: RecipeDetailWidget.routeName,
+              path: RecipeDetailWidget.routePath,
+              builder: (context, params) => RecipeDetailWidget(),
+            ),
+            FFRoute(
+              name: RecipeEditWidget.routeName,
+              path: RecipeEditWidget.routePath,
+              builder: (context, params) => RecipeEditWidget(),
+            ),
+            FFRoute(
+              name: CookingCheckWidget.routeName,
+              path: CookingCheckWidget.routePath,
+              builder: (context, params) => CookingCheckWidget(),
+            ),
+            FFRoute(
+              name: CookingModeWidget.routeName,
+              path: CookingModeWidget.routePath,
+              builder: (context, params) => CookingModeWidget(),
+            ),
+            FFRoute(
+              name: MealPlanWidget.routeName,
+              path: MealPlanWidget.routePath,
+              builder: (context, params) => MealPlanWidget(),
+            ),
+            FFRoute(
+              name: ShoppingListWidget.routeName,
+              path: ShoppingListWidget.routePath,
+              builder: (context, params) => ShoppingListWidget(),
+            ),
+            FFRoute(
+              name: AddToPlanWidget.routeName,
+              path: AddToPlanWidget.routePath,
+              builder: (context, params) => AddToPlanWidget(),
+            ),
+            FFRoute(
+              name: SettingsWidget.routeName,
+              path: SettingsWidget.routePath,
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'Settings')
+                  : SettingsWidget(),
+            ),
+            FFRoute(
+              name: MealSelectWidget.routeName,
+              path: MealSelectWidget.routePath,
+              builder: (context, params) => MealSelectWidget(),
+            ),
+            FFRoute(
+              name: MealPreviewWidget.routeName,
+              path: MealPreviewWidget.routePath,
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'MealPreview')
+                  : MealPreviewWidget(),
+            ),
+            FFRoute(
+              name: CookingEndWidget.routeName,
+              path: CookingEndWidget.routePath,
+              builder: (context, params) => CookingEndWidget(),
+            ),
+            FFRoute(
+              name: ShopListWidget.routeName,
+              path: ShopListWidget.routePath,
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'ShopList')
+                  : ShopListWidget(),
+            )
+          ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
-        FFRoute(
-          name: RecipeListWidget.routeName,
-          path: RecipeListWidget.routePath,
-          builder: (context, params) => RecipeListWidget(),
-        ),
-        FFRoute(
-          name: RecipeDetailWidget.routeName,
-          path: RecipeDetailWidget.routePath,
-          builder: (context, params) => RecipeDetailWidget(),
-        ),
-        FFRoute(
-          name: RecipeEditWidget.routeName,
-          path: RecipeEditWidget.routePath,
-          builder: (context, params) => RecipeEditWidget(),
-        ),
-        FFRoute(
-          name: CookingCheckWidget.routeName,
-          path: CookingCheckWidget.routePath,
-          builder: (context, params) => CookingCheckWidget(),
-        ),
-        FFRoute(
-          name: CookingModeWidget.routeName,
-          path: CookingModeWidget.routePath,
-          builder: (context, params) => CookingModeWidget(),
-        ),
-        FFRoute(
-          name: MealPlanWidget.routeName,
-          path: MealPlanWidget.routePath,
-          builder: (context, params) => MealPlanWidget(),
-        ),
-        FFRoute(
-          name: ShoppingListWidget.routeName,
-          path: ShoppingListWidget.routePath,
-          builder: (context, params) => ShoppingListWidget(),
-        ),
-        FFRoute(
-          name: AddToPlanWidget.routeName,
-          path: AddToPlanWidget.routePath,
-          builder: (context, params) => AddToPlanWidget(),
-        ),
-        FFRoute(
-          name: SettingsWidget.routeName,
-          path: SettingsWidget.routePath,
-          builder: (context, params) => SettingsWidget(),
-        ),
-        FFRoute(
-          name: MealSelectWidget.routeName,
-          path: MealSelectWidget.routePath,
-          builder: (context, params) => MealSelectWidget(),
-        ),
-        FFRoute(
-          name: MealPreviewWidget.routeName,
-          path: MealPreviewWidget.routePath,
-          builder: (context, params) => MealPreviewWidget(),
-        ),
-        FFRoute(
-          name: CookingEndWidget.routeName,
-          path: CookingEndWidget.routePath,
-          builder: (context, params) => CookingEndWidget(),
-        )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 

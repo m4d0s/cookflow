@@ -9,17 +9,25 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'package:package_info_plus/package_info_plus.dart';
+bool recipeComplete() {
+  final recipe = FFAppState().RecipeSelect;
+  bool decide = recipe.hasName() &
+      recipe.hasInfo() &
+      (recipe.portions > 0) &
+      (recipe.cookTime > 0);
 
-Future<String> getAppVersion() async {
-  final info = await PackageInfo.fromPlatform();
+  for (final step in recipe.cookingSteps) {
+    decide = decide & (step.hasDesc());
+  }
 
-  final str1 = '${info.appName} - готовим просто и удобно!\n';
-  final str2 = 'Название пакета: ${info.packageName}';
-  final str3 = 'Версия пакета: ${info.version} (${info.buildNumber})';
-  final str4 = 'Подпись: ${info.buildSignature}';
-  final str5 = 'Защищено лицензией GNU GPLv3';
-  return '${str1}\n${str2}\n${str4}\n${str5}\n${str3}\n';
+  for (final product in recipe.products) {
+    decide = decide &
+        (product.hasName() &
+            product.quantity.hasQuantity() &
+            (product.quantity.count > 0));
+  }
+
+  return decide;
 }
 
 // Set your action name, define your arguments and return parameter,

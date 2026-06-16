@@ -16,8 +16,15 @@ Future moveStepUp(StepStruct step) async {
   final previousIndex = steps.indexWhere((s) => s.queueId == step.queueId - 1);
 
   if (previousIndex > -1) {
-    FFAppState().RecipeSelect.cookingSteps[currentIndex].queueId -= 1;
-    FFAppState().RecipeSelect.cookingSteps[previousIndex].queueId += 1;
+    //FFAppState().RecipeSelect.cookingSteps[currentIndex].queueId -= 1;
+    //FFAppState().RecipeSelect.cookingSteps[previousIndex].queueId += 1;
+    final prev = FFAppState().RecipeSelect.cookingSteps[currentIndex];
+    final cur = FFAppState().RecipeSelect.cookingSteps[previousIndex];
+
+    FFAppState().update(() {
+      FFAppState().RecipeSelect.cookingSteps[currentIndex] = cur;
+      FFAppState().RecipeSelect.cookingSteps[previousIndex] = prev;
+    });
   }
 }
 // Set your action name, define your arguments and return parameter,

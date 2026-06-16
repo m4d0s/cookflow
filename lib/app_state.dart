@@ -167,6 +167,26 @@ class FFAppState extends ChangeNotifier {
           await secureStorage.getInt('ff_LastRecipeId') ?? _LastRecipeId;
     });
     await _safeInitAsync(() async {
+      _LastBuyId = await secureStorage.getInt('ff_LastBuyId') ?? _LastBuyId;
+    });
+    await _safeInitAsync(() async {
+      _LastStepId = await secureStorage.getInt('ff_LastStepId') ?? _LastStepId;
+    });
+    await _safeInitAsync(() async {
+      _BuyList = (await secureStorage.getStringList('ff_BuyList'))
+              ?.map((x) {
+                try {
+                  return ShopItemStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _BuyList;
+    });
+    await _safeInitAsync(() async {
       _DarkMode = await secureStorage.read(key: 'ff_DarkMode') != null
           ? deserializeEnum<AppTheme>(
               (await secureStorage.getString('ff_DarkMode')))
@@ -399,13 +419,13 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodDifficultyStruct> _HardList = [
     FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Любой\",\"difficult\":\"all\"}')),
-    FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Лёгкий\",\"difficult\":\"easy\"}')),
     FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Средний\",\"difficult\":\"medium\"}')),
     FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}'))
+        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}')),
+    FoodDifficultyStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Все\",\"difficult\":\"all\"}'))
   ];
   List<FoodDifficultyStruct> get HardList => _HardList;
   set HardList(List<FoodDifficultyStruct> value) {
@@ -727,6 +747,83 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_LastRecipeId');
   }
 
+  int _LastBuyId = 0;
+  int get LastBuyId => _LastBuyId;
+  set LastBuyId(int value) {
+    _LastBuyId = value;
+    secureStorage.setInt('ff_LastBuyId', value);
+  }
+
+  void deleteLastBuyId() {
+    secureStorage.delete(key: 'ff_LastBuyId');
+  }
+
+  int _LastStepId = 0;
+  int get LastStepId => _LastStepId;
+  set LastStepId(int value) {
+    _LastStepId = value;
+    secureStorage.setInt('ff_LastStepId', value);
+  }
+
+  void deleteLastStepId() {
+    secureStorage.delete(key: 'ff_LastStepId');
+  }
+
+  List<ShopItemStruct> _BuyList = [];
+  List<ShopItemStruct> get BuyList => _BuyList;
+  set BuyList(List<ShopItemStruct> value) {
+    _BuyList = value;
+    secureStorage.setStringList(
+        'ff_BuyList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteBuyList() {
+    secureStorage.delete(key: 'ff_BuyList');
+  }
+
+  void addToBuyList(ShopItemStruct value) {
+    BuyList.add(value);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromBuyList(ShopItemStruct value) {
+    BuyList.remove(value);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromBuyList(int index) {
+    BuyList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void updateBuyListAtIndex(
+    int index,
+    ShopItemStruct Function(ShopItemStruct) updateFn,
+  ) {
+    BuyList[index] = updateFn(_BuyList[index]);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInBuyList(int index, ShopItemStruct value) {
+    BuyList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  ShopItemStruct _BuySelect = ShopItemStruct();
+  ShopItemStruct get BuySelect => _BuySelect;
+  set BuySelect(ShopItemStruct value) {
+    _BuySelect = value;
+  }
+
+  void updateBuySelectStruct(Function(ShopItemStruct) updateFn) {
+    updateFn(_BuySelect);
+  }
+
   AppTheme? _DarkMode = AppTheme.system;
   AppTheme? get DarkMode => _DarkMode;
   set DarkMode(AppTheme? value) {
@@ -797,6 +894,18 @@ class FFAppState extends ChangeNotifier {
   bool get RunningTimer => _RunningTimer;
   set RunningTimer(bool value) {
     _RunningTimer = value;
+  }
+
+  bool _isDailyChoose = false;
+  bool get isDailyChoose => _isDailyChoose;
+  set isDailyChoose(bool value) {
+    _isDailyChoose = value;
+  }
+
+  int _BuyCount = 1;
+  int get BuyCount => _BuyCount;
+  set BuyCount(int value) {
+    _BuyCount = value;
   }
 }
 

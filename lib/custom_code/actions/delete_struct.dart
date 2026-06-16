@@ -30,6 +30,12 @@ Future deleteStruct(int id, Structs struct) async {
           );
       FFAppState().RecipeSelect.products.removeAt(index);
       break;
+    case Structs.shop:
+      final index = FFAppState().BuyList.indexWhere(
+            (r) => r.id == id,
+          );
+      FFAppState().BuyList.removeAt(index);
+      break;
     default: //Structs.recipe
       final index = FFAppState().RecipeList.indexWhere(
             (r) => r.id == id,

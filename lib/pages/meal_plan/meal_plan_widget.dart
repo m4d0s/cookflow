@@ -2,6 +2,7 @@ import '/components/day_card2/day_card2_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ class MealPlanWidget extends StatefulWidget {
   const MealPlanWidget({super.key});
 
   static String routeName = 'MealPlan';
-  static String routePath = '/mealPlan';
+  static String routePath = 'mealPlan';
 
   @override
   State<MealPlanWidget> createState() => _MealPlanWidgetState();
@@ -62,7 +63,18 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              context.pushNamed(
+                MealPreviewWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.rightToLeft,
+                  ),
+                },
+              );
             },
           ),
           title: Text(

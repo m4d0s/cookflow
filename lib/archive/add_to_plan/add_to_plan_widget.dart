@@ -16,7 +16,7 @@ class AddToPlanWidget extends StatefulWidget {
   const AddToPlanWidget({super.key});
 
   static String routeName = 'AddToPlan';
-  static String routePath = '/addToPlan';
+  static String routePath = 'addToPlan';
 
   @override
   State<AddToPlanWidget> createState() => _AddToPlanWidgetState();
@@ -144,6 +144,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                     FFAppState().DailySelect,
                                     FFAppConstants.FalseValue,
                                     recipeItem,
+                                    -1,
                                   );
                                   if (Navigator.of(context).canPop()) {
                                     context.pop();

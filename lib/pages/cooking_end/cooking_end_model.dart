@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 class CookingEndModel extends FlutterFlowModel<CookingEndWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in CookingEnd widget.
+  FFUploadedFile? endpic;
   // Model for AchievementBadge.
   late AchievementBadgeModel achievementBadgeModel1;
   // Model for AchievementBadge.
