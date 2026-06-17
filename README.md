@@ -3,6 +3,7 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-blue)]()
 [![Platform](https://img.shields.io/badge/Platform-Android-green)]()
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/m4d0s/cookflow)
 
 Приложение позволяет создавать собственную кулинарную базу, организовывать рецепты по категориям, составлять меню на несколько дней вперёд и автоматически формировать список необходимых продуктов.
 
@@ -58,6 +59,3 @@ flutter run
 
 ## Лицензия
 Проект распространяется под лицензией GNU GPLv3.
-
-
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/m4d0s/cookflow)
