@@ -81,7 +81,7 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(8.0),
         shape: BoxShape.rectangle,
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,

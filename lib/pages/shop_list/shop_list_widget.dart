@@ -134,6 +134,9 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
                             borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).alternate,
+                            ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -207,68 +210,74 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Row(
+                                    Column(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        CircularPercentIndicator(
-                                          percent: functions.procentCalc(
-                                              FFAppState()
-                                                  .BuyList
-                                                  .where((e) =>
-                                                      (e.productId > 0) &&
-                                                      e.bought)
-                                                  .toList()
-                                                  .length
-                                                  .toDouble(),
-                                              FFAppState()
-                                                  .BuyList
-                                                  .where((e) => e.productId > 0)
-                                                  .toList()
-                                                  .length
-                                                  .toDouble()),
-                                          radius: 12.0,
-                                          lineWidth: 6.0,
-                                          animation: true,
-                                          animateFromLastPercent: true,
-                                          progressColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            CircularPercentIndicator(
+                                              percent: functions.procentCalc(
+                                                  FFAppState()
+                                                      .BuyList
+                                                      .where((e) =>
+                                                          (e.productId > 0) &&
+                                                          e.bought)
+                                                      .toList()
+                                                      .length
+                                                      .toDouble(),
+                                                  FFAppState()
+                                                      .BuyList
+                                                      .where((e) =>
+                                                          e.productId > 0)
+                                                      .toList()
+                                                      .length
+                                                      .toDouble()),
+                                              radius: 12.0,
+                                              lineWidth: 6.0,
+                                              animation: true,
+                                              animateFromLastPercent: true,
+                                              progressColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                            ),
+                                            Text(
+                                              'Рецептный список: ${FFAppState().BuyList.where((e) => (e.productId > 0) && e.bought).toList().length.toString()}/${FFAppState().BuyList.where((e) => e.productId > 0).toList().length.toString()}',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .titleMedium
+                                                  .override(
+                                                    font: GoogleFonts.manrope(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleMedium
+                                                            .fontStyle,
+                                                    lineHeight: 1.4,
+                                                  ),
+                                            ),
+                                          ].divide(SizedBox(width: 8.0)),
                                         ),
-                                        Text(
-                                          'Рецептный список: ${FFAppState().BuyList.where((e) => (e.productId > 0) && e.bought).toList().length.toString()}/${FFAppState().BuyList.where((e) => e.productId > 0).toList().length.toString()}',
-                                          style: FlutterFlowTheme.of(context)
-                                              .titleMedium
-                                              .override(
-                                                font: GoogleFonts.manrope(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleMedium
-                                                          .fontStyle,
-                                                ),
-                                                fontSize: 12.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                      ].divide(SizedBox(width: 8.0)),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
                                         InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
@@ -297,8 +306,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                             ),
                                             child: Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      4.0, 14.0, 4.0, 14.0),
+                                                  .fromSTEB(4.0, 2.0, 6.0, 2.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
@@ -348,6 +356,11 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                             ),
                                           ),
                                         ),
+                                      ].divide(SizedBox(height: 4.0)),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
                                         Stack(
                                           children: [
                                             FlutterFlowIconButton(
@@ -511,154 +524,154 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Row(
+                                    Column(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        CircularPercentIndicator(
-                                          percent: functions.procentCalc(
-                                              FFAppState()
-                                                  .BuyList
-                                                  .where((e) =>
-                                                      (e.productId < 1) &&
-                                                      e.bought)
-                                                  .toList()
-                                                  .length
-                                                  .toDouble(),
-                                              FFAppState()
-                                                  .BuyList
-                                                  .where((e) => e.productId < 1)
-                                                  .toList()
-                                                  .length
-                                                  .toDouble()),
-                                          radius: 12.0,
-                                          lineWidth: 6.0,
-                                          animation: true,
-                                          animateFromLastPercent: true,
-                                          progressColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            CircularPercentIndicator(
+                                              percent: functions.procentCalc(
+                                                  FFAppState()
+                                                      .BuyList
+                                                      .where((e) =>
+                                                          (e.productId < 1) &&
+                                                          e.bought)
+                                                      .toList()
+                                                      .length
+                                                      .toDouble(),
+                                                  FFAppState()
+                                                      .BuyList
+                                                      .where((e) =>
+                                                          e.productId < 1)
+                                                      .toList()
+                                                      .length
+                                                      .toDouble()),
+                                              radius: 12.0,
+                                              lineWidth: 6.0,
+                                              animation: true,
+                                              animateFromLastPercent: true,
+                                              progressColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                            ),
+                                            Text(
+                                              'Список продуктов: ${FFAppState().BuyList.where((e) => (e.productId < 1) && e.bought).toList().length.toString()}/${FFAppState().BuyList.where((e) => e.productId < 1).toList().length.toString()}',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .titleMedium
+                                                  .override(
+                                                    font: GoogleFonts.manrope(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleMedium
+                                                            .fontStyle,
+                                                    lineHeight: 1.4,
+                                                  ),
+                                            ),
+                                          ].divide(SizedBox(width: 8.0)),
                                         ),
-                                        Text(
-                                          'Список продуктов: ${FFAppState().BuyList.where((e) => (e.productId < 1) && e.bought).toList().length.toString()}/${FFAppState().BuyList.where((e) => e.productId < 1).toList().length.toString()}',
-                                          style: FlutterFlowTheme.of(context)
-                                              .titleMedium
-                                              .override(
-                                                font: GoogleFonts.manrope(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleMedium
-                                                          .fontStyle,
-                                                ),
-                                                fontSize: 12.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                      ].divide(SizedBox(width: 8.0)),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 6.0, 0.0, 6.0),
-                                          child: InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              await actions.addNewStruct(
-                                                Structs.shop,
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
+                                        InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            await actions.addNewStruct(
+                                              Structs.shop,
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              border: Border.all(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                border: Border.all(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .alternate,
-                                                ),
+                                                        .alternate,
                                               ),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        4.0, 14.0, 4.0, 14.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.add_rounded,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      size: 18.0,
-                                                    ),
-                                                    Text(
-                                                      'Новый',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelLarge
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .manrope(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelLarge
-                                                                      .fontStyle,
-                                                                ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontStyle: FlutterFlowTheme.of(
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4.0, 2.0, 6.0, 2.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.add_rounded,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    size: 18.0,
+                                                  ),
+                                                  Text(
+                                                    'Новый',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .labelLarge
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .manrope(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelLarge
                                                                     .fontStyle,
-                                                                lineHeight: 1.4,
-                                                              ),
-                                                    ),
-                                                  ].divide(
-                                                      SizedBox(width: 4.0)),
-                                                ),
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLarge
+                                                                  .fontStyle,
+                                                          lineHeight: 1.4,
+                                                        ),
+                                                  ),
+                                                ].divide(SizedBox(width: 4.0)),
                                               ),
                                             ),
                                           ),
                                         ),
+                                      ].divide(SizedBox(height: 4.0)),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
                                         Stack(
                                           children: [
                                             FlutterFlowIconButton(

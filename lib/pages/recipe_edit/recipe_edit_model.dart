@@ -37,12 +37,12 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   // State field(s) for DropDown widget.
   Hardness? dropDownValue;
   FormFieldController<Hardness>? dropDownValueController;
-  // State field(s) for CountController widget.
-  int? countControllerValue3;
   // Models for IngridientEdit dynamic component.
   late FlutterFlowDynamicModels<IngridientEditModel> ingridientEditModels;
   // Models for StepEdit dynamic component.
   late FlutterFlowDynamicModels<StepEditModel> stepEditModels;
+  // Stores action output result for [Custom Action - recipeComplete] action in FloatingActionButton widget.
+  bool? isComplete;
 
   @override
   void initState(BuildContext context) {

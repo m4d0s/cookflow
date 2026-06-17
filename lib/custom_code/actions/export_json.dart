@@ -21,7 +21,7 @@ Future<String> exportJson() async {
   try {
     final jsonString = jsonEncode({
       'version': FFAppConstants.BackupVersion,
-      'darkMode': FFAppState().DarkMode,
+      'darkMode': (FFAppState().DarkMode ?? AppTheme.system).index,
       'autoMode': FFAppState().AutoNutrition,
       'nutritions': FFAppState().DailyGoal.toSerializableMap(),
       'lastprodid': FFAppState().LastProductId,

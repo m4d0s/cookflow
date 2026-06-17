@@ -7,16 +7,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 class ShopItemStruct extends BaseStruct {
   ShopItemStruct({
     int? id,
+    int? productId,
     String? name,
     FoodQuantityStruct? quantity,
-    int? productId,
     DateTime? create,
     DateTime? done,
     bool? bought,
   })  : _id = id,
+        _productId = productId,
         _name = name,
         _quantity = quantity,
-        _productId = productId,
         _create = create,
         _done = done,
         _bought = bought;
@@ -29,6 +29,15 @@ class ShopItemStruct extends BaseStruct {
   void incrementId(int amount) => id = id + amount;
 
   bool hasId() => _id != null;
+
+  // "productId" field.
+  int? _productId;
+  int get productId => _productId ?? -1;
+  set productId(int? val) => _productId = val;
+
+  void incrementProductId(int amount) => productId = productId + amount;
+
+  bool hasProductId() => _productId != null;
 
   // "name" field.
   String? _name;
@@ -47,15 +56,6 @@ class ShopItemStruct extends BaseStruct {
   }
 
   bool hasQuantity() => _quantity != null;
-
-  // "productId" field.
-  int? _productId;
-  int get productId => _productId ?? -1;
-  set productId(int? val) => _productId = val;
-
-  void incrementProductId(int amount) => productId = productId + amount;
-
-  bool hasProductId() => _productId != null;
 
   // "create" field.
   DateTime? _create;
@@ -80,11 +80,11 @@ class ShopItemStruct extends BaseStruct {
 
   static ShopItemStruct fromMap(Map<String, dynamic> data) => ShopItemStruct(
         id: castToType<int>(data['id']),
+        productId: castToType<int>(data['productId']),
         name: data['name'] as String?,
         quantity: data['quantity'] is FoodQuantityStruct
             ? data['quantity']
             : FoodQuantityStruct.maybeFromMap(data['quantity']),
-        productId: castToType<int>(data['productId']),
         create: data['create'] as DateTime?,
         done: data['done'] as DateTime?,
         bought: data['bought'] as bool?,
@@ -95,9 +95,9 @@ class ShopItemStruct extends BaseStruct {
 
   Map<String, dynamic> toMap() => {
         'id': _id,
+        'productId': _productId,
         'name': _name,
         'quantity': _quantity?.toMap(),
-        'productId': _productId,
         'create': _create,
         'done': _done,
         'bought': _bought,
@@ -109,6 +109,10 @@ class ShopItemStruct extends BaseStruct {
           _id,
           ParamType.int,
         ),
+        'productId': serializeParam(
+          _productId,
+          ParamType.int,
+        ),
         'name': serializeParam(
           _name,
           ParamType.String,
@@ -116,10 +120,6 @@ class ShopItemStruct extends BaseStruct {
         'quantity': serializeParam(
           _quantity,
           ParamType.DataStruct,
-        ),
-        'productId': serializeParam(
-          _productId,
-          ParamType.int,
         ),
         'create': serializeParam(
           _create,
@@ -142,6 +142,11 @@ class ShopItemStruct extends BaseStruct {
           ParamType.int,
           false,
         ),
+        productId: deserializeParam(
+          data['productId'],
+          ParamType.int,
+          false,
+        ),
         name: deserializeParam(
           data['name'],
           ParamType.String,
@@ -152,11 +157,6 @@ class ShopItemStruct extends BaseStruct {
           ParamType.DataStruct,
           false,
           structBuilder: FoodQuantityStruct.fromSerializableMap,
-        ),
-        productId: deserializeParam(
-          data['productId'],
-          ParamType.int,
-          false,
         ),
         create: deserializeParam(
           data['create'],
@@ -182,9 +182,9 @@ class ShopItemStruct extends BaseStruct {
   bool operator ==(Object other) {
     return other is ShopItemStruct &&
         id == other.id &&
+        productId == other.productId &&
         name == other.name &&
         quantity == other.quantity &&
-        productId == other.productId &&
         create == other.create &&
         done == other.done &&
         bought == other.bought;
@@ -192,23 +192,23 @@ class ShopItemStruct extends BaseStruct {
 
   @override
   int get hashCode => const ListEquality()
-      .hash([id, name, quantity, productId, create, done, bought]);
+      .hash([id, productId, name, quantity, create, done, bought]);
 }
 
 ShopItemStruct createShopItemStruct({
   int? id,
+  int? productId,
   String? name,
   FoodQuantityStruct? quantity,
-  int? productId,
   DateTime? create,
   DateTime? done,
   bool? bought,
 }) =>
     ShopItemStruct(
       id: id,
+      productId: productId,
       name: name,
       quantity: quantity ?? FoodQuantityStruct(),
-      productId: productId,
       create: create,
       done: done,
       bought: bought,

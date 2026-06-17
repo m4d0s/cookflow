@@ -60,7 +60,7 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
             shape: BoxShape.rectangle,
           ),
           child: Padding(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(12.0),
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -292,7 +292,7 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
                         ].divide(SizedBox(height: 0.0)),
                       ),
                     ),
-                ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
+                ].divide(SizedBox(height: 8.0)),
               ),
             ),
           ),

@@ -1,7 +1,6 @@
 import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/recipe_card1/recipe_card1_widget.dart';
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -53,6 +52,10 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
 
       await actions.addDaily();
     });
+
+    _model.inputTextController ??=
+        TextEditingController(text: FFAppState().SearchQuery);
+    _model.inputFocusNode ??= FocusNode();
   }
 
   @override
@@ -151,25 +154,95 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (FFAppConstants.FalseValue)
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Привет, Шеф! 👋',
+                  Container(
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius:
+                          BorderRadius.circular(valueOrDefault<double>(
+                        FFAppConstants.Padding2.toDouble(),
+                        0.0,
+                      )),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          ),
+                          valueOrDefault<double>(
+                            FFAppConstants.Padding1.toDouble(),
+                            0.0,
+                          )),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.search_rounded,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 24.0,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              controller: _model.inputTextController,
+                              focusNode: _model.inputFocusNode,
+                              onFieldSubmitted: (_) async {
+                                FFAppState().SearchQuery =
+                                    _model.inputTextController.text;
+                                safeSetState(() {});
+                              },
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                hintText: 'Поиск рецептов...',
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).accent3,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                      lineHeight: 1.55,
+                                    ),
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -182,7 +255,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                           .fontStyle,
                                     ),
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                        .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -192,135 +265,13 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                         .fontStyle,
                                     lineHeight: 1.55,
                                   ),
+                              validator: _model.inputTextControllerValidator
+                                  .asValidator(context),
                             ),
-                            Text(
-                              'Ваши рецепты',
-                              style: FlutterFlowTheme.of(context)
-                                  .headlineMedium
-                                  .override(
-                                    font: GoogleFonts.manrope(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .headlineMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .fontStyle,
-                                    lineHeight: 1.3,
-                                  ),
-                            ),
-                          ],
-                        ),
-                        if (FFAppConstants.FalseValue)
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              FlutterFlowIconButton(
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderRadius:
-                                    FFAppConstants.Padding1.toDouble(),
-                                buttonSize: 40.0,
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryContainer,
-                                icon: Icon(
-                                  Icons.settings_sharp,
-                                  color: FlutterFlowTheme.of(context)
-                                      .onSecondaryContainer,
-                                  size: 24.0,
-                                ),
-                                onPressed: () async {
-                                  context.pushNamed(
-                                    SettingsWidget.routeName,
-                                    extra: <String, dynamic>{
-                                      '__transition_info__': TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType:
-                                            PageTransitionType.topToBottom,
-                                      ),
-                                    },
-                                  );
-                                },
-                              ),
-                              FlutterFlowIconButton(
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderRadius:
-                                    FFAppConstants.Padding1.toDouble(),
-                                buttonSize: 40.0,
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryContainer,
-                                icon: Icon(
-                                  Icons.calendar_month,
-                                  color: FlutterFlowTheme.of(context)
-                                      .onSecondaryContainer,
-                                  size: 24.0,
-                                ),
-                                onPressed: () async {
-                                  if (FFAppState().AutoNutrition) {
-                                    await actions.measureTDEE();
-                                  }
-
-                                  context.pushNamed(
-                                    MealPreviewWidget.routeName,
-                                    extra: <String, dynamic>{
-                                      '__transition_info__': TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType:
-                                            PageTransitionType.bottomToTop,
-                                      ),
-                                    },
-                                  );
-                                },
-                              ),
-                              FlutterFlowIconButton(
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderRadius:
-                                    FFAppConstants.Padding1.toDouble(),
-                                buttonSize: 40.0,
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryContainer,
-                                icon: Icon(
-                                  Icons.list_alt,
-                                  color: FlutterFlowTheme.of(context)
-                                      .onSecondaryContainer,
-                                  size: 24.0,
-                                ),
-                                onPressed: () async {
-                                  context.pushNamed(
-                                    ShopListWidget.routeName,
-                                    extra: <String, dynamic>{
-                                      '__transition_info__': TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType:
-                                            PageTransitionType.leftToRight,
-                                      ),
-                                    },
-                                  );
-                                },
-                              ),
-                            ].divide(SizedBox(width: 4.0)),
                           ),
-                      ],
-                    ),
-                  wrapWithModel(
-                    model: _model.textFieldModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: UTextFieldWidget(
-                      hint: 'Поиск рецептов...',
-                      value: FFAppState().SearchQuery,
-                      leadingIcon: Icon(
-                        Icons.search_rounded,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 16.0,
+                        ].divide(SizedBox(
+                            width: FFAppConstants.Padding1.toDouble())),
                       ),
-                      variant: Textfield.ghost,
                     ),
                   ),
                   Row(
@@ -629,15 +580,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                                     Hardness.all)) &&
                                             (functions.substringFind(
                                                     recipeItem.name,
-                                                    _model
-                                                        .textFieldModel
-                                                        .inputTextController
-                                                        .text)
+                                                    FFAppState().SearchQuery)
                                                 ? true
-                                                : (_model
-                                                            .textFieldModel
-                                                            .inputTextController
-                                                            .text ==
+                                                : (FFAppState().SearchQuery ==
                                                         '')),
                                         child: Expanded(
                                           flex: 1,

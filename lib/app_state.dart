@@ -159,6 +159,20 @@ class FFAppState extends ChangeNotifier {
           _SexList;
     });
     await _safeInitAsync(() async {
+      _ProductDB = (await secureStorage.getStringList('ff_ProductDB'))
+              ?.map((x) {
+                try {
+                  return ProductStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _ProductDB;
+    });
+    await _safeInitAsync(() async {
       _LastProductId =
           await secureStorage.getInt('ff_LastProductId') ?? _LastProductId;
     });
@@ -693,6 +707,51 @@ class FFAppState extends ChangeNotifier {
     SexList.insert(index, value);
     secureStorage.setStringList(
         'ff_SexList', _SexList.map((x) => x.serialize()).toList());
+  }
+
+  List<ProductStruct> _ProductDB = [];
+  List<ProductStruct> get ProductDB => _ProductDB;
+  set ProductDB(List<ProductStruct> value) {
+    _ProductDB = value;
+    secureStorage.setStringList(
+        'ff_ProductDB', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteProductDB() {
+    secureStorage.delete(key: 'ff_ProductDB');
+  }
+
+  void addToProductDB(ProductStruct value) {
+    ProductDB.add(value);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromProductDB(ProductStruct value) {
+    ProductDB.remove(value);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromProductDB(int index) {
+    ProductDB.removeAt(index);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void updateProductDBAtIndex(
+    int index,
+    ProductStruct Function(ProductStruct) updateFn,
+  ) {
+    ProductDB[index] = updateFn(_ProductDB[index]);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInProductDB(int index, ProductStruct value) {
+    ProductDB.insert(index, value);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
   }
 
   String _SearchQuery = '';

@@ -60,7 +60,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
       ),
       child: Padding(
         padding: EdgeInsets.all(valueOrDefault<double>(
-          FFAppConstants.Padding2.toDouble(),
+          FFAppConstants.Padding1.toDouble(),
           0.0,
         )),
         child: Container(
@@ -95,6 +95,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                                       .fontStyle,
                                 ),
                                 color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .titleMedium
@@ -123,6 +124,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                                 ),
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 12.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .labelLarge
@@ -175,7 +177,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                           unratedColor:
                               FlutterFlowTheme.of(context).primaryText,
                           itemCount: FFAppConstants.WaterCups,
-                          itemSize: 18.0,
+                          itemSize: 16.0,
                         ),
                         if (widget.dailyplan!.waterCups > 8)
                           Align(
@@ -194,7 +196,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    fontSize: 18.0,
+                                    fontSize: 16.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium

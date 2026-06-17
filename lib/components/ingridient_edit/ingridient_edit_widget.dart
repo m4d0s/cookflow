@@ -515,7 +515,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -525,9 +525,9 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 8.0, 0.0, 0.0),
                             child: Container(
-                              width: 200.0,
+                              width: 120.0,
                               child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.35,
+                                width: 1.0,
                                 child: TextFormField(
                                   controller: _model.textController2,
                                   focusNode: _model.textFieldFocusNode2,
@@ -781,8 +781,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                       );
                                       _model.updatePage(() {});
                                     },
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.34,
+                                    width: 120.0,
                                     height: 40.0,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -961,6 +960,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                             .labelMedium
                                             .fontStyle,
                                       ),
+                                      fontSize: 11.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .labelMedium
@@ -1085,6 +1085,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                             .labelMedium
                                             .fontStyle,
                                       ),
+                                      fontSize: 11.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .labelMedium
@@ -1209,6 +1210,7 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                             .labelMedium
                                             .fontStyle,
                                       ),
+                                      fontSize: 11.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .labelMedium

@@ -199,7 +199,7 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                       val),
                                               width: MediaQuery.sizeOf(context)
                                                       .width *
-                                                  0.38,
+                                                  0.35,
                                               height: 40.0,
                                               textStyle:
                                                   FlutterFlowTheme.of(context)
@@ -217,6 +217,7 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
+                                                        fontSize: 12.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
@@ -316,7 +317,7 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                       val),
                                               width: MediaQuery.sizeOf(context)
                                                       .width *
-                                                  0.38,
+                                                  0.35,
                                               height: 40.0,
                                               textStyle:
                                                   FlutterFlowTheme.of(context)
@@ -334,6 +335,7 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
+                                                        fontSize: 12.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(

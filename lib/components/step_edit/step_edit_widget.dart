@@ -112,91 +112,50 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context).alternate,
-                            ),
-                          ),
-                          child: Visibility(
-                            visible: widget.step!.queueId > 1,
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                if (widget.step!.queueId > 1) {
-                                  await actions.moveStepUp(
-                                    widget.step!,
-                                  );
-                                }
+                      if (widget.step!.queueId > 1)
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 0.0, 0.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              if (widget.step!.queueId > 1) {
+                                await actions.moveStepUp(
+                                  widget.step!,
+                                );
+                              }
 
-                                FFAppState().update(() {});
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 0.0, 0.0),
-                                    child: Icon(
+                              FFAppState().update(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
                                       Icons.arrow_upward,
-                                      color: valueOrDefault<Color>(
-                                        widget.step!.queueId > 1
-                                            ? FlutterFlowTheme.of(context)
-                                                .primary
-                                            : FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        FlutterFlowTheme.of(context).primary,
-                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       size: 20.0,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 8.0, 8.0, 8.0),
-                                    child: Text(
-                                      'Поднять',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: valueOrDefault<Color>(
-                                              widget.step!.queueId > 1
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .primary
-                                                  : FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                ].divide(SizedBox(
-                                    width: FFAppConstants.Padding0.toDouble())),
+                                  ].divide(SizedBox(
+                                      width:
+                                          FFAppConstants.Padding0.toDouble())),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                       Container(
                         decoration: BoxDecoration(
                           color:
@@ -225,46 +184,19 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                 color: FlutterFlowTheme.of(context).alternate,
                               ),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 8.0, 0.0, 8.0),
-                                  child: Text(
-                                    'Удалить',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.inter(
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 8.0, 0.0),
-                                  child: Icon(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(
                                     Icons.close,
                                     color: FlutterFlowTheme.of(context).error,
                                     size: 20.0,
                                   ),
-                                ),
-                              ].divide(SizedBox(
-                                  width: FFAppConstants.Padding0.toDouble())),
+                                ].divide(SizedBox(
+                                    width: FFAppConstants.Padding0.toDouble())),
+                              ),
                             ),
                           ),
                         ),

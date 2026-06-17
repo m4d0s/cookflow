@@ -20,7 +20,7 @@ class FoodQuantityStruct extends BaseStruct {
 
   // "count" field.
   double? _count;
-  double get count => _count ?? -1.0;
+  double get count => _count ?? 1.0;
   set count(double? val) => _count = val;
 
   void incrementCount(double amount) => count = count + amount;

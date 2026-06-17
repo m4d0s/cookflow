@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 
 /// update ids for steps and ingridients in recipe count from 1, delete recipe
 /// by recipe id in AppState RecipeList and add updated one
+//
+import 'dart:math';
+
 Future updateRecipe(bool? fav, bool clear) async {
   final recipe = FFAppState().RecipeSelect;
 
@@ -41,6 +44,11 @@ Future updateRecipe(bool? fav, bool clear) async {
     recipe.nutritions.fats += fats;
     recipe.nutritions.carbs += carbs;
   }
+
+  recipe.nutritions.calories = max(0, recipe.nutritions.calories);
+  recipe.nutritions.protein = max(0, recipe.nutritions.protein);
+  recipe.nutritions.fats = max(0, recipe.nutritions.fats);
+  recipe.nutritions.carbs = max(0, recipe.nutritions.carbs);
 
   //if (index >= 0) FFAppState().RecipeList[index] = existing;
   //FFAppState().RecipeList.sort((a, b) => a.id.compareTo(b.id));

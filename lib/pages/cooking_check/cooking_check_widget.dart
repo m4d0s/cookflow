@@ -101,7 +101,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
                   color: FlutterFlowTheme.of(context).onPrimary,
-                  fontSize: 22.0,
+                  fontSize: 18.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).headlineMedium.fontWeight,
@@ -581,7 +581,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                                         .fontStyle,
                                                                   ),
                                                                   fontSize:
-                                                                      16.0,
+                                                                      14.0,
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight: FlutterFlowTheme.of(

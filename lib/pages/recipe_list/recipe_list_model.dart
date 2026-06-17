@@ -1,6 +1,5 @@
 import '/backend/schema/enums/enums.dart';
 import '/components/recipe_card1/recipe_card1_widget.dart';
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
@@ -10,8 +9,10 @@ import 'package:flutter/material.dart';
 class RecipeListModel extends FlutterFlowModel<RecipeListWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Model for TextField.
-  late UTextFieldModel textFieldModel;
+  // State field(s) for Input widget.
+  FocusNode? inputFocusNode;
+  TextEditingController? inputTextController;
+  String? Function(BuildContext, String?)? inputTextControllerValidator;
   // State field(s) for Dropdown widget.
   Food? dropdownValue1;
   FormFieldController<Food>? dropdownValueController1;
@@ -23,13 +24,14 @@ class RecipeListModel extends FlutterFlowModel<RecipeListWidget> {
 
   @override
   void initState(BuildContext context) {
-    textFieldModel = createModel(context, () => UTextFieldModel());
     recipeCardModels = FlutterFlowDynamicModels(() => RecipeCard1Model());
   }
 
   @override
   void dispose() {
-    textFieldModel.dispose();
+    inputFocusNode?.dispose();
+    inputTextController?.dispose();
+
     recipeCardModels.dispose();
   }
 }

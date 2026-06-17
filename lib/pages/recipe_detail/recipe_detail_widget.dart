@@ -162,7 +162,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                       Icons.no_photography,
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
-                                      size: 96.0,
+                                      size: 128.0,
                                     ),
                                   ),
                                 ),
@@ -1130,7 +1130,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                             .titleLarge
                                                             .fontStyle,
                                                   ),
-                                                  fontSize: 18.0,
+                                                  fontSize: 14.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.normal,
                                                   fontStyle:
@@ -1360,6 +1360,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
+                                                                fontSize: 12.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight: FlutterFlowTheme.of(
@@ -1395,6 +1396,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
+                                                                fontSize: 12.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight: FlutterFlowTheme.of(
@@ -1592,7 +1594,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           .titleLarge
                                           .fontStyle,
                                     ),
-                                    fontSize: 18.0,
+                                    fontSize: 15.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                     fontStyle: FlutterFlowTheme.of(context)

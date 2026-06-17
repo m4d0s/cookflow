@@ -9,10 +9,13 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'dart:math';
+
 Future measureTDEE() async {
   final people = FFAppState().PeopleStat;
   final am = people.sex == HumanSex.male ? 5 : -161;
-  final bmr = 10 * people.weight + 6.25 * people.height - 5 * people.age + am;
+  final bmr =
+      max(10 * people.weight + 6.25 * people.height - 5 * people.age + am, 0);
 
   double tk = 1;
   double ak = 1;

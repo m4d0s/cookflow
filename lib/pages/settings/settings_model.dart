@@ -18,6 +18,7 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
+  late MaskTextInputFormatter textFieldMask1;
   String? Function(BuildContext, String?)? textController1Validator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode2;
@@ -29,14 +30,14 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   TextEditingController? textController3;
   late MaskTextInputFormatter textFieldMask3;
   String? Function(BuildContext, String?)? textController3Validator;
+  // State field(s) for Sex widget.
+  HumanSex? sexValue;
+  FormFieldController<HumanSex>? sexValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
   late MaskTextInputFormatter textFieldMask4;
   String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for Sex widget.
-  HumanSex? sexValue;
-  FormFieldController<HumanSex>? sexValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode5;
   TextEditingController? textController5;
@@ -47,11 +48,6 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   TextEditingController? textController6;
   late MaskTextInputFormatter textFieldMask6;
   String? Function(BuildContext, String?)? textController6Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode7;
-  TextEditingController? textController7;
-  late MaskTextInputFormatter textFieldMask7;
-  String? Function(BuildContext, String?)? textController7Validator;
   // State field(s) for da widget.
   MealAction? daValue;
   FormFieldController<MealAction>? daValueController;
@@ -61,11 +57,7 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   // Stores action output result for [Custom Action - exportJson] action in Container widget.
   String? snacktext;
   // Stores action output result for [Custom Action - importBackup] action in Container Bordered Content widget.
-  bool? inputJson;
-  bool isDataUploading_uploadDataUwf = false;
-  FFUploadedFile uploadedLocalFile_uploadDataUwf =
-      FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
-
+  String? inputJson;
   // Model for AppInfo component.
   late AppInfoModel appInfoModel;
 
@@ -93,9 +85,6 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
 
     textFieldFocusNode6?.dispose();
     textController6?.dispose();
-
-    textFieldFocusNode7?.dispose();
-    textController7?.dispose();
 
     appInfoModel.dispose();
   }

@@ -12,24 +12,25 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
-Future<bool> importBackup() async {
+Future<String?> importBackup() async {
   final result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['json'],
   );
 
   if (result == null || result.files.single.path == null) {
-    return false;
+    return 'Не предоставлен файл, операция импорта отменена';
   }
 
   try {
     final backup =
         jsonDecode(await File(result.files.single.path!).readAsString());
 
-    if (backup['version'] != FFAppConstants.BackupVersion) return false;
+    if (backup['version'] != FFAppConstants.BackupVersion)
+      return 'Версия бэкапа устарела';
 
     FFAppState().update(() {
-      FFAppState().DarkMode = backup['darkMode'];
+      FFAppState().DarkMode = AppTheme.values[backup['darkMode']];
       FFAppState().AutoNutrition = backup['autoMode'];
       FFAppState().LastProductId = backup['lastprodid'];
       FFAppState().LastRecipeId = backup['lastrecid'];
@@ -63,10 +64,10 @@ Future<bool> importBackup() async {
           .toList();
     });
   } catch (e) {
-    return false;
+    return 'Произошла ошибка при импорте: ${e}';
   }
 
-  return true;
+  return '';
 }
 
 // Set your action name, define your arguments and return parameter,

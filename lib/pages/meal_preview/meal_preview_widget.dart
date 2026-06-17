@@ -116,7 +116,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
                   color: FlutterFlowTheme.of(context).onPrimary,
-                  fontSize: 22.0,
+                  fontSize: 18.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).headlineMedium.fontWeight,
@@ -190,7 +190,8 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: MediaQuery.sizeOf(context).width * 0.5,
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.65,
                                   decoration: BoxDecoration(),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -368,7 +369,6 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     );
                                   },
                                   child: Container(
-                                    width: 120.0,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondary,
@@ -390,43 +390,6 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                             color: FlutterFlowTheme.of(context)
                                                 .onPrimary,
                                             size: 24.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 8.0, 0.0),
-                                          child: Text(
-                                            'История',
-                                            style: FlutterFlowTheme.of(context)
-                                                .titleMedium
-                                                .override(
-                                                  font: GoogleFonts.manrope(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  color: Color(0xE6FFFFFF),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleMedium
-                                                          .fontStyle,
-                                                  lineHeight: 1.4,
-                                                ),
                                           ),
                                         ),
                                       ],
@@ -613,9 +576,14 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                             lineHeight: 1.4,
                                           ),
                                     ),
+                                    Divider(
+                                      thickness: 2.0,
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                    ),
                                     Text(
                                       'Если хотите атоматический подсчёт вашей нормы КБЖУ по параметрам тела (пол, вес, рост, возраст, активность, цель), перейдите в найтройки и включите параметр \"Автоматический подсчёт\" или нажмите кнопку',
-                                      textAlign: TextAlign.start,
+                                      textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .labelSmall
                                           .override(
