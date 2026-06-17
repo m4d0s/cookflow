@@ -1204,15 +1204,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                     .tryParse(_model
                                                                         .textController4
                                                                         .text)
-                                                                ..calories = double.parse(_model
-                                                                            .textController2
-                                                                            .text) *
+                                                                ..calories = double
+                                                                            .parse(_model
+                                                                                .textController2.text) *
                                                                         4 +
                                                                     double.parse(_model
                                                                             .textController3
                                                                             .text) *
-                                                                        9 *
-                                                                        double.parse(_model
+                                                                        9 +
+                                                                    double.parse(_model
                                                                             .textController4
                                                                             .text) *
                                                                         4,
@@ -1461,15 +1461,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                     .tryParse(_model
                                                                         .textController4
                                                                         .text)
-                                                                ..calories = double.parse(_model
-                                                                            .textController2
-                                                                            .text) *
+                                                                ..calories = double
+                                                                            .parse(_model
+                                                                                .textController2.text) *
                                                                         4 +
                                                                     double.parse(_model
                                                                             .textController3
                                                                             .text) *
-                                                                        9 *
-                                                                        double.parse(_model
+                                                                        9 +
+                                                                    double.parse(_model
                                                                             .textController4
                                                                             .text) *
                                                                         4,
@@ -1694,15 +1694,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                   .tryParse(_model
                                                                       .textController4
                                                                       .text)
-                                                              ..calories = double.parse(_model
-                                                                          .textController2
-                                                                          .text) *
+                                                              ..calories = double.parse(
+                                                                          _model
+                                                                              .textController2
+                                                                              .text) *
                                                                       4 +
                                                                   double.parse(_model
                                                                           .textController3
                                                                           .text) *
-                                                                      9 *
-                                                                      double.parse(_model
+                                                                      9 +
+                                                                  double.parse(_model
                                                                           .textController4
                                                                           .text) *
                                                                       4,

@@ -5,6 +5,12 @@ import 'shop_list_widget.dart' show ShopListWidget;
 import 'package:flutter/material.dart';
 
 class ShopListModel extends FlutterFlowModel<ShopListWidget> {
+  ///  Local state fields for this page.
+
+  bool autohide = false;
+
+  bool buyhide = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Models for ShoppingItem.

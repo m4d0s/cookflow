@@ -215,7 +215,7 @@ class _NavBarPageState extends State<NavBarPage> {
             icon: Icon(
               Icons.cookie_rounded,
             ),
-            label: 'Дневной план',
+            label: 'План',
             tooltip: '',
           ),
           BottomNavigationBarItem(

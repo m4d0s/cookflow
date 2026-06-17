@@ -114,14 +114,6 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                         .secondaryText,
                                     size: 14.0,
                                   ),
-                                  SizedBox(
-                                    height: 16.0,
-                                    child: VerticalDivider(
-                                      thickness: 2.0,
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                    ),
-                                  ),
                                 ],
                               ),
                             if (widget.step!.timer > 0)
@@ -130,6 +122,14 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  SizedBox(
+                                    height: 16.0,
+                                    child: VerticalDivider(
+                                      thickness: 2.0,
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                    ),
+                                  ),
                                   Icon(
                                     Icons.timer_rounded,
                                     color: FlutterFlowTheme.of(context)

@@ -55,8 +55,6 @@ class _MacroStatWidgetState extends State<MacroStatWidget> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               valueOrDefault<String>(
@@ -79,11 +77,32 @@ class _MacroStatWidgetState extends State<MacroStatWidget> {
                     lineHeight: 1.4,
                   ),
             ),
+          ],
+        ),
+        LinearPercentIndicator(
+          percent: valueOrDefault<double>(
+            widget.progress,
+            0.7,
+          ),
+          lineHeight: 6.0,
+          animation: true,
+          animateFromLastPercent: true,
+          progressColor: FlutterFlowTheme.of(context).success,
+          backgroundColor: FlutterFlowTheme.of(context).alternate,
+          barRadius: Radius.circular(9999.0),
+          padding: EdgeInsets.zero,
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             Text(
               valueOrDefault<String>(
                 widget.value,
                 '184g',
               ),
+              textAlign: TextAlign.end,
               style: FlutterFlowTheme.of(context).labelSmall.override(
                     font: GoogleFonts.manrope(
                       fontWeight: FontWeight.bold,
@@ -100,20 +119,7 @@ class _MacroStatWidgetState extends State<MacroStatWidget> {
             ),
           ],
         ),
-        LinearPercentIndicator(
-          percent: valueOrDefault<double>(
-            widget.progress,
-            0.7,
-          ),
-          lineHeight: 6.0,
-          animation: true,
-          animateFromLastPercent: true,
-          progressColor: FlutterFlowTheme.of(context).success,
-          backgroundColor: FlutterFlowTheme.of(context).alternate,
-          barRadius: Radius.circular(9999.0),
-          padding: EdgeInsets.zero,
-        ),
-      ].divide(SizedBox(height: 4.0)),
+      ].divide(SizedBox(height: 2.0)),
     );
   }
 }

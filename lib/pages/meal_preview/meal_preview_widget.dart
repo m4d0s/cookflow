@@ -190,7 +190,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 190.0,
+                                  width: MediaQuery.sizeOf(context).width * 0.5,
                                   decoration: BoxDecoration(),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -368,6 +368,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     );
                                   },
                                   child: Container(
+                                    width: 120.0,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondary,
@@ -438,7 +439,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
@@ -513,7 +514,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 ),
                               ),
                             ),
-                          ].divide(SizedBox(width: 8.0)),
+                          ].divide(SizedBox(width: 16.0)),
                         ),
                       ].divide(SizedBox(height: 24.0)),
                     ),
@@ -644,10 +645,10 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
+                                        FFAppState().AutoNutrition = true;
+                                        safeSetState(() {});
                                         await actions.measureTDEE();
-                                        FFAppState().AutoNutrition =
-                                            FFAppConstants.TrueValue;
-                                        FFAppState().update(() {});
+                                        safeSetState(() {});
                                       },
                                       text: 'Включить автоподсчёт',
                                       options: FFButtonOptions(
@@ -932,7 +933,9 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                           tone: FlutterFlowTheme.of(context).tertiary,
                           label: 'Цель',
                           value: () {
-                            if (FFAppState().PeopleStat.target ==
+                            if (!FFAppState().AutoNutrition) {
+                              return 'Задана пользователем вручную';
+                            } else if (FFAppState().PeopleStat.target ==
                                 MealTarget.extraloss) {
                               return 'Быстрый сброс веса';
                             } else if (FFAppState().PeopleStat.target ==
@@ -948,7 +951,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                 MealTarget.extraget) {
                               return 'Ускоренный набор веса';
                             } else {
-                              return 'Произвольная';
+                              return '[Не задано]';
                             }
                           }(),
                           unit: '  ',

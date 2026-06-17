@@ -751,27 +751,30 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                       ),
                                 ),
                               ),
-                              Text(
-                                ' * ',
-                                style: FlutterFlowTheme.of(context)
-                                    .labelSmall
-                                    .override(
-                                      font: GoogleFonts.manrope(
+                              if (FFAppConstants.FalseValue)
+                                Text(
+                                  ' * ',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelSmall
+                                      .override(
+                                        font: GoogleFonts.manrope(
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelSmall
+                                                  .fontStyle,
+                                        ),
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        fontSize: 9.0,
+                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .labelSmall
                                             .fontStyle,
+                                        lineHeight: 1.4,
                                       ),
-                                      color: FlutterFlowTheme.of(context).error,
-                                      fontSize: 9.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w600,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .fontStyle,
-                                      lineHeight: 1.4,
-                                    ),
-                              ),
+                                ),
                             ],
                           ),
                         ),

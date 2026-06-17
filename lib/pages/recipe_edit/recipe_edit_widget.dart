@@ -265,10 +265,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                     ) ??
                     false;
                 if (confirmDialogResponse) {
-                  await actions.deleteStruct(
-                    FFAppState().RecipeSelect.id,
-                    Structs.recipe,
-                  );
                   if (Navigator.of(context).canPop()) {
                     context.pop();
                   }
