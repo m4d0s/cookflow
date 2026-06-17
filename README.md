@@ -2,7 +2,7 @@
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-blue)]()
 [![Platform](https://img.shields.io/badge/Platform-Android-green)]()
-[![License](https://img.shields.io/badge/License-MIT-yellow)]()
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Приложение позволяет создавать собственную кулинарную базу, организовывать рецепты по категориям, составлять меню на несколько дней вперёд и автоматически формировать список необходимых продуктов.
 
