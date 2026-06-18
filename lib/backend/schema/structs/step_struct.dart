@@ -7,16 +7,27 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class StepStruct extends BaseStruct {
   StepStruct({
+    int? id,
     int? queueId,
     String? desc,
     String? tip,
     int? timer,
     String? pictureBase64,
-  })  : _queueId = queueId,
+  })  : _id = id,
+        _queueId = queueId,
         _desc = desc,
         _tip = tip,
         _timer = timer,
         _pictureBase64 = pictureBase64;
+
+  // "id" field.
+  int? _id;
+  int get id => _id ?? -1;
+  set id(int? val) => _id = val;
+
+  void incrementId(int amount) => id = id + amount;
+
+  bool hasId() => _id != null;
 
   // "queue_id" field.
   int? _queueId;
@@ -58,6 +69,7 @@ class StepStruct extends BaseStruct {
   bool hasPictureBase64() => _pictureBase64 != null;
 
   static StepStruct fromMap(Map<String, dynamic> data) => StepStruct(
+        id: castToType<int>(data['id']),
         queueId: castToType<int>(data['queue_id']),
         desc: data['desc'] as String?,
         tip: data['tip'] as String?,
@@ -69,6 +81,7 @@ class StepStruct extends BaseStruct {
       data is Map ? StepStruct.fromMap(data.cast<String, dynamic>()) : null;
 
   Map<String, dynamic> toMap() => {
+        'id': _id,
         'queue_id': _queueId,
         'desc': _desc,
         'tip': _tip,
@@ -78,6 +91,10 @@ class StepStruct extends BaseStruct {
 
   @override
   Map<String, dynamic> toSerializableMap() => {
+        'id': serializeParam(
+          _id,
+          ParamType.int,
+        ),
         'queue_id': serializeParam(
           _queueId,
           ParamType.int,
@@ -102,6 +119,11 @@ class StepStruct extends BaseStruct {
 
   static StepStruct fromSerializableMap(Map<String, dynamic> data) =>
       StepStruct(
+        id: deserializeParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
         queueId: deserializeParam(
           data['queue_id'],
           ParamType.int,
@@ -135,6 +157,7 @@ class StepStruct extends BaseStruct {
   @override
   bool operator ==(Object other) {
     return other is StepStruct &&
+        id == other.id &&
         queueId == other.queueId &&
         desc == other.desc &&
         tip == other.tip &&
@@ -144,10 +167,11 @@ class StepStruct extends BaseStruct {
 
   @override
   int get hashCode =>
-      const ListEquality().hash([queueId, desc, tip, timer, pictureBase64]);
+      const ListEquality().hash([id, queueId, desc, tip, timer, pictureBase64]);
 }
 
 StepStruct createStepStruct({
+  int? id,
   int? queueId,
   String? desc,
   String? tip,
@@ -155,6 +179,7 @@ StepStruct createStepStruct({
   String? pictureBase64,
 }) =>
     StepStruct(
+      id: id,
       queueId: queueId,
       desc: desc,
       tip: tip,

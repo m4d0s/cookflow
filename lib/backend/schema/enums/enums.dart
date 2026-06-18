@@ -74,6 +74,8 @@ enum Structs {
   recipe,
   step,
   product,
+  shop,
+  dbproduct,
 }
 
 enum Tags {

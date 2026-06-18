@@ -65,7 +65,7 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
             shape: BoxShape.rectangle,
           ),
           child: Padding(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(12.0),
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -283,7 +283,16 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               if (FFAppState().RecipeList.length > 0) {
-                                context.pushNamed(MealSelectWidget.routeName);
+                                context.pushNamed(
+                                  MealSelectWidget.routeName,
+                                  extra: <String, dynamic>{
+                                    '__transition_info__': TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType:
+                                          PageTransitionType.rightToLeft,
+                                    ),
+                                  },
+                                );
                               } else {
                                 await showDialog(
                                   context: context,
@@ -328,7 +337,7 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                         ].divide(SizedBox(height: 0.0)),
                       ),
                     ),
-                ].divide(SizedBox(height: FFAppConstants.Padding2.toDouble())),
+                ].divide(SizedBox(height: 8.0)),
               ),
             ),
           ),

@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 
-Future updateDatePlan(
-    DailyPlanStruct plan, bool addCup, RecipeStruct recipe) async {
+Future updateDatePlan(DailyPlanStruct plan, bool addCup, RecipeStruct recipe,
+    int deleteMeal) async {
   final today = DateTime.now();
   final mealIdnew = today.second + today.minute * 10 ^ 2 + today.hour * 10 ^ 4;
   final index = FFAppState().DailyList.indexWhere((e) => e.id == plan.id);
@@ -47,14 +47,17 @@ Future updateDatePlan(
     plan.completedRecipes.add(newMeal);
   }
 
-  if (index != -1) {
-    FFAppState().DailyList[index] = plan;
-  } else {
-    FFAppState().addToDailyList(plan);
+  if (deleteMeal > 0) {
+    final dmeal = plan.completedRecipes.indexWhere((e) => e.id == deleteMeal);
+    if (dmeal != -1) plan.completedRecipes.removeAt(dmeal);
   }
 
   FFAppState().update(() {
-    //FFAppState().RecipeSelect = RecipeStruct();
+    if (index != -1) {
+      FFAppState().DailyList[index] = plan;
+    } else {
+      FFAppState().addToDailyList(plan);
+    }
   });
 
   // FFAppState().addToDailyList(plan);

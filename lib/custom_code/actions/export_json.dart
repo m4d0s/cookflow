@@ -15,41 +15,70 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
 
-Future<void> exportJson() async {
+Future<String> exportJson(int recipeID) async {
+  final today = DateTime.now();
   final timestamp =
-      '${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}';
+      '${today.year}${today.month}${today.day}${today.hour}${today.minute}${today.second}';
+  final isSharing = FFAppState().RecipeList.any((e) => e.id == recipeID);
+  final recipeName = isSharing
+      ? FFAppState()
+          .RecipeList
+          .firstWhere((element) => element.id == recipeID)
+          .name
+      : '';
   try {
-    final jsonString = jsonEncode({
-      'version': FFAppConstants.BackupVersion,
-      'darkMode': FFAppState().DarkMode,
-      'autoMode': FFAppState().AutoNutrition,
-      'nutritions': FFAppState().DailyGoal.toSerializableMap(),
-      'lastprodid': FFAppState().LastProductId,
-      'lastrecid': FFAppState().LastRecipeId,
-      'dailysel': FFAppState().DailySelect.toSerializableMap(),
-      'dailyList':
-          FFAppState().DailyList.map((e) => e.toSerializableMap()).toList(),
-      'recipeList':
-          FFAppState().RecipeList.map((e) => e.toSerializableMap()).toList(),
-      'recipesel': FFAppState().RecipeSelect.toSerializableMap(),
-      'properties': FFAppState().PeopleStat.toSerializableMap(),
-    });
+    final jsonString = !isSharing
+        ? jsonEncode({
+            'version': FFAppConstants.BackupVersion,
+            'darkMode': (FFAppState().DarkMode ?? AppTheme.system).index,
+            'autoMode': FFAppState().AutoNutrition,
+            'nutritions': FFAppState().DailyGoal.toSerializableMap(),
+            'lastprodid': FFAppState().LastProductId,
+            'lastrecid': FFAppState().LastRecipeId,
+            'laststepid': FFAppState().LastStepId,
+            'lastbuyid': FFAppState().LastBuyId,
+            'dailysel': FFAppState().DailySelect.toSerializableMap(),
+            'dailyList': FFAppState()
+                .DailyList
+                .map((e) => e.toSerializableMap())
+                .toList(),
+            'recipeList': FFAppState()
+                .RecipeList
+                .map((e) => e.toSerializableMap())
+                .toList(),
+            'recipesel': FFAppState().RecipeSelect.toSerializableMap(),
+            'buyList':
+                FFAppState().BuyList.map((e) => e.toSerializableMap()).toList(),
+            'buysel': FFAppState().RecipeSelect.toSerializableMap(),
+            'properties': FFAppState().PeopleStat.toSerializableMap(),
+            'share': false
+          })
+        : jsonEncode({
+            'version': FFAppConstants.BackupVersion,
+            'recipesel': FFAppState().RecipeSelect.toSerializableMap(),
+            'share': true
+          });
 
     final tempDir = await getTemporaryDirectory();
 
     final file = File(
-      '${tempDir.path}/cookflow_backup_${timestamp}.json',
+      isSharing
+          ? '${tempDir.path}/${recipeName}.${FFAppConstants.AppExtention2}'
+          : '${tempDir.path}/cookflow_backup_${timestamp}.${FFAppConstants.AppExtention1}',
     );
 
     await file.writeAsString(jsonString);
 
     await Share.shareXFiles(
       [XFile(file.path)],
-      text: 'CookFlow_Backup',
+      text: isSharing
+          ? 'Поделиться рецептом \"${recipeName}\"'
+          : 'CookFlow Backup',
       subject: 'CookFlow Backup',
     );
+    return '';
   } catch (e) {
-    debugPrint('Export error: $e');
+    return 'Ошибка при экспорте:\n$e';
   }
 }
 

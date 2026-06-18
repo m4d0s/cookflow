@@ -11,29 +11,43 @@ import 'package:flutter/material.dart';
 
 Future updateProduct(
     ProductStruct product,
-    String? quantity,
-    String? name,
-    double? kall,
-    double? protein,
-    double? fats,
-    double? carbs,
-    double? count,
-    int? id,
-    bool? check) async {
-  final products = FFAppState().RecipeSelect.products;
-  final index = products.indexWhere((p) => p.id == product.id);
-  final qq =
-      FFAppState().QuantityList.firstWhere((q) => q.quantity == quantity);
+    String quantity,
+    String name,
+    String category,
+    double kall,
+    double protein,
+    double fats,
+    double carbs,
+    double count,
+    int id,
+    bool check,
+    bool db) async {
+  final products =
+      db ? FFAppState().ProductDB : FFAppState().RecipeSelect.products;
+  final index = db
+      ? FFAppState().ProductDB.indexWhere((p) => p.id == product.id)
+      : products.indexWhere((p) => p.id == product.id);
 
-  if (quantity != null) product.quantity = qq;
-  if (name != null) product.name = name;
-  if (kall != null) product.nutrition100g.calories = kall;
-  if (protein != null) product.nutrition100g.protein = protein;
-  if (fats != null) product.nutrition100g.fats = fats;
-  if (carbs != null) product.nutrition100g.carbs = carbs;
-  if (count != null) product.quantity.count = count;
-  if (check != null) product.isChecked = check;
-  if (id != null) product.id = id;
+  final qq_index =
+      FFAppState().QuantityList.indexWhere((q) => q.quantity == quantity);
+  final qq = FoodQuantityStruct(
+      count: count,
+      divider: FFAppState().QuantityList[qq_index].divider,
+      altquantity: FFAppState().QuantityList[qq_index].altquantity,
+      multiplier: FFAppState().QuantityList[qq_index].multiplier,
+      quantity: quantity);
+
+  product.quantity = qq;
+  product.name = name;
+  product.category = (FFAppState().ProductCategoryList.firstWhere(
+      (e) => e.name == name,
+      orElse: () => ProductCategoryStruct(name: '')));
+  product.nutrition100g.calories = kall;
+  product.nutrition100g.protein = protein;
+  product.nutrition100g.fats = fats;
+  product.nutrition100g.carbs = carbs;
+  product.isChecked = check;
+  product.id = id;
 
   if (index != -1) {
     products[index] = product;

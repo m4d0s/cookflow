@@ -9,17 +9,18 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-String getTag(Tags tag) {
-  switch (tag) {
-    case Tags.food:
-      final ctag = FFAppState().RecipeSelect.foodType;
-      final tagf =
-          FFAppState().CategoryList.firstWhere((e) => e.category == ctag);
-      return tagf.name;
-    default: //Tags.hard
-      final ctag = FFAppState().RecipeSelect.hardType;
-      final tagf = FFAppState().HardList.firstWhere((e) => e.difficult == ctag);
-      return tagf.name;
+Future autoDeleteShop() async {
+  final today = DateTime.now();
+  final lastday = DateTime(today.year, today.month, today.day - 1, today.hour,
+      today.minute, today.second);
+  for (final shop in FFAppState().BuyList) {
+    if (shop.done != null) {
+      if (shop.done!.isBefore(lastday)) {
+        final index =
+            FFAppState().BuyList.indexWhere((element) => element.id == shop.id);
+        if (index != -1) FFAppState().removeAtIndexFromBuyList(index);
+      }
+    }
   }
 }
 

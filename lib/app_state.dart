@@ -159,12 +159,46 @@ class FFAppState extends ChangeNotifier {
           _SexList;
     });
     await _safeInitAsync(() async {
+      _ProductDB = (await secureStorage.getStringList('ff_ProductDB'))
+              ?.map((x) {
+                try {
+                  return ProductStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _ProductDB;
+    });
+    await _safeInitAsync(() async {
       _LastProductId =
           await secureStorage.getInt('ff_LastProductId') ?? _LastProductId;
     });
     await _safeInitAsync(() async {
       _LastRecipeId =
           await secureStorage.getInt('ff_LastRecipeId') ?? _LastRecipeId;
+    });
+    await _safeInitAsync(() async {
+      _LastBuyId = await secureStorage.getInt('ff_LastBuyId') ?? _LastBuyId;
+    });
+    await _safeInitAsync(() async {
+      _LastStepId = await secureStorage.getInt('ff_LastStepId') ?? _LastStepId;
+    });
+    await _safeInitAsync(() async {
+      _BuyList = (await secureStorage.getStringList('ff_BuyList'))
+              ?.map((x) {
+                try {
+                  return ShopItemStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _BuyList;
     });
     await _safeInitAsync(() async {
       _DarkMode = await secureStorage.read(key: 'ff_DarkMode') != null
@@ -175,6 +209,22 @@ class FFAppState extends ChangeNotifier {
     await _safeInitAsync(() async {
       _AutoNutrition =
           await secureStorage.getBool('ff_AutoNutrition') ?? _AutoNutrition;
+    });
+    await _safeInitAsync(() async {
+      _ProductCategoryList =
+          (await secureStorage.getStringList('ff_ProductCategoryList'))
+                  ?.map((x) {
+                    try {
+                      return ProductCategoryStruct.fromSerializableMap(
+                          jsonDecode(x));
+                    } catch (e) {
+                      print("Can't decode persisted data type. Error: $e.");
+                      return null;
+                    }
+                  })
+                  .withoutNulls
+                  .toList() ??
+              _ProductCategoryList;
     });
   }
 
@@ -399,13 +449,13 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodDifficultyStruct> _HardList = [
     FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Любой\",\"difficult\":\"all\"}')),
-    FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Лёгкий\",\"difficult\":\"easy\"}')),
     FoodDifficultyStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Средний\",\"difficult\":\"medium\"}')),
     FoodDifficultyStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}'))
+        jsonDecode('{\"name\":\"Сложный\",\"difficult\":\"hard\"}')),
+    FoodDifficultyStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Все\",\"difficult\":\"all\"}'))
   ];
   List<FoodDifficultyStruct> get HardList => _HardList;
   set HardList(List<FoodDifficultyStruct> value) {
@@ -675,6 +725,51 @@ class FFAppState extends ChangeNotifier {
         'ff_SexList', _SexList.map((x) => x.serialize()).toList());
   }
 
+  List<ProductStruct> _ProductDB = [];
+  List<ProductStruct> get ProductDB => _ProductDB;
+  set ProductDB(List<ProductStruct> value) {
+    _ProductDB = value;
+    secureStorage.setStringList(
+        'ff_ProductDB', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteProductDB() {
+    secureStorage.delete(key: 'ff_ProductDB');
+  }
+
+  void addToProductDB(ProductStruct value) {
+    ProductDB.add(value);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromProductDB(ProductStruct value) {
+    ProductDB.remove(value);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromProductDB(int index) {
+    ProductDB.removeAt(index);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void updateProductDBAtIndex(
+    int index,
+    ProductStruct Function(ProductStruct) updateFn,
+  ) {
+    ProductDB[index] = updateFn(_ProductDB[index]);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInProductDB(int index, ProductStruct value) {
+    ProductDB.insert(index, value);
+    secureStorage.setStringList(
+        'ff_ProductDB', _ProductDB.map((x) => x.serialize()).toList());
+  }
+
   String _SearchQuery = '';
   String get SearchQuery => _SearchQuery;
   set SearchQuery(String value) {
@@ -725,6 +820,83 @@ class FFAppState extends ChangeNotifier {
 
   void deleteLastRecipeId() {
     secureStorage.delete(key: 'ff_LastRecipeId');
+  }
+
+  int _LastBuyId = 0;
+  int get LastBuyId => _LastBuyId;
+  set LastBuyId(int value) {
+    _LastBuyId = value;
+    secureStorage.setInt('ff_LastBuyId', value);
+  }
+
+  void deleteLastBuyId() {
+    secureStorage.delete(key: 'ff_LastBuyId');
+  }
+
+  int _LastStepId = 0;
+  int get LastStepId => _LastStepId;
+  set LastStepId(int value) {
+    _LastStepId = value;
+    secureStorage.setInt('ff_LastStepId', value);
+  }
+
+  void deleteLastStepId() {
+    secureStorage.delete(key: 'ff_LastStepId');
+  }
+
+  List<ShopItemStruct> _BuyList = [];
+  List<ShopItemStruct> get BuyList => _BuyList;
+  set BuyList(List<ShopItemStruct> value) {
+    _BuyList = value;
+    secureStorage.setStringList(
+        'ff_BuyList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteBuyList() {
+    secureStorage.delete(key: 'ff_BuyList');
+  }
+
+  void addToBuyList(ShopItemStruct value) {
+    BuyList.add(value);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromBuyList(ShopItemStruct value) {
+    BuyList.remove(value);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromBuyList(int index) {
+    BuyList.removeAt(index);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void updateBuyListAtIndex(
+    int index,
+    ShopItemStruct Function(ShopItemStruct) updateFn,
+  ) {
+    BuyList[index] = updateFn(_BuyList[index]);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInBuyList(int index, ShopItemStruct value) {
+    BuyList.insert(index, value);
+    secureStorage.setStringList(
+        'ff_BuyList', _BuyList.map((x) => x.serialize()).toList());
+  }
+
+  ShopItemStruct _BuySelect = ShopItemStruct();
+  ShopItemStruct get BuySelect => _BuySelect;
+  set BuySelect(ShopItemStruct value) {
+    _BuySelect = value;
+  }
+
+  void updateBuySelectStruct(Function(ShopItemStruct) updateFn) {
+    updateFn(_BuySelect);
   }
 
   AppTheme? _DarkMode = AppTheme.system;
@@ -797,6 +969,108 @@ class FFAppState extends ChangeNotifier {
   bool get RunningTimer => _RunningTimer;
   set RunningTimer(bool value) {
     _RunningTimer = value;
+  }
+
+  bool _isDailyChoose = false;
+  bool get isDailyChoose => _isDailyChoose;
+  set isDailyChoose(bool value) {
+    _isDailyChoose = value;
+  }
+
+  int _BuyCount = 1;
+  int get BuyCount => _BuyCount;
+  set BuyCount(int value) {
+    _BuyCount = value;
+  }
+
+  ProductCategoryStruct _ProductCategorySelect = ProductCategoryStruct();
+  ProductCategoryStruct get ProductCategorySelect => _ProductCategorySelect;
+  set ProductCategorySelect(ProductCategoryStruct value) {
+    _ProductCategorySelect = value;
+  }
+
+  void updateProductCategorySelectStruct(
+      Function(ProductCategoryStruct) updateFn) {
+    updateFn(_ProductCategorySelect);
+  }
+
+  List<ProductCategoryStruct> _ProductCategoryList = [
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Овощи\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Фрукты\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Мясо\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Зелень\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Специи\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Молочный\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Крупы\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Жидкость\",\"checked\":\"false\"}'))
+  ];
+  List<ProductCategoryStruct> get ProductCategoryList => _ProductCategoryList;
+  set ProductCategoryList(List<ProductCategoryStruct> value) {
+    _ProductCategoryList = value;
+    secureStorage.setStringList(
+        'ff_ProductCategoryList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteProductCategoryList() {
+    secureStorage.delete(key: 'ff_ProductCategoryList');
+  }
+
+  void addToProductCategoryList(ProductCategoryStruct value) {
+    ProductCategoryList.add(value);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromProductCategoryList(ProductCategoryStruct value) {
+    ProductCategoryList.remove(value);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromProductCategoryList(int index) {
+    ProductCategoryList.removeAt(index);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void updateProductCategoryListAtIndex(
+    int index,
+    ProductCategoryStruct Function(ProductCategoryStruct) updateFn,
+  ) {
+    ProductCategoryList[index] = updateFn(_ProductCategoryList[index]);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInProductCategoryList(
+      int index, ProductCategoryStruct value) {
+    ProductCategoryList.insert(index, value);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  ProductStruct _ProductSelect = ProductStruct();
+  ProductStruct get ProductSelect => _ProductSelect;
+  set ProductSelect(ProductStruct value) {
+    _ProductSelect = value;
+  }
+
+  void updateProductSelectStruct(Function(ProductStruct) updateFn) {
+    updateFn(_ProductSelect);
+  }
+
+  bool _ProductDBSelect = false;
+  bool get ProductDBSelect => _ProductDBSelect;
+  set ProductDBSelect(bool value) {
+    _ProductDBSelect = value;
   }
 }
 

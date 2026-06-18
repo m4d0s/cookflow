@@ -15,6 +15,8 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   FFUploadedFile? recipePicture111;
   // Model for Button.
   late UButtonModel buttonModel;
+  // Stores action output result for [Custom Action - importBackup] action in Button widget.
+  String? error;
   // Stores action output result for [Custom Action - imageToBase64] action in Container widget.
   String? recipePhotoBase64;
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in Container widget.
@@ -31,18 +33,18 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   int? countControllerValue1;
   // State field(s) for CountController widget.
   int? countControllerValue2;
+  // State field(s) for category widget.
+  Food? categoryValue;
+  FormFieldController<Food>? categoryValueController;
   // State field(s) for DropDown widget.
-  Food? dropDownValue1;
-  FormFieldController<Food>? dropDownValueController1;
-  // State field(s) for DropDown widget.
-  Hardness? dropDownValue2;
-  FormFieldController<Hardness>? dropDownValueController2;
-  // State field(s) for CountController widget.
-  int? countControllerValue3;
+  Hardness? dropDownValue;
+  FormFieldController<Hardness>? dropDownValueController;
   // Models for IngridientEdit dynamic component.
   late FlutterFlowDynamicModels<IngridientEditModel> ingridientEditModels;
   // Models for StepEdit dynamic component.
   late FlutterFlowDynamicModels<StepEditModel> stepEditModels;
+  // Stores action output result for [Custom Action - recipeComplete] action in FloatingActionButton widget.
+  List<bool>? isComplete;
 
   @override
   void initState(BuildContext context) {

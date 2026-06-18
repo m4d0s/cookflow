@@ -14,11 +14,12 @@ import 'package:package_info_plus/package_info_plus.dart';
 Future<String> getAppVersion() async {
   final info = await PackageInfo.fromPlatform();
 
-  final str1 = '${info.appName} - готовим просто и удобно!';
+  final str1 = '${info.appName} - готовим просто и удобно!\n';
   final str2 = 'Название пакета: ${info.packageName}';
   final str3 = 'Версия пакета: ${info.version} (${info.buildNumber})';
   final str4 = 'Подпись: ${info.buildSignature}';
-  return '${str1}\n${str2}\n${str3}\n${str4}\n';
+  final str5 = 'Защищено лицензией GNU GPLv3';
+  return '${str1}\n${str2}\n${str4}\n${str5}\n${str3}\n';
 }
 
 // Set your action name, define your arguments and return parameter,

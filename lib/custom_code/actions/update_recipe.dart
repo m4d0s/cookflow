@@ -11,19 +11,21 @@ import 'package:flutter/material.dart';
 
 /// update ids for steps and ingridients in recipe count from 1, delete recipe
 /// by recipe id in AppState RecipeList and add updated one
-Future updateRecipe(bool? fav, bool clear) async {
+//
+import 'dart:math';
+
+Future updateRecipe(bool? fav, bool clear, bool share) async {
   final recipe = FFAppState().RecipeSelect;
 
   if (fav != null) recipe.isFavorite = fav;
 
-  final index = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
+  //final index = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
 
-  final existing =
-      FFAppState().RecipeList.where((r) => r.id == recipe.id).first;
-  existing.nutritions.calories = 0;
-  existing.nutritions.protein = 0;
-  existing.nutritions.fats = 0;
-  existing.nutritions.carbs = 0;
+  final existing = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
+  recipe.nutritions.calories = 0;
+  recipe.nutritions.protein = 0;
+  recipe.nutritions.fats = 0;
+  recipe.nutritions.carbs = 0;
 
   for (final product in recipe.products) {
     final measure = product.quantity.count * product.quantity.multiplier;
@@ -37,16 +39,25 @@ Future updateRecipe(bool? fav, bool clear) async {
     final carbs =
         product.nutrition100g.carbs / product.quantity.divider * measure;
 
-    existing.nutritions.calories += callories;
-    existing.nutritions.protein += protein;
-    existing.nutritions.fats += fats;
-    existing.nutritions.carbs += carbs;
+    recipe.nutritions.calories += callories;
+    recipe.nutritions.protein += protein;
+    recipe.nutritions.fats += fats;
+    recipe.nutritions.carbs += carbs;
   }
+
+  recipe.nutritions.calories = max(0, recipe.nutritions.calories);
+  recipe.nutritions.protein = max(0, recipe.nutritions.protein);
+  recipe.nutritions.fats = max(0, recipe.nutritions.fats);
+  recipe.nutritions.carbs = max(0, recipe.nutritions.carbs);
 
   //if (index >= 0) FFAppState().RecipeList[index] = existing;
   //FFAppState().RecipeList.sort((a, b) => a.id.compareTo(b.id));
 
   FFAppState().update(() {
+    if ((existing != -1) & !share)
+      FFAppState().RecipeList[existing] = recipe;
+    else
+      FFAppState().addToRecipeList(recipe);
     if (clear) FFAppState().RecipeSelect = RecipeStruct();
   });
 }

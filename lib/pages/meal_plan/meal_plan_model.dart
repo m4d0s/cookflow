@@ -1,6 +1,7 @@
 import '/backend/schema/structs/index.dart';
 import '/components/day_card2/day_card2_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'meal_plan_widget.dart' show MealPlanWidget;
 import 'package:flutter/material.dart';
 

@@ -150,14 +150,25 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                                   if (shouldUpdate) safeSetState(() {});
                                 },
                                 onEnded: () async {
-                                  await actions.playbackTimerEnd();
-                                  await Future.delayed(
-                                    Duration(
-                                      milliseconds: 5000,
-                                    ),
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('Время истекло'),
+                                        content: Text(
+                                            'Время для текущего шага прошло, можете продолжить готовить и перейти к следующему шагу!'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Хорошо'),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   );
-
-                                  safeSetState(() {});
+                                  await actions.playbackTimerEnd();
+                                  _model.timerController.onResetTimer();
                                 },
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.of(context)

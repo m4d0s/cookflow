@@ -13,7 +13,7 @@ class ShoppingListWidget extends StatefulWidget {
   const ShoppingListWidget({super.key});
 
   static String routeName = 'ShoppingList';
-  static String routePath = '/shoppingList';
+  static String routePath = 'shoppingList';
 
   @override
   State<ShoppingListWidget> createState() => _ShoppingListWidgetState();

@@ -2,7 +2,7 @@
 abstract class FFAppConstants {
   static const bool TrueValue = true;
   static const bool FalseValue = false;
-  static const int BackupVersion = 4;
+  static const int BackupVersion = 5;
   static const int NutritionRound = 10;
   static const int StructLimit = 20;
   static const String AppName = 'Cook Flow';
@@ -16,4 +16,6 @@ abstract class FFAppConstants {
   static const int PhotoWidth = 1280;
   static const int PhotoQuality = 75;
   static const int WaterCups = 8;
+  static const String AppExtention1 = 'ckflwb';
+  static const String AppExtention2 = 'ckflwr';
 }

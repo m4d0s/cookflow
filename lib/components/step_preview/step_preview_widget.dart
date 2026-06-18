@@ -109,18 +109,9 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Icon(
-                                    Icons.lightbulb,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                    Icons.auto_awesome_rounded,
+                                    color: FlutterFlowTheme.of(context).primary,
                                     size: 14.0,
-                                  ),
-                                  SizedBox(
-                                    height: 16.0,
-                                    child: VerticalDivider(
-                                      thickness: 2.0,
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                    ),
                                   ),
                                 ],
                               ),
@@ -132,8 +123,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                 children: [
                                   Icon(
                                     Icons.timer_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                    color: FlutterFlowTheme.of(context).primary,
                                     size: 14.0,
                                   ),
                                   Text(
@@ -168,7 +158,7 @@ class _StepPreviewWidgetState extends State<StepPreviewWidget> {
                                 ].divide(SizedBox(
                                     width: FFAppConstants.Padding0.toDouble())),
                               ),
-                          ],
+                          ].divide(SizedBox(width: 4.0)),
                         ),
                       ),
                     ],

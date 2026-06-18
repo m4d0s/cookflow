@@ -1,6 +1,6 @@
+import '/archive/u_text_field/u_text_field_widget.dart';
 import '/backend/schema/enums/enums.dart';
 import '/components/recipe_card1/recipe_card1_widget.dart';
-import '/components/u_text_field/u_text_field_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -16,7 +16,7 @@ class AddToPlanWidget extends StatefulWidget {
   const AddToPlanWidget({super.key});
 
   static String routeName = 'AddToPlan';
-  static String routePath = '/addToPlan';
+  static String routePath = 'addToPlan';
 
   @override
   State<AddToPlanWidget> createState() => _AddToPlanWidgetState();
@@ -144,6 +144,7 @@ class _AddToPlanWidgetState extends State<AddToPlanWidget> {
                                     FFAppState().DailySelect,
                                     FFAppConstants.FalseValue,
                                     recipeItem,
+                                    -1,
                                   );
                                   if (Navigator.of(context).canPop()) {
                                     context.pop();

@@ -12,3 +12,7 @@ export '/pages/settings/settings_widget.dart' show SettingsWidget;
 export '/pages/meal_select/meal_select_widget.dart' show MealSelectWidget;
 export '/pages/meal_preview/meal_preview_widget.dart' show MealPreviewWidget;
 export '/pages/cooking_end/cooking_end_widget.dart' show CookingEndWidget;
+export '/pages/shop_list/shop_list_widget.dart' show ShopListWidget;
+export '/pages/product_base/product_base_widget.dart' show ProductBaseWidget;
+export '/pages/product_select/product_select_widget.dart'
+    show ProductSelectWidget;

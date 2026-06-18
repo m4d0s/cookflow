@@ -10,50 +10,75 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future addNewStruct(Structs struct) async {
-  final recipe = FFAppState().RecipeSelect;
-
   int id;
+  int qid;
 
   switch (struct) {
     case Structs.product:
+      final recipe = FFAppState().RecipeSelect;
       id = FFAppState().LastProductId + 1;
 
       if (recipe.products.length < FFAppConstants.StructLimit) {
         recipe.products.add(
           ProductStruct(
-            id: id,
-            quantity: FoodQuantityStruct(),
-            nutrition100g: NutritionsStruct(),
-          ),
+              id: id,
+              quantity: FoodQuantityStruct(),
+              nutrition100g: NutritionsStruct(),
+              category: ProductCategoryStruct()),
         );
         FFAppState().LastProductId += 1;
       }
       break;
 
+    case Structs.shop:
+      id = FFAppState().LastBuyId + 1;
+      FFAppState().LastBuyId += 1;
+      final shop = ShopItemStruct(
+          bought: false,
+          create: DateTime.now(),
+          id: id,
+          quantity: FoodQuantityStruct());
+
+      FFAppState().BuySelect = shop;
+      //FFAppState().addToBuyList(shop);
+
+      break;
+    case Structs.dbproduct:
+      id = FFAppState().LastProductId + 1;
+      FFAppState().addToProductDB(
+        ProductStruct(
+            id: id,
+            quantity: FoodQuantityStruct(),
+            nutrition100g: NutritionsStruct(),
+            category: ProductCategoryStruct()),
+      );
+      FFAppState().LastProductId += 1;
+      break;
     case Structs.step:
-      id = recipe.cookingSteps.length + 1;
+      final recipe = FFAppState().RecipeSelect;
+      id = FFAppState().LastProductId + 1;
+      qid = recipe.cookingSteps.length + 1;
 
       if (recipe.cookingSteps.length < FFAppConstants.StructLimit) {
         recipe.cookingSteps.add(
-          StepStruct(queueId: id),
+          StepStruct(queueId: qid, id: id),
         );
       }
+      FFAppState().LastStepId += 1;
       break;
 
     default:
       id = FFAppState().LastRecipeId + 1;
       FFAppState().LastRecipeId += 1;
-
-      FFAppState().addToRecipeList(
-        RecipeStruct(
-          id: id,
-          cookingSteps: [],
-          products: [],
-          nutritions: NutritionsStruct(),
-        ),
+      final recipe = RecipeStruct(
+        id: id,
+        cookingSteps: [],
+        products: [],
+        nutritions: NutritionsStruct(),
       );
 
-      FFAppState().RecipeSelect = FFAppState().RecipeList.last;
+      // FFAppState().addToRecipeList(recipe);
+      FFAppState().RecipeSelect = recipe;
   }
 
   FFAppState().update(() {});
