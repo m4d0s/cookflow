@@ -2,7 +2,6 @@ import '/backend/schema/enums/enums.dart';
 import '/components/app_info/app_info_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/index.dart';
 import 'settings_widget.dart' show SettingsWidget;
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';

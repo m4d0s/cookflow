@@ -161,7 +161,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                                       .fontStyle,
                                 ),
                                 color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 26.0,
+                                fontSize: 22.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FlutterFlowTheme.of(context)
@@ -223,7 +223,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                               Text(
                                 FFAppState().RecipeSelect.name,
                                 textAlign: TextAlign.center,
-                                maxLines: 1,
+                                maxLines: 2,
                                 style: FlutterFlowTheme.of(context)
                                     .titleLarge
                                     .override(
@@ -235,7 +235,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                                       ),
                                       color:
                                           FlutterFlowTheme.of(context).primary,
-                                      fontSize: 18.0,
+                                      fontSize: 14.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
@@ -374,7 +374,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                             unratedColor:
                                 FlutterFlowTheme.of(context).alternate,
                             itemCount: 5,
-                            itemSize: 22.0,
+                            itemSize: 18.0,
                             glowColor: FlutterFlowTheme.of(context).secondary,
                           ),
                         ],

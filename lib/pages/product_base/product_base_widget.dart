@@ -1,5 +1,5 @@
 import '/components/product_item/product_item_widget.dart';
-import '/flutter_flow/flutter_flow_choice_chips.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -63,7 +63,7 @@ class _ProductBaseWidgetState extends State<ProductBaseWidget> {
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: Icon(
             Icons.add,
-            color: FlutterFlowTheme.of(context).onSecondary,
+            color: FlutterFlowTheme.of(context).onPrimary,
           ),
           elevation: 8.0,
           autofocus: false,
@@ -76,7 +76,7 @@ class _ProductBaseWidgetState extends State<ProductBaseWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                   ),
-                  color: FlutterFlowTheme.of(context).onSecondary,
+                  color: FlutterFlowTheme.of(context).onPrimary,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).bodyMedium.fontWeight,
@@ -96,8 +96,8 @@ class _ProductBaseWidgetState extends State<ProductBaseWidget> {
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: Colors.white,
-                  fontSize: 18.0,
+                  color: FlutterFlowTheme.of(context).onPrimary,
+                  fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).headlineMedium.fontWeight,
@@ -271,102 +271,54 @@ class _ProductBaseWidgetState extends State<ProductBaseWidget> {
                 ],
               ),
             ),
-            Container(
-              height: 80.0,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Container(
-                          width: 200.0,
-                          child: FlutterFlowChoiceChips(
-                            options: FFAppState()
-                                .ProductCategoryList
-                                .map((e) => e.name)
-                                .toList()
-                                .map((label) => ChipData(label))
-                                .toList(),
-                            onChanged: (val) => safeSetState(() =>
-                                _model.choiceChipsValue = val?.firstOrNull),
-                            selectedChipStyle: ChipStyle(
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).secondary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context).info,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                              iconColor:
-                                  FlutterFlowTheme.of(context).onSecondary,
-                              iconSize: 16.0,
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            unselectedChipStyle: ChipStyle(
-                              backgroundColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                              iconColor:
-                                  FlutterFlowTheme.of(context).secondaryText,
-                              iconSize: 16.0,
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            chipSpacing: 12.0,
-                            rowSpacing: 8.0,
-                            multiselect: false,
-                            alignment: WrapAlignment.start,
-                            controller: _model.choiceChipsValueController ??=
-                                FormFieldController<List<String>>(
-                              [],
-                            ),
-                            wrapped: false,
-                          ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Container(
+                child: FlutterFlowDropDown<String>(
+                  controller: _model.dropDownValueController ??=
+                      FormFieldController<String>(
+                    _model.dropDownValue ??= 'Все',
+                  ),
+                  options: FFAppState()
+                      .ProductCategoryList
+                      .map((e) => e.name)
+                      .toList()
+                      .where((e) => e != 'Все')
+                      .toList(),
+                  onChanged: (val) =>
+                      safeSetState(() => _model.dropDownValue = val),
+                  width: 200.0,
+                  height: 40.0,
+                  textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                        font: GoogleFonts.inter(
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
+                        letterSpacing: 0.0,
+                        fontWeight:
+                            FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
-                    ),
-                  ],
+                  hintText: 'Select...',
+                  icon: Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 24.0,
+                  ),
+                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                  elevation: 2.0,
+                  borderColor: Colors.transparent,
+                  borderWidth: 0.0,
+                  borderRadius: 8.0,
+                  margin: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                  hidesUnderline: true,
+                  isOverButton: false,
+                  isSearchable: false,
+                  isMultiSelect: false,
                 ),
               ),
             ),
@@ -396,7 +348,7 @@ class _ProductBaseWidgetState extends State<ProductBaseWidget> {
                                   final productedItem =
                                       producted[productedIndex];
                                   return Visibility(
-                                    visible: (_model.choiceChipsValue ==
+                                    visible: (_model.dropDownValue ==
                                             productedItem.category.name) &&
                                         functions.substringFind(
                                             productedItem.name,
@@ -421,7 +373,7 @@ class _ProductBaseWidgetState extends State<ProductBaseWidget> {
                                   filterFn: (productedIndex) {
                                     final productedItem =
                                         producted[productedIndex];
-                                    return (_model.choiceChipsValue ==
+                                    return (_model.dropDownValue ==
                                             productedItem.category.name) &&
                                         functions.substringFind(
                                             productedItem.name,

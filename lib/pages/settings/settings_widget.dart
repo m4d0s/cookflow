@@ -1,12 +1,10 @@
 import '/backend/schema/enums/enums.dart';
 import '/components/app_info/app_info_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
-import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -123,34 +121,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).onPrimary,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              if (FFAppState().AutoNutrition) {
-                await actions.measureTDEE();
-              }
-              if (Navigator.of(context).canPop()) {
-                context.pop();
-              }
-              context.pushNamed(
-                RecipeListWidget.routeName,
-                extra: <String, dynamic>{
-                  '__transition_info__': TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.bottomToTop,
-                  ),
-                },
-              );
-            },
-          ),
           title: Text(
             'Настройки',
             style: FlutterFlowTheme.of(context).headlineMedium.override(

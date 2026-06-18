@@ -4,7 +4,6 @@ import '/components/day_card1/day_card1_widget.dart';
 import '/components/macro_stat/macro_stat_widget.dart';
 import '/components/parameter_input/parameter_input_widget.dart';
 import '/components/water_balance/water_balance_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -81,31 +80,6 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).onPrimary,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              if (Navigator.of(context).canPop()) {
-                context.pop();
-              }
-              context.pushNamed(
-                RecipeListWidget.routeName,
-                extra: <String, dynamic>{
-                  '__transition_info__': TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.topToBottom,
-                  ),
-                },
-              );
-            },
-          ),
           title: Text(
             'Дневной план',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -116,7 +90,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
                   color: FlutterFlowTheme.of(context).onPrimary,
-                  fontSize: 18.0,
+                  fontSize: 22.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).headlineMedium.fontWeight,

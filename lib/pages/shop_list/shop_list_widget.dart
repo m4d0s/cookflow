@@ -65,28 +65,6 @@ class _ShopListWidgetState extends State<ShopListWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).onPrimary,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              context.goNamed(
-                RecipeListWidget.routeName,
-                extra: <String, dynamic>{
-                  '__transition_info__': TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.rightToLeft,
-                  ),
-                },
-              );
-            },
-          ),
           title: Text(
             'Список покупок',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -356,7 +334,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                             ),
                                           ),
                                         ),
-                                      ].divide(SizedBox(height: 4.0)),
+                                      ].divide(SizedBox(height: 8.0)),
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -667,7 +645,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                             ),
                                           ),
                                         ),
-                                      ].divide(SizedBox(height: 4.0)),
+                                      ].divide(SizedBox(height: 8.0)),
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -689,7 +667,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                               ),
                                               onPressed: () async {
                                                 _model.buyhide =
-                                                    FFAppConstants.TrueValue;
+                                                    FFAppConstants.FalseValue;
                                                 safeSetState(() {});
                                               },
                                             ),
@@ -709,7 +687,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                                 ),
                                                 onPressed: () async {
                                                   _model.buyhide =
-                                                      FFAppConstants.FalseValue;
+                                                      FFAppConstants.TrueValue;
                                                   safeSetState(() {});
                                                 },
                                               ),
@@ -740,7 +718,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Text(
-                                              'У вас нету продуктов в списке. Нажмите \"+ Добавить\", чтобы создать новый пункт',
+                                              'У вас нету продуктов в списке. Нажмите \"+ Новый\", чтобы создать новый пункт',
                                               textAlign: TextAlign.center,
                                               style:
                                                   FlutterFlowTheme.of(context)

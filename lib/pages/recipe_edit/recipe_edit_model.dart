@@ -12,7 +12,7 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeEdit widget.
-  FFUploadedFile? recipePicture111;
+  FFUploadedFile? pictureAgainn;
   // Model for Button.
   late UButtonModel buttonModel;
   // Stores action output result for [Custom Action - importBackup] action in Button widget.

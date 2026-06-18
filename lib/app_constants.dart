@@ -16,6 +16,6 @@ abstract class FFAppConstants {
   static const int PhotoWidth = 1280;
   static const int PhotoQuality = 75;
   static const int WaterCups = 8;
-  static const String AppExtention1 = 'ckflwb';
-  static const String AppExtention2 = 'ckflwr';
+  static const String AppExtention1 = 'cflwb';
+  static const String AppExtention2 = 'cflwr';
 }

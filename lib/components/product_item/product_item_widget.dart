@@ -746,6 +746,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                                     options: FFAppState()
                                         .ProductCategoryList
                                         .map((e) => e.name)
+                                        .toList()
+                                        .where((e) => e != 'Все')
                                         .toList(),
                                     onChanged: (val) async {
                                       safeSetState(
@@ -2280,6 +2282,11 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                                                         .fontStyle,
                                               ),
                                           maxLength: 6,
+                                          buildCounter: (context,
+                                                  {required currentLength,
+                                                  required isFocused,
+                                                  maxLength}) =>
+                                              null,
                                           keyboardType: const TextInputType
                                               .numberWithOptions(decimal: true),
                                           cursorColor:

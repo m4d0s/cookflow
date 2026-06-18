@@ -112,7 +112,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
                   color: FlutterFlowTheme.of(context).onPrimary,
-                  fontSize: 22.0,
+                  fontSize: 18.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).headlineMedium.fontWeight,

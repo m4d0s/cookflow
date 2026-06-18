@@ -11,12 +11,9 @@ class ProductBaseModel extends FlutterFlowModel<ProductBaseWidget> {
   FocusNode? inputFocusNode;
   TextEditingController? inputTextController;
   String? Function(BuildContext, String?)? inputTextControllerValidator;
-  // State field(s) for ChoiceChips widget.
-  FormFieldController<List<String>>? choiceChipsValueController;
-  String? get choiceChipsValue =>
-      choiceChipsValueController?.value?.firstOrNull;
-  set choiceChipsValue(String? val) =>
-      choiceChipsValueController?.value = val != null ? [val] : [];
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
   // Models for ProductItem.
   late FlutterFlowDynamicModels<ProductItemModel> productItemModels;
 

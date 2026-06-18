@@ -117,7 +117,7 @@ class _AppInfoWidgetState extends State<AppInfoWidget> {
                                       .titleSmall
                                       .fontStyle,
                                 ),
-                                color: Colors.white,
+                                color: FlutterFlowTheme.of(context).onPrimary,
                                 letterSpacing: 0.0,
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .titleSmall

@@ -40,11 +40,9 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (FFAppState().RecipeSelect.pictureBase64 != '') {
-        _model.recipePicture111 = await actions.base64ToFFUploadedFile(
-          FFAppState().RecipeSelect.pictureBase64,
-        );
-      }
+      _model.pictureAgainn = await actions.base64ToFFUploadedFile(
+        FFAppState().RecipeSelect.pictureBase64,
+      );
 
       safeSetState(() {});
     });
@@ -114,7 +112,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
           child: FloatingActionButton.extended(
             onPressed: () async {
               _model.isComplete = await actions.recipeComplete();
-              if (_model.isComplete!.where((e) => !e).toList().length > 0) {
+              if (_model.isComplete?.unique((e) => e).length == 1) {
                 await actions.updateRecipe(
                   FFAppConstants.FalseValue,
                   FFAppConstants.FalseValue,
@@ -293,7 +291,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
                   color: FlutterFlowTheme.of(context).onPrimary,
-                  fontSize: 22.0,
+                  fontSize: 18.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).headlineMedium.fontWeight,
@@ -414,7 +412,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'Заполните все необходимые данные, помеченные звёздочкой, чтобы иметь возможность сохранить рецепт',
+                              'Заполните все необходимые данные, помеченные звёздочкой, чтобы иметь возможность сохранить рецепт. Также можете загрузить готовый рецепт в формате \".cflwr\" по кнопке ниже',
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -504,7 +502,8 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                             .titleSmall
                                             .fontStyle,
                                       ),
-                                      color: Colors.white,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onPrimary,
                                       letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
@@ -576,8 +575,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
                                               child: Image.memory(
-                                                _model.recipePicture111
-                                                        ?.bytes ??
+                                                _model.pictureAgainn?.bytes ??
                                                     Uint8List.fromList([]),
                                                 width: 300.0,
                                                 height: 200.0,
@@ -2108,7 +2106,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                           await actions.addNewStruct(
                                             Structs.product,
                                           );
-
                                           safeSetState(() {});
                                         },
                                         child: Container(
@@ -2332,33 +2329,32 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                 lineHeight: 1.45,
                                               ),
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            border: Border.all(
+                                        InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            await actions.addNewStruct(
+                                              Structs.step,
+                                            );
+                                            safeSetState(() {});
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .alternate,
+                                                      .primaryBackground,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
+                                              ),
                                             ),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              onTap: () async {
-                                                await actions.addNewStruct(
-                                                  Structs.step,
-                                                );
-
-                                                safeSetState(() {});
-                                              },
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:

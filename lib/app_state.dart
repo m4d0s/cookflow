@@ -725,7 +725,14 @@ class FFAppState extends ChangeNotifier {
         'ff_SexList', _SexList.map((x) => x.serialize()).toList());
   }
 
-  List<ProductStruct> _ProductDB = [];
+  List<ProductStruct> _ProductDB = [
+    ProductStruct.fromSerializableMap(jsonDecode(
+        '{\"id\":\"0\",\"name\":\"Яйцо куриное\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"86\\\",\\\"protein\\\":\\\"7\\\",\\\"fats\\\":\\\"6\\\",\\\"carbs\\\":\\\"0.4\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"1\\\",\\\"divider\\\":\\\"1\\\",\\\"multiplier\\\":\\\"1\\\",\\\"quantity\\\":\\\"шт\\\",\\\"altquantity\\\":\\\"шт\\\"}\",\"isChecked\":\"false\",\"category\":\"{\\\"name\\\":\\\"Органика\\\",\\\"checked\\\":\\\"false\\\"}\"}')),
+    ProductStruct.fromSerializableMap(jsonDecode(
+        '{\"id\":\"0\",\"name\":\"Куриная грудка\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"1130\\\",\\\"protein\\\":\\\"236\\\",\\\"fats\\\":\\\"19\\\",\\\"carbs\\\":\\\"4\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"1\\\",\\\"divider\\\":\\\"100\\\",\\\"multiplier\\\":\\\"1000\\\",\\\"quantity\\\":\\\"кг\\\",\\\"altquantity\\\":\\\"г\\\"}\",\"isChecked\":\"false\",\"category\":\"{\\\"name\\\":\\\"Мясо\\\",\\\"checked\\\":\\\"false\\\"}\"}')),
+    ProductStruct.fromSerializableMap(jsonDecode(
+        '{\"id\":\"0\",\"name\":\"Вода\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"0\\\",\\\"protein\\\":\\\"0\\\",\\\"fats\\\":\\\"0\\\",\\\"carbs\\\":\\\"0\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"100\\\",\\\"divider\\\":\\\"100\\\",\\\"multiplier\\\":\\\"1\\\",\\\"quantity\\\":\\\"мл\\\",\\\"altquantity\\\":\\\"мл\\\"}\",\"isChecked\":\"false\",\"category\":\"{\\\"name\\\":\\\"Hello World\\\",\\\"checked\\\":\\\"false\\\"}\"}'))
+  ];
   List<ProductStruct> get ProductDB => _ProductDB;
   set ProductDB(List<ProductStruct> value) {
     _ProductDB = value;
@@ -996,7 +1003,7 @@ class FFAppState extends ChangeNotifier {
 
   List<ProductCategoryStruct> _ProductCategoryList = [
     ProductCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Овощи\",\"checked\":\"false\"}')),
+        jsonDecode('{\"name\":\"Все\",\"checked\":\"false\"}')),
     ProductCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Фрукты\",\"checked\":\"false\"}')),
     ProductCategoryStruct.fromSerializableMap(
@@ -1010,7 +1017,9 @@ class FFAppState extends ChangeNotifier {
     ProductCategoryStruct.fromSerializableMap(
         jsonDecode('{\"name\":\"Крупы\",\"checked\":\"false\"}')),
     ProductCategoryStruct.fromSerializableMap(
-        jsonDecode('{\"name\":\"Жидкость\",\"checked\":\"false\"}'))
+        jsonDecode('{\"name\":\"Жидкость\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Овощи\",\"checked\":\"false\"}'))
   ];
   List<ProductCategoryStruct> get ProductCategoryList => _ProductCategoryList;
   set ProductCategoryList(List<ProductCategoryStruct> value) {

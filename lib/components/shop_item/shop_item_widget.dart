@@ -133,13 +133,32 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                               FlutterFlowTheme.of(context).alternate,
                         ),
                         child: CheckboxListTile(
-                          value: _model.checkboxListTileValue ??= true,
+                          value: _model.checkboxListTileValue ??=
+                              widget.item!.bought,
                           onChanged: (newValue) async {
                             safeSetState(
                                 () => _model.checkboxListTileValue = newValue!);
+                            if (newValue!) {
+                              await actions.updateShopItem(
+                                FFAppConstants.FalseValue,
+                                FFAppConstants.TrueValue,
+                              );
+
+                              safeSetState(() {});
+                            } else {
+                              await actions.updateShopItem(
+                                FFAppConstants.FalseValue,
+                                FFAppConstants.FalseValue,
+                              );
+
+                              safeSetState(() {});
+                            }
                           },
                           title: Text(
-                            widget.item!.name,
+                            valueOrDefault<String>(
+                              widget.item?.name,
+                              '[Продукт без названия]',
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .titleLarge
                                 .override(
@@ -162,7 +181,9 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                                 ),
                           ),
                           subtitle: Text(
-                            '${widget.item?.quantity.count.toString()} ${widget.item?.quantity.quantity}',
+                            widget.item!.quantity.count > 0.0
+                                ? '${widget.item?.quantity.count.toString()} ${widget.item?.quantity.quantity}'
+                                : '[не указано]',
                             style: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
@@ -246,9 +267,24 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                                                 (_model.dropDownValue != null &&
                                                     _model.dropDownValue !=
                                                         '')) {
+                                              FFAppState()
+                                                  .updateBuySelectStruct(
+                                                (e) => e
+                                                  ..name = _model
+                                                      .textController1.text
+                                                  ..updateQuantity(
+                                                    (e) => e
+                                                      ..quantity =
+                                                          _model.dropDownValue
+                                                      ..count = double.tryParse(
+                                                          _model.textController2
+                                                              .text),
+                                                  ),
+                                              );
+                                              safeSetState(() {});
                                               await actions.updateShopItem(
                                                 FFAppConstants.TrueValue,
-                                                widget.item!.bought,
+                                                FFAppConstants.FalseValue,
                                               );
                                               _model.isChanging = false;
                                               safeSetState(() {});
@@ -289,57 +325,12 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                8.0, 2.0),
-                                                    child: Icon(
-                                                      Icons.done,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      size: 18.0,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                8.0, 0.0),
-                                                    child: Text(
-                                                      'Изменить',
-                                                      textAlign: TextAlign.end,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts
-                                                                .inter(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                            ),
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                            lineHeight: 1.0,
-                                                          ),
-                                                    ),
+                                                  Icon(
+                                                    Icons.save,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    size: 24.0,
                                                   ),
                                                 ],
                                               ),
@@ -375,57 +366,12 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                8.0, 2.0),
-                                                    child: Icon(
-                                                      Icons.close,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      size: 18.0,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                8.0, 0.0),
-                                                    child: Text(
-                                                      'Удалить',
-                                                      textAlign: TextAlign.end,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts
-                                                                .inter(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                            ),
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .error,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                            lineHeight: 1.0,
-                                                          ),
-                                                    ),
+                                                  Icon(
+                                                    Icons.delete_rounded,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .error,
+                                                    size: 24.0,
                                                   ),
                                                 ],
                                               ),
