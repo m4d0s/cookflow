@@ -21,10 +21,10 @@ Future addNewStruct(Structs struct) async {
       if (recipe.products.length < FFAppConstants.StructLimit) {
         recipe.products.add(
           ProductStruct(
-            id: id,
-            quantity: FoodQuantityStruct(),
-            nutrition100g: NutritionsStruct(),
-          ),
+              id: id,
+              quantity: FoodQuantityStruct(),
+              nutrition100g: NutritionsStruct(),
+              category: ProductCategoryStruct()),
         );
         FFAppState().LastProductId += 1;
       }
@@ -33,15 +33,27 @@ Future addNewStruct(Structs struct) async {
     case Structs.shop:
       id = FFAppState().LastBuyId + 1;
       FFAppState().LastBuyId += 1;
-
-      FFAppState().addToBuyList(ShopItemStruct(
+      final shop = ShopItemStruct(
           bought: false,
           create: DateTime.now(),
           id: id,
-          quantity: FoodQuantityStruct()));
+          quantity: FoodQuantityStruct());
+
+      FFAppState().BuySelect = shop;
+      //FFAppState().addToBuyList(shop);
 
       break;
-
+    case Structs.dbproduct:
+      id = FFAppState().LastProductId + 1;
+      FFAppState().addToProductDB(
+        ProductStruct(
+            id: id,
+            quantity: FoodQuantityStruct(),
+            nutrition100g: NutritionsStruct(),
+            category: ProductCategoryStruct()),
+      );
+      FFAppState().LastProductId += 1;
+      break;
     case Structs.step:
       final recipe = FFAppState().RecipeSelect;
       id = FFAppState().LastProductId + 1;

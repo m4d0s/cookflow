@@ -210,6 +210,22 @@ class FFAppState extends ChangeNotifier {
       _AutoNutrition =
           await secureStorage.getBool('ff_AutoNutrition') ?? _AutoNutrition;
     });
+    await _safeInitAsync(() async {
+      _ProductCategoryList =
+          (await secureStorage.getStringList('ff_ProductCategoryList'))
+                  ?.map((x) {
+                    try {
+                      return ProductCategoryStruct.fromSerializableMap(
+                          jsonDecode(x));
+                    } catch (e) {
+                      print("Can't decode persisted data type. Error: $e.");
+                      return null;
+                    }
+                  })
+                  .withoutNulls
+                  .toList() ??
+              _ProductCategoryList;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -965,6 +981,96 @@ class FFAppState extends ChangeNotifier {
   int get BuyCount => _BuyCount;
   set BuyCount(int value) {
     _BuyCount = value;
+  }
+
+  ProductCategoryStruct _ProductCategorySelect = ProductCategoryStruct();
+  ProductCategoryStruct get ProductCategorySelect => _ProductCategorySelect;
+  set ProductCategorySelect(ProductCategoryStruct value) {
+    _ProductCategorySelect = value;
+  }
+
+  void updateProductCategorySelectStruct(
+      Function(ProductCategoryStruct) updateFn) {
+    updateFn(_ProductCategorySelect);
+  }
+
+  List<ProductCategoryStruct> _ProductCategoryList = [
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Овощи\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Фрукты\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Мясо\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Зелень\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Специи\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Молочный\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Крупы\",\"checked\":\"false\"}')),
+    ProductCategoryStruct.fromSerializableMap(
+        jsonDecode('{\"name\":\"Жидкость\",\"checked\":\"false\"}'))
+  ];
+  List<ProductCategoryStruct> get ProductCategoryList => _ProductCategoryList;
+  set ProductCategoryList(List<ProductCategoryStruct> value) {
+    _ProductCategoryList = value;
+    secureStorage.setStringList(
+        'ff_ProductCategoryList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteProductCategoryList() {
+    secureStorage.delete(key: 'ff_ProductCategoryList');
+  }
+
+  void addToProductCategoryList(ProductCategoryStruct value) {
+    ProductCategoryList.add(value);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromProductCategoryList(ProductCategoryStruct value) {
+    ProductCategoryList.remove(value);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromProductCategoryList(int index) {
+    ProductCategoryList.removeAt(index);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void updateProductCategoryListAtIndex(
+    int index,
+    ProductCategoryStruct Function(ProductCategoryStruct) updateFn,
+  ) {
+    ProductCategoryList[index] = updateFn(_ProductCategoryList[index]);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInProductCategoryList(
+      int index, ProductCategoryStruct value) {
+    ProductCategoryList.insert(index, value);
+    secureStorage.setStringList('ff_ProductCategoryList',
+        _ProductCategoryList.map((x) => x.serialize()).toList());
+  }
+
+  ProductStruct _ProductSelect = ProductStruct();
+  ProductStruct get ProductSelect => _ProductSelect;
+  set ProductSelect(ProductStruct value) {
+    _ProductSelect = value;
+  }
+
+  void updateProductSelectStruct(Function(ProductStruct) updateFn) {
+    updateFn(_ProductSelect);
+  }
+
+  bool _ProductDBSelect = false;
+  bool get ProductDBSelect => _ProductDBSelect;
+  set ProductDBSelect(bool value) {
+    _ProductDBSelect = value;
   }
 }
 

@@ -9,25 +9,33 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-bool recipeComplete() {
+List<bool> recipeComplete() {
   final recipe = FFAppState().RecipeSelect;
-  bool decide = recipe.hasName() &
-      recipe.hasInfo() &
-      (recipe.portions > 0) &
-      (recipe.cookTime > 0);
+  List<bool> decides = [
+    recipe.hasName(),
+    recipe.hasInfo(),
+    (recipe.portions > 0),
+    (recipe.cookTime > 0),
+    (recipe.cookingSteps.length > 0),
+    ((recipe.cookingSteps.length > 0)
+        ? recipe.cookingSteps.every((e) => e.hasDesc())
+        : true),
+    (recipe.products.length > 0),
+    ((recipe.products.length > 0)
+        ? recipe.products.every((e) => e.hasName())
+        : true),
+    ((recipe.products.length > 0)
+        ? recipe.products.every((e) => e.hasQuantity())
+        : true),
+    ((recipe.products.length > 0)
+        ? recipe.products.every((e) => e.quantity.hasQuantity())
+        : true),
+    ((recipe.products.length > 0)
+        ? recipe.products.every((e) => e.quantity.count > 0)
+        : true)
+  ];
 
-  for (final step in recipe.cookingSteps) {
-    decide = decide & (step.hasDesc());
-  }
-
-  for (final product in recipe.products) {
-    decide = decide &
-        (product.hasName() &
-            product.quantity.hasQuantity() &
-            (product.quantity.count > 0));
-  }
-
-  return decide;
+  return decides;
 }
 
 // Set your action name, define your arguments and return parameter,

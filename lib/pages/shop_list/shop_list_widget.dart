@@ -378,7 +378,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                               ),
                                               onPressed: () async {
                                                 _model.autohide =
-                                                    FFAppConstants.TrueValue;
+                                                    FFAppConstants.FalseValue;
                                                 safeSetState(() {});
                                               },
                                             ),
@@ -398,7 +398,7 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                                 ),
                                                 onPressed: () async {
                                                   _model.autohide =
-                                                      FFAppConstants.FalseValue;
+                                                      FFAppConstants.TrueValue;
                                                   safeSetState(() {});
                                                 },
                                               ),

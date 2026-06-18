@@ -13,15 +13,20 @@ Future updateProduct(
     ProductStruct product,
     String quantity,
     String name,
+    String category,
     double kall,
     double protein,
     double fats,
     double carbs,
     double count,
     int id,
-    bool check) async {
-  final products = FFAppState().RecipeSelect.products;
-  final index = products.indexWhere((p) => p.id == product.id);
+    bool check,
+    bool db) async {
+  final products =
+      db ? FFAppState().ProductDB : FFAppState().RecipeSelect.products;
+  final index = db
+      ? FFAppState().ProductDB.indexWhere((p) => p.id == product.id)
+      : products.indexWhere((p) => p.id == product.id);
 
   final qq_index =
       FFAppState().QuantityList.indexWhere((q) => q.quantity == quantity);
@@ -34,6 +39,9 @@ Future updateProduct(
 
   product.quantity = qq;
   product.name = name;
+  product.category = (FFAppState().ProductCategoryList.firstWhere(
+      (e) => e.name == name,
+      orElse: () => ProductCategoryStruct(name: '')));
   product.nutrition100g.calories = kall;
   product.nutrition100g.protein = protein;
   product.nutrition100g.fats = fats;

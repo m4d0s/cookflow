@@ -306,7 +306,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                             formatType: FormatType.custom,
                                             format: 'Цель: # ккал',
                                             locale: '',
-                                          )}(${formatNumber(
+                                          )} (${formatNumber(
                                             functions.procentCalc(
                                                 FFAppState()
                                                     .DailySelect
@@ -613,9 +613,9 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
+                                        await actions.measureTDEE();
                                         FFAppState().AutoNutrition = true;
                                         safeSetState(() {});
-                                        await actions.measureTDEE();
                                         safeSetState(() {});
                                       },
                                       text: 'Включить автоподсчёт',
@@ -902,7 +902,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                           label: 'Цель',
                           value: () {
                             if (!FFAppState().AutoNutrition) {
-                              return 'Задана пользователем вручную';
+                              return 'Задана пользователем';
                             } else if (FFAppState().PeopleStat.target ==
                                 MealTarget.extraloss) {
                               return 'Быстрый сброс веса';

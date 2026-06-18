@@ -237,12 +237,42 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            await actions.updateShopItem(
-                                              FFAppConstants.TrueValue,
-                                              widget.item!.bought,
-                                            );
-                                            _model.isChanging = false;
-                                            safeSetState(() {});
+                                            if ((_model.textController1
+                                                            .text !=
+                                                        '') &&
+                                                (double.parse(_model
+                                                        .textController2.text) >
+                                                    0) &&
+                                                (_model.dropDownValue != null &&
+                                                    _model.dropDownValue !=
+                                                        '')) {
+                                              await actions.updateShopItem(
+                                                FFAppConstants.TrueValue,
+                                                widget.item!.bought,
+                                              );
+                                              _model.isChanging = false;
+                                              safeSetState(() {});
+                                            } else {
+                                              await showDialog(
+                                                context: context,
+                                                builder: (alertDialogContext) {
+                                                  return AlertDialog(
+                                                    title:
+                                                        Text('Нельзя создать'),
+                                                    content: Text(
+                                                        'Невозможно создать пункт списка, не все поля заполнены'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext),
+                                                        child: Text('Хорошо'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -326,6 +356,9 @@ class _ShopItemWidgetState extends State<ShopItemWidget> {
                                               widget.item!.id,
                                               Structs.shop,
                                             );
+                                            FFAppState().BuySelect =
+                                                ShopItemStruct();
+                                            FFAppState().update(() {});
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(

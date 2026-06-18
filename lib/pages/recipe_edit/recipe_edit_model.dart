@@ -42,7 +42,7 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   // Models for StepEdit dynamic component.
   late FlutterFlowDynamicModels<StepEditModel> stepEditModels;
   // Stores action output result for [Custom Action - recipeComplete] action in FloatingActionButton widget.
-  bool? isComplete;
+  List<bool>? isComplete;
 
   @override
   void initState(BuildContext context) {

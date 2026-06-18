@@ -6,6 +6,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'index.dart';
 
 void main() async {
@@ -175,8 +176,9 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'RecipeList': RecipeListWidget(),
-      'ShopList': ShopListWidget(),
+      'ProductBase': ProductBaseWidget(),
       'MealPreview': MealPreviewWidget(),
+      'ShopList': ShopListWidget(),
       'Settings': SettingsWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
@@ -184,46 +186,43 @@ class _NavBarPageState extends State<NavBarPage> {
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
       body: _currentPage ?? tabs[_currentPageName],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (i) => safeSetState(() {
+      bottomNavigationBar: GNav(
+        selectedIndex: currentIndex,
+        onTabChange: (i) => safeSetState(() {
           _currentPage = null;
           _currentPageName = tabs.keys.toList()[i];
         }),
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        selectedItemColor: FlutterFlowTheme.of(context).primary,
-        unselectedItemColor: FlutterFlowTheme.of(context).secondaryText,
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_rounded,
-            ),
-            label: 'Меню',
-            tooltip: '',
+        color: FlutterFlowTheme.of(context).secondaryText,
+        activeColor: FlutterFlowTheme.of(context).primary,
+        tabBackgroundColor: Color(0x00000000),
+        tabBorderRadius: 100.0,
+        tabMargin: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+        padding: EdgeInsets.all(12.0),
+        gap: 0.0,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        duration: Duration(milliseconds: 500),
+        haptic: false,
+        tabs: [
+          GButton(
+            icon: Icons.home_rounded,
+            text: 'Меню',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list_alt_rounded,
-            ),
-            label: 'Список',
-            tooltip: '',
+          GButton(
+            icon: Icons.cookie,
+            text: 'База',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.cookie_rounded,
-            ),
-            label: 'План',
-            tooltip: '',
+          GButton(
+            icon: Icons.local_fire_department,
+            text: 'План',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings_rounded,
-            ),
-            label: 'Настройки',
-            tooltip: '',
+          GButton(
+            icon: Icons.list_alt_rounded,
+            text: 'Список',
+          ),
+          GButton(
+            icon: Icons.settings_rounded,
+            text: 'Настройки',
           )
         ],
       ),
