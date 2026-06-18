@@ -12,10 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
-Future<String?> importBackup() async {
+Future<String?> importBackup(bool share) async {
   final result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
-    allowedExtensions: ['json'],
+    allowedExtensions: [
+      share ? FFAppConstants.AppExtention2 : FFAppConstants.AppExtention1
+    ],
   );
 
   if (result == null || result.files.single.path == null) {
@@ -29,40 +31,46 @@ Future<String?> importBackup() async {
     if (backup['version'] != FFAppConstants.BackupVersion)
       return 'Версия бэкапа устарела';
 
-    FFAppState().update(() {
-      FFAppState().DarkMode = AppTheme.values[backup['darkMode']];
-      FFAppState().AutoNutrition = backup['autoMode'];
-      FFAppState().LastProductId = backup['lastprodid'];
-      FFAppState().LastRecipeId = backup['lastrecid'];
-      FFAppState().LastStepId = backup['laststepid'];
-      FFAppState().LastStepId = backup['lastbuyid'];
-      FFAppState().DailySelect =
-          DailyPlanStruct.fromSerializableMap(backup['dailysel']);
+    if (backup['share'] == false)
+      FFAppState().update(() {
+        FFAppState().DarkMode = AppTheme.values[backup['darkMode']];
+        FFAppState().AutoNutrition = backup['autoMode'];
+        FFAppState().LastProductId = backup['lastprodid'];
+        FFAppState().LastRecipeId = backup['lastrecid'];
+        FFAppState().LastStepId = backup['laststepid'];
+        FFAppState().LastStepId = backup['lastbuyid'];
+        FFAppState().DailySelect =
+            DailyPlanStruct.fromSerializableMap(backup['dailysel']);
 
-      FFAppState().RecipeSelect =
-          RecipeStruct.fromSerializableMap(backup['recipesel']);
+        FFAppState().RecipeSelect =
+            RecipeStruct.fromSerializableMap(backup['recipesel']);
 
-      FFAppState().BuySelect =
-          ShopItemStruct.fromSerializableMap(backup['buysel']);
+        FFAppState().BuySelect =
+            ShopItemStruct.fromSerializableMap(backup['buysel']);
 
-      FFAppState().DailyGoal =
-          NutritionsStruct.fromSerializableMap(backup['nutritions']);
+        FFAppState().DailyGoal =
+            NutritionsStruct.fromSerializableMap(backup['nutritions']);
 
-      FFAppState().PeopleStat =
-          PeopleParamStruct.fromSerializableMap(backup['properties']);
+        FFAppState().PeopleStat =
+            PeopleParamStruct.fromSerializableMap(backup['properties']);
 
-      FFAppState().DailyList = (backup['dailyList'] as List)
-          .map((e) => DailyPlanStruct.fromSerializableMap(e))
-          .toList();
+        FFAppState().DailyList = (backup['dailyList'] as List)
+            .map((e) => DailyPlanStruct.fromSerializableMap(e))
+            .toList();
 
-      FFAppState().BuyList = (backup['buyList'] as List)
-          .map((e) => ShopItemStruct.fromSerializableMap(e))
-          .toList();
+        FFAppState().BuyList = (backup['buyList'] as List)
+            .map((e) => ShopItemStruct.fromSerializableMap(e))
+            .toList();
 
-      FFAppState().RecipeList = (backup['recipeList'] as List)
-          .map((e) => RecipeStruct.fromSerializableMap(e))
-          .toList();
-    });
+        FFAppState().RecipeList = (backup['recipeList'] as List)
+            .map((e) => RecipeStruct.fromSerializableMap(e))
+            .toList();
+      });
+    else
+      FFAppState().update(() {
+        FFAppState().RecipeSelect =
+            RecipeStruct.fromSerializableMap(backup['recipesel']);
+      });
   } catch (e) {
     return 'Произошла ошибка при импорте: ${e}';
   }

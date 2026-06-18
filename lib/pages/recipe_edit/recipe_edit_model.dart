@@ -15,6 +15,8 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   FFUploadedFile? recipePicture111;
   // Model for Button.
   late UButtonModel buttonModel;
+  // Stores action output result for [Custom Action - importBackup] action in Button widget.
+  String? error;
   // Stores action output result for [Custom Action - imageToBase64] action in Container widget.
   String? recipePhotoBase64;
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in Container widget.

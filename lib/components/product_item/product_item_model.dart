@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'product_item_widget.dart' show ProductItemWidget;
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ProductItemModel extends FlutterFlowModel<ProductItemWidget> {
   ///  Local state fields for this component.
@@ -21,7 +20,6 @@ class ProductItemModel extends FlutterFlowModel<ProductItemWidget> {
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
-  late MaskTextInputFormatter textFieldMask2;
   String? Function(BuildContext, String?)? textController2Validator;
   // State field(s) for DropDown widget.
   String? dropDownValue2;

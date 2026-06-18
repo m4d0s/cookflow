@@ -173,35 +173,35 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                   fit: BoxFit.cover,
                                   alignment: Alignment(0.0, 0.0),
                                 ),
-                                if (FFAppConstants.FalseValue)
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, -1.0),
-                                    child: Container(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(24.0),
-                                        child: Container(
-                                          child: FlutterFlowIconButton(
-                                            borderRadius: 9999.0,
-                                            buttonSize: 40.0,
-                                            fillColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .surface80,
-                                            icon: Icon(
-                                              Icons.arrow_back_rounded,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              size: 24.0,
-                                            ),
-                                            onPressed: () async {
-                                              context.goNamed(
-                                                  RecipeListWidget.routeName);
-                                            },
+                                Align(
+                                  alignment: AlignmentDirectional(-1.0, -1.0),
+                                  child: Container(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(24.0),
+                                      child: Container(
+                                        child: FlutterFlowIconButton(
+                                          borderColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .alternate,
+                                          borderRadius: 9999.0,
+                                          buttonSize: 40.0,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .surface80,
+                                          icon: Icon(
+                                            Icons.share_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            size: 24.0,
                                           ),
+                                          onPressed: () {
+                                            print('IconButton pressed ...');
+                                          },
                                         ),
                                       ),
                                     ),
                                   ),
+                                ),
                                 Align(
                                   alignment: AlignmentDirectional(1.0, -1.0),
                                   child: Container(
@@ -209,6 +209,9 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                       padding: EdgeInsets.all(24.0),
                                       child: Container(
                                         child: FlutterFlowIconButton(
+                                          borderColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .alternate,
                                           borderRadius: 9999.0,
                                           buttonSize: 40.0,
                                           fillColor:
@@ -230,6 +233,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                               !FFAppState()
                                                   .RecipeSelect
                                                   .isFavorite,
+                                              FFAppConstants.FalseValue,
                                               FFAppConstants.FalseValue,
                                             );
                                           },

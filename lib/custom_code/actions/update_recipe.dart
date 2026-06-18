@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 //
 import 'dart:math';
 
-Future updateRecipe(bool? fav, bool clear) async {
+Future updateRecipe(bool? fav, bool clear, bool share) async {
   final recipe = FFAppState().RecipeSelect;
 
   if (fav != null) recipe.isFavorite = fav;
@@ -54,7 +54,7 @@ Future updateRecipe(bool? fav, bool clear) async {
   //FFAppState().RecipeList.sort((a, b) => a.id.compareTo(b.id));
 
   FFAppState().update(() {
-    if (existing != -1)
+    if ((existing != -1) & !share)
       FFAppState().RecipeList[existing] = recipe;
     else
       FFAppState().addToRecipeList(recipe);

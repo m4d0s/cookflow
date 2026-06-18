@@ -8,7 +8,6 @@ import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'product_item_model.dart';
 export 'product_item_model.dart';
@@ -54,7 +53,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     ));
     _model.textFieldFocusNode2 ??= FocusNode();
 
-    _model.textFieldMask2 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController3 ??= TextEditingController();
     _model.textFieldFocusNode3 ??= FocusNode();
 
@@ -1156,9 +1154,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                                           validator: _model
                                               .textController2Validator
                                               .asValidator(context),
-                                          inputFormatters: [
-                                            _model.textFieldMask2
-                                          ],
                                         ),
                                       ),
                                     ),
@@ -1690,6 +1685,14 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                                                         .bodyMedium
                                                         .fontStyle,
                                               ),
+                                          maxLength: 6,
+                                          buildCounter: (context,
+                                                  {required currentLength,
+                                                  required isFocused,
+                                                  maxLength}) =>
+                                              null,
+                                          keyboardType: const TextInputType
+                                              .numberWithOptions(decimal: true),
                                           cursorColor:
                                               FlutterFlowTheme.of(context)
                                                   .primaryText,
@@ -1979,6 +1982,14 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                                                         .bodyMedium
                                                         .fontStyle,
                                               ),
+                                          maxLength: 6,
+                                          buildCounter: (context,
+                                                  {required currentLength,
+                                                  required isFocused,
+                                                  maxLength}) =>
+                                              null,
+                                          keyboardType: const TextInputType
+                                              .numberWithOptions(decimal: true),
                                           cursorColor:
                                               FlutterFlowTheme.of(context)
                                                   .primaryText,
@@ -2268,6 +2279,9 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                                                         .bodyMedium
                                                         .fontStyle,
                                               ),
+                                          maxLength: 6,
+                                          keyboardType: const TextInputType
+                                              .numberWithOptions(decimal: true),
                                           cursorColor:
                                               FlutterFlowTheme.of(context)
                                                   .primaryText,

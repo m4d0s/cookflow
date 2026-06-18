@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'ingridient_edit_widget.dart' show IngridientEditWidget;
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   ///  State fields for stateful widgets in this component.
@@ -14,7 +13,6 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
-  late MaskTextInputFormatter textFieldMask2;
   String? Function(BuildContext, String?)? textController2Validator;
   // State field(s) for DropDown widget.
   String? dropDownValue;
@@ -22,17 +20,14 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode3;
   TextEditingController? textController3;
-  late MaskTextInputFormatter textFieldMask3;
   String? Function(BuildContext, String?)? textController3Validator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
-  late MaskTextInputFormatter textFieldMask4;
   String? Function(BuildContext, String?)? textController4Validator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode5;
   TextEditingController? textController5;
-  late MaskTextInputFormatter textFieldMask5;
   String? Function(BuildContext, String?)? textController5Validator;
 
   @override

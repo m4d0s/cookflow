@@ -3162,7 +3162,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                         ),
                                       );
                                       _model.snacktext =
-                                          await actions.exportJson();
+                                          await actions.exportJson(
+                                        -1,
+                                      );
                                       if (_model.snacktext != null &&
                                           _model.snacktext != '') {
                                         await showDialog(
@@ -3353,7 +3355,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         _model.inputJson =
-                                            await actions.importBackup();
+                                            await actions.importBackup(
+                                          FFAppConstants.FalseValue,
+                                        );
                                         if (_model.inputJson == null ||
                                             _model.inputJson == '') {
                                           await showDialog(

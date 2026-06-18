@@ -8,7 +8,6 @@ import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'ingridient_edit_model.dart';
 export 'ingridient_edit_model.dart';
@@ -91,7 +90,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
         );
       },
     );
-    _model.textFieldMask2 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController3 ??= TextEditingController(
         text: formatNumber(
       widget.product?.nutrition100g.protein,
@@ -120,7 +118,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
         );
       },
     );
-    _model.textFieldMask3 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController4 ??= TextEditingController(
         text: formatNumber(
       widget.product?.nutrition100g.fats,
@@ -149,7 +146,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
         );
       },
     );
-    _model.textFieldMask4 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController5 ??= TextEditingController(
         text: formatNumber(
       widget.product?.nutrition100g.carbs,
@@ -178,7 +174,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
         );
       },
     );
-    _model.textFieldMask5 = MaskTextInputFormatter(mask: '#####.#');
   }
 
   @override
@@ -653,7 +648,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                   enableInteractiveSelection: true,
                                   validator: _model.textController2Validator
                                       .asValidator(context),
-                                  inputFormatters: [_model.textFieldMask2],
                                 ),
                               ),
                             ),
@@ -1073,7 +1067,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                 enableInteractiveSelection: true,
                                 validator: _model.textController3Validator
                                     .asValidator(context),
-                                inputFormatters: [_model.textFieldMask3],
                               ),
                             ),
                           ),
@@ -1202,7 +1195,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                 enableInteractiveSelection: true,
                                 validator: _model.textController4Validator
                                     .asValidator(context),
-                                inputFormatters: [_model.textFieldMask4],
                               ),
                             ),
                           ),
@@ -1330,7 +1322,6 @@ class _IngridientEditWidgetState extends State<IngridientEditWidget> {
                                 enableInteractiveSelection: true,
                                 validator: _model.textController5Validator
                                     .asValidator(context),
-                                inputFormatters: [_model.textFieldMask5],
                               ),
                             ),
                           ),

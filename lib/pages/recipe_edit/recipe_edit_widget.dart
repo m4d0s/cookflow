@@ -116,7 +116,8 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
               _model.isComplete = await actions.recipeComplete();
               if (_model.isComplete!.where((e) => !e).toList().length > 0) {
                 await actions.updateRecipe(
-                  false,
+                  FFAppConstants.FalseValue,
+                  FFAppConstants.FalseValue,
                   FFAppConstants.FalseValue,
                 );
                 if (Navigator.of(context).canPop()) {
@@ -431,6 +432,90 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
+                            ),
+                            FFButtonWidget(
+                              onPressed: () async {
+                                _model.error = await actions.importBackup(
+                                  FFAppConstants.TrueValue,
+                                );
+                                if (_model.error != null &&
+                                    _model.error != '') {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('Ошибка'),
+                                        content: Text(
+                                            'Возникла ошибка при импорте: ${_model.error}'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Окей'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  await actions.updateRecipe(
+                                    FFAppConstants.FalseValue,
+                                    FFAppConstants.FalseValue,
+                                    FFAppConstants.TrueValue,
+                                  );
+
+                                  context.pushNamed(RecipeListWidget.routeName);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Рецепт успешно добавлен!',
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context)
+                                              .secondary,
+                                    ),
+                                  );
+                                }
+
+                                safeSetState(() {});
+                              },
+                              text: 'Добавить из файла',
+                              options: FFButtonOptions(
+                                height: 40.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      font: GoogleFonts.manrope(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.min,
