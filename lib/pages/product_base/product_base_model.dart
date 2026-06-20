@@ -1,3 +1,4 @@
+import '/components/product_create/product_create_widget.dart';
 import '/components/product_item/product_item_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -14,12 +15,15 @@ class ProductBaseModel extends FlutterFlowModel<ProductBaseWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
-  // Models for ProductItem.
+  // Models for ProductItem dynamic component.
   late FlutterFlowDynamicModels<ProductItemModel> productItemModels;
+  // Model for ProductCreate component.
+  late ProductCreateModel productCreateModel;
 
   @override
   void initState(BuildContext context) {
     productItemModels = FlutterFlowDynamicModels(() => ProductItemModel());
+    productCreateModel = createModel(context, () => ProductCreateModel());
   }
 
   @override
@@ -28,5 +32,6 @@ class ProductBaseModel extends FlutterFlowModel<ProductBaseWidget> {
     inputTextController?.dispose();
 
     productItemModels.dispose();
+    productCreateModel.dispose();
   }
 }

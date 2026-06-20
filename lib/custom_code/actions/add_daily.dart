@@ -22,9 +22,9 @@ Future addDaily() async {
     FFAppState().addToDailyList(DailyPlanStruct(
         date: today,
         goal: FFAppState().DailyGoal,
-        completedRecipes: [],
+        completedRecipes: [], //List<MealEntryStruct>.empty(),
         id: todayId,
-        done: NutritionsStruct()));
+        done: NutritionsStruct(calories: 0, protein: 0, fats: 0, carbs: 0)));
     FFAppState().DailySelect = FFAppState().DailyList.last;
   } else {
     FFAppState().DailySelect = FFAppState().DailyList[exists];

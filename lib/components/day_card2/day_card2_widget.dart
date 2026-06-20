@@ -120,9 +120,37 @@ class _DayCard2WidgetState extends State<DayCard2Widget> {
                                 return ' рецептов';
                               }
                             }()} • ${valueOrDefault<String>(
-                              widget.dayLog?.done.calories.toString(),
+                              formatNumber(
+                                widget.dayLog?.done.calories,
+                                formatType: FormatType.compact,
+                              ),
                               '-1',
-                            )} ккал • ${widget.dayLog?.waterCups.toString()}${() {
+                            )} ккал',
+                            style: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  font: GoogleFonts.manrope(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                  lineHeight: 1.4,
+                                ),
+                          ),
+                          Text(
+                            '${widget.dayLog?.waterCups.toString()}${() {
                               if (functions
                                       .sklonenie(widget.dayLog!.waterCups)
                                       .toString() ==

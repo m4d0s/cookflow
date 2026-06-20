@@ -1,11 +1,20 @@
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'ingridient_edit_widget.dart' show IngridientEditWidget;
 import 'package:flutter/material.dart';
 
 class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
+  ///  Local state fields for this component.
+
+  bool dividerShow = false;
+
+  int dividerDefault = 1;
+
   ///  State fields for stateful widgets in this component.
 
+  // Stores action output result for [Custom Action - findQuantity] action in IngridientEdit widget.
+  FoodQuantityStruct? findQunt;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -17,6 +26,8 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
+  // State field(s) for Switch widget.
+  bool? switchValue;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode3;
   TextEditingController? textController3;
@@ -29,6 +40,10 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   FocusNode? textFieldFocusNode5;
   TextEditingController? textController5;
   String? Function(BuildContext, String?)? textController5Validator;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode6;
+  TextEditingController? textController6;
+  String? Function(BuildContext, String?)? textController6Validator;
 
   @override
   void initState(BuildContext context) {}
@@ -49,5 +64,8 @@ class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
 
     textFieldFocusNode5?.dispose();
     textController5?.dispose();
+
+    textFieldFocusNode6?.dispose();
+    textController6?.dispose();
   }
 }

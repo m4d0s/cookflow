@@ -238,9 +238,11 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
                                     ),
                                     Text(
                                       '${valueOrDefault<String>(
-                                        widget
-                                            .recipeDetails?.nutritions.calories
-                                            .toString(),
+                                        formatNumber(
+                                          widget.recipeDetails?.nutritions
+                                              .calories,
+                                          formatType: FormatType.compact,
+                                        ),
                                         '-1',
                                       )} ккал',
                                       style: FlutterFlowTheme.of(context)

@@ -12,20 +12,19 @@ import 'package:flutter/material.dart';
 Future moveStepUp(StepStruct step) async {
   final steps = FFAppState().RecipeSelect.cookingSteps;
 
-  final currentIndex = steps.indexWhere((s) => s.queueId == step.queueId);
-  final previousIndex = steps.indexWhere((s) => s.queueId == step.queueId - 1);
+  final current = steps.indexWhere((s) => s.queueId == step.queueId);
 
-  if (previousIndex > -1) {
-    //FFAppState().RecipeSelect.cookingSteps[currentIndex].queueId -= 1;
-    //FFAppState().RecipeSelect.cookingSteps[previousIndex].queueId += 1;
-    final prev = FFAppState().RecipeSelect.cookingSteps[currentIndex];
-    final cur = FFAppState().RecipeSelect.cookingSteps[previousIndex];
+  final previous = steps.indexWhere((s) => s.queueId == step.queueId - 1);
 
-    FFAppState().update(() {
-      FFAppState().RecipeSelect.cookingSteps[currentIndex] = cur;
-      FFAppState().RecipeSelect.cookingSteps[previousIndex] = prev;
-    });
-  }
+  if (current < 0 || previous < 0) return;
+
+  final temp = steps[current].queueId;
+
+  steps[current].queueId = steps[previous].queueId;
+
+  steps[previous].queueId = temp;
+
+  FFAppState().update(() {});
 }
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the green button on the right!

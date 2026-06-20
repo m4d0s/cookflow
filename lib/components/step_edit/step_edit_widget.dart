@@ -4,9 +4,11 @@ import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'step_edit_model.dart';
 export 'step_edit_model.dart';
 
@@ -46,33 +48,10 @@ class _StepEditWidgetState extends State<StepEditWidget> {
     _model.inputTextController1 ??=
         TextEditingController(text: widget.step?.desc);
     _model.inputFocusNode1 ??= FocusNode();
-    _model.inputFocusNode1!.addListener(
-      () async {
-        await actions.updateStep(
-          widget.step!,
-          widget.step?.queueId,
-          _model.inputTextController1.text,
-          _model.inputTextController2.text,
-          widget.step?.timer,
-          _model.imageBase64,
-        );
-      },
-    );
+
     _model.inputTextController2 ??=
         TextEditingController(text: widget.step?.tip);
     _model.inputFocusNode2 ??= FocusNode();
-    _model.inputFocusNode2!.addListener(
-      () async {
-        await actions.updateStep(
-          widget.step!,
-          widget.step?.queueId,
-          _model.inputTextController1.text,
-          _model.inputTextController2.text,
-          widget.step?.timer,
-          _model.imageBase64,
-        );
-      },
-    );
   }
 
   @override
@@ -84,6 +63,8 @@ class _StepEditWidgetState extends State<StepEditWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -277,8 +258,10 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                             color: FlutterFlowTheme.of(context).primaryText,
                             size: 48.0,
                           ),
-                          if (widget.step?.pictureBase64 != null &&
-                              widget.step?.pictureBase64 != '')
+                          if ((FFAppState().RecipeSelect.pictureBase64 !=
+                                      '') &&
+                              (_model.imageBase64 == null ||
+                                  _model.imageBase64 == ''))
                             Align(
                               alignment: AlignmentDirectional(0.0, 0.0),
                               child: ClipRRect(
@@ -383,6 +366,20 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                     child: TextFormField(
                                       controller: _model.inputTextController1,
                                       focusNode: _model.inputFocusNode1,
+                                      onChanged: (_) => EasyDebounce.debounce(
+                                        '_model.inputTextController1',
+                                        Duration(milliseconds: 2000),
+                                        () async {
+                                          await actions.updateStep(
+                                            widget.step!,
+                                            widget.step?.queueId,
+                                            _model.inputTextController1.text,
+                                            _model.inputTextController2.text,
+                                            widget.step?.timer,
+                                            _model.imageBase64,
+                                          );
+                                        },
+                                      ),
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         isDense: true,
@@ -569,6 +566,20 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                                     child: TextFormField(
                                       controller: _model.inputTextController2,
                                       focusNode: _model.inputFocusNode2,
+                                      onChanged: (_) => EasyDebounce.debounce(
+                                        '_model.inputTextController2',
+                                        Duration(milliseconds: 2000),
+                                        () async {
+                                          await actions.updateStep(
+                                            widget.step!,
+                                            widget.step?.queueId,
+                                            _model.inputTextController1.text,
+                                            _model.inputTextController2.text,
+                                            widget.step?.timer,
+                                            _model.imageBase64,
+                                          );
+                                        },
+                                      ),
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         isDense: true,

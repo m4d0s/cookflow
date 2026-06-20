@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future recipeToShopItem() async {
-  final recipe = FFAppState().RecipeSelect;
+  final recipe = RecipeStruct.fromSerializableMap(
+      FFAppState().RecipeSelect.toSerializableMap());
 
   for (final product in recipe.products) {
     final existing = FFAppState().BuyList.indexWhere((e) =>

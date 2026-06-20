@@ -9,25 +9,35 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-/// update ids for steps and ingridients in recipe count from 1, delete recipe
-/// by recipe id in AppState RecipeList and add updated one
-//
-import 'dart:math';
+Future updateRecipe(bool fav, bool share) async {
+  final recipe = RecipeStruct.fromSerializableMap(
+    FFAppState().RecipeSelect.toSerializableMap(),
+  );
 
-Future updateRecipe(bool? fav, bool clear, bool share) async {
-  final recipe = FFAppState().RecipeSelect;
+  recipe.nutritions = NutritionsStruct(
+    calories: 0,
+    protein: 0,
+    fats: 0,
+    carbs: 0,
+  );
 
-  if (fav != null) recipe.isFavorite = fav;
-
-  //final index = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
-
-  final existing = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
-  recipe.nutritions.calories = 0;
-  recipe.nutritions.protein = 0;
-  recipe.nutritions.fats = 0;
-  recipe.nutritions.carbs = 0;
+  // recipe.nutritions.calories = 0;
+  // recipe.nutritions.protein = 0;
+  // recipe.nutritions.fats = 0;
+  // recipe.nutritions.carbs = 0;
+  recipe.isFavorite = fav;
 
   for (final product in recipe.products) {
+    if (product.quantity.divider <= 0 ||
+        product.quantity.count * product.quantity.multiplier <= 0) {
+      continue;
+    }
+
+    if (share) {
+      FFAppState().LastProductId += 1;
+      product.id = FFAppState().LastProductId;
+    }
+
     final measure = product.quantity.count * product.quantity.multiplier;
 
     final callories =
@@ -50,15 +60,25 @@ Future updateRecipe(bool? fav, bool clear, bool share) async {
   recipe.nutritions.fats = max(0, recipe.nutritions.fats);
   recipe.nutritions.carbs = max(0, recipe.nutritions.carbs);
 
-  //if (index >= 0) FFAppState().RecipeList[index] = existing;
-  //FFAppState().RecipeList.sort((a, b) => a.id.compareTo(b.id));
+  if (share) {
+    for (final step in recipe.cookingSteps) {
+      FFAppState().LastStepId += 1;
+      step.id = FFAppState().LastStepId;
+    }
+  }
+
+  int existing = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
 
   FFAppState().update(() {
-    if ((existing != -1) & !share)
+    if ((existing != -1) && !share)
       FFAppState().RecipeList[existing] = recipe;
-    else
+    else {
+      FFAppState().LastRecipeId += 1;
+      recipe.id = FFAppState().LastRecipeId;
       FFAppState().addToRecipeList(recipe);
-    if (clear) FFAppState().RecipeSelect = RecipeStruct();
+      existing = FFAppState().RecipeList.indexWhere((r) => r.id == recipe.id);
+    }
+    //if (clear) FFAppState().RecipeSelect = RecipeStruct();
   });
 }
 // Set your action name, define your arguments and return parameter,

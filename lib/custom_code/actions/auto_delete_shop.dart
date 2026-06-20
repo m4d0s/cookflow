@@ -14,7 +14,7 @@ Future autoDeleteShop() async {
   final lastday = DateTime(today.year, today.month, today.day - 1, today.hour,
       today.minute, today.second);
   for (final shop in FFAppState().BuyList) {
-    if (shop.done != null) {
+    if (shop.bought) {
       if (shop.done!.isBefore(lastday)) {
         final index =
             FFAppState().BuyList.indexWhere((element) => element.id == shop.id);

@@ -22,6 +22,7 @@ class RecipeStruct extends BaseStruct {
     Hardness? hardType,
     String? pictureBase64,
     bool? isFavorite,
+    int? rating,
   })  : _id = id,
         _name = name,
         _info = info,
@@ -36,7 +37,8 @@ class RecipeStruct extends BaseStruct {
         _foodType = foodType,
         _hardType = hardType,
         _pictureBase64 = pictureBase64,
-        _isFavorite = isFavorite;
+        _isFavorite = isFavorite,
+        _rating = rating;
 
   // "id" field.
   int? _id;
@@ -161,6 +163,15 @@ class RecipeStruct extends BaseStruct {
 
   bool hasIsFavorite() => _isFavorite != null;
 
+  // "rating" field.
+  int? _rating;
+  int get rating => _rating ?? 0;
+  set rating(int? val) => _rating = val;
+
+  void incrementRating(int amount) => rating = rating + amount;
+
+  bool hasRating() => _rating != null;
+
   static RecipeStruct fromMap(Map<String, dynamic> data) => RecipeStruct(
         id: castToType<int>(data['id']),
         name: data['name'] as String?,
@@ -189,6 +200,7 @@ class RecipeStruct extends BaseStruct {
             : deserializeEnum<Hardness>(data['hard_type']),
         pictureBase64: data['pictureBase64'] as String?,
         isFavorite: data['isFavorite'] as bool?,
+        rating: castToType<int>(data['rating']),
       );
 
   static RecipeStruct? maybeFromMap(dynamic data) =>
@@ -210,6 +222,7 @@ class RecipeStruct extends BaseStruct {
         'hard_type': _hardType?.serialize(),
         'pictureBase64': _pictureBase64,
         'isFavorite': _isFavorite,
+        'rating': _rating,
       }.withoutNulls;
 
   @override
@@ -275,6 +288,10 @@ class RecipeStruct extends BaseStruct {
         'isFavorite': serializeParam(
           _isFavorite,
           ParamType.bool,
+        ),
+        'rating': serializeParam(
+          _rating,
+          ParamType.int,
         ),
       }.withoutNulls;
 
@@ -358,6 +375,11 @@ class RecipeStruct extends BaseStruct {
           ParamType.bool,
           false,
         ),
+        rating: deserializeParam(
+          data['rating'],
+          ParamType.int,
+          false,
+        ),
       );
 
   @override
@@ -381,7 +403,8 @@ class RecipeStruct extends BaseStruct {
         foodType == other.foodType &&
         hardType == other.hardType &&
         pictureBase64 == other.pictureBase64 &&
-        isFavorite == other.isFavorite;
+        isFavorite == other.isFavorite &&
+        rating == other.rating;
   }
 
   @override
@@ -400,7 +423,8 @@ class RecipeStruct extends BaseStruct {
         foodType,
         hardType,
         pictureBase64,
-        isFavorite
+        isFavorite,
+        rating
       ]);
 }
 
@@ -418,6 +442,7 @@ RecipeStruct createRecipeStruct({
   Hardness? hardType,
   String? pictureBase64,
   bool? isFavorite,
+  int? rating,
 }) =>
     RecipeStruct(
       id: id,
@@ -433,4 +458,5 @@ RecipeStruct createRecipeStruct({
       hardType: hardType,
       pictureBase64: pictureBase64,
       isFavorite: isFavorite,
+      rating: rating,
     );

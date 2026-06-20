@@ -16,7 +16,9 @@ Future<String?> importBackup(bool share) async {
   final result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: [
-      share ? FFAppConstants.AppExtention2 : FFAppConstants.AppExtention1
+      share
+          ? FFAppConstants.AppExtentionRecipe
+          : FFAppConstants.AppExtentionBackup
     ],
   );
 
@@ -38,10 +40,11 @@ Future<String?> importBackup(bool share) async {
         FFAppState().LastProductId = backup['lastprodid'];
         FFAppState().LastRecipeId = backup['lastrecid'];
         FFAppState().LastStepId = backup['laststepid'];
-        FFAppState().LastStepId = backup['lastbuyid'];
+        FFAppState().LastBuyId = backup['lastbuyid'];
         FFAppState().DailySelect =
             DailyPlanStruct.fromSerializableMap(backup['dailysel']);
-
+        FFAppState().ProductSelect =
+            ProductStruct.fromSerializableMap(backup['productsel']);
         FFAppState().RecipeSelect =
             RecipeStruct.fromSerializableMap(backup['recipesel']);
 
@@ -56,6 +59,10 @@ Future<String?> importBackup(bool share) async {
 
         FFAppState().DailyList = (backup['dailyList'] as List)
             .map((e) => DailyPlanStruct.fromSerializableMap(e))
+            .toList();
+
+        FFAppState().ProductDB = (backup['productList'] as List)
+            .map((e) => ProductStruct.fromSerializableMap(e))
             .toList();
 
         FFAppState().BuyList = (backup['buyList'] as List)

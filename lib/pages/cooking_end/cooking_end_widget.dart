@@ -353,7 +353,7 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                                         .titleMedium
                                         .fontStyle,
                                   ),
-                                  fontSize: 14.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w600,
                                   fontStyle: FlutterFlowTheme.of(context)
@@ -362,20 +362,33 @@ class _CookingEndWidgetState extends State<CookingEndWidget> {
                                   lineHeight: 1.4,
                                 ),
                           ),
-                          RatingBar.builder(
-                            onRatingUpdate: (newValue) => safeSetState(
-                                () => _model.ratingBarValue = newValue),
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star_rounded,
-                              color: FlutterFlowTheme.of(context).secondary,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: RatingBar.builder(
+                              onRatingUpdate: (newValue) {
+                                safeSetState(
+                                    () => _model.ratingBarValue = newValue);
+                                FFAppState().updateRecipeSelectStruct(
+                                  (e) => e
+                                    ..rating = _model.ratingBarValue?.round(),
+                                );
+                                safeSetState(() {});
+                              },
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star_rounded,
+                                color: FlutterFlowTheme.of(context).secondary,
+                              ),
+                              direction: Axis.horizontal,
+                              initialRating: _model.ratingBarValue ??= 0.0,
+                              unratedColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              itemCount: 5,
+                              itemSize: 18.0,
+                              glowColor: FlutterFlowTheme.of(context).secondary,
                             ),
-                            direction: Axis.horizontal,
-                            initialRating: _model.ratingBarValue ??= 0.0,
-                            unratedColor:
-                                FlutterFlowTheme.of(context).alternate,
-                            itemCount: 5,
-                            itemSize: 18.0,
-                            glowColor: FlutterFlowTheme.of(context).secondary,
                           ),
                         ],
                       ),

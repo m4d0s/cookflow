@@ -16,6 +16,8 @@ abstract class FFAppConstants {
   static const int PhotoWidth = 1280;
   static const int PhotoQuality = 75;
   static const int WaterCups = 8;
-  static const String AppExtention1 = 'cflwb';
-  static const String AppExtention2 = 'cflwr';
+  static const String AppExtentionBackup = 'cflwb';
+  static const String AppExtentionRecipe = 'cflwr';
+  static const String DoubleRexep = '^\\d*([.,]\\d{0,2})?\$';
+  static const String CustomProductCategory = 'Произвольный';
 }

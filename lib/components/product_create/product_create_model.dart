@@ -1,33 +1,47 @@
-import '/backend/schema/enums/enums.dart';
-import '/components/app_info/app_info_widget.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import 'settings_widget.dart' show SettingsWidget;
+import 'product_create_widget.dart' show ProductCreateWidget;
 import 'package:flutter/material.dart';
 
-class SettingsModel extends FlutterFlowModel<SettingsWidget> {
-  ///  State fields for stateful widgets in this page.
+class ProductCreateModel extends FlutterFlowModel<ProductCreateWidget> {
+  ///  Local state fields for this component.
 
-  // State field(s) for DropDown widget.
-  AppTheme? dropDownValue1;
-  FormFieldController<AppTheme>? dropDownValueController1;
-  // State field(s) for Switch widget.
-  bool? switchValue;
+  bool changing = false;
+
+  bool dividerShow = false;
+
+  int dividerDefault = 1;
+
+  ProductStruct? productStruct;
+  void updateProductStructStruct(Function(ProductStruct) updateFn) {
+    updateFn(productStruct ??= ProductStruct());
+  }
+
+  ///  State fields for stateful widgets in this component.
+
+  // Stores action output result for [Custom Action - findQuantity] action in ProductCreate widget.
+  FoodQuantityStruct? quantityFind;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
   String? Function(BuildContext, String?)? textController1Validator;
+  // State field(s) for DropDown widget.
+  String? dropDownValue1;
+  FormFieldController<String>? dropDownValueController1;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
   String? Function(BuildContext, String?)? textController2Validator;
+  // State field(s) for DropDown widget.
+  String? dropDownValue2;
+  FormFieldController<String>? dropDownValueController2;
+  // State field(s) for Switch widget.
+  bool? switchValue;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode3;
   TextEditingController? textController3;
   String? Function(BuildContext, String?)? textController3Validator;
-  // State field(s) for Sex widget.
-  HumanSex? sexValue;
-  FormFieldController<HumanSex>? sexValueController;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
@@ -40,23 +54,9 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   FocusNode? textFieldFocusNode6;
   TextEditingController? textController6;
   String? Function(BuildContext, String?)? textController6Validator;
-  // State field(s) for da widget.
-  MealAction? daValue;
-  FormFieldController<MealAction>? daValueController;
-  // State field(s) for DropDown widget.
-  MealTarget? dropDownValue2;
-  FormFieldController<MealTarget>? dropDownValueController2;
-  // Stores action output result for [Custom Action - exportJson] action in Container widget.
-  String? snacktext;
-  // Stores action output result for [Custom Action - importBackup] action in Container Bordered Content widget.
-  String? inputJson;
-  // Model for AppInfo component.
-  late AppInfoModel appInfoModel;
 
   @override
-  void initState(BuildContext context) {
-    appInfoModel = createModel(context, () => AppInfoModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
   void dispose() {
@@ -77,7 +77,5 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
 
     textFieldFocusNode6?.dispose();
     textController6?.dispose();
-
-    appInfoModel.dispose();
   }
 }

@@ -1081,6 +1081,18 @@ class FFAppState extends ChangeNotifier {
   set ProductDBSelect(bool value) {
     _ProductDBSelect = value;
   }
+
+  bool _ShopNewItem = false;
+  bool get ShopNewItem => _ShopNewItem;
+  set ShopNewItem(bool value) {
+    _ShopNewItem = value;
+  }
+
+  bool _BaseNewItem = false;
+  bool get BaseNewItem => _BaseNewItem;
+  set BaseNewItem(bool value) {
+    _BaseNewItem = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

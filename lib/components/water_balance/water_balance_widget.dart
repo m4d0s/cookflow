@@ -95,7 +95,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                                       .fontStyle,
                                 ),
                                 color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 16.0,
+                                fontSize: 14.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .titleMedium
@@ -151,7 +151,7 @@ class _WaterBalanceWidgetState extends State<WaterBalanceWidget> {
                                     .bodyMedium
                                     .fontStyle,
                               ),
-                              fontSize: 12.0,
+                              fontSize: 11.0,
                               letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium

@@ -15,7 +15,7 @@ class ProductSelectModel extends FlutterFlowModel<ProductSelectWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
-  // Models for ProductItem.
+  // Models for ProductItem dynamic component.
   late FlutterFlowDynamicModels<ProductItemModel> productItemModels;
 
   @override

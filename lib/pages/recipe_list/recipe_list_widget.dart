@@ -9,6 +9,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -80,7 +81,7 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             FFAppState().RecipeSelect = RecipeStruct();
-            FFAppState().isChanging = false;
+            FFAppState().isChanging = FFAppConstants.FalseValue;
             safeSetState(() {});
             await actions.addNewStruct(
               Structs.recipe,
@@ -207,11 +208,15 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                             child: TextFormField(
                               controller: _model.inputTextController,
                               focusNode: _model.inputFocusNode,
-                              onFieldSubmitted: (_) async {
-                                FFAppState().SearchQuery =
-                                    _model.inputTextController.text;
-                                safeSetState(() {});
-                              },
+                              onChanged: (_) => EasyDebounce.debounce(
+                                '_model.inputTextController',
+                                Duration(milliseconds: 2000),
+                                () async {
+                                  FFAppState().SearchQuery =
+                                      _model.inputTextController.text;
+                                  safeSetState(() {});
+                                },
+                              ),
                               obscureText: false,
                               decoration: InputDecoration(
                                 isDense: true,
@@ -578,12 +583,12 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                                 ? true
                                                 : (_model.dropdownValue2 ==
                                                     Hardness.all)) &&
-                                            (functions.substringFind(
-                                                    recipeItem.name,
-                                                    FFAppState().SearchQuery)
+                                            (FFAppState().SearchQuery ==
+                                                        ''
                                                 ? true
-                                                : (FFAppState().SearchQuery ==
-                                                        '')),
+                                                : functions.substringFind(
+                                                    recipeItem.name,
+                                                    FFAppState().SearchQuery)),
                                         child: Expanded(
                                           flex: 1,
                                           child: InkWell(

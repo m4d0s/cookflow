@@ -46,7 +46,12 @@ Future<String> exportJson(int recipeID) async {
                 .RecipeList
                 .map((e) => e.toSerializableMap())
                 .toList(),
+            'productList': FFAppState()
+                .ProductDB
+                .map((e) => e.toSerializableMap())
+                .toList(),
             'recipesel': FFAppState().RecipeSelect.toSerializableMap(),
+            'productsel': FFAppState().ProductSelect.toSerializableMap(),
             'buyList':
                 FFAppState().BuyList.map((e) => e.toSerializableMap()).toList(),
             'buysel': FFAppState().RecipeSelect.toSerializableMap(),
@@ -63,8 +68,8 @@ Future<String> exportJson(int recipeID) async {
 
     final file = File(
       isSharing
-          ? '${tempDir.path}/${recipeName}.${FFAppConstants.AppExtention2}'
-          : '${tempDir.path}/cookflow_backup_${timestamp}.${FFAppConstants.AppExtention1}',
+          ? '${tempDir.path}/${recipeName}.${FFAppConstants.AppExtentionRecipe}'
+          : '${tempDir.path}/cookflow_backup_${timestamp}.${FFAppConstants.AppExtentionBackup}',
     );
 
     await file.writeAsString(jsonString);

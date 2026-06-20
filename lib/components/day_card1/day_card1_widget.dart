@@ -282,6 +282,9 @@ class _DayCard1WidgetState extends State<DayCard1Widget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              FFAppState().isDailyChoose =
+                                  FFAppConstants.TrueValue;
+                              safeSetState(() {});
                               if (FFAppState().RecipeList.length > 0) {
                                 context.pushNamed(
                                   MealSelectWidget.routeName,

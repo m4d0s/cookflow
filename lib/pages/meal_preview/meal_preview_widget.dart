@@ -183,7 +183,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                                     .done
                                                     .calories,
                                                 formatType: FormatType.custom,
-                                                format: '#',
+                                                format: '0',
                                                 locale: '',
                                               ),
                                               '12345',
@@ -278,7 +278,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                                 .goal
                                                 .calories,
                                             formatType: FormatType.custom,
-                                            format: 'Цель: # ккал',
+                                            format: 'Цель: 0 ккал',
                                             locale: '',
                                           )} (${formatNumber(
                                             functions.procentCalc(
@@ -389,12 +389,12 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                   value: '${formatNumber(
                                     FFAppState().DailySelect.done.protein,
                                     formatType: FormatType.custom,
-                                    format: '#.0',
+                                    format: '0.#',
                                     locale: '',
                                   )}/${formatNumber(
                                     FFAppState().DailySelect.goal.protein,
                                     formatType: FormatType.custom,
-                                    format: '#.0 г',
+                                    format: '0.# г',
                                     locale: '',
                                   )}',
                                   progress: functions.procentCalc(
@@ -413,12 +413,12 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                   value: '${formatNumber(
                                     FFAppState().DailySelect.done.fats,
                                     formatType: FormatType.custom,
-                                    format: '#.0',
+                                    format: '0.#',
                                     locale: '',
                                   )}/${formatNumber(
                                     FFAppState().DailySelect.goal.fats,
                                     formatType: FormatType.custom,
-                                    format: '#.0 г',
+                                    format: '0.# г',
                                     locale: '',
                                   )}',
                                   progress: functions.procentCalc(
@@ -437,12 +437,12 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                   value: '${formatNumber(
                                     FFAppState().DailySelect.done.carbs,
                                     formatType: FormatType.custom,
-                                    format: '#.0',
+                                    format: '0.#',
                                     locale: '',
                                   )}/${formatNumber(
                                     FFAppState().DailySelect.goal.carbs,
                                     formatType: FormatType.custom,
-                                    format: '#.0 г',
+                                    format: '0.# г',
                                     locale: '',
                                   )}',
                                   progress: functions.procentCalc(
@@ -589,8 +589,7 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                       onPressed: () async {
                                         await actions.measureTDEE();
                                         FFAppState().AutoNutrition = true;
-                                        safeSetState(() {});
-                                        safeSetState(() {});
+                                        FFAppState().update(() {});
                                       },
                                       text: 'Включить автоподсчёт',
                                       options: FFButtonOptions(
@@ -737,10 +736,12 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                         tone: FlutterFlowTheme.of(context)
                                             .primary,
                                         label: 'Вес',
-                                        value: FFAppState()
-                                            .PeopleStat
-                                            .weight
-                                            .toString(),
+                                        value: formatNumber(
+                                          FFAppState().PeopleStat.weight,
+                                          formatType: FormatType.custom,
+                                          format: '0.#',
+                                          locale: '',
+                                        ),
                                         unit: 'кг',
                                       ),
                                     ),
@@ -760,10 +761,12 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                         tone: FlutterFlowTheme.of(context)
                                             .primary,
                                         label: 'Рост',
-                                        value: FFAppState()
-                                            .PeopleStat
-                                            .height
-                                            .toString(),
+                                        value: formatNumber(
+                                          FFAppState().PeopleStat.height,
+                                          formatType: FormatType.custom,
+                                          format: '0.#',
+                                          locale: '',
+                                        ),
                                         unit: 'см',
                                       ),
                                     ),
@@ -790,10 +793,12 @@ class _MealPreviewWidgetState extends State<MealPreviewWidget> {
                                         tone: FlutterFlowTheme.of(context)
                                             .primary,
                                         label: 'Возраст',
-                                        value: FFAppState()
-                                            .PeopleStat
-                                            .age
-                                            .toString(),
+                                        value: formatNumber(
+                                          FFAppState().PeopleStat.age,
+                                          formatType: FormatType.custom,
+                                          format: '0.#',
+                                          locale: '',
+                                        ),
                                         unit: 'лет',
                                       ),
                                     ),

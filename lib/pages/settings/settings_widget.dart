@@ -9,7 +9,6 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'settings_model.dart';
 export 'settings_model.dart';
@@ -41,62 +40,55 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         text: formatNumber(
       FFAppState().DailyGoal.protein,
       formatType: FormatType.custom,
-      format: '#.0',
+      format: '0.#',
       locale: '',
     ));
     _model.textFieldFocusNode1 ??= FocusNode();
 
-    _model.textFieldMask1 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController2 ??= TextEditingController(
         text: formatNumber(
       FFAppState().DailyGoal.fats,
       formatType: FormatType.custom,
-      format: '#.0',
+      format: '0.#',
       locale: '',
     ));
     _model.textFieldFocusNode2 ??= FocusNode();
 
-    _model.textFieldMask2 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController3 ??= TextEditingController(
         text: formatNumber(
       FFAppState().DailyGoal.carbs,
       formatType: FormatType.custom,
-      format: '#.0',
+      format: '0.#',
       locale: '',
     ));
     _model.textFieldFocusNode3 ??= FocusNode();
 
-    _model.textFieldMask3 = MaskTextInputFormatter(mask: '#####.#');
     _model.textController4 ??= TextEditingController(
         text: formatNumber(
       FFAppState().PeopleStat.weight,
       formatType: FormatType.custom,
-      format: '#.0',
+      format: '0.#',
       locale: '',
     ));
     _model.textFieldFocusNode4 ??= FocusNode();
 
-    _model.textFieldMask4 = MaskTextInputFormatter(mask: '###.#');
     _model.textController5 ??= TextEditingController(
         text: formatNumber(
       FFAppState().PeopleStat.height,
       formatType: FormatType.custom,
-      format: '#.0',
+      format: '0.##',
       locale: '',
     ));
     _model.textFieldFocusNode5 ??= FocusNode();
 
-    _model.textFieldMask5 = MaskTextInputFormatter(mask: '###.#');
     _model.textController6 ??= TextEditingController(
         text: formatNumber(
       FFAppState().PeopleStat.age,
       formatType: FormatType.custom,
-      format: '#.0',
+      format: '0.##',
       locale: '',
     ));
     _model.textFieldFocusNode6 ??= FocusNode();
-
-    _model.textFieldMask6 = MaskTextInputFormatter(mask: '###.#');
   }
 
   @override
@@ -766,39 +758,44 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                           .textController1,
                                                       focusNode: _model
                                                           .textFieldFocusNode1,
-                                                      onFieldSubmitted:
-                                                          (_) async {
-                                                        FFAppState()
-                                                            .updateDailyGoalStruct(
-                                                          (e) => e
-                                                            ..calories = (double
-                                                                        .parse(_model
-                                                                            .textController1
-                                                                            .text) *
-                                                                    4) +
-                                                                (double.parse(_model
-                                                                        .textController2
-                                                                        .text) *
-                                                                    9) +
-                                                                (double.parse(_model
-                                                                        .textController3
-                                                                        .text) *
-                                                                    4)
-                                                            ..protein = double
-                                                                .tryParse(_model
-                                                                    .textController1
-                                                                    .text)
-                                                            ..fats = double
-                                                                .tryParse(_model
-                                                                    .textController2
-                                                                    .text)
-                                                            ..carbs = double
-                                                                .tryParse(_model
-                                                                    .textController3
-                                                                    .text),
-                                                        );
-                                                        safeSetState(() {});
-                                                      },
+                                                      onChanged: (_) =>
+                                                          EasyDebounce.debounce(
+                                                        '_model.textController1',
+                                                        Duration(
+                                                            milliseconds: 2000),
+                                                        () async {
+                                                          FFAppState()
+                                                              .updateDailyGoalStruct(
+                                                            (e) => e
+                                                              ..calories = (double
+                                                                          .parse(_model
+                                                                              .textController1
+                                                                              .text) *
+                                                                      4) +
+                                                                  (double.parse(_model
+                                                                          .textController2
+                                                                          .text) *
+                                                                      9) +
+                                                                  (double.parse(_model
+                                                                          .textController3
+                                                                          .text) *
+                                                                      4)
+                                                              ..protein = double
+                                                                  .tryParse(_model
+                                                                      .textController1
+                                                                      .text)
+                                                              ..fats = double
+                                                                  .tryParse(_model
+                                                                      .textController2
+                                                                      .text)
+                                                              ..carbs = double
+                                                                  .tryParse(_model
+                                                                      .textController3
+                                                                      .text),
+                                                          );
+                                                          safeSetState(() {});
+                                                        },
+                                                      ),
                                                       autofocus: false,
                                                       enabled: true,
                                                       obscureText: false,
@@ -1000,7 +997,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                           .textController1Validator
                                                           .asValidator(context),
                                                       inputFormatters: [
-                                                        _model.textFieldMask1
+                                                        FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                '^\\d*([.,]\\d{0,2})?\$'))
                                                       ],
                                                     ),
                                                   ),
@@ -1013,39 +1012,44 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                           .textController2,
                                                       focusNode: _model
                                                           .textFieldFocusNode2,
-                                                      onFieldSubmitted:
-                                                          (_) async {
-                                                        FFAppState()
-                                                            .updateDailyGoalStruct(
-                                                          (e) => e
-                                                            ..calories = (double
-                                                                        .parse(_model
-                                                                            .textController1
-                                                                            .text) *
-                                                                    4) +
-                                                                (double.parse(_model
-                                                                        .textController2
-                                                                        .text) *
-                                                                    9) +
-                                                                (double.parse(_model
-                                                                        .textController3
-                                                                        .text) *
-                                                                    4)
-                                                            ..protein = double
-                                                                .tryParse(_model
-                                                                    .textController1
-                                                                    .text)
-                                                            ..fats = double
-                                                                .tryParse(_model
-                                                                    .textController2
-                                                                    .text)
-                                                            ..carbs = double
-                                                                .tryParse(_model
-                                                                    .textController3
-                                                                    .text),
-                                                        );
-                                                        safeSetState(() {});
-                                                      },
+                                                      onChanged: (_) =>
+                                                          EasyDebounce.debounce(
+                                                        '_model.textController2',
+                                                        Duration(
+                                                            milliseconds: 2000),
+                                                        () async {
+                                                          FFAppState()
+                                                              .updateDailyGoalStruct(
+                                                            (e) => e
+                                                              ..calories = (double
+                                                                          .parse(_model
+                                                                              .textController1
+                                                                              .text) *
+                                                                      4) +
+                                                                  (double.parse(_model
+                                                                          .textController2
+                                                                          .text) *
+                                                                      9) +
+                                                                  (double.parse(_model
+                                                                          .textController3
+                                                                          .text) *
+                                                                      4)
+                                                              ..protein = double
+                                                                  .tryParse(_model
+                                                                      .textController1
+                                                                      .text)
+                                                              ..fats = double
+                                                                  .tryParse(_model
+                                                                      .textController2
+                                                                      .text)
+                                                              ..carbs = double
+                                                                  .tryParse(_model
+                                                                      .textController3
+                                                                      .text),
+                                                          );
+                                                          safeSetState(() {});
+                                                        },
+                                                      ),
                                                       autofocus: false,
                                                       enabled: true,
                                                       obscureText: false,
@@ -1227,7 +1231,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                           .textController2Validator
                                                           .asValidator(context),
                                                       inputFormatters: [
-                                                        _model.textFieldMask2
+                                                        FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                '^\\d*([.,]\\d{0,2})?\$'))
                                                       ],
                                                     ),
                                                   ),
@@ -1240,39 +1246,44 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                           .textController3,
                                                       focusNode: _model
                                                           .textFieldFocusNode3,
-                                                      onFieldSubmitted:
-                                                          (_) async {
-                                                        FFAppState()
-                                                            .updateDailyGoalStruct(
-                                                          (e) => e
-                                                            ..calories = (double
-                                                                        .parse(_model
-                                                                            .textController1
-                                                                            .text) *
-                                                                    4) +
-                                                                (double.parse(_model
-                                                                        .textController2
-                                                                        .text) *
-                                                                    9) +
-                                                                (double.parse(_model
-                                                                        .textController3
-                                                                        .text) *
-                                                                    4)
-                                                            ..protein = double
-                                                                .tryParse(_model
-                                                                    .textController1
-                                                                    .text)
-                                                            ..fats = double
-                                                                .tryParse(_model
-                                                                    .textController2
-                                                                    .text)
-                                                            ..carbs = double
-                                                                .tryParse(_model
-                                                                    .textController3
-                                                                    .text),
-                                                        );
-                                                        safeSetState(() {});
-                                                      },
+                                                      onChanged: (_) =>
+                                                          EasyDebounce.debounce(
+                                                        '_model.textController3',
+                                                        Duration(
+                                                            milliseconds: 2000),
+                                                        () async {
+                                                          FFAppState()
+                                                              .updateDailyGoalStruct(
+                                                            (e) => e
+                                                              ..calories = (double
+                                                                          .parse(_model
+                                                                              .textController1
+                                                                              .text) *
+                                                                      4) +
+                                                                  (double.parse(_model
+                                                                          .textController2
+                                                                          .text) *
+                                                                      9) +
+                                                                  (double.parse(_model
+                                                                          .textController3
+                                                                          .text) *
+                                                                      4)
+                                                              ..protein = double
+                                                                  .tryParse(_model
+                                                                      .textController1
+                                                                      .text)
+                                                              ..fats = double
+                                                                  .tryParse(_model
+                                                                      .textController2
+                                                                      .text)
+                                                              ..carbs = double
+                                                                  .tryParse(_model
+                                                                      .textController3
+                                                                      .text),
+                                                          );
+                                                          safeSetState(() {});
+                                                        },
+                                                      ),
                                                       autofocus: false,
                                                       enabled: true,
                                                       obscureText: false,
@@ -1475,7 +1486,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                           .textController3Validator
                                                           .asValidator(context),
                                                       inputFormatters: [
-                                                        _model.textFieldMask3
+                                                        FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                '^\\d*([.,]\\d{0,2})?\$'))
                                                       ],
                                                     ),
                                                   ),
@@ -2164,7 +2177,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                         .textController4Validator
                                                         .asValidator(context),
                                                     inputFormatters: [
-                                                      _model.textFieldMask4
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              '^\\d*([.,]\\d{0,2})?\$'))
                                                     ],
                                                   ),
                                                 ),
@@ -2177,23 +2192,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                         _model.textController5,
                                                     focusNode: _model
                                                         .textFieldFocusNode5,
-                                                    onFieldSubmitted:
-                                                        (_) async {
-                                                      FFAppState()
-                                                          .updatePeopleStatStruct(
-                                                        (e) => e
-                                                          ..height = int
-                                                              .tryParse(_model
-                                                                  .textController5
-                                                                  .text),
-                                                      );
-                                                      safeSetState(() {});
-                                                      if (FFAppState()
-                                                          .AutoNutrition) {
-                                                        await actions
-                                                            .measureTDEE();
-                                                      }
-                                                    },
+                                                    onChanged: (_) =>
+                                                        EasyDebounce.debounce(
+                                                      '_model.textController5',
+                                                      Duration(
+                                                          milliseconds: 2000),
+                                                      () async {
+                                                        FFAppState()
+                                                            .updatePeopleStatStruct(
+                                                          (e) => e
+                                                            ..height = int
+                                                                .tryParse(_model
+                                                                    .textController5
+                                                                    .text),
+                                                        );
+                                                        safeSetState(() {});
+                                                        if (FFAppState()
+                                                            .AutoNutrition) {
+                                                          await actions
+                                                              .measureTDEE();
+                                                        }
+                                                      },
+                                                    ),
                                                     autofocus: false,
                                                     enabled: true,
                                                     obscureText: false,
@@ -2359,7 +2379,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                         .textController5Validator
                                                         .asValidator(context),
                                                     inputFormatters: [
-                                                      _model.textFieldMask5
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              '^\\d*([.,]\\d{0,2})?\$'))
                                                     ],
                                                   ),
                                                 ),
@@ -2372,23 +2394,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                         _model.textController6,
                                                     focusNode: _model
                                                         .textFieldFocusNode6,
-                                                    onFieldSubmitted:
-                                                        (_) async {
-                                                      FFAppState()
-                                                          .updatePeopleStatStruct(
-                                                        (e) => e
-                                                          ..age = int.tryParse(
-                                                              _model
-                                                                  .textController6
-                                                                  .text),
-                                                      );
-                                                      safeSetState(() {});
-                                                      if (FFAppState()
-                                                          .AutoNutrition) {
-                                                        await actions
-                                                            .measureTDEE();
-                                                      }
-                                                    },
+                                                    onChanged: (_) =>
+                                                        EasyDebounce.debounce(
+                                                      '_model.textController6',
+                                                      Duration(
+                                                          milliseconds: 2000),
+                                                      () async {
+                                                        FFAppState()
+                                                            .updatePeopleStatStruct(
+                                                          (e) => e
+                                                            ..age = int
+                                                                .tryParse(_model
+                                                                    .textController6
+                                                                    .text),
+                                                        );
+                                                        safeSetState(() {});
+                                                        if (FFAppState()
+                                                            .AutoNutrition) {
+                                                          await actions
+                                                              .measureTDEE();
+                                                        }
+                                                      },
+                                                    ),
                                                     autofocus: false,
                                                     enabled: true,
                                                     obscureText: false,
@@ -2555,7 +2582,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                         .textController6Validator
                                                         .asValidator(context),
                                                     inputFormatters: [
-                                                      _model.textFieldMask6
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              '^\\d*([.,]\\d{0,2})?\$'))
                                                     ],
                                                   ),
                                                 ),
@@ -3038,7 +3067,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 Container(
                   width: 100.0,
-                  height: 250.0,
+                  height: 270.0,
                   constraints: BoxConstraints(
                     maxHeight: 300.0,
                   ),
@@ -3269,7 +3298,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryText,
-                                                                fontSize: 11.0,
+                                                                fontSize: 10.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight: FlutterFlowTheme.of(
@@ -3469,7 +3498,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryText,
-                                                                fontSize: 11.0,
+                                                                fontSize: 10.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight: FlutterFlowTheme.of(

@@ -10,38 +10,57 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future updateShopItem(bool clear, bool check) async {
-  final item = FFAppState().BuySelect;
+  final item = ShopItemStruct.fromSerializableMap(
+      FFAppState().BuySelect.toSerializableMap());
+
   item.bought = check;
+  if (check) item.done = DateTime.now();
 
-  if (check)
-    item.done = DateTime.now();
-  else
-    item.done = null;
+  int existing = FFAppState().BuyList.indexWhere((e) =>
+      (e.id == item.id) ||
+      (e.name.toLowerCase() == item.name.toLowerCase() &&
+          e.quantity.quantity.toLowerCase() ==
+              item.quantity.quantity.toLowerCase()));
 
-  final manualList = FFAppState().BuyList.where((e) => e.productId == -1);
-  final existing = FFAppState().BuyList.indexWhere((e) => e.id == item.id);
-  int inmanual = -1;
-
-  for (final i in manualList) {
+  for (final i in FFAppState().BuyList) {
     if ((i.name.toLowerCase() == item.name.toLowerCase()) &
-        (i.quantity.quantity.toLowerCase ==
-            item.quantity.quantity.toLowerCase)) {
-      inmanual =
-          FFAppState().BuyList.indexWhere((element) => element.id == i.id);
+        (i.quantity.quantity.toLowerCase() ==
+            item.quantity.quantity.toLowerCase())) {
+      existing = FFAppState().BuyList.indexWhere((e) => e.id == i.id);
       break;
     }
   }
 
   FFAppState().update(() {
-    if (existing != -1)
+    if (existing != -1) {
       FFAppState().BuyList[existing] = item;
-    else if (inmanual != -1) {
-      FFAppState().BuyList[inmanual].quantity.count +=
-          FFAppState().BuySelect.quantity.count;
-    } else
+    } else {
+      FFAppState().LastBuyId += 1;
+      item.id = FFAppState().LastBuyId;
       FFAppState().addToBuyList(item);
-    if (clear) FFAppState().BuySelect = ShopItemStruct();
+    }
   });
+
+  // for (final i in manualList) {
+  //   if ((i.name.toLowerCase() == item.name.toLowerCase()) &
+  //       (i.quantity.quantity.toLowerCase ==
+  //           item.quantity.quantity.toLowerCase)) {
+  //     inmanual =
+  //         FFAppState().BuyList.indexWhere((element) => element.id == i.id);
+  //     break;
+  //   }
+  // }
+
+  // FFAppState().update(() {
+  //   if (existing != -1)
+  //     FFAppState().BuyList[existing] = item;
+  //   else if (inmanual != -1) {
+  //     FFAppState().BuyList[inmanual].quantity.count +=
+  //         FFAppState().BuySelect.quantity.count;
+  //   } else
+  //     FFAppState().addToBuyList(item);
+  //   if (clear) FFAppState().BuySelect = ShopItemStruct();
+  // });
 }
 
 // Set your action name, define your arguments and return parameter,

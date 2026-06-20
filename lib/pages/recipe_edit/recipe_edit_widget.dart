@@ -1,4 +1,5 @@
 import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/ingridient_edit/ingridient_edit_widget.dart';
 import '/components/step_edit/step_edit_widget.dart';
 import '/components/u_button/u_button_widget.dart';
@@ -11,6 +12,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,44 +45,17 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
       _model.pictureAgainn = await actions.base64ToFFUploadedFile(
         FFAppState().RecipeSelect.pictureBase64,
       );
-
+      FFAppState().ProductSelect = ProductStruct();
       safeSetState(() {});
     });
 
     _model.inputTextController1 ??=
         TextEditingController(text: FFAppState().RecipeSelect.name);
     _model.inputFocusNode1 ??= FocusNode();
-    _model.inputFocusNode1!.addListener(
-      () async {
-        FFAppState().updateRecipeSelectStruct(
-          (e) => e
-            ..name = _model.inputTextController1.text
-            ..info = _model.inputTextController2.text
-            ..cookTime = _model.countControllerValue2
-            ..portions = _model.countControllerValue1
-            ..foodType = _model.categoryValue
-            ..hardType = _model.dropDownValue,
-        );
-        safeSetState(() {});
-      },
-    );
+
     _model.inputTextController2 ??=
         TextEditingController(text: FFAppState().RecipeSelect.info);
     _model.inputFocusNode2 ??= FocusNode();
-    _model.inputFocusNode2!.addListener(
-      () async {
-        FFAppState().updateRecipeSelectStruct(
-          (e) => e
-            ..name = _model.inputTextController1.text
-            ..info = _model.inputTextController2.text
-            ..cookTime = _model.countControllerValue2
-            ..portions = _model.countControllerValue1
-            ..foodType = _model.categoryValue
-            ..hardType = _model.dropDownValue,
-        );
-        safeSetState(() {});
-      },
-    );
   }
 
   @override
@@ -112,9 +87,12 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
           child: FloatingActionButton.extended(
             onPressed: () async {
               _model.isComplete = await actions.recipeComplete();
-              if (_model.isComplete?.unique((e) => e).length == 1) {
+              if (_model.isComplete
+                      ?.where((e) => e == FFAppConstants.FalseValue)
+                      .toList()
+                      .length ==
+                  0) {
                 await actions.updateRecipe(
-                  FFAppConstants.FalseValue,
                   FFAppConstants.FalseValue,
                   FFAppConstants.FalseValue,
                 );
@@ -137,7 +115,37 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                     return AlertDialog(
                       title: Text('Обновление невозможно'),
                       content: Text(
-                          'Перепроверьте следующте поля:\\n${(_model.isComplete!.elementAtOrNull(0))! ? '- Не заполнено название\\n' : ''}${(_model.isComplete!.elementAtOrNull(1))! ? '- Нет информации реуепта\\n' : ''}${(_model.isComplete!.elementAtOrNull(2))! ? '- Не указано количество порций\\n' : ''}${(_model.isComplete!.elementAtOrNull(3))! ? '-Не указано примерное время приготовления\\n' : ''}${(_model.isComplete!.elementAtOrNull(4))! ? '- Нету шагов готовки\\n' : ''}${(_model.isComplete!.elementAtOrNull(5))! ? '-Не у всех шагов есть описание\\n' : ''}${(_model.isComplete!.elementAtOrNull(6))! ? '- Не указаны продукты\\n' : ''}${(_model.isComplete!.elementAtOrNull(7))! ? '- Не у всех продуктов есть название\\n' : ''}${(_model.isComplete!.elementAtOrNull(8))! ? '- Нет у всех продуктов есть структура единиц измерения\\n' : ''}${(_model.isComplete!.elementAtOrNull(9))! ? '- Не у всех продуктов есть единица измерения\\n' : ''}${(_model.isComplete!.elementAtOrNull(10))! ? '- Не у всех продуктов есть количество\\n' : ''}'),
+                          '${'Необходимы следующие правки:\n'}${(bool var1) {
+                        return var1 ? '- Не заполнено название\n' : '';
+                      }(!_model.isComplete!.firstOrNull!)}${(bool var1) {
+                        return var1 ? '- Нет информации о рецепте\n' : '';
+                      }(!(_model.isComplete!.elementAtOrNull(1))!)}${(bool var1) {
+                        return var1 ? '- Не указано количество порций\n' : '';
+                      }(!(_model.isComplete!.elementAtOrNull(2))!)}${(bool var1) {
+                        return var1 ? '- Не указано время приготовления\n' : '';
+                      }(!(_model.isComplete!.elementAtOrNull(3))!)}${(bool var1) {
+                        return var1 ? '- Шаги отсутствуют\n' : '';
+                      }(!(_model.isComplete!.elementAtOrNull(4))!)}${(bool var1) {
+                        return var1 ? '-Не у всех шагов есть описание\n' : '';
+                      }(!(_model.isComplete!.elementAtOrNull(5))!)}${(bool var1) {
+                        return var1 ? '- Не указаны продукты\n' : '';
+                      }(!(_model.isComplete!.elementAtOrNull(6))!)}${(bool var1) {
+                        return var1
+                            ? '- Не у всех продуктов есть название\n'
+                            : '';
+                      }(!(_model.isComplete!.elementAtOrNull(7))!)}${(bool var1) {
+                        return var1
+                            ? '- Нет у всех продуктов есть структура единиц измерения\n'
+                            : '';
+                      }(!(_model.isComplete!.elementAtOrNull(8))!)}${(bool var1) {
+                        return var1
+                            ? '- Не у всех продуктов есть единица измерения\n'
+                            : '';
+                      }(!(_model.isComplete!.elementAtOrNull(9))!)}${(bool var1) {
+                        return var1
+                            ? '- Не у всех продуктов есть количество\n'
+                            : '';
+                      }(!(_model.isComplete!.elementAtOrNull(10))!)}'),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(alertDialogContext),
@@ -458,7 +466,6 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                 } else {
                                   await actions.updateRecipe(
                                     FFAppConstants.FalseValue,
-                                    FFAppConstants.FalseValue,
                                     FFAppConstants.TrueValue,
                                   );
 
@@ -567,10 +574,14 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                 .primaryText,
                                             size: 98.0,
                                           ),
-                                          if (FFAppState()
-                                                      .RecipeSelect
-                                                      .pictureBase64 !=
-                                                  '')
+                                          if ((FFAppState()
+                                                          .RecipeSelect
+                                                          .pictureBase64 !=
+                                                      '') &&
+                                              (_model.recipePhotoBase64 ==
+                                                      null ||
+                                                  _model.recipePhotoBase64 ==
+                                                      ''))
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
@@ -700,6 +711,33 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                       .inputTextController1,
                                                   focusNode:
                                                       _model.inputFocusNode1,
+                                                  onChanged: (_) =>
+                                                      EasyDebounce.debounce(
+                                                    '_model.inputTextController1',
+                                                    Duration(
+                                                        milliseconds: 2000),
+                                                    () async {
+                                                      FFAppState()
+                                                          .updateRecipeSelectStruct(
+                                                        (e) => e
+                                                          ..name = _model
+                                                              .inputTextController1
+                                                              .text
+                                                          ..info = _model
+                                                              .inputTextController2
+                                                              .text
+                                                          ..cookTime = _model
+                                                              .countControllerValue2
+                                                          ..portions = _model
+                                                              .countControllerValue1
+                                                          ..foodType = _model
+                                                              .categoryValue
+                                                          ..hardType = _model
+                                                              .dropDownValue,
+                                                      );
+                                                      safeSetState(() {});
+                                                    },
+                                                  ),
                                                   obscureText: false,
                                                   decoration: InputDecoration(
                                                     isDense: true,
@@ -939,6 +977,33 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                                           .inputTextController2,
                                                       focusNode: _model
                                                           .inputFocusNode2,
+                                                      onChanged: (_) =>
+                                                          EasyDebounce.debounce(
+                                                        '_model.inputTextController2',
+                                                        Duration(
+                                                            milliseconds: 2000),
+                                                        () async {
+                                                          FFAppState()
+                                                              .updateRecipeSelectStruct(
+                                                            (e) => e
+                                                              ..name = _model
+                                                                  .inputTextController1
+                                                                  .text
+                                                              ..info = _model
+                                                                  .inputTextController2
+                                                                  .text
+                                                              ..cookTime = _model
+                                                                  .countControllerValue2
+                                                              ..portions = _model
+                                                                  .countControllerValue1
+                                                              ..foodType = _model
+                                                                  .categoryValue
+                                                              ..hardType = _model
+                                                                  .dropDownValue,
+                                                          );
+                                                          safeSetState(() {});
+                                                        },
+                                                      ),
                                                       obscureText: false,
                                                       decoration:
                                                           InputDecoration(

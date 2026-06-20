@@ -383,7 +383,7 @@ class _CookingCheckWidgetState extends State<CookingCheckWidget> {
                                                                     context)
                                                                 .titleSmall
                                                                 .fontStyle,
-                                                        lineHeight: 1.5,
+                                                        lineHeight: 1.3,
                                                       ),
                                                 ),
                                                 Row(

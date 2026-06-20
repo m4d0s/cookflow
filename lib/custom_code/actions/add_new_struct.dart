@@ -10,75 +10,66 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future addNewStruct(Structs struct) async {
-  int id;
-  int qid;
+  final newProductCategoryStruct = ProductCategoryStruct(
+    name: FFAppConstants.CustomProductCategory,
+  );
+  final recipe = FFAppState().RecipeSelect;
 
   switch (struct) {
     case Structs.product:
-      final recipe = FFAppState().RecipeSelect;
-      id = FFAppState().LastProductId + 1;
-
       if (recipe.products.length < FFAppConstants.StructLimit) {
-        recipe.products.add(
-          ProductStruct(
-              id: id,
-              quantity: FoodQuantityStruct(),
-              nutrition100g: NutritionsStruct(),
-              category: ProductCategoryStruct()),
-        );
         FFAppState().LastProductId += 1;
+
+        FFAppState().RecipeSelect.products.add(ProductStruct(
+              id: FFAppState().LastProductId,
+              category: newProductCategoryStruct,
+            ));
       }
+
+      break;
+
+    case Structs.step:
+      FFAppState().LastStepId += 1;
+
+      if (recipe.cookingSteps.length < FFAppConstants.StructLimit) {
+        FFAppState().RecipeSelect.cookingSteps.add(
+              StepStruct(
+                queueId: recipe.cookingSteps.length + 1,
+                id: FFAppState().LastStepId,
+              ),
+            );
+      }
+
       break;
 
     case Structs.shop:
-      id = FFAppState().LastBuyId + 1;
       FFAppState().LastBuyId += 1;
-      final shop = ShopItemStruct(
-          bought: false,
-          create: DateTime.now(),
-          id: id,
-          quantity: FoodQuantityStruct());
 
-      FFAppState().BuySelect = shop;
-      //FFAppState().addToBuyList(shop);
+      FFAppState().BuySelect = ShopItemStruct(
+        create: DateTime.now(),
+        done: DateTime.now(),
+        bought: false,
+        id: FFAppState().LastBuyId,
+      );
 
       break;
+
     case Structs.dbproduct:
-      id = FFAppState().LastProductId + 1;
-      FFAppState().addToProductDB(
-        ProductStruct(
-            id: id,
-            quantity: FoodQuantityStruct(),
-            nutrition100g: NutritionsStruct(),
-            category: ProductCategoryStruct()),
-      );
       FFAppState().LastProductId += 1;
-      break;
-    case Structs.step:
-      final recipe = FFAppState().RecipeSelect;
-      id = FFAppState().LastProductId + 1;
-      qid = recipe.cookingSteps.length + 1;
 
-      if (recipe.cookingSteps.length < FFAppConstants.StructLimit) {
-        recipe.cookingSteps.add(
-          StepStruct(queueId: qid, id: id),
-        );
-      }
-      FFAppState().LastStepId += 1;
-      break;
-
-    default:
-      id = FFAppState().LastRecipeId + 1;
-      FFAppState().LastRecipeId += 1;
-      final recipe = RecipeStruct(
-        id: id,
-        cookingSteps: [],
-        products: [],
-        nutritions: NutritionsStruct(),
+      FFAppState().ProductSelect = ProductStruct(
+        id: FFAppState().LastProductId,
       );
 
-      // FFAppState().addToRecipeList(recipe);
-      FFAppState().RecipeSelect = recipe;
+      break;
+
+    default: //Structs.recipe
+      FFAppState().LastRecipeId += 1;
+
+      FFAppState().RecipeSelect = RecipeStruct(
+        id: FFAppState().LastRecipeId,
+        createTime: DateTime.now(),
+      );
   }
 
   FFAppState().update(() {});

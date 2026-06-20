@@ -149,8 +149,11 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                 ),
                                 Text(
                                   '${valueOrDefault<String>(
-                                    widget.recipeDetails?.nutritions.calories
-                                        .toString(),
+                                    formatNumber(
+                                      widget
+                                          .recipeDetails?.nutritions.calories,
+                                      formatType: FormatType.compact,
+                                    ),
                                     '-1',
                                   )} ккал',
                                   style: FlutterFlowTheme.of(context)
@@ -182,33 +185,44 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                             ),
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 4.0, 8.0, 4.0),
-                            child: Container(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Icon(
-                                    Icons.fastfood_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 14.0,
-                                  ),
-                                  Text(
-                                    valueOrDefault<String>(
-                                      _model.recipeTags1?.foodname,
-                                      '[Не задано]',
+                        if (FFAppConstants.FalseValue)
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              shape: BoxShape.rectangle,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 4.0, 8.0, 4.0),
+                              child: Container(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
+                                      Icons.fastfood_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 14.0,
                                     ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelSmall
-                                        .override(
-                                          font: GoogleFonts.manrope(
+                                    Text(
+                                      valueOrDefault<String>(
+                                        _model.recipeTags1?.foodname,
+                                        '[Не задано]',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .labelSmall
+                                          .override(
+                                            font: GoogleFonts.manrope(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelSmall
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .labelSmall
@@ -217,24 +231,14 @@ class _RecipeCard2WidgetState extends State<RecipeCard2Widget> {
                                                 FlutterFlowTheme.of(context)
                                                     .labelSmall
                                                     .fontStyle,
+                                            lineHeight: 1.3,
                                           ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelSmall
-                                                  .fontStyle,
-                                          lineHeight: 1.3,
-                                        ),
-                                  ),
-                                ].divide(SizedBox(width: 4.0)),
+                                    ),
+                                  ].divide(SizedBox(width: 4.0)),
+                                ),
                               ),
                             ),
                           ),
-                        ),
                         Container(
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context).surface90,
