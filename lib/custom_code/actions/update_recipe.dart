@@ -23,7 +23,7 @@ Future<String> updateRecipe(bool fav, bool share) async {
       carbs: 0,
     );
 
-    recipe.isFavorite = fav;
+    if (fav) recipe.isFavorite = !recipe.isFavorite;
     List<int> productsToRemove = [];
 
     for (final product in recipe.products) {
@@ -31,7 +31,6 @@ Future<String> updateRecipe(bool fav, bool share) async {
 
       if (product.quantity.divider <= 0 || measure <= 0) {
         productsToRemove.add(product.id);
-        recipe.products.removeWhere((e) => e.id == product.id);
         continue;
       }
 
@@ -51,9 +50,9 @@ Future<String> updateRecipe(bool fav, bool share) async {
           product.nutrition100g.carbs / product.quantity.divider * measure;
     }
 
-    recipe.products.removeWhere(
-      (e) => productsToRemove.contains(e.id),
-    );
+    // recipe.products.removeWhere(
+    //   (e) => productsToRemove.contains(e.id),
+    // );
 
     recipe.nutritions.calories = max(0, recipe.nutritions.calories);
     recipe.nutritions.protein = max(0, recipe.nutritions.protein);

@@ -193,8 +193,13 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                 .primaryText,
                                             size: 24.0,
                                           ),
-                                          onPressed: () {
-                                            print('IconButton pressed ...');
+                                          onPressed: () async {
+                                            _model.errorOnShare =
+                                                await actions.exportJson(
+                                              FFAppState().RecipeSelect.id,
+                                            );
+
+                                            safeSetState(() {});
                                           },
                                         ),
                                       ),
@@ -229,9 +234,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           ),
                                           onPressed: () async {
                                             await actions.updateRecipe(
-                                              !FFAppState()
-                                                  .RecipeSelect
-                                                  .isFavorite,
+                                              FFAppConstants.TrueValue,
                                               FFAppConstants.FalseValue,
                                             );
                                           },
@@ -1863,7 +1866,7 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                     size: 24.0,
                                   ),
                                   onPressed: () async {
-                                    FFAppState().isChanging =
+                                    FFAppState().ChangeRecipe =
                                         FFAppConstants.TrueValue;
                                     safeSetState(() {});
 

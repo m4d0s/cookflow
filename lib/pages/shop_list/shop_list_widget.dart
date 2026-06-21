@@ -1,6 +1,5 @@
 import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
-import '/components/shop_item/shop_item_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -550,21 +549,260 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                                     item.length, (itemIndex) {
                                                   final itemItem =
                                                       item[itemIndex];
-                                                  return wrapWithModel(
-                                                    model: _model
-                                                        .shoppingItemModels1
-                                                        .getModel(
-                                                      itemItem.id.toString(),
-                                                      itemIndex,
-                                                    ),
-                                                    updateCallback: () =>
-                                                        safeSetState(() {}),
-                                                    child: ShopItemWidget(
-                                                      key: Key(
-                                                        'Keya90_${itemItem.id.toString()}',
+                                                  return Stack(
+                                                    children: [
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .alternate,
+                                                            width: 1.0,
+                                                          ),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Container(
+                                                            child: Stack(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      -1.0,
+                                                                      1.0),
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Material(
+                                                                        color: Colors
+                                                                            .transparent,
+                                                                        child:
+                                                                            Theme(
+                                                                          data:
+                                                                              ThemeData(
+                                                                            checkboxTheme:
+                                                                                CheckboxThemeData(
+                                                                              visualDensity: VisualDensity.compact,
+                                                                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                            ),
+                                                                            unselectedWidgetColor:
+                                                                                FlutterFlowTheme.of(context).alternate,
+                                                                          ),
+                                                                          child:
+                                                                              CheckboxListTile(
+                                                                            value: _model.checkboxListTileValueMap1[itemItem] ??=
+                                                                                itemItem.bought,
+                                                                            onChanged:
+                                                                                (newValue) async {
+                                                                              safeSetState(() => _model.checkboxListTileValueMap1[itemItem] = newValue!);
+                                                                              if (newValue!) {
+                                                                                await actions.updateShopItem(
+                                                                                  FFAppConstants.TrueValue,
+                                                                                );
+
+                                                                                safeSetState(() {});
+                                                                              } else {
+                                                                                await actions.updateShopItem(
+                                                                                  FFAppConstants.FalseValue,
+                                                                                );
+
+                                                                                safeSetState(() {});
+                                                                              }
+                                                                            },
+                                                                            title:
+                                                                                Text(
+                                                                              itemItem.name,
+                                                                              style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                    font: GoogleFonts.manrope(
+                                                                                      fontWeight: FlutterFlowTheme.of(context).titleLarge.fontWeight,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                                                                                    ),
+                                                                                    fontSize: 16.0,
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FlutterFlowTheme.of(context).titleLarge.fontWeight,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                                                                                  ),
+                                                                            ),
+                                                                            subtitle:
+                                                                                Text(
+                                                                              '${formatNumber(
+                                                                                itemItem.quantity.count,
+                                                                                formatType: FormatType.custom,
+                                                                                format: '0.#',
+                                                                                locale: '',
+                                                                              )} ${itemItem.quantity.quantity}',
+                                                                              style: FlutterFlowTheme.of(context).labelMedium.override(
+                                                                                    font: GoogleFonts.manrope(
+                                                                                      fontWeight: FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                                    ),
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                                  ),
+                                                                            ),
+                                                                            tileColor:
+                                                                                FlutterFlowTheme.of(context).secondaryBackground,
+                                                                            activeColor:
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                            checkColor:
+                                                                                FlutterFlowTheme.of(context).primaryBackground,
+                                                                            dense:
+                                                                                false,
+                                                                            controlAffinity:
+                                                                                ListTileControlAffinity.trailing,
+                                                                            contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                                8.0,
+                                                                                8.0,
+                                                                                8.0,
+                                                                                8.0),
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(8.0),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          8.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  child: Text(
+                                                                    'Куплено: ${itemItem.bought.toString()}',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.inter(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                          fontSize:
+                                                                              10.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
-                                                      item: itemItem,
-                                                    ),
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                1.0, -1.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      2.0,
+                                                                      2.0,
+                                                                      0.0),
+                                                          child: Container(
+                                                            width: 26.0,
+                                                            height: 26.0,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryBackground,
+                                                            ),
+                                                            child: Visibility(
+                                                              visible:
+                                                                  !FFAppState()
+                                                                      .ShopNewItem,
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                onTap:
+                                                                    () async {
+                                                                  await actions
+                                                                      .deleteStruct(
+                                                                    itemItem.id,
+                                                                    Structs
+                                                                        .shop,
+                                                                  );
+                                                                  FFAppState()
+                                                                          .BuySelect =
+                                                                      ShopItemStruct();
+                                                                  FFAppState()
+                                                                      .update(
+                                                                          () {});
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.close,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .error,
+                                                                  size: 18.0,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                -1.0, -1.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      16.0,
+                                                                      4.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   );
                                                 }).divide(
                                                     SizedBox(height: 8.0)),
@@ -890,22 +1128,300 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                                   (manualitemIndex) {
                                                 final manualitemItem =
                                                     manualitem[manualitemIndex];
-                                                return wrapWithModel(
-                                                  model: _model
-                                                      .shoppingItemModels2
-                                                      .getModel(
-                                                    manualitemItem.id
-                                                        .toString(),
-                                                    manualitemIndex,
-                                                  ),
-                                                  updateCallback: () =>
-                                                      safeSetState(() {}),
-                                                  child: ShopItemWidget(
-                                                    key: Key(
-                                                      'Keydo5_${manualitemItem.id.toString()}',
+                                                return Stack(
+                                                  children: [
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .alternate,
+                                                          width: 1.0,
+                                                        ),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Container(
+                                                          child: Stack(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    -1.0, 1.0),
+                                                            children: [
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  if (!FFAppState()
+                                                                      .ShopNewItem)
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          8.0,
+                                                                          0.0,
+                                                                          8.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          FlutterFlowIconButton(
+                                                                        borderColor:
+                                                                            FlutterFlowTheme.of(context).alternate,
+                                                                        borderRadius:
+                                                                            8.0,
+                                                                        buttonSize:
+                                                                            40.0,
+                                                                        fillColor:
+                                                                            FlutterFlowTheme.of(context).secondaryBackground,
+                                                                        icon:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .edit,
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                          size:
+                                                                              24.0,
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          FFAppState().BuySelect =
+                                                                              manualitemItem;
+                                                                          FFAppState().ShopNewItem =
+                                                                              FFAppConstants.TrueValue;
+                                                                          _model
+                                                                              .updatePage(() {});
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        Material(
+                                                                      color: Colors
+                                                                          .transparent,
+                                                                      child:
+                                                                          Theme(
+                                                                        data:
+                                                                            ThemeData(
+                                                                          checkboxTheme:
+                                                                              CheckboxThemeData(
+                                                                            visualDensity:
+                                                                                VisualDensity.compact,
+                                                                            materialTapTargetSize:
+                                                                                MaterialTapTargetSize.shrinkWrap,
+                                                                          ),
+                                                                          unselectedWidgetColor:
+                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                        ),
+                                                                        child:
+                                                                            CheckboxListTile(
+                                                                          value: _model.checkboxListTileValueMap2[manualitemItem] ??=
+                                                                              manualitemItem.bought,
+                                                                          onChanged:
+                                                                              (newValue) async {
+                                                                            safeSetState(() =>
+                                                                                _model.checkboxListTileValueMap2[manualitemItem] = newValue!);
+                                                                            if (newValue!) {
+                                                                              await actions.updateShopItem(
+                                                                                FFAppConstants.TrueValue,
+                                                                              );
+
+                                                                              safeSetState(() {});
+                                                                            } else {
+                                                                              await actions.updateShopItem(
+                                                                                FFAppConstants.FalseValue,
+                                                                              );
+
+                                                                              safeSetState(() {});
+                                                                            }
+                                                                          },
+                                                                          title:
+                                                                              Text(
+                                                                            manualitemItem.name,
+                                                                            style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                  font: GoogleFonts.manrope(
+                                                                                    fontWeight: FlutterFlowTheme.of(context).titleLarge.fontWeight,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                                                                                  ),
+                                                                                  fontSize: 16.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FlutterFlowTheme.of(context).titleLarge.fontWeight,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                          subtitle:
+                                                                              Text(
+                                                                            '${formatNumber(
+                                                                              manualitemItem.quantity.count,
+                                                                              formatType: FormatType.custom,
+                                                                              format: '0.#',
+                                                                              locale: '',
+                                                                            )} ${manualitemItem.quantity.quantity}',
+                                                                            style: FlutterFlowTheme.of(context).labelMedium.override(
+                                                                                  font: GoogleFonts.manrope(
+                                                                                    fontWeight: FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                                  ),
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                          tileColor:
+                                                                              FlutterFlowTheme.of(context).secondaryBackground,
+                                                                          activeColor:
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                          checkColor:
+                                                                              FlutterFlowTheme.of(context).primaryBackground,
+                                                                          dense:
+                                                                              false,
+                                                                          controlAffinity:
+                                                                              ListTileControlAffinity.trailing,
+                                                                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                              8.0,
+                                                                              8.0,
+                                                                              8.0,
+                                                                              8.0),
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8.0),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            8.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: Text(
+                                                                  'Куплено: ${manualitemItem.bought.toString()}',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        font: GoogleFonts
+                                                                            .inter(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        fontSize:
+                                                                            10.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                    item: manualitemItem,
-                                                  ),
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              1.0, -1.0),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          width: 26.0,
+                                                          height: 26.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                          ),
+                                                          child: Visibility(
+                                                            visible:
+                                                                !FFAppState()
+                                                                    .ShopNewItem,
+                                                            child: InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onTap: () async {
+                                                                await actions
+                                                                    .deleteStruct(
+                                                                  manualitemItem
+                                                                      .id,
+                                                                  Structs.shop,
+                                                                );
+                                                                FFAppState()
+                                                                        .BuySelect =
+                                                                    ShopItemStruct();
+                                                                FFAppState()
+                                                                    .update(
+                                                                        () {});
+                                                              },
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .error,
+                                                                size: 18.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              -1.0, -1.0),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 );
                                               }).divide(SizedBox(height: 8.0)),
                                             );
@@ -1041,8 +1557,6 @@ class _ShopListWidgetState extends State<ShopListWidget> {
                                                                     () {});
                                                                 await actions
                                                                     .updateShopItem(
-                                                                  FFAppConstants
-                                                                      .TrueValue,
                                                                   FFAppConstants
                                                                       .FalseValue,
                                                                 );

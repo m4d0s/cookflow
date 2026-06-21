@@ -1,5 +1,4 @@
 import '/backend/schema/enums/enums.dart';
-import '/backend/schema/structs/index.dart';
 import '/components/ingridient_edit/ingridient_edit_widget.dart';
 import '/components/step_edit/step_edit_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
@@ -41,10 +40,12 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await actions.printStruct(
+        Structs.recipe,
+      );
       _model.pictureAgainn = await actions.base64ToFFUploadedFile(
         FFAppState().RecipeSelect.pictureBase64,
       );
-      FFAppState().ProductSelect = ProductStruct();
       safeSetState(() {});
     });
 
@@ -170,7 +171,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    FFAppState().isChanging ? 'Изменить' : 'Добавить',
+                    FFAppState().ChangeRecipe ? 'Изменить' : 'Добавить',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(
                             fontWeight: FlutterFlowTheme.of(context)
@@ -209,7 +210,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              if (FFAppState().isChanging) {
+              if (FFAppState().ChangeRecipe) {
                 var confirmDialogResponse = await showDialog<bool>(
                       context: context,
                       builder: (alertDialogContext) {
@@ -289,7 +290,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
             },
           ),
           title: Text(
-            FFAppState().isChanging ? 'Изменить рецепт' : 'Добавить рецепт',
+            FFAppState().ChangeRecipe ? 'Изменить рецепт' : 'Добавить рецепт',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.manrope(
                     fontWeight:
@@ -444,7 +445,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                             FFAppConstants.PhotoHeight,
                             FFAppConstants.PhotoQuality,
                           );
-                          _model.recipePhoto =
+                          _model.fFUpload =
                               await actions.base64ToFFUploadedFile(
                             _model.recipePhotoBase64!,
                           );
@@ -471,10 +472,8 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 size: 98.0,
                               ),
-                              if ((FFAppState().RecipeSelect.pictureBase64 !=
-                                          '') &&
-                                  (_model.recipePhotoBase64 == null ||
-                                      _model.recipePhotoBase64 == ''))
+                              if (_model.recipePhotoBase64 != null &&
+                                  _model.recipePhotoBase64 != '')
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.memory(
@@ -488,7 +487,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.memory(
-                                  _model.recipePhoto?.bytes ??
+                                  _model.fFUpload?.bytes ??
                                       Uint8List.fromList([]),
                                   width: 300.0,
                                   height: 200.0,
@@ -2067,7 +2066,7 @@ class _RecipeEditWidgetState extends State<RecipeEditWidget> {
                     ),
                   ],
                 ),
-                if (FFAppState().isChanging)
+                if (FFAppState().ChangeRecipe)
                   FFButtonWidget(
                     onPressed: () async {
                       var confirmDialogResponse = await showDialog<bool>(

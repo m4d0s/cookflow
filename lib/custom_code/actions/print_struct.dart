@@ -12,22 +12,22 @@ import 'package:flutter/material.dart';
 Future printStruct(Structs struct) async {
   switch (struct) {
     case Structs.dbproduct:
-      print('ProductDB Select ${FFAppState().ProductSelect}');
-      print('ProductDB ${FFAppState().ProductDB}');
+      print('ProductDB Select: ${FFAppState().ProductSelect}');
+      print('Products of ProductDB: ${FFAppState().ProductDB}');
       break;
     case Structs.product:
-      print('Product Select ${FFAppState().ProductSelect}');
-      print('Products of RecipeSelect ${FFAppState().RecipeSelect.products}');
+      print('Product Select: ${FFAppState().ProductSelect}');
+      print('Products of RecipeSelect: ${FFAppState().RecipeSelect.products}');
       break;
     case Structs.step:
-      print('Steps of RecipeSelect ${FFAppState().RecipeSelect.cookingSteps}');
+      print('Steps of RecipeSelect: ${FFAppState().RecipeSelect.cookingSteps}');
       break;
     case Structs.shop:
-      print('Shop Select ${FFAppState().BuySelect}');
-      print('Shop List ${FFAppState().BuyList}');
+      print('Shop Select: ${FFAppState().BuySelect}');
+      print('Shop List: ${FFAppState().BuyList}');
       break;
     default:
-      print('Recipe Select ${FFAppState().RecipeSelect}');
+      print('Recipe Select: ${FFAppState().RecipeSelect}');
   }
 }
 

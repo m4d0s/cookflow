@@ -82,6 +82,8 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
               size: 30.0,
             ),
             onPressed: () async {
+              FFAppState().CurrentStep = 0;
+              safeSetState(() {});
               if (Navigator.of(context).canPop()) {
                 context.pop();
               }
@@ -139,19 +141,20 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
                         color: FlutterFlowTheme.of(context).primaryText,
                         size: 96.0,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(32.0),
-                          bottomRight: Radius.circular(32.0),
+                      if (FFAppState().RecipeSelect.pictureBase64 != '')
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(32.0),
+                            bottomRight: Radius.circular(32.0),
+                          ),
+                          child: Image.memory(
+                            _model.steppic?.bytes ?? Uint8List.fromList([]),
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: 200.0,
+                            fit: BoxFit.cover,
+                            alignment: Alignment(0.0, 0.0),
+                          ),
                         ),
-                        child: Image.memory(
-                          _model.steppic?.bytes ?? Uint8List.fromList([]),
-                          width: MediaQuery.sizeOf(context).width * 1.0,
-                          height: 200.0,
-                          fit: BoxFit.cover,
-                          alignment: Alignment(0.0, 0.0),
-                        ),
-                      ),
                     ],
                   ),
                   Padding(

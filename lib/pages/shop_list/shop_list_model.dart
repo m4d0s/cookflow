@@ -1,4 +1,4 @@
-import '/components/shop_item/shop_item_widget.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
@@ -16,10 +16,22 @@ class ShopListModel extends FlutterFlowModel<ShopListWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Models for ShoppingItem.
-  late FlutterFlowDynamicModels<ShopItemModel> shoppingItemModels1;
-  // Models for ShoppingItem.
-  late FlutterFlowDynamicModels<ShopItemModel> shoppingItemModels2;
+  // State field(s) for CheckboxListTile widget.
+  Map<ShopItemStruct, bool> checkboxListTileValueMap1 = {};
+  List<ShopItemStruct> get checkboxListTileCheckedItems1 =>
+      checkboxListTileValueMap1.entries
+          .where((e) => e.value)
+          .map((e) => e.key)
+          .toList();
+
+  // State field(s) for CheckboxListTile widget.
+  Map<ShopItemStruct, bool> checkboxListTileValueMap2 = {};
+  List<ShopItemStruct> get checkboxListTileCheckedItems2 =>
+      checkboxListTileValueMap2.entries
+          .where((e) => e.value)
+          .map((e) => e.key)
+          .toList();
+
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -33,15 +45,10 @@ class ShopListModel extends FlutterFlowModel<ShopListWidget> {
   FormFieldController<String>? dropDownValueController;
 
   @override
-  void initState(BuildContext context) {
-    shoppingItemModels1 = FlutterFlowDynamicModels(() => ShopItemModel());
-    shoppingItemModels2 = FlutterFlowDynamicModels(() => ShopItemModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
   void dispose() {
-    shoppingItemModels1.dispose();
-    shoppingItemModels2.dispose();
     textFieldFocusNode1?.dispose();
     textController1?.dispose();
 

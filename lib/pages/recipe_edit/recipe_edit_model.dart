@@ -19,7 +19,7 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   // Stores action output result for [Custom Action - imageToBase64] action in Container widget.
   String? recipePhotoBase64;
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in Container widget.
-  FFUploadedFile? recipePhoto;
+  FFUploadedFile? fFUpload;
   // State field(s) for Input widget.
   FocusNode? inputFocusNode1;
   TextEditingController? inputTextController1;

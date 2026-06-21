@@ -5,7 +5,6 @@ import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'product_item_model.dart';
 export 'product_item_model.dart';
 
@@ -56,8 +55,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -71,7 +68,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsetsDirectional.fromSTEB(24.0, 8.0, 16.0, 8.0),
             child: Container(
               decoration: BoxDecoration(),
               child: Row(
@@ -79,37 +76,6 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (widget.showEdit
-                      ? !FFAppState().BaseNewItem
-                      : !FFAppState().ProductDBSelect)
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        FFAppState().ProductSelect = widget.product!;
-                        FFAppState().ProductDBSelect = FFAppConstants.TrueValue;
-                        FFAppState().BaseNewItem = FFAppConstants.TrueValue;
-                        _model.updatePage(() {});
-                      },
-                      child: Container(
-                        width: 48.0,
-                        height: 48.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context).alternate,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.edit,
-                          color: FlutterFlowTheme.of(context).secondary,
-                          size: 24.0,
-                        ),
-                      ),
-                    ),
                   Expanded(
                     flex: 1,
                     child: Column(

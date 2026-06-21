@@ -966,12 +966,6 @@ class FFAppState extends ChangeNotifier {
     _SearchFavorite = value;
   }
 
-  bool _isChanging = false;
-  bool get isChanging => _isChanging;
-  set isChanging(bool value) {
-    _isChanging = value;
-  }
-
   bool _SimpleQuantity = false;
   bool get SimpleQuantity => _SimpleQuantity;
   set SimpleQuantity(bool value) {
@@ -1098,6 +1092,12 @@ class FFAppState extends ChangeNotifier {
   bool get BaseNewItem => _BaseNewItem;
   set BaseNewItem(bool value) {
     _BaseNewItem = value;
+  }
+
+  bool _ChangeRecipe = false;
+  bool get ChangeRecipe => _ChangeRecipe;
+  set ChangeRecipe(bool value) {
+    _ChangeRecipe = value;
   }
 }
 

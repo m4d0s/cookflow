@@ -1,4 +1,3 @@
-import '/components/product_item/product_item_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'product_base_widget.dart' show ProductBaseWidget;
@@ -14,8 +13,6 @@ class ProductBaseModel extends FlutterFlowModel<ProductBaseWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
-  // Models for ProductItem dynamic component.
-  late FlutterFlowDynamicModels<ProductItemModel> productItemModels;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController2;
@@ -44,16 +41,13 @@ class ProductBaseModel extends FlutterFlowModel<ProductBaseWidget> {
   String? Function(BuildContext, String?)? textController6Validator;
 
   @override
-  void initState(BuildContext context) {
-    productItemModels = FlutterFlowDynamicModels(() => ProductItemModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
   void dispose() {
     inputFocusNode?.dispose();
     inputTextController?.dispose();
 
-    productItemModels.dispose();
     textFieldFocusNode1?.dispose();
     textController2?.dispose();
 

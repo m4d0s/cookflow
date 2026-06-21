@@ -8,7 +8,6 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'step_edit_model.dart';
 export 'step_edit_model.dart';
 
@@ -63,8 +62,6 @@ class _StepEditWidgetState extends State<StepEditWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -255,10 +252,8 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                             color: FlutterFlowTheme.of(context).primaryText,
                             size: 48.0,
                           ),
-                          if ((FFAppState().RecipeSelect.pictureBase64 !=
-                                      '') &&
-                              (_model.imageBase64 == null ||
-                                  _model.imageBase64 == ''))
+                          if (_model.imageBase64 != null &&
+                              _model.imageBase64 != '')
                             Align(
                               alignment: AlignmentDirectional(0.0, 0.0),
                               child: ClipRRect(

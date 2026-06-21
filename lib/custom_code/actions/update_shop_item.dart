@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<String> updateShopItem(bool clear, bool check) async {
+Future<String> updateShopItem(bool check) async {
   try {
     print(FFAppState().BuyList);
     final item = ShopItemStruct.fromSerializableMap(

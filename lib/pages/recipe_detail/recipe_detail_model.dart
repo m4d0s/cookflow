@@ -15,6 +15,8 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   FulltagStruct? recipeTags;
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeDetail widget.
   FFUploadedFile? recipeMainPhoto;
+  // Stores action output result for [Custom Action - exportJson] action in IconButton widget.
+  String? errorOnShare;
   // Model for InfoTag.
   late InfoTagModel infoTagModel1;
   // Model for InfoTag.

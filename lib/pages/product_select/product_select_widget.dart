@@ -335,7 +335,7 @@ class _ProductSelectWidgetState extends State<ProductSelectWidget> {
                 height: MediaQuery.sizeOf(context).height * 0.7,
                 decoration: BoxDecoration(),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Builder(
                     builder: (context) {
                       final productable = FFAppState().ProductDB.toList();
@@ -378,7 +378,7 @@ class _ProductSelectWidgetState extends State<ProductSelectWidget> {
                                 ),
                               ),
                             );
-                          }).divide(SizedBox(height: 16.0)),
+                          }).divide(SizedBox(height: 8.0)),
                         ),
                       );
                     },
