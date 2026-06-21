@@ -9,48 +9,59 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future updateProduct(int id, bool check, bool db) async {
-  final currentProduct = ProductStruct.fromSerializableMap(
-      FFAppState().ProductSelect.toSerializableMap());
+Future<String> updateProduct(int id, bool check, bool db) async {
+  try {
+    final currentProduct = ProductStruct.fromSerializableMap(
+        FFAppState().ProductSelect.toSerializableMap());
 
-  final qq_index = FFAppState()
-      .QuantityList
-      .indexWhere((q) => q.quantity == currentProduct.quantity.quantity);
-  final qq = FoodQuantityStruct(
-      count: currentProduct.quantity.count,
-      divider: FFAppState().ProductSelect.quantity.divider > 0
-          ? FFAppState().ProductSelect.quantity.divider
-          : FFAppState().QuantityList[qq_index].divider,
-      altquantity: FFAppState().QuantityList[qq_index].altquantity,
-      multiplier: FFAppState().QuantityList[qq_index].multiplier,
-      quantity: currentProduct.quantity.quantity);
+    final qindex = FFAppState()
+        .QuantityList
+        .indexWhere((q) => q.quantity == currentProduct.quantity.quantity);
 
-  currentProduct.quantity = qq;
-  currentProduct.category = (FFAppState().ProductCategoryList.firstWhere(
-      (e) => e.name == FFAppState().ProductSelect.category.name,
-      orElse: () =>
-          ProductCategoryStruct(name: FFAppConstants.CustomProductCategory)));
-
-  int existing = db
-      ? FFAppState().ProductDB.indexWhere((p) => p.id == id)
-      : FFAppState().RecipeSelect.products.indexWhere((p) => p.id == id);
-
-  FFAppState().update(() {
-    if (existing != -1) if (db)
-      FFAppState().RecipeSelect.products[existing] = currentProduct;
-    else
-      FFAppState().ProductDB[existing] = currentProduct;
-    else {
-      FFAppState().LastProductId += 1;
-      currentProduct.id = FFAppState().LastRecipeId;
-      if (db)
-        FFAppState().RecipeSelect.products.add(currentProduct);
-      else
-        FFAppState().addToProductDB(currentProduct);
-      existing =
-          FFAppState().RecipeList.indexWhere((r) => r.id == currentProduct.id);
+    if (qindex != -1) {
+      currentProduct.quantity = FoodQuantityStruct(
+          altquantity: FFAppState().QuantityList[qindex].altquantity,
+          count: currentProduct.quantity.count,
+          divider: currentProduct.quantity.divider,
+          multiplier: FFAppState().QuantityList[qindex].multiplier,
+          quantity: FFAppState().QuantityList[qindex].quantity);
     }
-  });
+
+    final categoryfind = FFAppState().ProductCategoryList.firstWhere(
+        (e) => e.name == FFAppState().ProductSelect.category.name,
+        orElse: () =>
+            ProductCategoryStruct(name: FFAppConstants.CustomProductCategory));
+    currentProduct.category.name = categoryfind.name;
+
+    int existing = db
+        ? FFAppState().ProductDB.indexWhere((p) => p.id == id)
+        : FFAppState().RecipeSelect.products.indexWhere((p) => p.id == id);
+
+    FFAppState().update(() {
+      if (existing != -1) {
+        if (db) {
+          FFAppState().ProductDB[existing] = currentProduct;
+          print(FFAppState().ProductDB[existing]);
+        } else {
+          FFAppState().RecipeSelect.products[existing] = currentProduct;
+          print(FFAppState().RecipeSelect.products[existing]);
+        }
+      } else {
+        if (db)
+          FFAppState().addToProductDB(currentProduct);
+        else
+          FFAppState().RecipeSelect.products.add(currentProduct);
+      }
+      if (existing == -1)
+        print(db
+            ? FFAppState().ProductDB.last
+            : FFAppState().RecipeSelect.products.last);
+    });
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
+  }
+  return '';
 }
 
 // Set your action name, define your arguments and return parameter,

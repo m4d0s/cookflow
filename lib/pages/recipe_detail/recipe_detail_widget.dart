@@ -1,4 +1,3 @@
-import '/archive/ingridient_preview/ingridient_preview_widget.dart';
 import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
@@ -565,9 +564,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                                       FFAppState()
                                                           .DailyGoal
                                                           .protein),
-                                                  formatType: FormatType.custom,
-                                                  format: '0.0%',
-                                                  locale: '',
+                                                  formatType:
+                                                      FormatType.percent,
                                                 ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
@@ -1248,44 +1246,6 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                           ),
                                         ],
                                       ),
-                                    if (FFAppConstants.FalseValue)
-                                      Builder(
-                                        builder: (context) {
-                                          final product = FFAppState()
-                                              .RecipeSelect
-                                              .products
-                                              .toList();
-
-                                          return Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: List.generate(
-                                                product.length, (productIndex) {
-                                              final productItem =
-                                                  product[productIndex];
-                                              return wrapWithModel(
-                                                model: _model
-                                                    .ingredientItemModels
-                                                    .getModel(
-                                                  productItem.id.toString(),
-                                                  productIndex,
-                                                ),
-                                                updateCallback: () =>
-                                                    safeSetState(() {}),
-                                                child: IngridientPreviewWidget(
-                                                  key: Key(
-                                                    'Key138_${productItem.id.toString()}',
-                                                  ),
-                                                  product: productItem,
-                                                ),
-                                              );
-                                            }).divide(SizedBox(height: 0.0)),
-                                          );
-                                        },
-                                      ),
                                     Container(
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
@@ -1903,7 +1863,8 @@ class _RecipeDetailWidgetState extends State<RecipeDetailWidget> {
                                     size: 24.0,
                                   ),
                                   onPressed: () async {
-                                    FFAppState().isChanging = true;
+                                    FFAppState().isChanging =
+                                        FFAppConstants.TrueValue;
                                     safeSetState(() {});
 
                                     context.goNamed(

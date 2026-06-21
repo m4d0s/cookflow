@@ -509,15 +509,21 @@ class FFAppState extends ChangeNotifier {
 
   List<FoodQuantityStruct> _QuantityList = [
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"divider\":\"100\",\"multiplier\":\"1\",\"quantity\":\"г\",\"altquantity\":\"г\"}')),
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"1\",\"quantity\":\"г\",\"altquantity\":\"г\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"divider\":\"100\",\"multiplier\":\"1000\",\"quantity\":\"кг\",\"altquantity\":\"г\"}')),
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"1000\",\"quantity\":\"кг\",\"altquantity\":\"г\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"divider\":\"100\",\"multiplier\":\"1000\",\"quantity\":\"л\",\"altquantity\":\"мл\"}')),
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"1000\",\"quantity\":\"л\",\"altquantity\":\"мл\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"divider\":\"100\",\"multiplier\":\"1\",\"quantity\":\"мл\",\"altquantity\":\"мл\"}')),
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"1\",\"quantity\":\"мл\",\"altquantity\":\"мл\"}')),
     FoodQuantityStruct.fromSerializableMap(jsonDecode(
-        '{\"divider\":\"1\",\"multiplier\":\"1\",\"quantity\":\"шт\",\"altquantity\":\"шт\"}'))
+        '{\"count\":\"1\",\"divider\":\"1\",\"multiplier\":\"1\",\"quantity\":\"шт\",\"altquantity\":\"шт\"}')),
+    FoodQuantityStruct.fromSerializableMap(jsonDecode(
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"5\",\"quantity\":\"ч. л.\",\"altquantity\":\"г\"}')),
+    FoodQuantityStruct.fromSerializableMap(jsonDecode(
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"15\",\"quantity\":\"ст. л.\",\"altquantity\":\"г\"}')),
+    FoodQuantityStruct.fromSerializableMap(jsonDecode(
+        '{\"count\":\"1\",\"divider\":\"100\",\"multiplier\":\"250\",\"quantity\":\"чашка\",\"altquantity\":\"мл\"}'))
   ];
   List<FoodQuantityStruct> get QuantityList => _QuantityList;
   set QuantityList(List<FoodQuantityStruct> value) {
@@ -727,11 +733,11 @@ class FFAppState extends ChangeNotifier {
 
   List<ProductStruct> _ProductDB = [
     ProductStruct.fromSerializableMap(jsonDecode(
-        '{\"id\":\"0\",\"name\":\"Яйцо куриное\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"86\\\",\\\"protein\\\":\\\"7\\\",\\\"fats\\\":\\\"6\\\",\\\"carbs\\\":\\\"0.4\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"1\\\",\\\"divider\\\":\\\"1\\\",\\\"multiplier\\\":\\\"1\\\",\\\"quantity\\\":\\\"шт\\\",\\\"altquantity\\\":\\\"шт\\\"}\",\"isChecked\":\"false\",\"category\":\"{\\\"name\\\":\\\"Органика\\\",\\\"checked\\\":\\\"false\\\"}\"}')),
+        '{\"id\":\"0\",\"name\":\"Яйцо куриное\",\"inBase\":\"true\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"86\\\",\\\"protein\\\":\\\"7\\\",\\\"fats\\\":\\\"6\\\",\\\"carbs\\\":\\\"0.4\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"1\\\",\\\"divider\\\":\\\"1\\\",\\\"multiplier\\\":\\\"1\\\",\\\"quantity\\\":\\\"шт\\\",\\\"altquantity\\\":\\\"шт\\\"}\",\"category\":\"{\\\"name\\\":\\\"Органика\\\",\\\"checked\\\":\\\"false\\\"}\"}')),
     ProductStruct.fromSerializableMap(jsonDecode(
-        '{\"id\":\"0\",\"name\":\"Куриная грудка\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"1130\\\",\\\"protein\\\":\\\"236\\\",\\\"fats\\\":\\\"19\\\",\\\"carbs\\\":\\\"4\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"1\\\",\\\"divider\\\":\\\"100\\\",\\\"multiplier\\\":\\\"1000\\\",\\\"quantity\\\":\\\"кг\\\",\\\"altquantity\\\":\\\"г\\\"}\",\"isChecked\":\"false\",\"category\":\"{\\\"name\\\":\\\"Мясо\\\",\\\"checked\\\":\\\"false\\\"}\"}')),
+        '{\"id\":\"1\",\"name\":\"Куриная грудка\",\"inBase\":\"true\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"1130\\\",\\\"protein\\\":\\\"236\\\",\\\"fats\\\":\\\"19\\\",\\\"carbs\\\":\\\"4\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"1\\\",\\\"divider\\\":\\\"100\\\",\\\"multiplier\\\":\\\"1000\\\",\\\"quantity\\\":\\\"кг\\\",\\\"altquantity\\\":\\\"г\\\"}\",\"category\":\"{\\\"name\\\":\\\"Мясо\\\",\\\"checked\\\":\\\"false\\\"}\"}')),
     ProductStruct.fromSerializableMap(jsonDecode(
-        '{\"id\":\"0\",\"name\":\"Вода\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"0\\\",\\\"protein\\\":\\\"0\\\",\\\"fats\\\":\\\"0\\\",\\\"carbs\\\":\\\"0\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"100\\\",\\\"divider\\\":\\\"100\\\",\\\"multiplier\\\":\\\"1\\\",\\\"quantity\\\":\\\"мл\\\",\\\"altquantity\\\":\\\"мл\\\"}\",\"isChecked\":\"false\",\"category\":\"{\\\"name\\\":\\\"Hello World\\\",\\\"checked\\\":\\\"false\\\"}\"}'))
+        '{\"id\":\"2\",\"name\":\"Вода\",\"inBase\":\"true\",\"nutrition_100g\":\"{\\\"calories\\\":\\\"0\\\",\\\"protein\\\":\\\"0\\\",\\\"fats\\\":\\\"0\\\",\\\"carbs\\\":\\\"0\\\"}\",\"quantity\":\"{\\\"count\\\":\\\"100\\\",\\\"divider\\\":\\\"100\\\",\\\"multiplier\\\":\\\"1\\\",\\\"quantity\\\":\\\"мл\\\",\\\"altquantity\\\":\\\"мл\\\"}\",\"category\":\"{\\\"name\\\":\\\"Жидкость\\\",\\\"checked\\\":\\\"false\\\"}\"}'))
   ];
   List<ProductStruct> get ProductDB => _ProductDB;
   set ProductDB(List<ProductStruct> value) {
@@ -807,7 +813,7 @@ class FFAppState extends ChangeNotifier {
     _CheckedPositions = value;
   }
 
-  int _LastProductId = 0;
+  int _LastProductId = 2;
   int get LastProductId => _LastProductId;
   set LastProductId(int value) {
     _LastProductId = value;

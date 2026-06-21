@@ -41,7 +41,7 @@ class _StepEditWidgetState extends State<StepEditWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.stepUploadAgain = await actions.base64ToFFUploadedFile(
-        widget.step?.pictureBase64,
+        widget.step!.pictureBase64,
       );
     });
 
@@ -103,13 +103,10 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              if (widget.step!.queueId > 1) {
-                                await actions.moveStepUp(
-                                  widget.step!,
-                                );
-                              }
-
-                              FFAppState().update(() {});
+                              await actions.moveStepUp(
+                                widget.step!,
+                              );
+                              _model.updatePage(() {});
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -236,7 +233,7 @@ class _StepEditWidgetState extends State<StepEditWidget> {
                         );
                         _model.fFUploadImage =
                             await actions.base64ToFFUploadedFile(
-                          _model.imageBase64,
+                          _model.imageBase64!,
                         );
                         await actions.updateStep(
                           widget.step!,

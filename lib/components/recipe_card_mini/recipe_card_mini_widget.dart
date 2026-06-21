@@ -45,7 +45,7 @@ class _RecipeCardMiniWidgetState extends State<RecipeCardMiniWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.mealPic = await actions.base64ToFFUploadedFile(
-        widget.mealEntry?.meal.pictureBase64,
+        widget.mealEntry!.meal.pictureBase64,
       );
     });
   }

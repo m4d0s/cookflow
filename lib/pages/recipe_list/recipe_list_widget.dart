@@ -600,6 +600,9 @@ class _RecipeListWidgetState extends State<RecipeListWidget> {
                                               FFAppState().RecipeSelect =
                                                   recipeItem;
                                               safeSetState(() {});
+                                              await actions.printStruct(
+                                                Structs.recipe,
+                                              );
 
                                               context.pushNamed(
                                                   RecipeDetailWidget.routeName);

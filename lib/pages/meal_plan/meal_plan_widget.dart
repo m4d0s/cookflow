@@ -120,8 +120,10 @@ class _MealPlanWidgetState extends State<MealPlanWidget> {
                         child: Container(
                           child: Builder(
                             builder: (context) {
-                              final day =
-                                  FFAppState().DailyList.map((e) => e).toList();
+                              final day = FFAppState()
+                                  .DailyList
+                                  .sortedList(keyOf: (e) => e.id, desc: true)
+                                  .toList();
 
                               return Column(
                                 mainAxisSize: MainAxisSize.min,

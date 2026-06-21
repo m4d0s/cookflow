@@ -11,24 +11,32 @@ import 'package:flutter/material.dart';
 
 Future updateStep(StepStruct step, int? queueId, String? desc, String? tip,
     int? timer, String? base64) async {
-  final steps = FFAppState().RecipeSelect.cookingSteps;
-  final index = steps.indexWhere((s) => s.queueId == step.queueId);
+  try {
+    print(FFAppState().RecipeSelect.cookingSteps);
+    final index = FFAppState()
+        .RecipeSelect
+        .cookingSteps
+        .indexWhere((s) => s.id == step.id);
 
-  if (queueId != null) step.queueId = queueId;
-  if (desc != null) step.desc = desc;
-  if (tip != null) step.tip = tip;
-  if (timer != null) step.timer = timer;
-  if (base64 != null) step.pictureBase64 = base64;
+    if (queueId != null) step.queueId = queueId;
+    if (desc != null) step.desc = desc;
+    if (tip != null) step.tip = tip;
+    if (timer != null) step.timer = timer;
+    if (base64 != null) step.pictureBase64 = base64;
 
-  if (index != -1) {
-    steps[index] = step;
-  } else {
-    steps.add(step);
+    FFAppState().update(() {
+      if (index != -1) {
+        FFAppState().RecipeSelect.cookingSteps[index] = step;
+      } else {
+        FFAppState().RecipeSelect.cookingSteps.add(step);
+        print(FFAppState().RecipeSelect.cookingSteps.last);
+      }
+    });
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
   }
-
-  FFAppState().update(() {
-    //FFAppState().RecipeSelect = RecipeStruct();
-  });
+  return '';
 }
 
 // Set your action name, define your arguments and return parameter,

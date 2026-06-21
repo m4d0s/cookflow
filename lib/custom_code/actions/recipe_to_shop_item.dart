@@ -9,33 +9,39 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future recipeToShopItem() async {
-  final recipe = RecipeStruct.fromSerializableMap(
-      FFAppState().RecipeSelect.toSerializableMap());
+Future<String> recipeToShopItem() async {
+  try {
+    final recipe = RecipeStruct.fromSerializableMap(
+        FFAppState().RecipeSelect.toSerializableMap());
 
-  for (final product in recipe.products) {
-    final existing = FFAppState().BuyList.indexWhere((e) =>
-        (e.name.toLowerCase() == product.name.toLowerCase()) &
-        (e.quantity.quantity.toLowerCase() ==
-            product.quantity.quantity
-                .toLowerCase())); // e.productId == product.id);
-    if (existing != -1) {
-      FFAppState().BuyList[existing].quantity.count += product.quantity.count;
-    } else {
-      final id = FFAppState().LastBuyId + 1;
-      FFAppState().LastBuyId += 1;
-      final newbuy = ShopItemStruct(
-          id: id,
-          bought: false,
-          create: DateTime.now(),
-          name: product.name,
-          productId: product.id,
-          quantity: product.quantity);
-      FFAppState().update(() {
-        FFAppState().addToBuyList(newbuy);
-      });
+    for (final product in recipe.products) {
+      final existing = FFAppState().BuyList.indexWhere((e) =>
+          (e.name.toLowerCase() == product.name.toLowerCase()) &
+          (e.quantity.quantity.toLowerCase() ==
+              product.quantity.quantity
+                  .toLowerCase())); // e.productId == product.id);
+      if (existing != -1) {
+        FFAppState().BuyList[existing].quantity.count += product.quantity.count;
+      } else {
+        final id = FFAppState().LastBuyId + 1;
+        FFAppState().LastBuyId += 1;
+        final newbuy = ShopItemStruct(
+            id: id,
+            bought: false,
+            create: DateTime.now(),
+            name: product.name,
+            productId: product.id,
+            quantity: product.quantity);
+        FFAppState().update(() {
+          FFAppState().addToBuyList(newbuy);
+        });
+      }
     }
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
   }
+  return '';
 }
 
 // Set your action name, define your arguments and return parameter,

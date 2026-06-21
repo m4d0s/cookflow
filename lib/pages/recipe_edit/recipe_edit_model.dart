@@ -1,7 +1,6 @@
 import '/backend/schema/enums/enums.dart';
 import '/components/ingridient_edit/ingridient_edit_widget.dart';
 import '/components/step_edit/step_edit_widget.dart';
-import '/components/u_button/u_button_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
@@ -13,8 +12,8 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
 
   // Stores action output result for [Custom Action - base64ToFFUploadedFile] action in RecipeEdit widget.
   FFUploadedFile? pictureAgainn;
-  // Model for Button.
-  late UButtonModel buttonModel;
+  // Stores action output result for [Custom Action - recipeComplete] action in FloatingActionButton widget.
+  List<bool>? isComplete;
   // Stores action output result for [Custom Action - importBackup] action in Button widget.
   String? error;
   // Stores action output result for [Custom Action - imageToBase64] action in Container widget.
@@ -43,12 +42,9 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
   late FlutterFlowDynamicModels<IngridientEditModel> ingridientEditModels;
   // Models for StepEdit dynamic component.
   late FlutterFlowDynamicModels<StepEditModel> stepEditModels;
-  // Stores action output result for [Custom Action - recipeComplete] action in FloatingActionButton widget.
-  List<bool>? isComplete;
 
   @override
   void initState(BuildContext context) {
-    buttonModel = createModel(context, () => UButtonModel());
     ingridientEditModels =
         FlutterFlowDynamicModels(() => IngridientEditModel());
     stepEditModels = FlutterFlowDynamicModels(() => StepEditModel());
@@ -56,7 +52,6 @@ class RecipeEditModel extends FlutterFlowModel<RecipeEditWidget> {
 
   @override
   void dispose() {
-    buttonModel.dispose();
     inputFocusNode1?.dispose();
     inputTextController1?.dispose();
 

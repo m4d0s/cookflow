@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 class IngridientEditModel extends FlutterFlowModel<IngridientEditWidget> {
   ///  Local state fields for this component.
 
-  bool dividerShow = false;
-
   int dividerDefault = 1;
 
   ///  State fields for stateful widgets in this component.

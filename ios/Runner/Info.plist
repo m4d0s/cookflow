@@ -42,10 +42,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
-	<key>NSCameraUsageDescription</key>
-    <string>Permission need to load photo for your recipes</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Permission need to load photo for your recipes</string>
+
 
 
 

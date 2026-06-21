@@ -17,5 +17,8 @@ double procentCalc(
   double c2,
 ) {
 // first / second
+  if (c1 <= 0 || c2 <= 0) return 0;
+  if (c1 >= c2) return 1;
+
   return (c1 / c2); // * 100;
 }

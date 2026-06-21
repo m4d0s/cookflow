@@ -54,7 +54,7 @@ Future<String> exportJson(int recipeID) async {
             'productsel': FFAppState().ProductSelect.toSerializableMap(),
             'buyList':
                 FFAppState().BuyList.map((e) => e.toSerializableMap()).toList(),
-            'buysel': FFAppState().RecipeSelect.toSerializableMap(),
+            'buysel': FFAppState().BuySelect.toSerializableMap(),
             'properties': FFAppState().PeopleStat.toSerializableMap(),
             'share': false
           })

@@ -42,7 +42,7 @@ class _CookingModeWidgetState extends State<CookingModeWidget> {
           FFAppState().RecipeSelect.cookingSteps.toList(), 1);
       safeSetState(() {});
       _model.steppic = await actions.base64ToFFUploadedFile(
-        _model.currentstep?.pictureBase64,
+        _model.currentstep!.pictureBase64,
       );
     });
 

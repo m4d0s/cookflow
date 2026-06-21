@@ -9,22 +9,25 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future moveStepUp(StepStruct step) async {
-  final steps = FFAppState().RecipeSelect.cookingSteps;
+Future<String> moveStepUp(StepStruct step) async {
+  try {
+    final steps = FFAppState().RecipeSelect.cookingSteps;
+    final current = steps.indexWhere((s) => s.queueId == step.queueId);
+    final previous = steps.indexWhere((s) => s.queueId == step.queueId - 1);
 
-  final current = steps.indexWhere((s) => s.queueId == step.queueId);
+    if (current == -1 || previous == -1) return 'Шаги не существуют';
 
-  final previous = steps.indexWhere((s) => s.queueId == step.queueId - 1);
+    final temp = steps[current].queueId;
 
-  if (current < 0 || previous < 0) return;
+    steps[current].queueId = steps[previous].queueId;
+    steps[previous].queueId = temp;
 
-  final temp = steps[current].queueId;
-
-  steps[current].queueId = steps[previous].queueId;
-
-  steps[previous].queueId = temp;
-
-  FFAppState().update(() {});
+    FFAppState().update(() {});
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
+  }
+  return '';
 }
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the green button on the right!

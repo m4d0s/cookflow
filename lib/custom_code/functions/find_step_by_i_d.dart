@@ -17,6 +17,7 @@ StepStruct? findStepByID(
   int queueid,
 ) {
   if (queueid < 1) return allSteps.first;
+  if (queueid > allSteps.length) return allSteps.last;
   return allSteps.firstWhere((step) =>
       step.queueId ==
       queueid); // firstWhere((step) => step.queue_id == queueid);

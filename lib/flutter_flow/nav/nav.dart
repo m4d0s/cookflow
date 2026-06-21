@@ -103,16 +103,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => MealPlanWidget(),
             ),
             FFRoute(
-              name: ShoppingListWidget.routeName,
-              path: ShoppingListWidget.routePath,
-              builder: (context, params) => ShoppingListWidget(),
-            ),
-            FFRoute(
-              name: AddToPlanWidget.routeName,
-              path: AddToPlanWidget.routePath,
-              builder: (context, params) => AddToPlanWidget(),
-            ),
-            FFRoute(
               name: SettingsWidget.routeName,
               path: SettingsWidget.routePath,
               builder: (context, params) => params.isEmpty

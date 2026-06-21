@@ -18,17 +18,23 @@ Future addDaily() async {
     return plan.id == todayId;
   });
 
-  if (exists == -1) {
-    FFAppState().addToDailyList(DailyPlanStruct(
-        date: today,
-        goal: FFAppState().DailyGoal,
-        completedRecipes: [], //List<MealEntryStruct>.empty(),
-        id: todayId,
-        done: NutritionsStruct(calories: 0, protein: 0, fats: 0, carbs: 0)));
-    FFAppState().DailySelect = FFAppState().DailyList.last;
-  } else {
-    FFAppState().DailySelect = FFAppState().DailyList[exists];
+  try {
+    if (exists == -1) {
+      FFAppState().addToDailyList(DailyPlanStruct(
+          date: today,
+          goal: FFAppState().DailyGoal,
+          completedRecipes: [], //List<MealEntryStruct>.empty(),
+          id: todayId,
+          done: NutritionsStruct(calories: 0, protein: 0, fats: 0, carbs: 0)));
+      FFAppState().DailySelect = FFAppState().DailyList.last;
+    } else {
+      FFAppState().DailySelect = FFAppState().DailyList[exists];
+    }
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
   }
+  return '';
 }
 
 // Set your action name, define your arguments and return parameter,

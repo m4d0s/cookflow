@@ -84,6 +84,8 @@ Future measureTDEE() async {
   FFAppState().DailyGoal.protein = protein;
   FFAppState().DailyGoal.fats = fats;
   FFAppState().DailyGoal.carbs = carbs;
+  print(
+      'TDEE: ${FFAppState().DailyGoal.calories} ${FFAppState().DailyGoal.protein} ${FFAppState().DailyGoal.fats} ${FFAppState().DailyGoal.carbs}');
 }
 
 // Set your action name, define your arguments and return parameter,

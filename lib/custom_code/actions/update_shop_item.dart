@@ -9,58 +9,41 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future updateShopItem(bool clear, bool check) async {
-  final item = ShopItemStruct.fromSerializableMap(
-      FFAppState().BuySelect.toSerializableMap());
+Future<String> updateShopItem(bool clear, bool check) async {
+  try {
+    print(FFAppState().BuyList);
+    final item = ShopItemStruct.fromSerializableMap(
+        FFAppState().BuySelect.toSerializableMap());
 
-  item.bought = check;
-  if (check) item.done = DateTime.now();
-
-  int existing = FFAppState().BuyList.indexWhere((e) =>
-      (e.id == item.id) ||
-      (e.name.toLowerCase() == item.name.toLowerCase() &&
-          e.quantity.quantity.toLowerCase() ==
-              item.quantity.quantity.toLowerCase()));
-
-  for (final i in FFAppState().BuyList) {
-    if ((i.name.toLowerCase() == item.name.toLowerCase()) &
-        (i.quantity.quantity.toLowerCase() ==
-            item.quantity.quantity.toLowerCase())) {
-      existing = FFAppState().BuyList.indexWhere((e) => e.id == i.id);
-      break;
+    if (check) {
+      item.bought = !(item.bought);
+      if (item.bought) item.done = DateTime.now();
     }
+    final sameShop = FFAppState().BuyList.indexWhere((e) =>
+        (e.name.toLowerCase() == item.name.toLowerCase() &&
+            e.quantity.quantity.toLowerCase() ==
+                item.quantity.quantity.toLowerCase()));
+    int existing = FFAppState().BuyList.indexWhere((e) => (e.id == item.id));
+
+    FFAppState().update(() {
+      if (existing != -1) {
+        FFAppState().BuyList[existing] = item;
+        print(FFAppState().BuyList[existing]);
+      } else if (sameShop != -1) {
+        FFAppState().BuyList[sameShop].quantity.count += item.quantity.count;
+        print(FFAppState().BuyList[sameShop]);
+      } else {
+        FFAppState().LastBuyId += 1;
+        item.id = FFAppState().LastBuyId;
+        FFAppState().addToBuyList(item);
+        existing = FFAppState().BuyList.indexWhere((e) => e.id == item.id);
+      }
+    });
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
   }
-
-  FFAppState().update(() {
-    if (existing != -1) {
-      FFAppState().BuyList[existing] = item;
-    } else {
-      FFAppState().LastBuyId += 1;
-      item.id = FFAppState().LastBuyId;
-      FFAppState().addToBuyList(item);
-    }
-  });
-
-  // for (final i in manualList) {
-  //   if ((i.name.toLowerCase() == item.name.toLowerCase()) &
-  //       (i.quantity.quantity.toLowerCase ==
-  //           item.quantity.quantity.toLowerCase)) {
-  //     inmanual =
-  //         FFAppState().BuyList.indexWhere((element) => element.id == i.id);
-  //     break;
-  //   }
-  // }
-
-  // FFAppState().update(() {
-  //   if (existing != -1)
-  //     FFAppState().BuyList[existing] = item;
-  //   else if (inmanual != -1) {
-  //     FFAppState().BuyList[inmanual].quantity.count +=
-  //         FFAppState().BuySelect.quantity.count;
-  //   } else
-  //     FFAppState().addToBuyList(item);
-  //   if (clear) FFAppState().BuySelect = ShopItemStruct();
-  // });
+  return '';
 }
 
 // Set your action name, define your arguments and return parameter,

@@ -13,15 +13,23 @@ Future autoDeleteShop() async {
   final today = DateTime.now();
   final lastday = DateTime(today.year, today.month, today.day - 1, today.hour,
       today.minute, today.second);
+  int deleted = 0;
+
   for (final shop in FFAppState().BuyList) {
     if (shop.bought) {
       if (shop.done!.isBefore(lastday)) {
         final index =
             FFAppState().BuyList.indexWhere((element) => element.id == shop.id);
-        if (index != -1) FFAppState().removeAtIndexFromBuyList(index);
+        if (index != -1) {
+          FFAppState().removeAtIndexFromBuyList(index);
+          deleted += 1;
+        }
       }
     }
   }
+  print(FFAppState().BuyList.where((e) => e.productId != -1));
+  print(FFAppState().BuyList.where((e) => e.productId == -1));
+  print('Автоудалено обьектов списка: ${deleted}');
 }
 
 // Set your action name, define your arguments and return parameter,

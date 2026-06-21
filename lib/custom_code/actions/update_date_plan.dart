@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 
-Future updateDatePlan(DailyPlanStruct plan, bool addCup, RecipeStruct recipe,
-    int deleteMeal) async {
+Future<String> updateDatePlan(DailyPlanStruct plan, bool addCup,
+    RecipeStruct recipe, int deleteMeal) async {
   final today = DateTime.now();
   final mealIdnew = today.second + today.minute * 10 ^ 2 + today.hour * 10 ^ 4;
   final index = FFAppState().DailyList.indexWhere((e) => e.id == plan.id);
@@ -25,40 +25,46 @@ Future updateDatePlan(DailyPlanStruct plan, bool addCup, RecipeStruct recipe,
   //   );
   // }
 
-  plan.goal = NutritionsStruct();
+  try {
+    plan.goal = NutritionsStruct();
 
-  plan.goal.calories = FFAppState().DailyGoal.calories;
-  plan.goal.protein = FFAppState().DailyGoal.protein;
-  plan.goal.fats = FFAppState().DailyGoal.fats;
-  plan.goal.carbs = FFAppState().DailyGoal.carbs;
+    plan.goal.calories = FFAppState().DailyGoal.calories;
+    plan.goal.protein = FFAppState().DailyGoal.protein;
+    plan.goal.fats = FFAppState().DailyGoal.fats;
+    plan.goal.carbs = FFAppState().DailyGoal.carbs;
 
-  plan.done = NutritionsStruct();
+    plan.done = NutritionsStruct();
 
-  for (final recipe in plan.completedRecipes) {
-    plan.done.calories += recipe.meal.nutritions.calories;
-    plan.done.protein += recipe.meal.nutritions.protein;
-    plan.done.fats += recipe.meal.nutritions.fats;
-    plan.done.carbs += recipe.meal.nutritions.carbs;
-  }
-
-  if (addCup) plan.waterCups += 1;
-  if (recipe.id > 0) {
-    final newMeal = MealEntryStruct(date: today, id: mealIdnew, meal: recipe);
-    plan.completedRecipes.add(newMeal);
-  }
-
-  if (deleteMeal > 0) {
-    final dmeal = plan.completedRecipes.indexWhere((e) => e.id == deleteMeal);
-    if (dmeal != -1) plan.completedRecipes.removeAt(dmeal);
-  }
-
-  FFAppState().update(() {
-    if (index != -1) {
-      FFAppState().DailyList[index] = plan;
-    } else {
-      FFAppState().addToDailyList(plan);
+    for (final recipe in plan.completedRecipes) {
+      plan.done.calories += recipe.meal.nutritions.calories;
+      plan.done.protein += recipe.meal.nutritions.protein;
+      plan.done.fats += recipe.meal.nutritions.fats;
+      plan.done.carbs += recipe.meal.nutritions.carbs;
     }
-  });
+
+    if (addCup) plan.waterCups += 1;
+    if (recipe.id > 0) {
+      final newMeal = MealEntryStruct(date: today, id: mealIdnew, meal: recipe);
+      plan.completedRecipes.add(newMeal);
+    }
+
+    if (deleteMeal > 0) {
+      final dmeal = plan.completedRecipes.indexWhere((e) => e.id == deleteMeal);
+      if (dmeal != -1) plan.completedRecipes.removeAt(dmeal);
+    }
+
+    FFAppState().update(() {
+      if (index != -1) {
+        FFAppState().DailyList[index] = plan;
+      } else {
+        FFAppState().addToDailyList(plan);
+      }
+    });
+  } catch (e) {
+    print(e);
+    return 'Произошла следующая ошибка: ${e}';
+  }
+  return '';
 
   // FFAppState().addToDailyList(plan);
   // FFAppState().DailyList.sort((a, b) => b.id.compareTo(a.id));

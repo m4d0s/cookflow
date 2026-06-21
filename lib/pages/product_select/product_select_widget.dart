@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -353,13 +354,12 @@ class _ProductSelectWidgetState extends State<ProductSelectWidget> {
                               highlightColor: Colors.transparent,
                               onTap: () async {
                                 FFAppState().ProductSelect = productableItem;
-                                FFAppState().updateRecipeSelectStruct(
-                                  (e) => e
-                                    ..updateProducts(
-                                      (e) => e.add(productableItem),
-                                    ),
+                                FFAppState().update(() {});
+                                await actions.updateProduct(
+                                  productableItem.id,
+                                  FFAppConstants.FalseValue,
+                                  FFAppConstants.FalseValue,
                                 );
-                                safeSetState(() {});
 
                                 context.goNamed(RecipeEditWidget.routeName);
                               },

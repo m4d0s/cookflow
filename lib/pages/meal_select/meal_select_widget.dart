@@ -651,10 +651,7 @@ class _MealSelectWidgetState extends State<MealSelectWidget> {
                                   ),
                                   Container(
                                     height: 50.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
+                                    decoration: BoxDecoration(),
                                   ),
                                 ],
                               ),

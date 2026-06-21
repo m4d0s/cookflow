@@ -37,7 +37,7 @@ class _RecipeCard1WidgetState extends State<RecipeCard1Widget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.recipe1Image = await actions.base64ToFFUploadedFile(
-        widget.recipeDetails?.pictureBase64,
+        widget.recipeDetails!.pictureBase64,
       );
       _model.recipeTags2 = await actions.getRecipeTags(
         widget.recipeDetails!,

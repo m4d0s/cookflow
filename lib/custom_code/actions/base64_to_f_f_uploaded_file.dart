@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 
 import 'dart:convert';
 
-FFUploadedFile? base64ToFFUploadedFile(String? imageBase64) {
-  if (imageBase64 == null || imageBase64.isEmpty) {
-    return null;
+FFUploadedFile base64ToFFUploadedFile(String imageBase64) {
+  if (imageBase64.isEmpty) {
+    return FFUploadedFile(
+      bytes: Uint8List(0),
+    );
   }
 
   return FFUploadedFile(

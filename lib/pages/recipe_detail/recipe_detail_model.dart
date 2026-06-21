@@ -1,4 +1,3 @@
-import '/archive/ingridient_preview/ingridient_preview_widget.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/info_tag/info_tag_widget.dart';
 import '/components/step_preview/step_preview_widget.dart';
@@ -24,8 +23,6 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
   late InfoTagModel infoTagModel3;
   // State field(s) for Switch widget.
   bool? switchValue;
-  // Models for IngredientItem.
-  late FlutterFlowDynamicModels<IngridientPreviewModel> ingredientItemModels;
   // State field(s) for PaginatedDataTable widget.
   final paginatedDataTableController =
       FlutterFlowDataTableController<ProductStruct>();
@@ -41,8 +38,6 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
     infoTagModel1 = createModel(context, () => InfoTagModel());
     infoTagModel2 = createModel(context, () => InfoTagModel());
     infoTagModel3 = createModel(context, () => InfoTagModel());
-    ingredientItemModels =
-        FlutterFlowDynamicModels(() => IngridientPreviewModel());
     stepPreviewModels = FlutterFlowDynamicModels(() => StepPreviewModel());
     buttonModel = createModel(context, () => UButtonModel());
   }
@@ -52,7 +47,6 @@ class RecipeDetailModel extends FlutterFlowModel<RecipeDetailWidget> {
     infoTagModel1.dispose();
     infoTagModel2.dispose();
     infoTagModel3.dispose();
-    ingredientItemModels.dispose();
     paginatedDataTableController.dispose();
     stepPreviewModels.dispose();
     buttonModel.dispose();

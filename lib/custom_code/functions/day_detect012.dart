@@ -15,6 +15,9 @@ import '/backend/schema/enums/enums.dart';
 String dayDetect012(DateTime timestamp) {
   final now = DateTime.now();
   final yesterday = now.subtract(Duration(days: 1));
+  final week = now.subtract(Duration(days: 7));
+  String capitalize(String text) =>
+      text.isEmpty ? text : text[0].toUpperCase() + text.substring(1);
 
   if (timestamp.year == now.year &&
       timestamp.month == now.month &&
@@ -24,6 +27,10 @@ String dayDetect012(DateTime timestamp) {
       timestamp.month == yesterday.month &&
       timestamp.day == yesterday.day) {
     return 'Вчера'; // Yesterday
+  }
+  if (timestamp.isAfter(week)) {
+    final formatter = DateFormat('EEEE', 'ru');
+    return capitalize(formatter.format(timestamp));
   } else {
     final DateFormat formatter = DateFormat('EEEE, d MMMM', 'ru');
     return formatter.format(timestamp);
